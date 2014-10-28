@@ -10,12 +10,12 @@
 #import "newsFeed.h"
 #import "personal.h"
 #import "upload.h"
+#import "constants.h"
 
 @interface master ()
 @property (nonatomic, strong) NSMutableArray *viewControllers;
 @end
 
-NSString *host_url = @"http://local-app.co:1337";
 
 
 @implementation master

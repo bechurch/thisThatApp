@@ -8,6 +8,7 @@
 
 #import "newsFeed.h"
 #import "objects.h"
+#import "constants.h"
 #import <RestKit/RestKit.h>
 
 
@@ -21,7 +22,6 @@ typedef NS_ENUM(NSInteger, VoteForPhoto) {
 @property (nonatomic, strong) NSArray *thisThatArray;
 @end
 int userID = 2;
-NSString *hostUrl = @"http://local-app.co:1337";
 
 @implementation newsFeed
 
