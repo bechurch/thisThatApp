@@ -10,6 +10,8 @@
 	<string>thisThat</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
+		<key>63DA595AC11ABAD0D4DC90E30996DA6F1D72466C</key>
+		<string>https://github.com/bechurch/thisThatApp.git</string>
 		<key>FC1A05EBD393C7D27B4D5A076B7AC8B0DA4224C7</key>
 		<string>https://github.com/jamescon123/thisThat.git</string>
 		<key>FD601F62D40272F4C749A5972FF72022423394C3</key>
@@ -19,17 +21,19 @@
 	<string>thisThat.xcworkspace</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
-		<key>FC1A05EBD393C7D27B4D5A076B7AC8B0DA4224C7</key>
+		<key>63DA595AC11ABAD0D4DC90E30996DA6F1D72466C</key>
 		<string>..</string>
+		<key>FC1A05EBD393C7D27B4D5A076B7AC8B0DA4224C7</key>
+		<string>../../thisThat</string>
 		<key>FD601F62D40272F4C749A5972FF72022423394C3</key>
 		<string>../..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
-	<string>https://github.com/jamescon123/thisThat.git</string>
+	<string>https://github.com/bechurch/thisThatApp.git</string>
 	<key>IDESourceControlProjectVersion</key>
 	<integer>111</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
-	<string>FC1A05EBD393C7D27B4D5A076B7AC8B0DA4224C7</string>
+	<string>63DA595AC11ABAD0D4DC90E30996DA6F1D72466C</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
 		<dict>
@@ -47,6 +51,14 @@
 			<string>FC1A05EBD393C7D27B4D5A076B7AC8B0DA4224C7</string>
 			<key>IDESourceControlWCCName</key>
 			<string>thisThat</string>
+		</dict>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>63DA595AC11ABAD0D4DC90E30996DA6F1D72466C</string>
+			<key>IDESourceControlWCCName</key>
+			<string>thisThatApp</string>
 		</dict>
 	</array>
 </dict>
