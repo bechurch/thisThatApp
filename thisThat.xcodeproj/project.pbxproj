@@ -8,6 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		A5DA0919C0368F7CC05ECA62 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C6ACDADA9294C872D0B4909B /* libPods.a */; };
+		A70035181A035FBC00B99A24 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A70035141A035FBC00B99A24 /* CFNetwork.framework */; };
+		A70035191A035FBC00B99A24 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A70035151A035FBC00B99A24 /* CoreData.framework */; };
+		A700351A1A035FBC00B99A24 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A70035161A035FBC00B99A24 /* MobileCoreServices.framework */; };
+		A700351B1A035FBC00B99A24 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A70035171A035FBC00B99A24 /* SystemConfiguration.framework */; };
+		A7B13F951A01EBBB002A8517 /* personalUploads.m in Sources */ = {isa = PBXBuildFile; fileRef = A7B13F941A01EBBB002A8517 /* personalUploads.m */; };
 		A7D7BB0619FCBFFB0099B70B /* objects.m in Sources */ = {isa = PBXBuildFile; fileRef = A7D7BB0519FCBFFB0099B70B /* objects.m */; };
 		A7F591CB19FC641600D06A40 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = A7F591CA19FC641600D06A40 /* main.m */; };
 		A7F591CE19FC641600D06A40 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A7F591CD19FC641600D06A40 /* AppDelegate.m */; };
@@ -17,7 +22,6 @@
 		A7F591E519FC641700D06A40 /* thisThatTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A7F591E419FC641700D06A40 /* thisThatTests.m */; };
 		A7F591F019FC644B00D06A40 /* master.m in Sources */ = {isa = PBXBuildFile; fileRef = A7F591EF19FC644B00D06A40 /* master.m */; };
 		A7F591F319FC64D700D06A40 /* newsFeed.m in Sources */ = {isa = PBXBuildFile; fileRef = A7F591F219FC64D700D06A40 /* newsFeed.m */; };
-		A7F591F619FC650100D06A40 /* personal.m in Sources */ = {isa = PBXBuildFile; fileRef = A7F591F519FC650100D06A40 /* personal.m */; };
 		A7F591F919FC651F00D06A40 /* upload.m in Sources */ = {isa = PBXBuildFile; fileRef = A7F591F819FC651F00D06A40 /* upload.m */; };
 /* End PBXBuildFile section */
 
@@ -34,6 +38,12 @@
 /* Begin PBXFileReference section */
 		46E891755A1102CEBC93AC3D /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		7C813E9C6BC7D08BA058DB83 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
+		A70035141A035FBC00B99A24 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
+		A70035151A035FBC00B99A24 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		A70035161A035FBC00B99A24 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
+		A70035171A035FBC00B99A24 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		A7B13F931A01EBBB002A8517 /* personalUploads.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = personalUploads.h; sourceTree = "<group>"; };
+		A7B13F941A01EBBB002A8517 /* personalUploads.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = personalUploads.m; sourceTree = "<group>"; };
 		A7D7BB0419FCBFFB0099B70B /* objects.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = objects.h; sourceTree = "<group>"; };
 		A7D7BB0519FCBFFB0099B70B /* objects.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = objects.m; sourceTree = "<group>"; };
 		A7F591C519FC641600D06A40 /* thisThat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = thisThat.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -51,8 +61,6 @@
 		A7F591EF19FC644B00D06A40 /* master.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = master.m; path = ../master.m; sourceTree = "<group>"; };
 		A7F591F119FC64D700D06A40 /* newsFeed.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = newsFeed.h; sourceTree = "<group>"; };
 		A7F591F219FC64D700D06A40 /* newsFeed.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = newsFeed.m; sourceTree = "<group>"; };
-		A7F591F419FC650100D06A40 /* personal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = personal.h; sourceTree = "<group>"; };
-		A7F591F519FC650100D06A40 /* personal.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = personal.m; sourceTree = "<group>"; };
 		A7F591F719FC651F00D06A40 /* upload.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = upload.h; sourceTree = "<group>"; };
 		A7F591F819FC651F00D06A40 /* upload.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = upload.m; sourceTree = "<group>"; };
 		B5B5F7A01A003C5A00630845 /* constants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = constants.h; sourceTree = "<group>"; };
@@ -64,6 +72,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A70035181A035FBC00B99A24 /* CFNetwork.framework in Frameworks */,
+				A70035191A035FBC00B99A24 /* CoreData.framework in Frameworks */,
+				A700351A1A035FBC00B99A24 /* MobileCoreServices.framework in Frameworks */,
+				A700351B1A035FBC00B99A24 /* SystemConfiguration.framework in Frameworks */,
 				A5DA0919C0368F7CC05ECA62 /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -81,6 +93,10 @@
 		359EF496003F934EB004B342 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				A70035141A035FBC00B99A24 /* CFNetwork.framework */,
+				A70035151A035FBC00B99A24 /* CoreData.framework */,
+				A70035161A035FBC00B99A24 /* MobileCoreServices.framework */,
+				A70035171A035FBC00B99A24 /* SystemConfiguration.framework */,
 				C6ACDADA9294C872D0B4909B /* libPods.a */,
 			);
 			name = Frameworks;
@@ -112,10 +128,10 @@
 				A7F591CC19FC641600D06A40 /* AppDelegate.h */,
 				A7F591CD19FC641600D06A40 /* AppDelegate.m */,
 				A7F591D219FC641600D06A40 /* Main.storyboard */,
+				A7B13F931A01EBBB002A8517 /* personalUploads.h */,
+				A7B13F941A01EBBB002A8517 /* personalUploads.m */,
 				A7F591F719FC651F00D06A40 /* upload.h */,
 				A7F591F819FC651F00D06A40 /* upload.m */,
-				A7F591F419FC650100D06A40 /* personal.h */,
-				A7F591F519FC650100D06A40 /* personal.m */,
 				A7F591F119FC64D700D06A40 /* newsFeed.h */,
 				A7F591F219FC64D700D06A40 /* newsFeed.m */,
 				B5B5F7A01A003C5A00630845 /* constants.h */,
@@ -301,12 +317,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				A7F591F019FC644B00D06A40 /* master.m in Sources */,
+				A7B13F951A01EBBB002A8517 /* personalUploads.m in Sources */,
 				A7D7BB0619FCBFFB0099B70B /* objects.m in Sources */,
 				A7F591CE19FC641600D06A40 /* AppDelegate.m in Sources */,
 				A7F591F319FC64D700D06A40 /* newsFeed.m in Sources */,
 				A7F591CB19FC641600D06A40 /* main.m in Sources */,
 				A7F591F919FC651F00D06A40 /* upload.m in Sources */,
-				A7F591F619FC650100D06A40 /* personal.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -382,7 +398,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -417,7 +433,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
@@ -430,7 +446,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = thisThat/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"-l\"Pods-AFNetworking\"",
@@ -449,6 +465,7 @@
 					"\"Security\"",
 					"-framework",
 					"\"SystemConfiguration\"",
+					"-ObjC",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -460,7 +477,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = thisThat/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"-l\"Pods-AFNetworking\"",
@@ -479,6 +496,7 @@
 					"\"Security\"",
 					"-framework",
 					"\"SystemConfiguration\"",
+					"-ObjC",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};

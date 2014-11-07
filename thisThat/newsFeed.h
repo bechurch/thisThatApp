@@ -9,7 +9,8 @@
 #import <UIKit/UIKit.h>
 
 
-@interface newsFeed : UIViewController
+@interface newsFeed : UIViewController <UIScrollViewDelegate, UIScrollViewAccessibilityDelegate>
+
 @property (weak, nonatomic) IBOutlet UIImageView *imageViewOne;
 @property (weak, nonatomic) IBOutlet UIImageView *imageViewTwo;
 @property (weak, nonatomic) IBOutlet UILabel *textContentLabel;

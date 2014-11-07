@@ -15,5 +15,7 @@
 @property (nonatomic, strong) NSNumber *userId;
 @property (nonatomic, strong) NSString *textContent;
 @property (nonatomic, strong) NSString *createdAt;
+@property (nonatomic, strong) NSString *password;
+@property (nonatomic, strong) NSString *username;
 
 @end
