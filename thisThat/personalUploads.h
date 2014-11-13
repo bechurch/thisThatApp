@@ -8,7 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
-@interface personalUploads : UIViewController
+@interface personalUploads : UIViewController <UITableViewDelegate, UITableViewDataSource>
 - (IBAction)upload:(id)sender;
+@property (weak, nonatomic) IBOutlet UITableView *myTableView;
+@property (weak, nonatomic) IBOutlet UIButton *upload;
+- (IBAction)settings:(id)sender;
+
+
 
 @end

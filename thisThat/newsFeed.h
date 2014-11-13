@@ -18,5 +18,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *noPhotosLabelTwo;
 - (IBAction)voteForPhoto:(id)sender;
 @property int i;
+@property (weak, nonatomic) IBOutlet UIButton *voteForImageOne;
+@property (weak, nonatomic) IBOutlet UIButton *voteForImageTwo;
 
 @end

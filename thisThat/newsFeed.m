@@ -13,14 +13,12 @@
 #import <UIKit/UIKit.h>
 #import <SDWebImage/UIImageView+WebCache.h>
 #import <ImageIO/ImageIO.h>
+#import "AFNetworking.h"
+#import <Foundation/Foundation.h>
 
-typedef NS_ENUM(NSInteger, VoteForPhoto) {
-    VoteForPhotoOne = 10,
-    VoteForPhotoTwo = 20
-};
+
 
 @interface newsFeed ()
-@property (nonatomic, assign) VoteForPhoto didVoteForPhoto;
 @property (nonatomic, strong) NSArray *thisThatArray;
 @end
 int userID = 2;
@@ -59,6 +57,7 @@ int userID = 2;
     NSDictionary *param = @{@"username" : usernameString };
     [[RKObjectManager sharedManager] getObjectsAtPath:@"/api/v1/ThisThats/all" parameters:param success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
         _thisThatArray = mappingResult.array;
+        
         [self loadView];
         NSLog(@"contents of array: %@",_thisThatArray);
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
@@ -72,7 +71,15 @@ int userID = 2;
     AFHTTPClient *client = [[AFHTTPClient alloc] initWithBaseURL:baseURL];
     RKObjectManager *objectManager = [[RKObjectManager alloc] initWithHTTPClient:client];
     RKObjectMapping *objectMapping = [RKObjectMapping mappingForClass:[objects class]];
-    [objectMapping addAttributeMappingsFromDictionary:@{@"user_id": @"userId",@"image_1": @"imageOne", @"image_2": @"imageTwo", @"message": @"textContent", @"createdAt": @"createdAt", @"username": @"username"}];
+    [objectMapping addAttributeMappingsFromDictionary:@{@"userId": @"userId",
+                                                        @"image_1": @"imageOne",
+                                                        @"image_2": @"imageTwo",
+                                                        @"message": @"textContent",
+                                                        @"createdAt": @"createdAt",
+                                                        @"username": @"username",
+                                                        @"id":@"postId",
+                                                        @"vote_count_1" :@"voteCountOne",
+                                                        @"vote_count_2": @"voteCountTwo"}];
     RKResponseDescriptor *responseDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:objectMapping method:RKRequestMethodGET pathPattern:nil keyPath:@"ThisThats" statusCodes:[NSIndexSet indexSetWithIndex:200]];
     [objectManager addResponseDescriptor:responseDescriptor];
     
@@ -110,23 +117,52 @@ int userID = 2;
         //increment counter/index
         i++;
 
-    if([sender isKindOfClass:[UIButton class]]) {
-        UIButton *button = sender;
-        self.didVoteForPhoto = button.tag;
-    }
-    switch (self.didVoteForPhoto) {
-        case VoteForPhotoOne:
-            //send vote count to server for photo 1
-            NSLog(@"vote for 1");
-            break;
-            case VoteForPhotoTwo:
-            // send vote count to server for photo 2
-            NSLog(@"vote for 2");
-            break;
-        default:
-            break;
-        }
-    }
+       // assiging button property to sender
+       
+       self.voteForImageOne = (UIButton *)sender;
+       self.voteForImageTwo = (UIButton *)sender;
+       
+       //vote for imageOne
+       
+       if(self.voteForImageOne.tag == 10){
+          /*
+           NSDictionary *parameters = @{@"username" : @"testUser",
+                                        @"password" : @"testUser"};
+           NSURL *baseURL = [NSURL URLWithString:hostUrl];
+           RKObjectManager *manager = [RKObjectManager managerWithBaseURL:baseURL];
+           NSNumber *currentPostID = object.postId;
+           NSString *voteForImageOnePath = [[NSString alloc] initWithFormat:@"/api/v1/ThisThats/%@/image1/vote",currentPostID];
+           RKObjectMapping *requestMapping = [RKObjectMapping requestMapping];
+           RKRequestDescriptor *requestDescriptor = [RKRequestDescriptor requestDescriptorWithMapping:requestMapping objectClass:[object class] rootKeyPath:@"ThisThats" method:RKRequestMethodPOST];
+           [manager addRequestDescriptor:requestDescriptor];
+           [manager postObject:nil path:voteForImageOnePath parameters:parameters success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
+               NSLog(@"voted for image one");
+           } failure:^(RKObjectRequestOperation *operation, NSError *error) {
+               NSLog(@"vote for imageOne was not accounted for");
+           }];*/
+       }
+       
+       //vote for imageTwo
+       
+       if(self.voteForImageTwo.tag == 20){
+         /*
+           NSDictionary *parameters = @{@"username" : @"testUser",
+                                        @"password" : @"testUser"};
+           NSURL *baseURL = [NSURL URLWithString:hostUrl];
+           RKObjectManager *manager = [RKObjectManager managerWithBaseURL:baseURL];
+           NSNumber *currentPostID = object.postId;
+           NSString *voteForImageTwoPath = [[NSString alloc] initWithFormat:@"/api/v1/ThisThats/%@/image2/vote",currentPostID];
+           RKObjectMapping *requestMapping = [RKObjectMapping requestMapping];
+           RKRequestDescriptor *requestDescriptor = [RKRequestDescriptor requestDescriptorWithMapping:requestMapping objectClass:[object class] rootKeyPath:@"ThisThats" method:RKRequestMethodPOST];
+           [manager addRequestDescriptor:requestDescriptor];
+           [manager postObject:nil path:voteForImageTwoPath parameters:parameters success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
+               NSLog(@"voted for image two");
+           } failure:^(RKObjectRequestOperation *operation, NSError *error) {
+               NSLog(@"vote for imageTwo was not accounted for");
+           }];*/
+       }
+   }
+    // no more photos.. 
    else {
        [self.noPhotosLabelOne setHidden:NO];
        [self.noPhotosLabelTwo setHidden:NO];
@@ -134,6 +170,7 @@ int userID = 2;
        self.imageViewTwo.image = nil;
        self.textContentLabel.text = nil;
    }
+
 }
 
 -(UIImage *) scaleImage:(UIImage*)image toSize:(CGSize)newSize {
@@ -144,4 +181,5 @@ int userID = 2;
     UIGraphicsEndImageContext();
     return newImage;
 }
+
 @end

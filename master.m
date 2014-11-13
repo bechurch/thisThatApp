@@ -11,6 +11,7 @@
 #import "personalUploads.h"
 #import "constants.h"
 
+
 @interface master ()
 @property (nonatomic, strong) NSMutableArray *viewControllers;
 @end
@@ -21,7 +22,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+
+
     UIPageViewController *pageViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"PageViewController"];
     pageViewController.dataSource = self;
     

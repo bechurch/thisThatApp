@@ -6,10 +6,17 @@
 //  Copyright (c) 2014 James Connerton. All rights reserved.
 //
 
+
 #import "upload.h"
 #import "objects.h"
 #import <RestKit/RestKit.h>
 #import "constants.h"
+#import <Foundation/Foundation.h>
+#import "AFNetworking.h"
+
+
+
+
 
 typedef NS_ENUM(NSInteger, PhotoType){
     PhotoTypeOne = 10,
@@ -277,11 +284,11 @@ typedef NS_ENUM(NSInteger, PhotoType){
      NSLog(@"Error loading from API: %@", error);
      }];
      
-     }*/
+     }*//*
     NSString *textContentString = [[NSString alloc] init];
     textContentString = self.textField.text;
     UIImage *imageOne = self.imageViewOne.image;
-  //  UIImage *imageTwo = self.imageViewTwo.image;
+    UIImage *imageTwo = self.imageViewTwo.image;
     NSDictionary *params = @{@"username" : @"James",
                              @"password" : @"james",
                              @"message"  : textContentString};
@@ -290,6 +297,7 @@ typedef NS_ENUM(NSInteger, PhotoType){
     objects *newPost = [objects new];
     NSMutableURLRequest *request = [[RKObjectManager sharedManager] multipartFormRequestWithObject:newPost method:RKRequestMethodPOST path:@"/api/v1/ThisThats" parameters:params constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
         [formData appendPartWithFileData:UIImagePNGRepresentation(imageOne) name:@"image1" fileName:@"photo.png" mimeType:@"imageOne/png"];
+        [formData appendPartWithFileData:UIImagePNGRepresentation(imageTwo) name:@"image2" fileName:@"photo.png" mimeType:@"imageTwo/png"];
         NSLog(@"form data: %@",formData);
     }];
     
@@ -299,6 +307,26 @@ typedef NS_ENUM(NSInteger, PhotoType){
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
         NSLog(@"fuckity fuck");
     }];
-    [[RKObjectManager sharedManager] enqueueObjectRequestOperation:operation];
+    [[RKObjectManager sharedManager] enqueueObjectRequestOperation:operation];*/
+    
+    NSURL *baseURL  = [NSURL URLWithString:hostUrl];
+    AFHTTPClient *client = [[AFHTTPClient alloc] initWithBaseURL:baseURL];
+    NSData *imageOneData = UIImageJPEGRepresentation(self.imageViewOne.image, 0.5);
+    NSData *imageTwoData = UIImageJPEGRepresentation(self.imageViewTwo.image, 0.5);
+    NSDictionary *parameters = @{@"username" : @"James", @"password" : @"james", @"message" : self.textField.text};
+    NSMutableURLRequest *operation = [[RKObjectManager sharedManager]multipartFormRequestWithObject:client method:RKRequestMethodPOST path:@"/api/v1/ThisThats" parameters:parameters constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+        [formData appendPartWithFileData:imageOneData name:@"image1" fileName:@"photo.jpg" mimeType:@"image/jpeg"];
+        [formData appendPartWithFileData:imageTwoData name:@"image2" fileName:@"photo.jpg" mimeType:@"image/jpeg"];
+    }];
+RKObjectRequestOperation *objectRequestOperation = [[RKObjectManager sharedManager] objectRequestOperationWithRequest:operation success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
+    NSLog(@"succss");
+} failure:^(RKObjectRequestOperation *operation, NSError *error) {
+    NSLog(@"Error");
+}];
+    [objectRequestOperation start];
+  
+  
+    
 }
+
 @end

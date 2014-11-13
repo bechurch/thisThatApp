@@ -12,6 +12,9 @@
 		A70035191A035FBC00B99A24 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A70035151A035FBC00B99A24 /* CoreData.framework */; };
 		A700351A1A035FBC00B99A24 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A70035161A035FBC00B99A24 /* MobileCoreServices.framework */; };
 		A700351B1A035FBC00B99A24 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A70035171A035FBC00B99A24 /* SystemConfiguration.framework */; };
+		A7A120B81A0EC0D000059801 /* customCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A7A120B71A0EC0D000059801 /* customCell.m */; };
+		A7A121431A1327E500059801 /* userSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = A7A121421A1327E500059801 /* userSettings.m */; };
+		A7A1214C1A141BEE00059801 /* snowboarding.jpg in Resources */ = {isa = PBXBuildFile; fileRef = A7A1214B1A141BEE00059801 /* snowboarding.jpg */; };
 		A7B13F951A01EBBB002A8517 /* personalUploads.m in Sources */ = {isa = PBXBuildFile; fileRef = A7B13F941A01EBBB002A8517 /* personalUploads.m */; };
 		A7D7BB0619FCBFFB0099B70B /* objects.m in Sources */ = {isa = PBXBuildFile; fileRef = A7D7BB0519FCBFFB0099B70B /* objects.m */; };
 		A7F591CB19FC641600D06A40 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = A7F591CA19FC641600D06A40 /* main.m */; };
@@ -42,6 +45,11 @@
 		A70035151A035FBC00B99A24 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		A70035161A035FBC00B99A24 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		A70035171A035FBC00B99A24 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		A7A120B61A0EC0D000059801 /* customCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = customCell.h; sourceTree = "<group>"; };
+		A7A120B71A0EC0D000059801 /* customCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = customCell.m; sourceTree = "<group>"; };
+		A7A121411A1327E500059801 /* userSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = userSettings.h; sourceTree = "<group>"; };
+		A7A121421A1327E500059801 /* userSettings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = userSettings.m; sourceTree = "<group>"; };
+		A7A1214B1A141BEE00059801 /* snowboarding.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = snowboarding.jpg; sourceTree = "<group>"; };
 		A7B13F931A01EBBB002A8517 /* personalUploads.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = personalUploads.h; sourceTree = "<group>"; };
 		A7B13F941A01EBBB002A8517 /* personalUploads.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = personalUploads.m; sourceTree = "<group>"; };
 		A7D7BB0419FCBFFB0099B70B /* objects.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = objects.h; sourceTree = "<group>"; };
@@ -128,8 +136,12 @@
 				A7F591CC19FC641600D06A40 /* AppDelegate.h */,
 				A7F591CD19FC641600D06A40 /* AppDelegate.m */,
 				A7F591D219FC641600D06A40 /* Main.storyboard */,
+				A7A121411A1327E500059801 /* userSettings.h */,
+				A7A121421A1327E500059801 /* userSettings.m */,
 				A7B13F931A01EBBB002A8517 /* personalUploads.h */,
 				A7B13F941A01EBBB002A8517 /* personalUploads.m */,
+				A7A120B61A0EC0D000059801 /* customCell.h */,
+				A7A120B71A0EC0D000059801 /* customCell.m */,
 				A7F591F719FC651F00D06A40 /* upload.h */,
 				A7F591F819FC651F00D06A40 /* upload.m */,
 				A7F591F119FC64D700D06A40 /* newsFeed.h */,
@@ -140,6 +152,7 @@
 				A7F591EE19FC644B00D06A40 /* master.h */,
 				A7F591EF19FC644B00D06A40 /* master.m */,
 				A7F591D519FC641600D06A40 /* Images.xcassets */,
+				A7A1214B1A141BEE00059801 /* snowboarding.jpg */,
 				A7F591D719FC641600D06A40 /* LaunchScreen.xib */,
 				A7F591C819FC641600D06A40 /* Supporting Files */,
 			);
@@ -263,6 +276,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A7A1214C1A141BEE00059801 /* snowboarding.jpg in Resources */,
 				A7F591D419FC641600D06A40 /* Main.storyboard in Resources */,
 				A7F591D919FC641600D06A40 /* LaunchScreen.xib in Resources */,
 				A7F591D619FC641600D06A40 /* Images.xcassets in Resources */,
@@ -317,7 +331,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				A7F591F019FC644B00D06A40 /* master.m in Sources */,
+				A7A121431A1327E500059801 /* userSettings.m in Sources */,
 				A7B13F951A01EBBB002A8517 /* personalUploads.m in Sources */,
+				A7A120B81A0EC0D000059801 /* customCell.m in Sources */,
 				A7D7BB0619FCBFFB0099B70B /* objects.m in Sources */,
 				A7F591CE19FC641600D06A40 /* AppDelegate.m in Sources */,
 				A7F591F319FC64D700D06A40 /* newsFeed.m in Sources */,

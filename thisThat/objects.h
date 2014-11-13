@@ -14,8 +14,10 @@
 @property (nonatomic, strong) NSString *imageTwo;
 @property (nonatomic, strong) NSNumber *userId;
 @property (nonatomic, strong) NSString *textContent;
-@property (nonatomic, strong) NSString *createdAt;
+@property (nonatomic, strong) NSDate *createdAt;
 @property (nonatomic, strong) NSString *password;
 @property (nonatomic, strong) NSString *username;
-
+@property (nonatomic, strong) NSNumber *postId;
+@property (nonatomic, strong) NSNumber *voteCountOne;
+@property (nonatomic, strong) NSNumber *voteCountTwo;
 @end

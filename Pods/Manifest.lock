@@ -22,7 +22,8 @@ PODS:
   - TransitionKit (1.1.1)
 
 DEPENDENCIES:
-  - RestKit (~> 0.20.0)
+  - AFNetworking (~> 1.3.4)
+  - RestKit (~> 0.20.3)
   - SDWebImage
 
 SPEC CHECKSUMS:
