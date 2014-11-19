@@ -25,13 +25,28 @@
 
 
     UIPageViewController *pageViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"PageViewController"];
+    
     pageViewController.dataSource = self;
+    self.view.gestureRecognizers = pageViewController.gestureRecognizers;
+    UIGestureRecognizer *tapRecognizer = nil;
+    for(UIGestureRecognizer *recognizer in pageViewController.gestureRecognizers){
+        if([recognizer isKindOfClass:[UITapGestureRecognizer class]]){
+            tapRecognizer = recognizer;
+            break;
+        }
+    }
+    if(tapRecognizer) {
+        [self.view removeGestureRecognizer:tapRecognizer];
+        [pageViewController.view removeGestureRecognizer:tapRecognizer];
+        
+    }
     
     self.viewControllers = [NSMutableArray array];
     
     newsFeed *controller1 = [self.storyboard instantiateViewControllerWithIdentifier:@"Page1"];
-    personalUploads *controller2 = [self.storyboard instantiateViewControllerWithIdentifier:@"Page2"];
     
+    personalUploads *controller2 = [self.storyboard instantiateViewControllerWithIdentifier:@"Page2"];
+
     _viewControllers = [@[controller1, controller2] mutableCopy];
     
     NSArray *defaultViewController = [NSArray arrayWithObject:_viewControllers[0]];
@@ -70,5 +85,6 @@
     }
     return nil;
 }
+
 
 @end

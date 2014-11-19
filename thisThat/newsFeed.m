@@ -83,6 +83,13 @@ int userID = 2;
     RKResponseDescriptor *responseDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:objectMapping method:RKRequestMethodGET pathPattern:nil keyPath:@"ThisThats" statusCodes:[NSIndexSet indexSetWithIndex:200]];
     [objectManager addResponseDescriptor:responseDescriptor];
     
+    RKObjectMapping * emptyMapping = [RKObjectMapping mappingForClass:[NSObject class]];
+    RKResponseDescriptor * responseDescriptorTwo = [RKResponseDescriptor responseDescriptorWithMapping:emptyMapping
+                                                                                             method:RKRequestMethodPOST
+                                                                                        pathPattern:nil keyPath:nil
+                                                                                        statusCodes:[NSIndexSet indexSetWithIndex:200]];
+    [objectManager addResponseDescriptor:responseDescriptorTwo];
+    
 }
  //uncoment below when restkit is installed, should all work.
 - (IBAction)voteForPhoto:(id)sender {
@@ -125,41 +132,42 @@ int userID = 2;
        //vote for imageOne
        
        if(self.voteForImageOne.tag == 10){
-          /*
-           NSDictionary *parameters = @{@"username" : @"testUser",
-                                        @"password" : @"testUser"};
-           NSURL *baseURL = [NSURL URLWithString:hostUrl];
-           RKObjectManager *manager = [RKObjectManager managerWithBaseURL:baseURL];
+         
+         
+           NSDictionary *parameters = @{@"username" : @"jamesTestUser",
+                                        @"password" : @"jamesTestUser"};
            NSNumber *currentPostID = object.postId;
            NSString *voteForImageOnePath = [[NSString alloc] initWithFormat:@"/api/v1/ThisThats/%@/image1/vote",currentPostID];
-           RKObjectMapping *requestMapping = [RKObjectMapping requestMapping];
-           RKRequestDescriptor *requestDescriptor = [RKRequestDescriptor requestDescriptorWithMapping:requestMapping objectClass:[object class] rootKeyPath:@"ThisThats" method:RKRequestMethodPOST];
-           [manager addRequestDescriptor:requestDescriptor];
-           [manager postObject:nil path:voteForImageOnePath parameters:parameters success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
+           NSURL *baseURL = [NSURL URLWithString:hostUrl];
+           RKObjectManager *manager = [RKObjectManager managerWithBaseURL:baseURL];
+           NSMutableURLRequest *operation = [[RKObjectManager sharedManager] requestWithObject:nil method:RKRequestMethodPOST path:voteForImageOnePath parameters:parameters];
+           RKObjectRequestOperation *requestOperation = [[RKObjectManager sharedManager] objectRequestOperationWithRequest:operation success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
                NSLog(@"voted for image one");
            } failure:^(RKObjectRequestOperation *operation, NSError *error) {
-               NSLog(@"vote for imageOne was not accounted for");
-           }];*/
+               NSLog(@"voting for image one did not work");
+           }];
+           [[RKObjectManager sharedManager] enqueueObjectRequestOperation:requestOperation];
        }
        
        //vote for imageTwo
        
        if(self.voteForImageTwo.tag == 20){
-         /*
-           NSDictionary *parameters = @{@"username" : @"testUser",
-                                        @"password" : @"testUser"};
-           NSURL *baseURL = [NSURL URLWithString:hostUrl];
-           RKObjectManager *manager = [RKObjectManager managerWithBaseURL:baseURL];
+        
+           
+           NSDictionary *parameters = @{@"username" : @"jamesTestUser",
+                                        @"password" : @"jamesTestUser"};
            NSNumber *currentPostID = object.postId;
            NSString *voteForImageTwoPath = [[NSString alloc] initWithFormat:@"/api/v1/ThisThats/%@/image2/vote",currentPostID];
-           RKObjectMapping *requestMapping = [RKObjectMapping requestMapping];
-           RKRequestDescriptor *requestDescriptor = [RKRequestDescriptor requestDescriptorWithMapping:requestMapping objectClass:[object class] rootKeyPath:@"ThisThats" method:RKRequestMethodPOST];
-           [manager addRequestDescriptor:requestDescriptor];
-           [manager postObject:nil path:voteForImageTwoPath parameters:parameters success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
-               NSLog(@"voted for image two");
+           NSURL *baseURL = [NSURL URLWithString:hostUrl];
+           RKObjectManager *manager = [RKObjectManager managerWithBaseURL:baseURL];
+           NSMutableURLRequest *operation = [[RKObjectManager sharedManager] requestWithObject:nil method:RKRequestMethodPOST path:voteForImageTwoPath parameters:parameters];
+           RKObjectRequestOperation *requestOperation = [[RKObjectManager sharedManager] objectRequestOperationWithRequest:operation success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
+               NSLog(@"voted for image Two");
            } failure:^(RKObjectRequestOperation *operation, NSError *error) {
-               NSLog(@"vote for imageTwo was not accounted for");
-           }];*/
+               NSLog(@"voting for image two did not work");
+           }];
+           [[RKObjectManager sharedManager] enqueueObjectRequestOperation:requestOperation];
+
        }
    }
     // no more photos.. 

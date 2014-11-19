@@ -17,6 +17,7 @@
 #import "userSettings.h"
 
 
+
 @interface personalUploads ()
 @property (nonatomic, strong) NSArray *thisThatPersonalPostsArray;
 @end
@@ -34,14 +35,12 @@
 }*/
 - (void)viewDidLoad {
     [super viewDidLoad];
+
+    [self.addionalView setHidden:YES];
+    [self.addionalView addGestureRecognizer:self.tapGesture];
     [self setUploadButtonFeatures];
     [self loadPersonalPosts];
     
-    
-    UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
-    refreshControl.backgroundColor = [UIColor grayColor];
-    refreshControl.tintColor = [UIColor whiteColor];
-    [refreshControl addTarget:self action:@selector(loadPersonalPosts) forControlEvents:UIControlEventValueChanged];
     //[self.view addSubview:self.myTableView];
 
 
@@ -83,6 +82,7 @@
         _thisThatPersonalPostsArray = mappingResult.array;
         [self loadView];
         [self setUploadButtonFeatures];
+        [self.addionalView setHidden:YES];
         NSLog(@"contents of array: %@",_thisThatPersonalPostsArray);
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
         NSLog(@"Error loading from API: %@", error);
@@ -149,14 +149,42 @@
     cell.usernameLabel.text = userIdString;
     
     //tap on cell, nothing happens.. yet
-    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+  //  cell.selectionStyle = UITableViewCellSelectionStyleNone;
  
     // delete button
     cell.deleteButton.tag = indexPath.row;
     [cell.deleteButton addTarget:self action:@selector(deleteButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
     
     
+    
     return cell;
+}
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    //presenting additional view when you select the row, this shows the bigger images. swiping left/right will all you to vote on imageOne or imageTwo
+    [self.addionalView setHidden:NO];
+    [self.addionalView addGestureRecognizer:self.tapGesture];
+        objects *object = [_thisThatPersonalPostsArray objectAtIndex:indexPath.row];
+    NSMutableString *image_urlOne = [NSMutableString string];
+    [image_urlOne appendString:hostUrl];
+    [image_urlOne appendString:object.imageOne];
+    [self.additionalImageViewOne setImageWithURL:[NSURL URLWithString:image_urlOne]];
+    self.additionalImageViewOne.layer.cornerRadius = 20.0f;
+    self.additionalImageViewOne.clipsToBounds = YES;
+    self.additionalImageViewOne.layer.borderWidth = 3.0f;
+    self.additionalImageViewOne.layer.borderColor = [UIColor grayColor].CGColor;
+    
+    
+    
+    NSMutableString *image_urlTwo = [NSMutableString string];
+    [image_urlTwo appendString:hostUrl];
+    [image_urlTwo appendString:object.imageTwo];
+    [self.additionalImageViewTwo setImageWithURL:[NSURL URLWithString:image_urlTwo]];
+    self.additionalImageViewTwo.layer.cornerRadius = 20.0f;
+    self.additionalImageViewTwo.clipsToBounds = YES;
+    self.additionalImageViewTwo.layer.borderWidth = 3.0f;
+    self.additionalImageViewTwo.layer.borderColor = [UIColor grayColor].CGColor;
+    
 }
 
 //curing edges of button, border width, border color
@@ -173,11 +201,16 @@
 -(void)deleteButtonTapped:(id)sender {
     UIButton *senderButton = (UIButton*)sender;
     NSLog(@"delete post at row: %ld",(long)senderButton.tag);
+
     //ADD CODE TO DELETE POST
 }
 
 - (IBAction)settings:(id)sender {
     [self presentUserSettingsViewController];
+}
+
+- (IBAction)tapGesture:(id)sender {
+    [self.addionalView setHidden:YES];
 }
 
 -(void)presentUserSettingsViewController {
@@ -187,4 +220,5 @@
     
 
 }
+
 @end

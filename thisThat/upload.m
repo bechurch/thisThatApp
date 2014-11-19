@@ -136,106 +136,6 @@ typedef NS_ENUM(NSInteger, PhotoType){
 
 - (IBAction)upload:(id)sender {
     
-  /* RKObjectMapping *responseMapping = [RKObjectMapping mappingForClass:[objects class]];
-    [responseMapping addAttributeMappingsFromDictionary:@{@"user_id": @"userId",@"image_1": @"imageOne", @"image_2": @"imageTwo", @"message": @"textContent", @"createdAt": @"createdAt"}];
-    RKResponseDescriptor *responseDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:responseMapping method:RKRequestMethodPOST pathPattern:nil keyPath:@"ThisThats" statusCodes:[NSIndexSet indexSetWithIndex:200]];
-    RKObjectMapping *requestMapping = [RKObjectMapping requestMapping];
-    [requestMapping addAttributeMappingsFromDictionary:@{@"user_id": @"userId",@"image_1": @"imageOne", @"image_2": @"imageTwo", @"message": @"textContent", @"createdAt": @"createdAt"}];
-    RKRequestDescriptor *requestDescriptor = [RKRequestDescriptor requestDescriptorWithMapping:requestMapping objectClass:[objects class] rootKeyPath:@"ThisThats" method:RKRequestMethodPOST];
-    RKObjectManager *objectManager = [RKObjectManager managerWithBaseURL:[NSURL URLWithString:hostUrl]];
-    [objectManager addRequestDescriptor:requestDescriptor];
-    [objectManager addResponseDescriptor:responseDescriptor];
-    
-    objects *objectAdd = [objects new];
-    UIImage *image1 = self.imageViewOne.image;
-    NSMutableURLRequest *request = [[RKObjectManager sharedManager] multipartFormRequestWithObject:objectAdd method:RKRequestMethodPOST path:nil parameters:nil constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
-        [formData appendPartWithFileData:UIImagePNGRepresentation(image1) name:objectAdd.imageOne fileName:@"photo.png" mimeType:@"image1/png"];
-        
-    }];
-    RKObjectRequestOperation *operation = [[RKObjectManager sharedManager] objectRequestOperationWithRequest:request success:nil failure:nil];
-    [[RKObjectManager sharedManager] enqueueObjectRequestOperation:operation];
-    objectAdd.username = @"James";
-    objectAdd.password = @"james";
-    objectAdd.textContent = self.textField.text;
-    //objectAdd.userId = self.userIdJames;
-//    objectAdd.imageOne = nil;
- //   objectAdd.imageTwo = nil;
-    [objectManager postObject:objectAdd path:@"/api/v1/ThisThats" parameters:nil success:nil failure:nil];
-   */
-    
-/*
-    RKObjectMapping *responseMapping = [RKObjectMapping mappingForClass:[objects class]];
-    [responseMapping addAttributeMappingsFromDictionary:@{@"user_id": @"userId",@"image_1": @"imageOne", @"image_2": @"imageTwo", @"message": @"textContent", @"createdAt": @"createdAt"}];
-     RKResponseDescriptor *responseDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:responseMapping method:RKRequestMethodGET pathPattern:nil keyPath:nil @"ThisThats" statusCodes:[NSIndexSet indexSetWithIndex:200]];
-    
-    RKObjectMapping *requestMapping = [RKObjectMapping requestMapping];//mappingForClass:[objects class]];
-    [requestMapping addAttributeMappingsFromDictionary:@{@"user_id": @"userId",@"image_1": @"imageOne", @"image_2": @"imageTwo", @"message": @"textContent", @"createdAt": @"createdAt"}];
-
-    RKRequestDescriptor *requestDescriptor = [RKRequestDescriptor requestDescriptorWithMapping:requestMapping objectClass:[objects class] rootKeyPath:nil @"ThisThats" method:RKRequestMethodAny];
-   
-    NSURL *baseURL = [NSURL URLWithString:hostUrl];
-    AFHTTPClient *client = [[AFHTTPClient alloc] initWithBaseURL:baseURL];
-    RKObjectManager *manager = [[RKObjectManager alloc] initWithHTTPClient:client];
-    [manager addRequestDescriptor:requestDescriptor];
-    [manager addResponseDescriptor:responseDescriptor];
-    
-    objects *AddObject = [objects new];
-    AddObject.textContent = self.textField.text;
-    AddObject.username = @"James";
-    AddObject.password = @"james";
-    
-  //  AddObject.userId = [[NSNumber alloc] initWithInt:2];
-    //AddObject.imageOne = nil;
-    //AddObject.imageTwo = nil;
-    [manager postObject:AddObject path:@"/api/v1/ThisThats" parameters:nil success:nil failure:nil];
-    
-*/
-  /*  RKObjectMapping *responseMapping = [RKObjectMapping mappingForClass:[objects class]];
-    [responseMapping addAttributeMappingsFromArray:@[@"username", @"password", @"textContent", @"image_1",@"image_2"]];
-    RKResponseDescriptor *responseDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:responseMapping method:RKRequestMethodAny pathPattern:@"/api/v1/ThisThats" keyPath:@"thisThat" statusCodes:[NSIndexSet indexSetWithIndex:200]];
-    
-    RKObjectMapping *requestMaping = [RKObjectMapping requestMapping];
-    [requestMaping addAttributeMappingsFromArray:@[@"username", @"password", @"texContent", @"image_1",@"image_2"]];
-    
-    RKRequestDescriptor *requestDescriptor = [RKRequestDescriptor requestDescriptorWithMapping:requestMaping objectClass:[objects class] rootKeyPath:@"ThisThats" method:RKRequestMethodAny];
-    
-    RKObjectManager *manager = [RKObjectManager managerWithBaseURL:[NSURL URLWithString:hostUrl]];
-    
-    [manager addRequestDescriptor:requestDescriptor];
-    [manager addResponseDescriptor:responseDescriptor];
-    
-    objects *AddObject = [objects new];
-    
-    AddObject.username = @"James";
-    AddObject.password = @"james";
-    AddObject.textContent = self.textField.text;
-    
-    [manager postObject:AddObject path:@"/api/v1/ThisThats" parameters:nil success:nil failure:nil];
-*/
-    /*
-    NSString *textFieldTextString = [[NSString alloc] init];
-    textFieldTextString = self.textField.text;
-    NSDictionary *parameters = @{@"username" : @"James",
-                                 @"password" : @"james",
-                                 @"message" : textFieldTextString};
-                               //  @"image_1" : self.imageViewOne.image,
-                                // @"image_2" : self.imageViewTwo.image};
-    [[RKObjectManager sharedManager] postObject:nil path:@"/api/v1/ThisThats" parameters:parameters success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
-        NSLog(@"we did it");
-    } failure:^(RKObjectRequestOperation *operation, NSError *error) {
-        NSLog(@"error: %@",error);
-    }];
-    
-    objects *newPost = [objects new];
-    UIImage *imageONE = self.imageViewOne.image;
-   // UIImage *imageTWO = self.imageViewTwo.image;
-    NSMutableURLRequest *request1 = [[RKObjectManager sharedManager] multipartFormRequestWithObject:newPost method:RKRequestMethodPOST path:@"/api/v1/ThisThats" parameters:parameters constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
-        [formData appendPartWithFileData:UIImagePNGRepresentation(imageONE) name:@"imageOne" fileName:@"photo1.png" mimeType:@"image1/png"];
-    }];
-
-    [[RKObjectManager sharedManager] postObject:request1 path:@"api/v1/ThisThats" parameters:parameters success:nil failure:nil];
-
-    */
     [self postTheFuckingImage];
 }
 
@@ -270,62 +170,26 @@ typedef NS_ENUM(NSInteger, PhotoType){
 }
 
 -(void)postTheFuckingImage {
-    /*-(void)loadImage {
-     // NSDictionary *getInfo = @{@"user_Id" : [NSNumber numberWithInt:userID]};
-     NSString *usernameString = [[NSString alloc] init];
-     usernameString = @"James";
-     
-     NSDictionary *param = @{@"username" : usernameString };
-     [[RKObjectManager sharedManager] getObjectsAtPath:@"/api/v1/ThisThats/all" parameters:param success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
-     _thisThatArray = mappingResult.array;
-     [self loadView];
-     NSLog(@"contents of array: %@",_thisThatArray);
-     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
-     NSLog(@"Error loading from API: %@", error);
-     }];
-     
-     }*//*
-    NSString *textContentString = [[NSString alloc] init];
-    textContentString = self.textField.text;
-    UIImage *imageOne = self.imageViewOne.image;
-    UIImage *imageTwo = self.imageViewTwo.image;
-    NSDictionary *params = @{@"username" : @"James",
-                             @"password" : @"james",
-                             @"message"  : textContentString};
-                            // @"image1" : imageOne,
-                            // @"image2" : imageTwo};
-    objects *newPost = [objects new];
-    NSMutableURLRequest *request = [[RKObjectManager sharedManager] multipartFormRequestWithObject:newPost method:RKRequestMethodPOST path:@"/api/v1/ThisThats" parameters:params constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
-        [formData appendPartWithFileData:UIImagePNGRepresentation(imageOne) name:@"image1" fileName:@"photo.png" mimeType:@"imageOne/png"];
-        [formData appendPartWithFileData:UIImagePNGRepresentation(imageTwo) name:@"image2" fileName:@"photo.png" mimeType:@"imageTwo/png"];
-        NSLog(@"form data: %@",formData);
-    }];
-    
-    
-    RKObjectRequestOperation *operation = [[RKObjectManager sharedManager] objectRequestOperationWithRequest:request success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
-        NSLog(@"we made it");
-    } failure:^(RKObjectRequestOperation *operation, NSError *error) {
-        NSLog(@"fuckity fuck");
-    }];
-    [[RKObjectManager sharedManager] enqueueObjectRequestOperation:operation];*/
-    
+ 
     NSURL *baseURL  = [NSURL URLWithString:hostUrl];
     AFHTTPClient *client = [[AFHTTPClient alloc] initWithBaseURL:baseURL];
     NSData *imageOneData = UIImageJPEGRepresentation(self.imageViewOne.image, 0.5);
     NSData *imageTwoData = UIImageJPEGRepresentation(self.imageViewTwo.image, 0.5);
     NSDictionary *parameters = @{@"username" : @"James", @"password" : @"james", @"message" : self.textField.text};
-    NSMutableURLRequest *operation = [[RKObjectManager sharedManager]multipartFormRequestWithObject:client method:RKRequestMethodPOST path:@"/api/v1/ThisThats" parameters:parameters constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+    
+    NSMutableURLRequest *operation = [[RKObjectManager sharedManager]multipartFormRequestWithObject:[objects class] method:RKRequestMethodPOST path:@"/api/v1/ThisThats" parameters:parameters constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
         [formData appendPartWithFileData:imageOneData name:@"image1" fileName:@"photo.jpg" mimeType:@"image/jpeg"];
         [formData appendPartWithFileData:imageTwoData name:@"image2" fileName:@"photo.jpg" mimeType:@"image/jpeg"];
     }];
-RKObjectRequestOperation *objectRequestOperation = [[RKObjectManager sharedManager] objectRequestOperationWithRequest:operation success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
-    NSLog(@"succss");
-} failure:^(RKObjectRequestOperation *operation, NSError *error) {
-    NSLog(@"Error");
-}];
-    [objectRequestOperation start];
-  
-  
+    RKObjectRequestOperation *objectRequestOperation = [[RKObjectManager sharedManager] objectRequestOperationWithRequest:operation success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
+        NSLog(@"succss");
+        [self dismissViewControllerAnimated:YES completion:nil];
+    } failure:^(RKObjectRequestOperation *operation, NSError *error) {
+        NSLog(@"Error");
+    }];
+
+    [[RKObjectManager sharedManager] enqueueObjectRequestOperation:objectRequestOperation];
+    
     
 }
 
