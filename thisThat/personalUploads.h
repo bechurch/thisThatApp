@@ -11,18 +11,18 @@
 @interface personalUploads : UIViewController <UITableViewDelegate, UITableViewDataSource, UIGestureRecognizerDelegate>
 - (IBAction)upload:(id)sender;
 @property (weak, nonatomic) IBOutlet UITableView *myTableView;
-@property (weak, nonatomic) IBOutlet UIButton *upload;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *upload;
 - (IBAction)settings:(id)sender;
 
 - (IBAction)tapGesture:(id)sender;
-
-@property (strong, nonatomic) IBOutlet UIView *addionalView;
-@property (strong, nonatomic) IBOutlet UITapGestureRecognizer *tapGesture;
-
-@property (weak, nonatomic) IBOutlet UIImageView *additionalImageViewOne;
+@property (nonatomic, strong)  UIView *myView;
+@property (strong, nonatomic)  UIView *addionalView;
 
 
+@property (strong, nonatomic)  UIImageView *additionalImageViewOne;
+@property (strong, nonatomic)  UIView *textView;
+@property (strong, nonatomic) UILabel *textViewLabel;
+@property (strong, nonatomic)  UIImageView *additionalImageViewTwo;
+@property (nonatomic, strong) UIRefreshControl *refreshControl;
 
-
-@property (weak, nonatomic) IBOutlet UIImageView *additionalImageViewTwo;
 @end

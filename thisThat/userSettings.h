@@ -10,5 +10,6 @@
 
 @interface userSettings : UIViewController
 - (IBAction)returnButton:(id)sender;
+- (IBAction)logoutButton:(id)sender;
 
 @end

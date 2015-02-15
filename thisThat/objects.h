@@ -20,4 +20,5 @@
 @property (nonatomic, strong) NSNumber *postId;
 @property (nonatomic, strong) NSNumber *voteCountOne;
 @property (nonatomic, strong) NSNumber *voteCountTwo;
+@property int x;
 @end

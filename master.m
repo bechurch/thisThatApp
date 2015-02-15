@@ -10,7 +10,8 @@
 #import "newsFeed.h"
 #import "personalUploads.h"
 #import "constants.h"
-
+#import "objects.h"
+#import "newsFeedTable.h"
 
 @interface master ()
 @property (nonatomic, strong) NSMutableArray *viewControllers;
@@ -20,8 +21,15 @@
 
 @implementation master
 
+-(void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:YES];
+    
+
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
 
 
     UIPageViewController *pageViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"PageViewController"];
@@ -43,8 +51,9 @@
     
     self.viewControllers = [NSMutableArray array];
     
-    newsFeed *controller1 = [self.storyboard instantiateViewControllerWithIdentifier:@"Page1"];
-    
+   // newsFeed *controller1 = [self.storyboard instantiateViewControllerWithIdentifier:@"Page1"];
+   // newsFeedTableView *controller1 = [self.storyboard instantiateViewControllerWithIdentifier:@"Page1.1"];
+    newsFeedTable *controller1 = [self.storyboard instantiateViewControllerWithIdentifier:@"Page1.2"];
     personalUploads *controller2 = [self.storyboard instantiateViewControllerWithIdentifier:@"Page2"];
 
     _viewControllers = [@[controller1, controller2] mutableCopy];

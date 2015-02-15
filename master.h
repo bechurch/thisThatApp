@@ -10,4 +10,5 @@
 
 @interface master : UIViewController <UIPageViewControllerDataSource>
 
+@property int x;
 @end
