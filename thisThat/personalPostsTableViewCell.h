@@ -12,11 +12,18 @@
 @property (nonatomic, strong) UILabel *textContent;
 @property (nonatomic, strong) UILabel *username;
 @property (nonatomic, strong) UILabel *timeStamp;
+@property (nonatomic, strong) UILabel *locationLabel;
+@property (nonatomic, strong) UILabel *totalVotesLabel;
 @property (nonatomic, strong) UIImageView *imageViewOne;
 @property (nonatomic, strong) UIImageView *imageViewTwo;
 @property (nonatomic, strong) UIImage *tempImageOne;
-@property (nonatomic, strong) UIButton *imageViewOneButton;
+@property (nonatomic , strong) UIImage *tempImageTwo;
 @property (nonatomic, strong) UIActivityIndicatorView *spinnerImageViewOne;
 @property (nonatomic, strong) UIActivityIndicatorView *spinnerImageViewTwo;
 @property (nonatomic, strong) UITapGestureRecognizer *tapGestureImageViewOne;
+@property (nonatomic, strong) UILabel *votePercentageOneLabel;
+@property (nonatomic, strong) UILabel *votePercentageTwoLabel;
+@property (nonatomic, strong) UIImageView *checkMarkImageView;
+@property (nonatomic, strong) UIImageView *xMarkImageView;
+
 @end

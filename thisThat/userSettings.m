@@ -10,6 +10,7 @@
 #import "constants.h"
 #import <RestKit/RestKit.h>
 #import "objects.h"
+#import "LoginScreen.h"
 
 @interface userSettings ()
 
@@ -26,7 +27,10 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
+-(void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    
+}
 /*
 #pragma mark - Navigation
 
@@ -42,16 +46,92 @@
 }
 
 - (IBAction)logoutButton:(id)sender {
+  /*
+   NSMutableURLRequest *request = [[RKObjectManager sharedManager]multipartFormRequestWithObject:[objects class] method:RKRequestMethodPOST path:pathString parameters:parameters constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+   [formData appendPartWithFileData:imageOneData name:@"image1" fileName:@"photo.jpg" mimeType:@"image/jpeg"];
+   [formData appendPartWithFileData:imageTwoData name:@"image2" fileName:@"photo.jpg" mimeType:@"image/jpeg"];
+   }];
+   
+   RKObjectRequestOperation *operation = [[RKObjectManager sharedManager] objectRequestOperationWithRequest:request success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
+   
+
+    */
+    
+    NSUserDefaults *userDefaultContents = [NSUserDefaults standardUserDefaults];
+    NSObject *userTokenObject = [userDefaultContents objectForKey:@"tokenIDString"];
+ NSDictionary *parameters = @{@"token" : userTokenObject};
+//NEW
+  /*
+    NSURL *baseURL  = [NSURL URLWithString:hostUrl]; //host url : http://local-app.co:1337
+    AFHTTPClient *client = [[AFHTTPClient alloc] initWithBaseURL:baseURL];
+    
+    RKObjectManager *objectManager = [[RKObjectManager alloc] initWithHTTPClient:client];
+    RKObjectMapping *objectMapping = [RKObjectMapping mappingForClass:[objects class]];
+    
+    [objectMapping addAttributeMappingsFromDictionary:@{@"token":@"token",
+                                                       // @"userId":@"userId"}];
+    RKResponseDescriptor *responseDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:objectMapping method:RKRequestMethodPOST pathPattern:@"/api/v1/auth/logout" keyPath:nil statusCodes:[NSIndexSet indexSetWithIndex:200]];
+    [objectManager addResponseDescriptor:responseDescriptor];
+    
+    
+    [objectManager postObject:nil path:@"http://local-app.co:1337/api/v1/auth/logout" parameters:nil success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
+        NSLog(@"success");
+        
+        
+    } failure:^(RKObjectRequestOperation *operation, NSError *error) {
+        
+        NSLog(@"fail");
+    }];
+
+    */
+    
+    
+    
+   // [RKMIMETypeSerialization registerClass:[RKMIMETypeSerialization class] forMIMEType:@"text/plain"];
+ ///////////////////////
+    [[RKObjectManager sharedManager] postObject:nil path:@"/api/v1/auth/logout" parameters:parameters success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
+        NSLog(@"success");
+    } failure:^(RKObjectRequestOperation *operation, NSError *error) {
+        NSLog(@"fail");
+        NSLog(@"errorSuggestion:%@",[error localizedRecoverySuggestion]);
+        NSLog(@"errorOptions:%@",[error localizedRecoveryOptions]);
+        NSLog(@"errorReason:%@",[error localizedFailureReason]);
+        NSLog(@"errorDescription:%@",[error localizedDescription]);
+
+    }];
   
-    [self performSegueWithIdentifier:@"showLogin2" sender:self];
+
     [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"tokenIDString"];
     [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"userIDString"];
     [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"username"];
-    NSUserDefaults *userDefaultContents = [NSUserDefaults standardUserDefaults];
-    NSObject *userTokenObject = [userDefaultContents objectForKey:@"tokenIDString"];
+    userTokenObject = [userDefaultContents objectForKey:@"tokenIDString"];
     NSObject *currentIDObject = [userDefaultContents objectForKey:@"userIDString"];
     NSObject *usernameObject = [userDefaultContents objectForKey:@"username"];
     NSLog(@"\nCurrent ID = %@\nCurrent UserIDToken = %@\nUsername = %@\n",currentIDObject,userTokenObject,usernameObject);
+
+    //[self performSegueWithIdentifier:@"showLogin2" sender:self];
+    LoginScreen *loginVC = [self.storyboard instantiateViewControllerWithIdentifier:@"loginScreen"];
+    [self.parentViewController presentViewController:loginVC animated:YES completion:nil];
+    [self.navigationController popToRootViewControllerAnimated:YES];
+   
+ /*   NSURL *baseURL  = [NSURL URLWithString:hostUrl]; //host url : http://local-app.co:1337
+    AFHTTPClient *client = [[AFHTTPClient alloc] initWithBaseURL:baseURL];
+    RKObjectManager *objectManager = [[RKObjectManager alloc] initWithHTTPClient:client];
+    RKObjectMapping *objectMapping = [RKObjectMapping mappingForClass:[token class]];
+    [objectMapping addAttributeMappingsFromDictionary:@{@"token":@"token",
+                                                        @"userId":@"userId"}];
+    RKResponseDescriptor *responseDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:objectMapping method:RKRequestMethodPOST pathPattern:@"/api/v1/auth/login" keyPath:nil statusCodes:[NSIndexSet indexSetWithIndex:201]];
+    [objectManager addResponseDescriptor:responseDescriptor];
+    
+    [objectManager postObject:nil path:@"/api/v1/users" parameters:parameters success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
+        NSLog(@"success");
+        [self.navigationController popToRootViewControllerAnimated:YES];
+    } failure:^(RKObjectRequestOperation *operation, NSError *error) {
+        NSLog(@"fail");
+    }];*/
+
+    
+    
     /*
     
     
@@ -85,9 +165,11 @@
  */
   
 }
+/*
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if([segue.identifier isEqualToString:@"showLogin2"]){
         [segue.destinationViewController setHidesBottomBarWhenPushed:YES];
+       
     }
-}
+}*/
 @end
