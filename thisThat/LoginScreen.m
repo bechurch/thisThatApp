@@ -21,11 +21,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
    // [self.navigationController.navigationBar setHidden:YES];
-
-    
-    
-    
-    
     [self initalizeLoginView];
     
     

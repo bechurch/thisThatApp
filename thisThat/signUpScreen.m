@@ -30,7 +30,7 @@
 }
 -(void)initalizeSignupView {
     UIColor *redColor = [UIColor colorWithRed:(207/255.0) green:(70/255.0) blue:(51/255.0) alpha:1];
-    UIImage *backgroundImage = [UIImage imageNamed:@"beachPhoto.JPG"];
+    UIImage *backgroundImage = [UIImage imageNamed:@"IMG_6322.jpg"];
     self.backgroundImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
     self.backgroundImageView.image = backgroundImage;
     self.backgroundImageView.contentMode = UIViewContentModeScaleToFill;

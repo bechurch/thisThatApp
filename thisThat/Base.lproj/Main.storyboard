@@ -3,8 +3,6 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
-        <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
         <!--Login Screen-->
@@ -51,7 +49,7 @@
         <!--Main Page-->
         <scene sceneID="y1Q-dR-W2A">
             <objects>
-                <viewController id="RhS-mJ-j3n" customClass="MainPage" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="mainPage" id="RhS-mJ-j3n" customClass="MainPage" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Jlb-VH-fDb"/>
                         <viewControllerLayoutGuide type="bottom" id="OIl-FG-uW0"/>
@@ -60,10 +58,11 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iTH-AQ-mRC">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iTH-AQ-mRC">
                                 <rect key="frame" x="-23" y="-15" width="46" height="30"/>
-                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="15"/>
-                                <state key="normal" title="PersonalPosts">
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="15"/>
+                                <state key="normal" title="personal">
+                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <variation key="widthClass=compact" fixedFrame="YES">
@@ -73,9 +72,11 @@
                                     <action selector="personalPosts:" destination="RhS-mJ-j3n" eventType="touchUpInside" id="3lb-C7-HDQ"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Kpt-Ex-cGz">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Kpt-Ex-cGz">
                                 <rect key="frame" x="-23" y="-15" width="46" height="30"/>
-                                <state key="normal" title="newsFeed">
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                <state key="normal" title="feed">
+                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <variation key="widthClass=compact" fixedFrame="YES">
@@ -85,9 +86,11 @@
                                     <action selector="newsFeed:" destination="RhS-mJ-j3n" eventType="touchUpInside" id="h0d-ww-Qoz"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hqm-ZS-LxF">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hqm-ZS-LxF">
                                 <rect key="frame" x="-23" y="-15" width="46" height="30"/>
-                                <state key="normal" title="posts Voted On">
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                <state key="normal" title="voted">
+                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <variation key="widthClass=compact" fixedFrame="YES">
@@ -128,7 +131,6 @@
                     </navigationItem>
                     <connections>
                         <outlet property="personalPostsButton" destination="iTH-AQ-mRC" id="UH3-a0-5xf"/>
-                        <segue destination="JBc-NK-Hx0" kind="show" identifier="settings" id="JDW-Kz-pSO"/>
                         <segue destination="62a-FY-MrO" kind="show" identifier="addPhotos" id="yea-st-Qii"/>
                     </connections>
                 </viewController>
@@ -152,85 +154,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Tmd-3s-zWf" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="102" y="2698"/>
-        </scene>
-        <!--User Settings-->
-        <scene sceneID="LCp-Xs-qma">
-            <objects>
-                <viewController storyboardIdentifier="userSettings" id="JBc-NK-Hx0" customClass="userSettings" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="RUm-KF-yLT"/>
-                        <viewControllerLayoutGuide type="bottom" id="XuI-jK-MJP"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="tbL-0q-6Yh">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Profile settings &amp; logout" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pNF-dz-Ap3">
-                                <rect key="frame" x="0.0" y="-21" width="42" height="21"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="28" id="2GC-nS-FnY"/>
-                                    <constraint firstAttribute="width" constant="247" id="pgd-Ym-ate"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                                <variation key="default">
-                                    <mask key="constraints">
-                                        <exclude reference="2GC-nS-FnY"/>
-                                        <exclude reference="pgd-Ym-ate"/>
-                                    </mask>
-                                </variation>
-                                <variation key="widthClass=compact">
-                                    <mask key="constraints">
-                                        <include reference="2GC-nS-FnY"/>
-                                        <include reference="pgd-Ym-ate"/>
-                                    </mask>
-                                </variation>
-                            </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="e27-h1-1LO">
-                                <rect key="frame" x="-23" y="-15" width="46" height="30"/>
-                                <state key="normal" title="logout">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <variation key="widthClass=compact" fixedFrame="YES">
-                                    <rect key="frame" x="74" y="177" width="44" height="30"/>
-                                </variation>
-                                <connections>
-                                    <action selector="logoutButton:" destination="JBc-NK-Hx0" eventType="touchUpInside" id="KSw-gg-iL9"/>
-                                </connections>
-                            </button>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstAttribute="centerY" secondItem="pNF-dz-Ap3" secondAttribute="centerY" constant="171" id="6Zi-Ou-rfW"/>
-                            <constraint firstItem="pNF-dz-Ap3" firstAttribute="leading" secondItem="tbL-0q-6Yh" secondAttribute="leadingMargin" constant="24" id="6lP-Xp-UDy"/>
-                        </constraints>
-                        <variation key="default">
-                            <mask key="subviews">
-                                <exclude reference="pNF-dz-Ap3"/>
-                                <exclude reference="e27-h1-1LO"/>
-                            </mask>
-                            <mask key="constraints">
-                                <exclude reference="6Zi-Ou-rfW"/>
-                                <exclude reference="6lP-Xp-UDy"/>
-                            </mask>
-                        </variation>
-                        <variation key="widthClass=compact">
-                            <mask key="subviews">
-                                <include reference="pNF-dz-Ap3"/>
-                                <include reference="e27-h1-1LO"/>
-                            </mask>
-                            <mask key="constraints">
-                                <include reference="6Zi-Ou-rfW"/>
-                                <include reference="6lP-Xp-UDy"/>
-                            </mask>
-                        </variation>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Cmf-PE-nqD" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1056" y="2815"/>
+            <point key="canvasLocation" x="300" y="2930"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="Eze-o2-tje">

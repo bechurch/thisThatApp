@@ -29,18 +29,24 @@
    
     [super viewDidLoad];
  
+ //   [self.navigationController.navigationBar setBarTintColor:[UIColor clearColor]];
+    
+    UIImage *backgroundImage = [UIImage imageNamed:@"IMG_6322.jpg"];
+    UIImageView *backGroundImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
+    backGroundImageView.image = backgroundImage;
+    backGroundImageView.contentMode = UIViewContentModeScaleToFill;
+    backGroundImageView.clipsToBounds = YES;
+    [self.view addSubview:backGroundImageView];
 
     [self configureRestKit];
     
     //[self loadPersonalPosts];
     //initalize counter to zero
-   
-    
-    
+
 }
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    [[[[UIApplication sharedApplication] delegate] window] setWindowLevel:UIWindowLevelNormal];
+  //  [[[[UIApplication sharedApplication] delegate] window] setWindowLevel:UIWindowLevelNormal];
     
     NSUserDefaults *userDefaultContents = [NSUserDefaults standardUserDefaults];
     NSObject *userDefaultObject = [userDefaultContents objectForKey:@"tokenIDString"];
@@ -73,8 +79,44 @@
 
 
 - (IBAction)settings:(id)sender {
-  //  [[[[UIApplication sharedApplication] delegate] window] setWindowLevel:UIWindowLevelStatusBar];
-    [self performSegueWithIdentifier:@"settings" sender:self];
+    [self initalizeSettingsview];
+}
+
+-(void)initalizeSettingsview {
+    [self presentInvisibleView];
+    self.settingsView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
+    self.settingsView.backgroundColor = [UIColor whiteColor];
+    [self.navigationController.view addSubview:self.settingsView];
+    self.pinchRecognizerSettingsView = [[UIPinchGestureRecognizer alloc] initWithTarget:self  action:@selector(recognizePinchToCloseCurrentView:)];
+    [self.settingsView addGestureRecognizer:self.pinchRecognizerSettingsView];
+    
+    self.settingsSection1LabelArray = [[NSArray alloc] initWithObjects:@"Invite your friends to thisThat", nil];
+    self.settingsSection2LabelArray = [[NSArray alloc] initWithObjects:@"Instagram",@"Twitter", nil];
+    self.settingsSection3LabelArray = [[NSArray alloc] initWithObjects:@"thisThat website",@"Suggestions",@"Report a problem",@"Delete account", nil];
+    self.settingsSection4LaeblArray = [[NSArray alloc] initWithObjects:@"Logout of thisThat", nil];
+    
+    
+    CGRect navBarFrame = self.navigationController.navigationBar.frame;
+    UINavigationBar *navBar = [[UINavigationBar alloc] initWithFrame:navBarFrame];
+    [navBar setTintColor:[UIColor purpleColor]];
+    [navBar setBackgroundColor:[UIColor purpleColor]];
+    [navBar setTranslucent:NO];
+    UINavigationItem *navItem = [[UINavigationItem alloc] initWithTitle:@"Settings"];
+    [navBar setItems:[NSArray arrayWithObjects:navItem, nil]];
+    [self.settingsView addSubview:navBar];
+    
+    CGFloat maxNavBarY = CGRectGetMaxY(navBar.frame);
+    
+    self.settingsTableview = [[UITableView alloc] initWithFrame:CGRectMake(0, maxNavBarY, self.view.frame.size.width, self.view.frame.size.height-maxNavBarY) style:UITableViewStyleGrouped];
+    self.settingsTableview.delegate = self;
+    self.settingsTableview.dataSource = self;
+    self.settingsTableview.userInteractionEnabled = YES;
+    self.settingsTableview.bounces = YES;
+    
+    [self.settingsTableview registerClass:[UITableViewCell class] forCellReuseIdentifier:@"cell"];
+    [self.settingsView addSubview:self.settingsTableview];
+    
+    
 }
 
 - (IBAction)upload:(id)sender {
@@ -481,6 +523,7 @@
           if([self.personalPostsArray count] >=1) {
             return 1;
         }
+        
         else {
             UIColor *blackThisThatColor = [UIColor colorWithRed:(39/255.0) green:(35/255.0) blue:(34/255.0) alpha:1];
             UILabel *messageLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height)];
@@ -517,26 +560,66 @@
         }
         
     }
+    if(tableView == self.settingsTableview) {
+        return 4;
+    }
     return 0;
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if(tableView == self.personalPostsTableView){
     return [self.personalPostsArray count];
     }
-    else {
+    if(tableView == self.postsVotedOnTableView){
         return [self.postsVotedOnArray count];
     }
+    if(tableView == self.settingsTableview) {
+        if(section == 0) {
+            return 1;
+        }
+        if(section == 1){
+            return 2;
+        }
+        if(section == 2) {
+            return 4;
+        }
+        if(section == 3) {
+            return 1;
+        }
+        return 0;
+    }
+    else {
+        return 0;
+    }
+}
+-(NSString*)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+    if(tableView == self.settingsTableview) {
+        if(section == 0) {
+            return @"share";
+        }
+        if(section == 1) {
+            return @"find us on social media";
+        }
+        if(section == 2) {
+            return @"contact us";
+        }
+        if(section == 3) {
+            return @"logout";
+        }
+        return @"";
+    }
+    return @"";
 }
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    static NSString *cellID = @"cell";
-    
-    personalPostsTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID forIndexPath:indexPath];
-    if(cell == nil) {
-        NSLog(@"log");
-        cell = [[personalPostsTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID];
-    }
     
     if(tableView == self.personalPostsTableView){
+        static NSString *cellID = @"cell";
+        
+        personalPostsTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID forIndexPath:indexPath];
+        if(cell == nil) {
+            NSLog(@"log");
+            cell = [[personalPostsTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID];
+        }
+
     objects *personalPost = [self.personalPostsArray objectAtIndex:indexPath.row];
 
         cell.imageViewOne = [[UIImageView alloc] initWithFrame:CGRectMake(10, 10, (cell.contentView.frame.size.width/2)-15, (cell.contentView.frame.size.width/2)-15)];
@@ -669,7 +752,15 @@
     
     return cell;
     }
-    else {
+    if(tableView == self.postsVotedOnTableView) {
+        static NSString *cellID = @"cell";
+        
+        personalPostsTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID forIndexPath:indexPath];
+        if(cell == nil) {
+            NSLog(@"log");
+            cell = [[personalPostsTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID];
+        }
+
         objects *personalPost = [self.postsVotedOnArray objectAtIndex:indexPath.row];
             cell.imageViewOne = [[UIImageView alloc] initWithFrame:CGRectMake(10, 10, (cell.contentView.frame.size.width/2)-15, (cell.contentView.frame.size.width/2)-15)];
         
@@ -819,14 +910,56 @@
         return  cell;
         
     }
+    else {
+        
+        NSUInteger section = [indexPath indexAtPosition:[indexPath length]-2];
+        static NSString *cellID1 = @"cell";
+        static NSString *cellID2 = @"cell";
+        static NSString *cellID3 = @"cell";
+        static NSString *cellID4 = @"cell";
+        
+        if(section == 0) {
+            UITableViewCell *cell1 = [tableView dequeueReusableCellWithIdentifier:cellID1 forIndexPath:indexPath];
+            NSString *sectionOneString = [self.settingsSection1LabelArray objectAtIndex:indexPath.row];
+            cell1.textLabel.text = sectionOneString;
+            cell1.textLabel.textColor = [UIColor blackColor];
+            cell1.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+            return cell1;
+        }
+        if(section == 1) {
+            UITableViewCell *cell2 = [tableView dequeueReusableCellWithIdentifier:cellID2 forIndexPath:indexPath];
+            NSString *sectionOneString = [self.settingsSection2LabelArray objectAtIndex:indexPath.row];
+            cell2.textLabel.text = sectionOneString;
+            cell2.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+            return cell2;
+        }
+        if(section == 2) {
+            UITableViewCell *cell3 = [tableView dequeueReusableCellWithIdentifier:cellID3 forIndexPath:indexPath];
+            NSString *sectionTwoString = [self.settingsSection3LabelArray objectAtIndex:indexPath.row];
+            cell3.textLabel.text = sectionTwoString;
+            cell3.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+            return cell3;
+        }
+        else {
+            UITableViewCell *cell4 = [tableView dequeueReusableCellWithIdentifier:cellID4 forIndexPath:indexPath];
+            NSString *sectionThreeString = [self.settingsSection4LaeblArray objectAtIndex:indexPath.row];
+            cell4.textLabel.textColor = [UIColor redColor];
+            cell4.textLabel.text = sectionThreeString;
+            cell4.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+            
+            return cell4;
+        }
+
+        
+    }
     
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    personalPostsTableViewCell *cell = (personalPostsTableViewCell*)[tableView cellForRowAtIndexPath:indexPath];
+    
     
     if(tableView == self.personalPostsTableView){
-        
+        personalPostsTableViewCell *cell = (personalPostsTableViewCell*)[tableView cellForRowAtIndexPath:indexPath];
         self.personalPostsIndexPath = indexPath;
     self.personalPostsTableView.scrollEnabled= NO;
     CGFloat minHeight = CGRectGetMinY(self.personalPostsTableView.bounds);
@@ -859,6 +992,7 @@
     [self.personalPostsTableView deselectRowAtIndexPath:[self.personalPostsTableView indexPathForSelectedRow] animated:YES];
     }
     if(tableView == self.postsVotedOnTableView){
+        personalPostsTableViewCell *cell = (personalPostsTableViewCell*)[tableView cellForRowAtIndexPath:indexPath];
         self.postsVotedOnInexPath = indexPath;
          objects *personalPost = [self.postsVotedOnArray objectAtIndex:indexPath.row];
         self.postsVotedOnTableView.scrollEnabled = NO;
@@ -898,7 +1032,139 @@
             
         }
     }
+    
+    if(tableView == self.settingsTableview) {
+        NSInteger selectedSection = indexPath.section;
+        NSInteger selectedRow = indexPath.row;
+        NSUserDefaults *userDefaultContents = [NSUserDefaults standardUserDefaults];
+        NSObject *usernameObject = [userDefaultContents objectForKey:@"username"];
+        NSString *username = [NSString stringWithFormat:@"%@",usernameObject];
+        if(selectedSection == 0) {
+            if(selectedRow == 0) {
+                if([MFMessageComposeViewController canSendText]) {
+                    MFMessageComposeViewController *composeViewController = [[MFMessageComposeViewController alloc] initWithNibName:nil bundle:nil];
+                    [composeViewController setMessageComposeDelegate:self];
+                    [composeViewController setBody:@"Come join me on thisThat... linkToAppStore"];
+                    [self presentViewController:composeViewController animated:YES completion:nil];
+                    
+                }
+                
+            }
+        }
+        if(selectedSection == 1){
+            if(selectedRow == 0){
+                //instagram
+                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://instagram.com"]];
+            }
+            if(selectedRow == 1) {
+                //twitter
+                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://twitter.com"]];
+            }
+        }
+        if(selectedSection == 2){
+            if(selectedRow == 0){
+                //thisThat website
+                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://local-app.co:1337"]];
+                
+            }
+            if(selectedRow == 1){
+                //suggestions
+                if([MFMailComposeViewController canSendMail]) {
+                    MFMailComposeViewController *composeViewController = [[MFMailComposeViewController alloc] initWithNibName:nil bundle:nil];
+                    [composeViewController setMailComposeDelegate:self];
+                    [composeViewController setToRecipients:@[@"suggestions@thisThat.me"]];
+                    NSString *subjectString = [NSString stringWithFormat:@"Suggestions, user: %@",username];
+                    [composeViewController setSubject:subjectString];
+                    [composeViewController setMessageBody:@"I have a suggestion for thisThat..." isHTML:YES];
+                    [self presentViewController:composeViewController animated:YES completion:nil];
+                    
+                }
+            }
+            if(selectedRow == 2) {
+                //report a problem
+                if([MFMailComposeViewController canSendMail]) {
+                    MFMailComposeViewController *composeViewController = [[MFMailComposeViewController alloc] initWithNibName:nil bundle:nil];
+                    [composeViewController setMailComposeDelegate:self];
+                    [composeViewController setToRecipients:@[@"reportAProblem@thisThat.me"]];
+                    NSString *subjectString = [NSString stringWithFormat:@"Report a problem, user: %@",username];
+                    [composeViewController setSubject:subjectString];
+                    [composeViewController setMessageBody:@"I would like to report a problem..." isHTML:YES];
+                    [self presentViewController:composeViewController animated:YES completion:nil];
+                    
+                }
+                
+                
+            }
+            if(selectedRow == 3){
+                //delete account
+                if([MFMailComposeViewController canSendMail]) {
+                    MFMailComposeViewController *composeViewController = [[MFMailComposeViewController alloc] initWithNibName:nil bundle:nil];
+                    [composeViewController setMailComposeDelegate:self];
+                    [composeViewController setToRecipients:@[@"deleteAccount@thisThat.me"]];
+                    NSString *subjectString = [NSString stringWithFormat:@"Delete account, user: %@",username];
+                    [composeViewController setSubject:subjectString];
+                    [composeViewController setMessageBody:@"I would like to delete my account because..." isHTML:YES];
+                    [self presentViewController:composeViewController animated:YES completion:nil];
+                    
+                }
+                
+                
+            }
+        }
+        if(selectedSection == 3){
+            if(selectedRow == 0){
+                //logout
+                [self logoutAction];
+            }
+        }
+        
+        
+        [self.settingsTableview deselectRowAtIndexPath:[tableView indexPathForSelectedRow] animated:YES];
 
+        
+    }
+
+}
+-(void)logoutAction {
+    
+    
+    NSUserDefaults *userDefaultContents = [NSUserDefaults standardUserDefaults];
+    NSObject *userTokenObject = [userDefaultContents objectForKey:@"tokenIDString"];
+    NSDictionary *parameters = @{@"token" : userTokenObject};
+    
+    [[RKObjectManager sharedManager] postObject:nil path:@"/api/v1/auth/logout" parameters:parameters success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
+        NSLog(@"success");
+    } failure:^(RKObjectRequestOperation *operation, NSError *error) {
+        NSLog(@"fail");
+        NSLog(@"errorSuggestion:%@",[error localizedRecoverySuggestion]);
+        NSLog(@"errorOptions:%@",[error localizedRecoveryOptions]);
+        NSLog(@"errorReason:%@",[error localizedFailureReason]);
+        NSLog(@"errorDescription:%@",[error localizedDescription]);
+        
+    }];
+    
+    
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"tokenIDString"];
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"userIDString"];
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"username"];
+    userTokenObject = [userDefaultContents objectForKey:@"tokenIDString"];
+    NSObject *currentIDObject = [userDefaultContents objectForKey:@"userIDString"];
+    NSObject *usernameObject = [userDefaultContents objectForKey:@"username"];
+    NSLog(@"\nCurrent ID = %@\nCurrent UserIDToken = %@\nUsername = %@\n",currentIDObject,userTokenObject,usernameObject);
+    
+    
+    LoginScreen *loginVC = [self.storyboard instantiateViewControllerWithIdentifier:@"loginScreen"];
+    [self presentViewController:loginVC animated:YES completion:nil];
+    [self.settingsView performSelector:@selector(removeFromSuperview) withObject:nil afterDelay:1];
+    [self.invisibleView removeFromSuperview];
+
+}
+
+-(void)mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error {
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+-(void)messageComposeViewController:(MFMessageComposeViewController *)controller didFinishWithResult:(MessageComposeResult)result {
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 -(void)personalPostsTapRecognizer:(UITapGestureRecognizer*)recognize {
     personalPostsTableViewCell *cell = (personalPostsTableViewCell*)[self.personalPostsTableView cellForRowAtIndexPath:self.personalPostsIndexPath];
@@ -1176,6 +1442,9 @@
                 if(recognize == self.pinchToCloseLoadingView){
                     self.loadingView.transform = CGAffineTransformMakeScale(lastScaleFactor*factor, lastScaleFactor*factor);
                 }
+                if(recognize == self.pinchRecognizerSettingsView){
+                    self.settingsView.transform = CGAffineTransformMakeScale(lastScaleFactor*factor, lastScaleFactor*factor);
+                }
             }
             if(factor < 0.45) {
                 if(recognize == self.pinchRecognizerNewsFeed){
@@ -1226,6 +1495,10 @@
                     [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
                     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
                     
+                }
+                if(recognize == self.pinchRecognizerSettingsView){
+                    [self.settingsView removeFromSuperview];
+                    [self.invisibleView removeFromSuperview];
                 }
                             }
         }
@@ -1289,6 +1562,14 @@
                         
                     }];
                 }
+                if(recognize == self.pinchRecognizerSettingsView){
+                    [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionCurveLinear animations:^{
+                        self.settingsView.transform = CGAffineTransformMakeScale(lastScaleFactor, lastScaleFactor);
+                    } completion:^(BOOL finished) {
+                        
+                    }];
+                }
+
                 
             }
         }
@@ -1756,7 +2037,7 @@
     [[RKObjectManager sharedManager] getObjectsAtPath:tokenIDString parameters:nil success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
         self.newsFeedArray = [mappingResult.array mutableCopy];
         
-        NSLog(@"mappingResultCount:%d",[mappingResult count]);
+       
         NSLog(@"success");
         NSLog(@"newsFeedArrayContents:\n%@",self.newsFeedArray);
         if([self.newsFeedArray count] >0){
@@ -2148,10 +2429,8 @@
         
         [[RKObjectManager sharedManager] getObjectsAtPath:tokenIDString parameters:nil success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
             self.newsFeedArray = [mappingResult.array mutableCopy];
-            NSLog(@"mappingResultCount:%d",[mappingResult count]);
             NSLog(@"success");
             NSLog(@"newsFeedArrayContents:\n%@",self.newsFeedArray);
-            NSLog(@"newsfeedArrayCount:%d",[self.newsFeedArray count]);
             if([self.newsFeedArray count]>0){
             [self preLoadImages];
             }

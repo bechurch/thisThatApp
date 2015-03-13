@@ -8,13 +8,23 @@
 
 #import <UIKit/UIKit.h>
 #import <CoreLocation/CoreLocation.h>
+#import <MessageUI/MessageUI.h>
 
-@interface MainPage : UIViewController <UIGestureRecognizerDelegate, UITableViewDataSource, UITableViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDelegate, UITextFieldDelegate, CLLocationManagerDelegate, UIAlertViewDelegate>
+@interface MainPage : UIViewController <UIGestureRecognizerDelegate, UITableViewDataSource, UITableViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDelegate, UITextFieldDelegate, CLLocationManagerDelegate, UIAlertViewDelegate,MFMessageComposeViewControllerDelegate,MFMailComposeViewControllerDelegate>
 //Actions
 - (IBAction)settings:(id)sender;
 - (IBAction)upload:(id)sender;
 
-
+//settings
+@property (nonatomic, strong) UIView *settingsView;
+@property (nonatomic, strong) UITableView *settingsTableview;
+@property (nonatomic, strong) NSArray *settingsSection1LabelArray;
+@property (nonatomic, strong) NSArray *settingsSection2LabelArray;
+@property (nonatomic, strong) NSArray *settingsSection3LabelArray;
+@property (nonatomic, strong) NSArray *settingsSection4LaeblArray;
+@property (nonatomic, strong) UINavigationBar *settingsNavigationBar;
+@property (nonatomic, strong) UIPinchGestureRecognizer *pinchRecognizerSettingsView;
+///
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // newsFeed
 - (IBAction)newsFeed:(id)sender;
