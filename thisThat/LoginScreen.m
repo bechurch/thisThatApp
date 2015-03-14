@@ -29,7 +29,8 @@
     
 }
 -(void)initalizeLoginView {
- UIColor *redColor = [UIColor colorWithRed:(207/255.0) green:(70/255.0) blue:(51/255.0) alpha:1];
+ //UIColor *redColor = [UIColor colorWithRed:(207/255.0) green:(70/255.0) blue:(51/255.0) alpha:1];
+    UIColor *redColor = [UIColor colorWithRed:(255/255.0) green:(102/255.0) blue:(102/255.0) alpha:1];
     UIImage *backGroundImage = [UIImage imageNamed:@"IMG_6151.jpg"];
     self.backGroundImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
     self.backGroundImageView.image = backGroundImage;
@@ -76,6 +77,7 @@
     [self.loginButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [self.loginButton setTitle:@"Login" forState:UIControlStateNormal];
     self.loginButton.titleLabel.textAlignment = NSTextAlignmentCenter;
+   // self.loginButton.showsTouchWhenHighlighted = YES;
     [self.loginButton addTarget:self action:@selector(loginbuttonAction:) forControlEvents:UIControlEventTouchUpInside];
     [self.backGroundImageView addSubview:self.loginButton];
     

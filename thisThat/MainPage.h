@@ -6,6 +6,9 @@
 //  Copyright (c) 2015 James Connerton. All rights reserved.
 //
 
+
+
+
 #import <UIKit/UIKit.h>
 #import <CoreLocation/CoreLocation.h>
 #import <MessageUI/MessageUI.h>
@@ -15,6 +18,10 @@
 - (IBAction)settings:(id)sender;
 - (IBAction)upload:(id)sender;
 
+//firstLaunch
+
+@property (nonatomic, strong) UIView *firstLaunchView;
+@property (nonatomic, strong) UIScrollView *firstLaunchScrollView;
 //settings
 @property (nonatomic, strong) UIView *settingsView;
 @property (nonatomic, strong) UITableView *settingsTableview;
@@ -22,155 +29,140 @@
 @property (nonatomic, strong) NSArray *settingsSection2LabelArray;
 @property (nonatomic, strong) NSArray *settingsSection3LabelArray;
 @property (nonatomic, strong) NSArray *settingsSection4LaeblArray;
+@property (nonatomic, strong) NSArray *twitterIntstagramImagesArray;
 @property (nonatomic, strong) UINavigationBar *settingsNavigationBar;
 @property (nonatomic, strong) UIPinchGestureRecognizer *pinchRecognizerSettingsView;
-///
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////
 // newsFeed
 - (IBAction)newsFeed:(id)sender;
-
-@property (nonatomic, strong) UIImageView *imageViewForYOUYOLO;
 @property (nonatomic, strong) NSMutableArray *newsFeedArray;
 @property (nonatomic, strong) UIView *newsFeedView;
-@property (nonatomic, strong) UIView *viewForLabels;
-@property (nonatomic, strong) UIImageView *imageViewOneCurrent;
-@property (nonatomic, strong) UIImageView *imageViewTwoCurrent;
-@property (nonatomic, strong) NSMutableDictionary *newsFeedMutableDictionary;
-@property (nonatomic, strong) NSMutableDictionary *newsFeedImageOneDictionary;
-@property (nonatomic, strong) NSMutableDictionary *newsFeedImageTwoDictionary;
-@property (nonatomic, strong) NSMutableArray *newsFeedImagesMutableArray;
+@property (nonatomic, strong) UIView *newsFeedViewForLabels;
+@property (nonatomic, strong) UIView *newsFeedViewForFullSizeImageView;
+@property (nonatomic, strong) UIImageView *newsFeedImageViewOne;
+@property (nonatomic, strong) UIImageView *newsFeedImageViewTwo;
 @property (nonatomic, strong) UIImageView *newsFeedImageOneCheckMarkView;
 @property (nonatomic, strong) UIImageView *newsFeedImageOneXMarkView;
 @property (nonatomic, strong) UIImageView *newsFeedImageTwoCheckMarkView;
 @property (nonatomic, strong) UIImageView *newsFeedImageTwoXMarkView;
-@property (nonatomic, strong) UIButton *yellowMenuButotn;
-@property (nonatomic, strong) UIImageView *voteForThisImageView;
-@property (nonatomic, strong) UIImageView *voteForThatImageView;
-@property (nonatomic, strong) UIImageView *notThatImageView;
-@property (nonatomic, strong) UIImageView *notThisImageView;
+@property (nonatomic, strong) UIImageView *newsFeedVoteForThisImageView;
+@property (nonatomic, strong) UIImageView *newsFeedVoteForThatImageView;
+@property (nonatomic, strong) UIImageView *newsFeedNotThatImageView;
+@property (nonatomic, strong) UIImageView *newsFeedNotThisImageView;
+@property (nonatomic, strong) UIImageView *newsFeedFullSizeImageView;
+@property (nonatomic, strong) UIImage *newsFeedTempImageOne;
+@property (nonatomic, strong) UIImage *newsFeedTempImageTwo;
+@property (nonatomic, strong) NSMutableDictionary *newsFeedImageOneDictionary;
+@property (nonatomic, strong) NSMutableDictionary *newsFeedImageTwoDictionary;
+@property (nonatomic, strong) UITapGestureRecognizer *newsFeedTapGestureToCloseFullSizeImageView;
+@property (nonatomic, strong) UITapGestureRecognizer *newsFeedTapGestureToOpenImageViewOne;
+@property (nonatomic, strong) UITapGestureRecognizer *newsFeedTapGestureToOpenImageViewTwo;
+@property (nonatomic, strong) UIPanGestureRecognizer *newsFeedPanGestureImageViewOne;
+@property (nonatomic, strong) UIPanGestureRecognizer *newsFeedPanGestureImageViewTwo;
+@property (nonatomic, strong) UIPinchGestureRecognizer *newsFeedPinchGesture;
+@property (nonatomic, strong) UILabel *newsFeedTextContentLabel;
+@property (nonatomic, strong) UILabel *newsFeedTimeStampLabel;
+@property (nonatomic, strong) UILabel *newsFeedUsernameLabel;
+@property (nonatomic, strong) UILabel *newsFeedTotalNumberOfVotesLabel;
+@property (nonatomic, strong) UILabel *newsFeedLocationLabel;
+@property (nonatomic, strong) UILabel *newsFeedImageViewOnePercentageLabel;
+@property (nonatomic, strong) UILabel *newsFeedImageViewTwoPercentageLabel;
+@property (nonatomic, strong) UIButton *newsFeedYellowMenuButton;
+@property int newsFeedCounter;
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // personalPosts
 - (IBAction)personalPosts:(id)sender;
 @property (weak, nonatomic) IBOutlet UIButton *personalPostsButton;
 @property (nonatomic, strong) NSMutableArray *personalPostsArray;
 @property (nonatomic, strong) UITableView *personalPostsTableView;
-@property (nonatomic, strong) UIImageView *fullSizeImageViewTableView;
-@property (nonatomic, strong) UIView *personalPostsBothImagesBackGroundView;
-@property (nonatomic, strong) UIImageView *personalPostsImageOne;
-@property (nonatomic, strong) UIImageView *personalPostsImageTwo;
-@property (nonatomic, strong) UIPinchGestureRecognizer *pinchRecognizerPersonalPostsPreviewImages;
-@property (nonatomic, strong) UIAlertView *alertView;
-@property (nonatomic, strong) UITapGestureRecognizer *personalPostsTapImageOne;
-@property (nonatomic, strong) UITapGestureRecognizer *personalPostsTapImageTwo;
-@property (nonatomic, strong) NSIndexPath *personalPostsIndexPath;
+@property (nonatomic, strong) UIView *personalPostsViewForImageViews;
 @property (nonatomic, strong) UIView *personalPostsViewForFullSizeImageView;
+@property (nonatomic, strong) UIImageView *personalPostsImageViewOne;
+@property (nonatomic, strong) UIImageView *personalPostsImageViewTwo;
 @property (nonatomic, strong) UIImageView *personalPostsFullSizeImageView;
-@property (nonatomic, strong) UITapGestureRecognizer *personalPostsTapToCloseFullSizeImageView;
-//Gestures
-@property (nonatomic, strong) UIPinchGestureRecognizer *pinchRecognizerPersonalPosts;
-@property (nonatomic, strong) UIPinchGestureRecognizer *pinchRecognizerNewsFeed;
-@property (nonatomic, strong) UIPanGestureRecognizer *panRecognizerImageOne;
-@property (nonatomic, strong) UIPanGestureRecognizer *panRecognizerImageTwo;
-@property (nonatomic, strong) UITapGestureRecognizer *tapToOpenImageOne;
-@property (nonatomic, strong) UITapGestureRecognizer *tapToOpenImageTwo;
-@property (nonatomic, strong) UITapGestureRecognizer *tapToCloesImage;
-@property (nonatomic, strong) UILongPressGestureRecognizer *longPressRecognizer;
+@property (nonatomic, strong) UIPinchGestureRecognizer *personalPostsPinchGestureImageViews;
+@property (nonatomic, strong) UIPinchGestureRecognizer *personalPostsPinchGesture;
+@property (nonatomic, strong) UITapGestureRecognizer *personalPostsTapGestureToOpenImageViewOne;
+@property (nonatomic, strong) UITapGestureRecognizer *personalPostsTapGestureToOpenImageViewTwo;
+@property (nonatomic, strong) UITapGestureRecognizer *personalPostsTapGestureToCloseFullSizeImageView;
+@property (nonatomic, strong) NSIndexPath *personalPostsIndexPath;
+
+
 
 //int
-@property int counterPersonalPostsArray;
-@property int newsFeedCounter;
 @property int voteCounter;
-
-
-//Labels
-@property (nonatomic, strong) UILabel *textContentLabel;
-@property (nonatomic, strong) UILabel *timeStampLabel;
-@property (nonatomic, strong) UILabel *usernameLabel;
-@property (nonatomic, strong) UILabel *totalNumberOfVotes;
-@property (nonatomic, strong) UILabel *locationWhereThisThatPosted;
-@property (nonatomic, strong) UILabel *imageOnePercentage;
-@property (nonatomic, strong) UILabel *imageTwoPercentage;
-
-
 //ActivityIndicator
 @property (nonatomic, strong) UIActivityIndicatorView *spinner;
-
-//Lines
-@property (nonatomic, strong) UIView *horizontalLineLabelView;
-@property (nonatomic, strong) UIView *verticalLineOneLabelView;
-//
-@property (nonatomic, strong) UIView *viewForFullSizeImageView;
-@property (nonatomic, strong) UIImageView *fullSizeImageView;
-@property (nonatomic, strong) UIImage *tempImageOneCurrent;
-@property (nonatomic, strong) UIImage *tempImageOneBehind;
-@property (nonatomic, strong) UIImage *tempImageTwoCurrent;
-@property (nonatomic, strong) UIImage *tempImageTwoBehind;
 @property (nonatomic, strong) UIView *invisibleView;
 @property (nonatomic, strong) UIView *invisibleViewTableView;
-@property (nonatomic, strong) UIView *viewNewsFeedImageOneOverlay;
-@property (nonatomic, strong) UIView *viewNewsFeedImageTwoOverlay;
 
 
-
-//add photos
-@property (nonatomic, strong) UIView *addPhotosView;
-@property (nonatomic, strong) UIPinchGestureRecognizer *pinchToCloseView;
-@property int selectedCameraInt;
+//uploadPost
+@property (nonatomic, strong) UIView *uploadPostView;
+@property (nonatomic, strong) UIView *uploadPostExampleTableViewCellView;
+@property (nonatomic, strong) UIView *uploadPostNavigationBarUploadView;
+@property (nonatomic, strong) UIView *uploadPostViewForImageViews;
+@property (nonatomic, strong) UIView *uploadPostViewForFullSizeImageView;
+@property (nonatomic, strong) UIView *uploadPostSlideToUploadView;
 @property (nonatomic, strong) UIImagePickerController *imagePicker;
-@property (nonatomic, strong)  NSIndexPath *cellIndex;
-@property (nonatomic, strong) UIView *exampleTableViewCellView;
-@property (nonatomic, strong) UIButton *buttonImageOne;
-@property (nonatomic, strong) UIButton *buttonImageTwo;
-@property (nonatomic, strong) UITextView *textViewInput;
-@property (nonatomic, strong) UILabel *uploadUsernameLabel;
-@property (nonatomic, strong) UIImage *uploadTempImageOne;
-@property (nonatomic, strong) UIImage *uploadTempImageTwo;
-@property (nonatomic, strong) UIButton *uploadPreviewButton;
-@property (nonatomic, strong) UIButton *uploadthisThatButton;
-@property (nonatomic, strong) UIView *uploadTempImageView;
-@property (nonatomic, strong) UIPinchGestureRecognizer *pinchToCloseUploadPreview;
-@property (nonatomic, strong) UISwitch *showLocationSwitch;
-@property (nonatomic, strong) UILabel *addressLabel;
-@property (nonatomic, strong) UITapGestureRecognizer *uploadTapFullSizeImageOne;
-@property (nonatomic, strong) UITapGestureRecognizer *uploadTapFullSizeImageTwo;
-@property (nonatomic, strong) UIView *uploadViewForFullSizeImageView;
+@property (nonatomic, strong) UIImage *uploadPostTempImageOne;
+@property (nonatomic, strong) UIImage *uploadPostTempImageTwo;
+@property (nonatomic, strong) UIImageView *uploadPostImageViewOne;
+@property (nonatomic, strong) UIImageView *uploadPostImageViewTwo;
 @property (nonatomic, strong) UIImageView *uploadFullSizeImageView;
+@property (nonatomic, strong) UIImageView *uploadPostNavigationBarUploadImageView;
+@property (nonatomic, strong) UIPinchGestureRecognizer *uploadPostPinchGesture;
+@property (nonatomic, strong) UIPinchGestureRecognizer *uploadPostPinchGestureImageViews;
+@property (nonatomic, strong) UITapGestureRecognizer *uploadPostTapGestureToOpenImageViewOne;
+@property (nonatomic, strong) UITapGestureRecognizer *uploadPostTapGestureToOpenImageViewTwo;
 @property (nonatomic, strong) UITapGestureRecognizer *uploadCloseFullSizeImageView;
-@property (nonatomic, strong) UILabel *uploadTimeStampLabel;
-@property (nonatomic, strong) UILabel *uploadEnableLocationLabel;
-@property (nonatomic, strong) NSString *uploadTextViewString;
-@property (nonatomic, strong) UIButton *viewLibraryPhotosButton;
-@property (nonatomic, strong) UIView *uploadThisThatView;
-@property (nonatomic, strong) UIPanGestureRecognizer *uploadThisThatPanGestureRecognizer;
-@property (nonatomic, strong) UIView *uploadingNavBarView;
-@property (nonatomic, strong) UILabel *uploadingNavBarLabel;
-@property (nonatomic, strong) UIImageView *uploadingNavBarImageView;
-@property (nonatomic, strong) NSMutableDictionary *uploadErrorSaveContentsDictionary;
-@property (nonatomic, strong) NSString *uploadPathString;
-@property (nonatomic, strong) NSData *uploadImageOneData;
-@property (nonatomic, strong) NSData *uploadImageTwoData;
-@property (nonatomic, strong) NSDictionary *uploadTextViewParameters;
-@property (nonatomic, strong) UIButton *retryUploadButton;
-@property (nonatomic, strong) UIButton *deleteFailedUploadButton;
+@property (nonatomic, strong) UIPanGestureRecognizer *uploadPostPanGestureSlideToUploadView;
+@property (nonatomic, strong) UIButton *uploadPostCameraButtonOne;
+@property (nonatomic, strong) UIButton *uploadPostCameraButtonTwo;
+@property (nonatomic, strong) UIButton *uploadPostNavigationBarRetryUploadButton;
+@property (nonatomic, strong) UIButton *uploadPostNavigationBarDeleteUploadButton;
+@property (nonatomic, strong) UIButton *uploadPostPreviewButton;
+@property (nonatomic, strong) UIButton *uploadPostLibraryPhotosButton;
+@property (nonatomic, strong) UILabel *uploadPostTimeStampLabel;
+@property (nonatomic, strong) UILabel *uploadPostLocationEnabledLabel;
+@property (nonatomic, strong) UILabel *uploadPostUsernameLabel;
+@property (nonatomic, strong) UILabel *uploadPostAddressLabel;
+@property (nonatomic, strong) UILabel *uploadPostNavigationBarUploadLabel;
+@property (nonatomic, strong) NSString *uploadPostTextViewString;
+@property (nonatomic, strong) NSString *uploadPostPathString;
+@property (nonatomic, strong) NSData *uploadPostImageOneData;
+@property (nonatomic, strong) NSData *uploadPostImageTwoData;
+@property (nonatomic, strong) NSMutableDictionary *uploadPostErrorMutableDictionarySaveContents;
+@property (nonatomic, strong) NSDictionary *uploadPostDictionaryTextViewContents;
+@property (nonatomic, strong) NSIndexPath *cellIndex;
+@property (nonatomic, strong) UITextView *uploadPostTextView;
+@property (nonatomic, strong) UISwitch *uploadPostLocationEnabledSwitch;
+@property int selectedCameraInt;
+
+
+
+//posts voted on
 
 - (IBAction)postsVotedOn:(id)sender;
-@property (nonatomic, strong) UITableView *postsVotedOnTableView;
-@property (nonatomic, strong) UIPinchGestureRecognizer *pinchRecognizerPostsVotedOn;
 @property (nonatomic, strong) NSMutableArray *postsVotedOnArray;
-@property (nonatomic, strong) UIView *postsVotedOnBothPhotosView;
+@property (nonatomic, strong) UITableView *postsVotedOnTableView;
+@property (nonatomic, strong) UIView *postsVotedOnViewForImageViews;
+@property (nonatomic, strong) UIView *postsVotedOnViewForFullSizeImageView;
 @property (nonatomic, strong) UIImageView *postsVotedOnImageViewOne;
 @property (nonatomic, strong) UIImageView *postsVotedOnImageViewTwo;
 @property (nonatomic, strong) UIImageView *postsVotedOnFullSizeImageView;
-@property (nonatomic, strong) UIView *postsVotedOnFullSizeViewForImageView;
-@property (nonatomic, strong) UIPinchGestureRecognizer *pinchRecognizerPostsVotedOnPreviewView;
-@property (nonatomic, strong) UITapGestureRecognizer *postsVotedOnTapImageOneFullSize;
-@property (nonatomic, strong) UITapGestureRecognizer *postsVotedOnTapImageTwoFullSize;
-@property (nonatomic, strong) NSIndexPath *postsVotedOnInexPath;
+@property (nonatomic, strong) UIPinchGestureRecognizer *postsVotedOnPinchGestureImageViews;
+@property (nonatomic, strong) UIPinchGestureRecognizer *postsVotedOnPinchGesture;
+@property (nonatomic, strong) UITapGestureRecognizer *postsVotedOnTapGestureToOpenImageViewOne; 
+@property (nonatomic, strong) UITapGestureRecognizer *postsVotedOnTapGestureToOpenImageViewTwo;
 @property (nonatomic, strong) UITapGestureRecognizer *postsVotedOnTapCloseFullSizeImageView;
+@property (nonatomic, strong) NSIndexPath *postsVotedOnInexPath;
 @property (nonatomic, strong) UIView *loadingView;
+
+
 @property (nonatomic, strong) UIPinchGestureRecognizer *pinchToCloseLoadingView;
-
-
 @property (nonatomic, strong) UIAlertView *alertViewLogin;
 @property (nonatomic, strong) UIAlertView *alertViewOffline;
 @end

@@ -31,35 +31,101 @@
  
  //   [self.navigationController.navigationBar setBarTintColor:[UIColor clearColor]];
     
-    UIImage *backgroundImage = [UIImage imageNamed:@"IMG_6322.jpg"];
+    
+    
+    UIColor *redColor = [UIColor colorWithRed:(255/255.0) green:(102/255.0) blue:(102/255.0) alpha:1];
+    
+   /* UIImage *backgroundImage = [UIImage imageNamed:@"IMG_6322.jpg"];
     UIImageView *backGroundImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
     backGroundImageView.image = backgroundImage;
     backGroundImageView.contentMode = UIViewContentModeScaleToFill;
     backGroundImageView.clipsToBounds = YES;
-    [self.view addSubview:backGroundImageView];
+    [self.view addSubview:backGroundImageView];*/
+    self.view.backgroundColor = redColor;
 
+    UIImage *personalImage = [UIImage imageNamed:@"personalIconexport.png"];
+    UIImageView *personalImageView = [[UIImageView alloc] initWithFrame:CGRectMake(10, 100, 50, 50)];
+    personalImageView.image = personalImage;
+    [self.view addSubview:personalImageView];
+    
+    UIImage *feedImage = [UIImage imageNamed:@"feed.png"];
+    UIImageView *feedImageView = [[UIImageView alloc] initWithFrame:CGRectMake(10, 175, 50, 50)];
+    feedImageView.image = feedImage;
+    [self.view addSubview:feedImageView];
+    
+    UIImage *votedImage = [UIImage imageNamed:@"voted.png"];
+    UIImageView *votedImageView = [[UIImageView alloc] initWithFrame:CGRectMake(10, 250, 50, 50)];
+    votedImageView.image = votedImage;
+    [self.view addSubview:votedImageView];
+    
     [self configureRestKit];
     
-    //[self loadPersonalPosts];
-    //initalize counter to zero
+    //App already launched
+    if([[NSUserDefaults standardUserDefaults] boolForKey:@"hasLaunchedOnce"]){
+        NSLog(@"Already launched");
+    }
+    //App first time launch, display few pics on how to use
+    else {
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"hasLaunchedOnce"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        NSLog(@"First Launch Ever");
+        self.firstLaunchScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
+        self.firstLaunchScrollView.delegate = self;
+        self.firstLaunchScrollView.scrollEnabled = YES;
+        self.firstLaunchScrollView.userInteractionEnabled = YES;
+        self.firstLaunchScrollView.bounces = NO;
+        self.firstLaunchScrollView.pagingEnabled = YES;
+        self.firstLaunchScrollView.showsHorizontalScrollIndicator = YES;
+        self.firstLaunchScrollView.contentSize = CGSizeMake(5*self.view.frame.size.width, self.view.frame.size.height);
+        [self.navigationController.view addSubview:self.firstLaunchScrollView];
+        self.firstLaunchView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 5*self.view.frame.size.width, self.view.frame.size.height)];
+        self.firstLaunchView.backgroundColor = [UIColor whiteColor];
+        self.firstLaunchView.userInteractionEnabled = YES;
+        [self.firstLaunchScrollView addSubview:self.firstLaunchView];
+        
+        UIImage *image = [UIImage imageNamed:@"IMG_6322.jpg"];
+        UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
+        imageView.image = image;
+        imageView.contentMode = UIViewContentModeScaleToFill;
+        [self.firstLaunchView addSubview:imageView];
+        UILabel *firstLaunchLabel = [[UILabel alloc] initWithFrame:CGRectMake(50, self.view.frame.size.height/2, 1500, 30)];
+        firstLaunchLabel.backgroundColor = redColor;
+        firstLaunchLabel.textColor = [UIColor whiteColor];
+        firstLaunchLabel.text = @"This view will show only the first time a user has loggedIn/SignedUp after downloading the app. A few pictures on how to use the app. Pinch in to close view, etc.";
+        [imageView addSubview:firstLaunchLabel];
+        UIImageView *imageViewTwo = [[UIImageView alloc] initWithFrame:CGRectMake(4*self.view.frame.size.width, 0, self.view.frame.size.width, self.view.frame.size.height)];
+        imageViewTwo.image = image;
+        imageViewTwo.userInteractionEnabled = YES;
+        [self.firstLaunchView addSubview:imageViewTwo];
+        UIButton *closeFirstLaunchViewButton = [[UIButton alloc] initWithFrame:CGRectMake(5*(self.view.frame.size.width)-60, self.view.frame.size.height-40, 50, 30)];
+        [closeFirstLaunchViewButton setTitle:@"Close" forState:UIControlStateNormal];
+        [closeFirstLaunchViewButton setBackgroundColor:redColor];
+        [closeFirstLaunchViewButton addTarget:self action:@selector(closeFirstLaunchView:) forControlEvents:UIControlEventTouchUpInside];
+        [self.firstLaunchView addSubview:closeFirstLaunchViewButton];
+    }
 
+
+
+}
+-(void)closeFirstLaunchView:(UIButton*)button {
+    [self.firstLaunchView removeFromSuperview];
+    [self.firstLaunchScrollView removeFromSuperview];
 }
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-  //  [[[[UIApplication sharedApplication] delegate] window] setWindowLevel:UIWindowLevelNormal];
     
-    NSUserDefaults *userDefaultContents = [NSUserDefaults standardUserDefaults];
+     NSUserDefaults *userDefaultContents = [NSUserDefaults standardUserDefaults];
     NSObject *userDefaultObject = [userDefaultContents objectForKey:@"tokenIDString"];
     NSObject *currentIDObject = [userDefaultContents objectForKey:@"userIDString"];
     NSObject *usernameObject = [userDefaultContents objectForKey:@"username"];
     if(userDefaultObject != nil){
         NSLog(@"\nCurrent ID = %@\nCurrent UserIDToken = %@\nUsername= %@",currentIDObject,userDefaultObject,usernameObject);
-      //  [self loadPersonalPosts];
+    
         NSString *username = [NSString stringWithFormat:@"%@",usernameObject];
         self.navigationItem.title = username;
         
     } else {
-       // [self performSegueWithIdentifier:@"showLogin" sender:self];
+       // if no contents in userdefaults show login screen
         LoginScreen *loginVC = [self.storyboard instantiateViewControllerWithIdentifier:@"loginScreen"];
         [self.parentViewController presentViewController:loginVC animated:YES completion:nil];
 
@@ -77,7 +143,7 @@
     // Dispose of any resources that can be recreated.
 }
 
-
+//settings
 - (IBAction)settings:(id)sender {
     [self initalizeSettingsview];
 }
@@ -95,6 +161,9 @@
     self.settingsSection3LabelArray = [[NSArray alloc] initWithObjects:@"thisThat website",@"Suggestions",@"Report a problem",@"Delete account", nil];
     self.settingsSection4LaeblArray = [[NSArray alloc] initWithObjects:@"Logout of thisThat", nil];
     
+    UIImage *twitterImage = [UIImage imageNamed:@"Twitter_logo_blue.png"];
+    UIImage *instagramImage = [UIImage imageNamed:@"Instagram_Icon_Large.png"];
+    self.twitterIntstagramImagesArray = [[NSArray alloc] initWithObjects:instagramImage,twitterImage, nil];
     
     CGRect navBarFrame = self.navigationController.navigationBar.frame;
     UINavigationBar *navBar = [[UINavigationBar alloc] initWithFrame:navBarFrame];
@@ -118,7 +187,7 @@
     
     
 }
-
+//uploadPost initalize
 - (IBAction)upload:(id)sender {
 
     [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationFade];
@@ -129,92 +198,91 @@
     UIColor *greyishThisThatColor = [UIColor colorWithRed:(172/255.0) green:(166/255.0) blue:(158/255.0) alpha:1];
     UIColor *blackThisThatColor = [UIColor colorWithRed:(39/255.0) green:(35/255.0) blue:(34/255.0) alpha:1];
     [self presentInvisibleView];
-    self.addPhotosView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, viewWidth, viewHeight)];
-    self.addPhotosView.backgroundColor = [UIColor grayColor];
-    [self.navigationController.view addSubview:self.addPhotosView];
-    self.pinchToCloseView = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(recognizePinchToCloseCurrentView:)];
-    [self.addPhotosView addGestureRecognizer:self.pinchToCloseView];
-    self.exampleTableViewCellView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, viewWidth, (viewHeight/4)+100)];
-    self.exampleTableViewCellView.backgroundColor = [UIColor whiteColor];
-    [self.addPhotosView addSubview:self.exampleTableViewCellView];
+    self.uploadPostView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, viewWidth, viewHeight)];
+    self.uploadPostView.backgroundColor = [UIColor grayColor];
+    [self.navigationController.view addSubview:self.uploadPostView];
+    self.uploadPostPinchGesture = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(recognizePinchToCloseCurrentView:)];
+    [self.uploadPostView addGestureRecognizer:self.uploadPostPinchGesture];
+    self.uploadPostExampleTableViewCellView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, viewWidth, (viewHeight/4)+100)];
+    self.uploadPostExampleTableViewCellView.backgroundColor = [UIColor whiteColor];
+    [self.uploadPostView addSubview:self.uploadPostExampleTableViewCellView];
     NSUserDefaults *userDefaultContents = [NSUserDefaults standardUserDefaults];
     NSObject *usernameObject = [userDefaultContents objectForKey:@"username"];
-    self.uploadUsernameLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 10, 3*(viewWidth/4)-15, 25)];
-    self.uploadUsernameLabel.backgroundColor = [UIColor clearColor];
-    [self.uploadUsernameLabel setFont:[UIFont boldSystemFontOfSize:20]];
-    self.uploadUsernameLabel.textColor = redThisThatColor;
-    self.uploadUsernameLabel.text = [NSString stringWithFormat:@"%@",usernameObject];
-    [self.exampleTableViewCellView addSubview:self.uploadUsernameLabel];
+    self.uploadPostUsernameLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 10, 3*(viewWidth/4)-15, 25)];
+    self.uploadPostUsernameLabel.backgroundColor = [UIColor clearColor];
+    [self.uploadPostUsernameLabel setFont:[UIFont boldSystemFontOfSize:20]];
+    self.uploadPostUsernameLabel.textColor = redThisThatColor;
+    self.uploadPostUsernameLabel.text = [NSString stringWithFormat:@"%@",usernameObject];
+    [self.uploadPostExampleTableViewCellView addSubview:self.uploadPostUsernameLabel];
     
-    self.uploadTimeStampLabel = [[UILabel alloc] initWithFrame:CGRectMake(3*(viewWidth/4)+5, 10, (viewWidth/4)-15, 30)];
-    [self.uploadTimeStampLabel setFont:[UIFont systemFontOfSize:10]];
-    self.uploadTimeStampLabel.text = @"Just now";
-    self.uploadTimeStampLabel.textAlignment = NSTextAlignmentRight;
-    self.uploadTimeStampLabel.backgroundColor = [UIColor clearColor];
-    self.uploadTimeStampLabel.textColor = greyishThisThatColor;
-    [self.exampleTableViewCellView addSubview:self.uploadTimeStampLabel];
+    self.uploadPostTimeStampLabel = [[UILabel alloc] initWithFrame:CGRectMake(3*(viewWidth/4)+5, 10, (viewWidth/4)-15, 30)];
+    [self.uploadPostTimeStampLabel setFont:[UIFont systemFontOfSize:10]];
+    self.uploadPostTimeStampLabel.text = @"Just now";
+    self.uploadPostTimeStampLabel.textAlignment = NSTextAlignmentRight;
+    self.uploadPostTimeStampLabel.backgroundColor = [UIColor clearColor];
+    self.uploadPostTimeStampLabel.textColor = greyishThisThatColor;
+    [self.uploadPostExampleTableViewCellView addSubview:self.uploadPostTimeStampLabel];
     
-    self.buttonImageOne = [[UIButton alloc ] initWithFrame:CGRectMake(10, 100, (viewWidth/2)-15, self.exampleTableViewCellView.frame.size.height-110)];
-    self.buttonImageOne.backgroundColor = [UIColor blackColor];
-    [self.buttonImageOne setTitle:@"Add photo" forState:UIControlStateNormal];
-    [self.buttonImageOne addTarget:self action:@selector(takePhotoButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
-    [self.exampleTableViewCellView addSubview:self.buttonImageOne];
+    self.uploadPostCameraButtonOne = [[UIButton alloc ] initWithFrame:CGRectMake(10, 100, (viewWidth/2)-15, self.uploadPostExampleTableViewCellView.frame.size.height-110)];
+    self.uploadPostCameraButtonOne.backgroundColor = [UIColor blackColor];
+    [self.uploadPostCameraButtonOne setTitle:@"Add photo" forState:UIControlStateNormal];
+    [self.uploadPostCameraButtonOne addTarget:self action:@selector(takePhotoButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
+    [self.uploadPostExampleTableViewCellView addSubview:self.uploadPostCameraButtonOne];
     
-    self.buttonImageTwo = [[UIButton alloc] initWithFrame:CGRectMake((viewWidth/2)+5, 100, (viewWidth/2)-15, self.exampleTableViewCellView.frame.size.height-110)];
-    self.buttonImageTwo.backgroundColor = [UIColor blackColor];
-    [self.buttonImageTwo setTitle:@"Add photo" forState:UIControlStateNormal];
-    [self.buttonImageTwo addTarget:self action:@selector(takePhotoButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
-    [self.exampleTableViewCellView addSubview:self.buttonImageTwo];
+    self.uploadPostCameraButtonTwo = [[UIButton alloc] initWithFrame:CGRectMake((viewWidth/2)+5, 100, (viewWidth/2)-15, self.uploadPostExampleTableViewCellView.frame.size.height-110)];
+    self.uploadPostCameraButtonTwo.backgroundColor = [UIColor blackColor];
+    [self.uploadPostCameraButtonTwo setTitle:@"Add photo" forState:UIControlStateNormal];
+    [self.uploadPostCameraButtonTwo addTarget:self action:@selector(takePhotoButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
+    [self.uploadPostExampleTableViewCellView addSubview:self.uploadPostCameraButtonTwo];
     
-    self.textViewInput = [[UITextView alloc] initWithFrame:CGRectMake(10, 55, viewWidth-20, 40)];
-    self.textViewInput.backgroundColor = [UIColor clearColor];
-    self.textViewInput.delegate = self;
-    [self.textViewInput setFont:[UIFont systemFontOfSize:15]];
-    self.textViewInput.textColor = [UIColor grayColor];
-    self.textViewInput.layer.borderWidth = 1.0;
-    self.textViewInput.layer.borderColor = [UIColor blackColor].CGColor;
-    self.textViewInput.text = @"What are you comparing?";
-    [self.exampleTableViewCellView addSubview:self.textViewInput];
+    self.uploadPostTextView = [[UITextView alloc] initWithFrame:CGRectMake(10, 55, viewWidth-20, 40)];
+    self.uploadPostTextView.backgroundColor = [UIColor clearColor];
+    self.uploadPostTextView.delegate = self;
+    [self.uploadPostTextView setFont:[UIFont systemFontOfSize:15]];
+    self.uploadPostTextView.textColor = [UIColor grayColor];
+    self.uploadPostTextView.layer.borderWidth = 1.0;
+    self.uploadPostTextView.layer.borderColor = [UIColor blackColor].CGColor;
+    self.uploadPostTextView.text = @"What are you comparing?";
+    [self.uploadPostExampleTableViewCellView addSubview:self.uploadPostTextView];
     
-    self.uploadPreviewButton = [[UIButton alloc] initWithFrame:CGRectMake(0, (viewHeight/4)+145, viewWidth, 40)];
-    self.uploadPreviewButton.backgroundColor = blackThisThatColor;
-    [self.uploadPreviewButton setTitle:@"PREVIEW POST" forState:UIControlStateNormal];
-    [self.uploadPreviewButton addTarget:self action:@selector(previewUploadThisThat:) forControlEvents:UIControlEventTouchUpInside];
-    [self.addPhotosView addSubview:self.uploadPreviewButton];
-    [self.uploadPreviewButton setHidden:YES];
+    self.uploadPostPreviewButton = [[UIButton alloc] initWithFrame:CGRectMake(0, (viewHeight/4)+145, viewWidth, 40)];
+    self.uploadPostPreviewButton.backgroundColor = blackThisThatColor;
+    [self.uploadPostPreviewButton setTitle:@"PREVIEW POST" forState:UIControlStateNormal];
+    [self.uploadPostPreviewButton addTarget:self action:@selector(previewUploadThisThat:) forControlEvents:UIControlEventTouchUpInside];
+    [self.uploadPostView addSubview:self.uploadPostPreviewButton];
+    [self.uploadPostPreviewButton setHidden:YES];
     
 
-    self.uploadThisThatView = [[UIView alloc] initWithFrame:CGRectMake(10, (viewHeight/4)+205, 70, 70)];
-    self.uploadThisThatView.backgroundColor = [UIColor orangeColor];
+    self.uploadPostSlideToUploadView = [[UIView alloc] initWithFrame:CGRectMake(10, (viewHeight/4)+205, 70, 70)];
+    self.uploadPostSlideToUploadView.backgroundColor = [UIColor orangeColor];
     
-    self.uploadThisThatView.layer.cornerRadius = 35;
-    self.uploadThisThatView.clipsToBounds = YES;
-    self.uploadThisThatPanGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(recognizePanUploadThisThatView:)];
-    [self.uploadThisThatView addGestureRecognizer:self.uploadThisThatPanGestureRecognizer];
-    [self.addPhotosView addSubview:self.uploadThisThatView];
-    [self.uploadThisThatView setHidden:YES];
+    self.uploadPostSlideToUploadView.layer.cornerRadius = 35;
+    self.uploadPostSlideToUploadView.clipsToBounds = YES;
+    self.uploadPostPanGestureSlideToUploadView = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(recognizePanUploadThisThatView:)];
+    [self.uploadPostSlideToUploadView addGestureRecognizer:self.uploadPostPanGestureSlideToUploadView];
+    [self.uploadPostView addSubview:self.uploadPostSlideToUploadView];
+    [self.uploadPostSlideToUploadView setHidden:YES];
 
-    UILabel *uploadLabel = [[UILabel alloc] initWithFrame:CGRectMake((self.uploadThisThatView.frame.size.width/2)-25, (self.uploadThisThatView.frame.size.height/2)-15, 50, 30)];
+    UILabel *uploadLabel = [[UILabel alloc] initWithFrame:CGRectMake((self.uploadPostSlideToUploadView.frame.size.width/2)-25, (self.uploadPostSlideToUploadView.frame.size.height/2)-15, 50, 30)];
     [uploadLabel setFont:[UIFont systemFontOfSize:15]];
     uploadLabel.text = @"Upload";
-    [self.uploadThisThatView addSubview:uploadLabel];
+    [self.uploadPostSlideToUploadView addSubview:uploadLabel];
                                                                      
     
-    self.addressLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 35, viewWidth-20, 20)];
-    self.addressLabel.backgroundColor = [UIColor clearColor];
-    [self.addressLabel setFont:[UIFont systemFontOfSize:10]];
-    self.addressLabel.textColor = blueishThisThatColor;
-    self.addressLabel.text = @"Earth";
-    [self.addPhotosView addSubview:self.addressLabel];
+    self.uploadPostAddressLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 35, viewWidth-20, 20)];
+    self.uploadPostAddressLabel.backgroundColor = [UIColor clearColor];
+    [self.uploadPostAddressLabel setFont:[UIFont systemFontOfSize:10]];
+    self.uploadPostAddressLabel.textColor = blueishThisThatColor;
+    self.uploadPostAddressLabel.text = @"Earth";
+    [self.uploadPostView addSubview:self.uploadPostAddressLabel];
     
-    self.showLocationSwitch = [[UISwitch alloc] initWithFrame:CGRectMake(viewWidth-60, (viewHeight/4)+110, 30, 30)];
-    [self.showLocationSwitch addTarget:self action:@selector(onOffSwitch:) forControlEvents:UIControlEventValueChanged];
-    self.showLocationSwitch.onTintColor = blueishThisThatColor;
-    [self.addPhotosView addSubview:self.showLocationSwitch];
-    self.uploadEnableLocationLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, (viewHeight/4)+110, viewWidth-80, 30)];
-    self.uploadEnableLocationLabel.text = @"Enable current location";
-    //self.uploadEnableLocationLabel.backgroundColor = [UIColor yellowColor];
-    [self.addPhotosView addSubview:self.uploadEnableLocationLabel];
+    self.uploadPostLocationEnabledSwitch = [[UISwitch alloc] initWithFrame:CGRectMake(viewWidth-60, (viewHeight/4)+110, 30, 30)];
+    [self.uploadPostLocationEnabledSwitch addTarget:self action:@selector(onOffSwitch:) forControlEvents:UIControlEventValueChanged];
+    self.uploadPostLocationEnabledSwitch.onTintColor = blueishThisThatColor;
+    [self.uploadPostView addSubview:self.uploadPostLocationEnabledSwitch];
+    self.uploadPostLocationEnabledLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, (viewHeight/4)+110, viewWidth-80, 30)];
+    self.uploadPostLocationEnabledLabel.text = @"Enable current location";
+    [self.uploadPostView addSubview:self.uploadPostLocationEnabledLabel];
     
         locationManager = [[CLLocationManager alloc] init];
     locationManager.delegate = self;
@@ -223,6 +291,7 @@
 
 
 }
+//pan to upload new post
 -(void)recognizePanUploadThisThatView:(UIPanGestureRecognizer*)recognize {
 
 
@@ -231,32 +300,32 @@
             
             break;
         case UIGestureRecognizerStateChanged: {
-            CGPoint currentPoint = [recognize translationInView:self.addPhotosView];
+            CGPoint currentPoint = [recognize translationInView:self.uploadPostView];
             recognize.view.center = CGPointMake(recognize.view.center.x+currentPoint.x, recognize.view.center.y);
-            [recognize setTranslation:CGPointMake(0, 0) inView:self.addPhotosView];
-           CGFloat maxX = CGRectGetMaxX(self.uploadThisThatView.frame);
-            CGFloat minX = CGRectGetMinX(self.uploadThisThatView.frame);
-            if(maxX >=self.addPhotosView.frame.size.width){
-                self.uploadThisThatView.frame = CGRectMake(self.view.frame.size.width - 70, (self.view.frame.size.height/4)+205, 70 , 70);
+            [recognize setTranslation:CGPointMake(0, 0) inView:self.uploadPostView];
+           CGFloat maxX = CGRectGetMaxX(self.uploadPostSlideToUploadView.frame);
+            CGFloat minX = CGRectGetMinX(self.uploadPostSlideToUploadView.frame);
+            if(maxX >=self.uploadPostView.frame.size.width){
+                self.uploadPostSlideToUploadView.frame = CGRectMake(self.view.frame.size.width - 70, (self.view.frame.size.height/4)+205, 70 , 70);
             }
             if(minX <= 10){
-                self.uploadThisThatView.frame = CGRectMake(10, (self.view.frame.size.height/4)+205, 70 , 70);
+                self.uploadPostSlideToUploadView.frame = CGRectMake(10, (self.view.frame.size.height/4)+205, 70 , 70);
             }
         }
             break;
         case UIGestureRecognizerStateEnded: {
-            CGFloat getCurrentMinPanMin = CGRectGetMinX(self.uploadThisThatView.frame);
+            CGFloat getCurrentMinPanMin = CGRectGetMinX(self.uploadPostSlideToUploadView.frame);
             if(getCurrentMinPanMin >= (self.view.frame.size.width/2)){
                 
                 [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionCurveLinear animations:^{
-                    self.uploadThisThatView.frame = CGRectMake(self.view.frame.size.width - 70, (self.view.frame.size.height/4)+205, 70 , 70);
+                    self.uploadPostSlideToUploadView.frame = CGRectMake(self.view.frame.size.width - 70, (self.view.frame.size.height/4)+205, 70 , 70);
                 } completion:^(BOOL finished) {
                         [self uploadThisThat];
                     }];
             }
             else {
             [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionCurveLinear animations:^{
-                self.uploadThisThatView.frame = CGRectMake(10, (self.view.frame.size.height/4)+205, 70 , 70);
+                self.uploadPostSlideToUploadView.frame = CGRectMake(10, (self.view.frame.size.height/4)+205, 70 , 70);
             } completion:^(BOOL finished) {
                 
             }];
@@ -267,27 +336,27 @@
     }
     
 }
+//called when pan to upload post is complete
 -(void)uploadThisThat {
     [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
     [self uploadingNavBarDetail];
-    [self.addPhotosView removeFromSuperview];
+    [self.uploadPostView removeFromSuperview];
     [self.invisibleView removeFromSuperview];
    
     NSUserDefaults *userDefaultContents = [NSUserDefaults standardUserDefaults];
     NSObject *userToken = [userDefaultContents objectForKey:@"tokenIDString"];
-    self.uploadPathString = [NSString stringWithFormat:@"/api/v1/thisthats/?access_token=%@",userToken];
-    self.uploadImageOneData = [self compressImage:self.uploadTempImageOne];
-    self.uploadImageTwoData = [self compressImage:self.uploadTempImageTwo];
-    if([self.textViewInput.text isEqualToString:@"What are you comparing?"]) {
-        self.textViewInput.text = @"";
+    self.uploadPostPathString = [NSString stringWithFormat:@"/api/v1/thisthats/?access_token=%@",userToken];
+    self.uploadPostImageOneData = [self compressImage:self.uploadPostTempImageOne];
+    self.uploadPostImageTwoData = [self compressImage:self.uploadPostTempImageTwo];
+    if([self.uploadPostTextView.text isEqualToString:@"What are you comparing?"]) {
+        self.uploadPostTextView.text = @"";
     }
-    self.uploadTextViewParameters = @{@"message" : self.textViewInput.text};
-    NSLog(@"\npathToVote:%@",self.uploadPathString);
+    self.uploadPostDictionaryTextViewContents = @{@"message" : self.uploadPostTextView.text};
     
-    NSMutableURLRequest *request = [[RKObjectManager sharedManager]multipartFormRequestWithObject:[objects class] method:RKRequestMethodPOST path:self.uploadPathString parameters:self.uploadTextViewParameters constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
-        [formData appendPartWithFileData:self.uploadImageOneData name:@"image1" fileName:@"photo.jpg" mimeType:@"image/jpeg"];
-        [formData appendPartWithFileData:self.uploadImageTwoData name:@"image2" fileName:@"photo.jpg" mimeType:@"image/jpeg"];
+    NSMutableURLRequest *request = [[RKObjectManager sharedManager]multipartFormRequestWithObject:[objects class] method:RKRequestMethodPOST path:self.uploadPostPathString parameters:self.uploadPostDictionaryTextViewContents constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+        [formData appendPartWithFileData:self.uploadPostImageOneData name:@"image1" fileName:@"photo.jpg" mimeType:@"image/jpeg"];
+        [formData appendPartWithFileData:self.uploadPostImageTwoData name:@"image2" fileName:@"photo.jpg" mimeType:@"image/jpeg"];
     }];
     
     RKObjectRequestOperation *operation = [[RKObjectManager sharedManager] objectRequestOperationWithRequest:request success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
@@ -303,54 +372,58 @@
     [operation start];
     
 }
+//if error in upload, save contents in dictionary to try again later
 -(void)errorSaveContentsOfUpload {
-    self.uploadErrorSaveContentsDictionary = [[NSMutableDictionary alloc] init];
-    [self.uploadErrorSaveContentsDictionary setObject:self.uploadPathString forKey:@"uploadPathString"];
-    [self.uploadErrorSaveContentsDictionary setObject:self.uploadImageOneData forKey:@"imageOneData"];
-    [self.uploadErrorSaveContentsDictionary setObject:self.uploadImageTwoData forKey:@"imageTwoData"];
-    [self.uploadErrorSaveContentsDictionary setObject:self.uploadTextViewParameters forKey:@"textContentsDict"];
+    self.uploadPostErrorMutableDictionarySaveContents = [[NSMutableDictionary alloc] init];
+    [self.uploadPostErrorMutableDictionarySaveContents setObject:self.uploadPostPathString forKey:@"uploadPathString"];
+    [self.uploadPostErrorMutableDictionarySaveContents setObject:self.uploadPostImageOneData forKey:@"imageOneData"];
+    [self.uploadPostErrorMutableDictionarySaveContents setObject:self.uploadPostImageTwoData forKey:@"imageTwoData"];
+    [self.uploadPostErrorMutableDictionarySaveContents setObject:self.uploadPostDictionaryTextViewContents forKey:@"textContentsDict"];
     
     
 }
+// upload progress displaye on nav bar
 -(void)uploadErrorUpdateNavBar {
-    self.uploadingNavBarLabel.text = @"Failed. Please try again.";
+    self.uploadPostNavigationBarUploadLabel.text = @"Failed. Please try again.";
     UIColor *redColor = [UIColor colorWithRed:(207/255.0) green:(70/255.0) blue:(51/255.0) alpha:1];
-    self.retryUploadButton = [[UIButton alloc] initWithFrame:CGRectMake(self.view.frame.size.width-50, [UIApplication sharedApplication].statusBarFrame.size.height+5, 40, 30)];
-    self.retryUploadButton.backgroundColor = [UIColor whiteColor];
-    [self.retryUploadButton setTitleColor:redColor forState:UIControlStateNormal];
-    self.retryUploadButton.titleLabel.adjustsFontSizeToFitWidth = YES;
-    self.retryUploadButton.titleLabel.minimumScaleFactor = 0.6;
-    [self.retryUploadButton setTitle:@"Retry" forState:UIControlStateNormal];
-    [self.retryUploadButton addTarget:self action:@selector(retryUpload:) forControlEvents:UIControlEventTouchUpInside];
-    [self.uploadingNavBarView addSubview:self.retryUploadButton];
+    self.uploadPostNavigationBarRetryUploadButton = [[UIButton alloc] initWithFrame:CGRectMake(self.view.frame.size.width-50, [UIApplication sharedApplication].statusBarFrame.size.height+5, 40, 30)];
+    self.uploadPostNavigationBarRetryUploadButton.backgroundColor = [UIColor whiteColor];
+    [self.uploadPostNavigationBarRetryUploadButton setTitleColor:redColor forState:UIControlStateNormal];
+    self.uploadPostNavigationBarRetryUploadButton.titleLabel.adjustsFontSizeToFitWidth = YES;
+    self.uploadPostNavigationBarRetryUploadButton.titleLabel.minimumScaleFactor = 0.6;
+    [self.uploadPostNavigationBarRetryUploadButton setTitle:@"Retry" forState:UIControlStateNormal];
+    [self.uploadPostNavigationBarRetryUploadButton addTarget:self action:@selector(retryUpload:) forControlEvents:UIControlEventTouchUpInside];
+    [self.uploadPostNavigationBarUploadView addSubview:self.uploadPostNavigationBarRetryUploadButton];
     
-    self.deleteFailedUploadButton = [[UIButton alloc] initWithFrame:CGRectMake(10, [UIApplication sharedApplication].statusBarFrame.size.height+5, 50, 30)];
-    self.deleteFailedUploadButton.backgroundColor = [UIColor whiteColor];
-    [self.deleteFailedUploadButton setTitleColor:redColor forState:UIControlStateNormal];
-    self.deleteFailedUploadButton.titleLabel.adjustsFontSizeToFitWidth = YES;
-    self.deleteFailedUploadButton.titleLabel.minimumScaleFactor = 0.6;
-    [self.deleteFailedUploadButton setTitle:@"Cancel" forState:UIControlStateNormal];
-    [self.deleteFailedUploadButton addTarget:self action:@selector(deleteUpload:) forControlEvents:UIControlEventTouchUpInside];
-    [self.uploadingNavBarView addSubview:self.deleteFailedUploadButton];
+    self.uploadPostNavigationBarDeleteUploadButton = [[UIButton alloc] initWithFrame:CGRectMake(10, [UIApplication sharedApplication].statusBarFrame.size.height+5, 50, 30)];
+    self.uploadPostNavigationBarDeleteUploadButton.backgroundColor = [UIColor whiteColor];
+    [self.uploadPostNavigationBarDeleteUploadButton setTitleColor:redColor forState:UIControlStateNormal];
+    self.uploadPostNavigationBarDeleteUploadButton.titleLabel.adjustsFontSizeToFitWidth = YES;
+    self.uploadPostNavigationBarDeleteUploadButton.titleLabel.minimumScaleFactor = 0.6;
+    [self.uploadPostNavigationBarDeleteUploadButton setTitle:@"Cancel" forState:UIControlStateNormal];
+    [self.uploadPostNavigationBarDeleteUploadButton addTarget:self action:@selector(deleteUpload:) forControlEvents:UIControlEventTouchUpInside];
+    [self.uploadPostNavigationBarUploadView addSubview:self.uploadPostNavigationBarDeleteUploadButton];
     
    // [self performSelector:@selector(removeUploadingNavViewFromSuperView) withObject:nil afterDelay:4];
 }
+//upload failed, delete upload
 -(void)deleteUpload:(UIButton*)button{
-    self.uploadingNavBarLabel.text = @"Upload was cancelled";
-    [self.retryUploadButton removeFromSuperview];
-    [self.deleteFailedUploadButton removeFromSuperview];
-    [self.uploadErrorSaveContentsDictionary removeAllObjects];
+    self.uploadPostNavigationBarUploadLabel.text = @"Upload was cancelled";
+    [self.uploadPostNavigationBarRetryUploadButton removeFromSuperview];
+    [self.uploadPostNavigationBarDeleteUploadButton removeFromSuperview];
+    [self.uploadPostErrorMutableDictionarySaveContents removeAllObjects];
     [self performSelector:@selector(removeUploadingNavViewFromSuperView) withObject:nil afterDelay:3];
     
 }
+//upload failed, try uploading again
 -(void)retryUpload:(UIButton*)button {
-    [self.retryUploadButton removeFromSuperview];
-    [self.deleteFailedUploadButton removeFromSuperview];
-    self.uploadingNavBarLabel.text = @"uploading your thisThat..";
-    NSString *pathString =  [self.uploadErrorSaveContentsDictionary objectForKey:@"uploadPathString"];
-    NSData *imageOneData = [self.uploadErrorSaveContentsDictionary objectForKey:@"imageOneData"];
-    NSData *imageTwoData = [self.uploadErrorSaveContentsDictionary objectForKey:@"imageTwoData"];
-    NSDictionary *parameters = [self.uploadErrorSaveContentsDictionary objectForKey:@"textContentsDict"];
+    [self.uploadPostNavigationBarRetryUploadButton removeFromSuperview];
+    [self.uploadPostNavigationBarDeleteUploadButton removeFromSuperview];
+    self.uploadPostNavigationBarUploadLabel.text = @"uploading your thisThat..";
+    NSString *pathString =  [self.uploadPostErrorMutableDictionarySaveContents objectForKey:@"uploadPathString"];
+    NSData *imageOneData = [self.uploadPostErrorMutableDictionarySaveContents objectForKey:@"imageOneData"];
+    NSData *imageTwoData = [self.uploadPostErrorMutableDictionarySaveContents objectForKey:@"imageTwoData"];
+    NSDictionary *parameters = [self.uploadPostErrorMutableDictionarySaveContents objectForKey:@"textContentsDict"];
     
     NSMutableURLRequest *request = [[RKObjectManager sharedManager]multipartFormRequestWithObject:[objects class] method:RKRequestMethodPOST path:pathString parameters:parameters constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
         [formData appendPartWithFileData:imageOneData name:@"image1" fileName:@"photo.jpg" mimeType:@"image/jpeg"];
@@ -359,7 +432,7 @@
     
     RKObjectRequestOperation *operation = [[RKObjectManager sharedManager] objectRequestOperationWithRequest:request success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
         [self performSelector:@selector(uploadSuccesfulUpdateNavBar) withObject:nil afterDelay:2];
-        [self.uploadErrorSaveContentsDictionary removeAllObjects];
+        [self.uploadPostErrorMutableDictionarySaveContents removeAllObjects];
         NSLog(@"succss");
         
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
@@ -370,29 +443,32 @@
     [operation start];
     
 }
+//upload successful, displayed on nav bar
 -(void)uploadSuccesfulUpdateNavBar{
     UIImage *checkimage = [UIImage imageNamed:@"check.png"];
-    self.uploadingNavBarImageView = [[UIImageView alloc] initWithFrame:CGRectMake(10, [UIApplication sharedApplication].statusBarFrame.size.height, 45, 45)];
-    self.uploadingNavBarImageView.image = checkimage;
-    [self.uploadingNavBarView addSubview:self.uploadingNavBarImageView];
-    self.uploadingNavBarLabel.text = @"thisThat uploaded successfully";
+    self.uploadPostNavigationBarUploadImageView = [[UIImageView alloc] initWithFrame:CGRectMake(10, [UIApplication sharedApplication].statusBarFrame.size.height, 45, 45)];
+    self.uploadPostNavigationBarUploadImageView.image = checkimage;
+    [self.uploadPostNavigationBarUploadView addSubview:self.uploadPostNavigationBarUploadImageView];
+    self.uploadPostNavigationBarUploadLabel.text = @"thisThat uploaded successfully";
     [self performSelector:@selector(removeUploadingNavViewFromSuperView) withObject:nil afterDelay:4];
 
 }
+//remove nav bar from view
 -(void)removeUploadingNavViewFromSuperView {
-    [self.uploadingNavBarView removeFromSuperview];
+    [self.uploadPostNavigationBarUploadView removeFromSuperview];
     
 }
+//upload post, allow location to be found
 -(void)onOffSwitch:(id)recognize {
     if([recognize isOn]){
         NSLog(@"switchON");
-        self.addressLabel.text = @"Retrieving location..";
+        self.uploadPostAddressLabel.text = @"Retrieving location..";
         [locationManager startUpdatingLocation];
         locationManager.desiredAccuracy = kCLLocationAccuracyBest;
     }
     else {
         NSLog(@"switchOff");
-        self.addressLabel.text = @"Earth";
+        self.uploadPostAddressLabel.text = @"Earth";
     }
 }
 -(void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error {
@@ -405,56 +481,53 @@
     [geocoder reverseGeocodeLocation:currentLocation completionHandler:^(NSArray *placemarks, NSError *error) {
         if(error == nil && [placemarks count]>0) {
             placemark = [placemarks lastObject];
-            self.addressLabel.text = [NSString stringWithFormat:@"%@ %@, %@",placemark.locality, placemark.administrativeArea, placemark.country];
+            self.uploadPostAddressLabel.text = [NSString stringWithFormat:@"%@ %@, %@",placemark.locality, placemark.administrativeArea, placemark.country];
         }
     }];
 }
-
+//upload see photos 1/2 size of viewscreen
 -(void)previewUploadThisThat:(UIButton *)recognize {
     
-    self.uploadTempImageView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
-    self.uploadTempImageView.backgroundColor = [UIColor whiteColor];
-    [self.addPhotosView addSubview:self.uploadTempImageView];
-    UIImageView *imageViewOne = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, (self.view.frame.size.height/2))];
-    imageViewOne.image = [self cropImage:self.uploadTempImageOne cropSize:CGSizeMake(self.view.frame.size.width, self.uploadTempImageView.frame.size.height/2)];
+    self.uploadPostViewForImageViews = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
+    self.uploadPostViewForImageViews.backgroundColor = [UIColor whiteColor];
+    [self.uploadPostView addSubview:self.uploadPostViewForImageViews];
+    self.uploadPostImageViewOne = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, (self.view.frame.size.height/2))];
+    self.uploadPostImageViewOne.image = [self cropImage:self.uploadPostTempImageOne cropSize:CGSizeMake(self.view.frame.size.width, self.uploadPostViewForImageViews.frame.size.height/2)];
 
-    // imageViewOne.image = self.uploadTempImageOne;
-   
-    // imageViewOne.clipsToBounds = YES;
-   // imageViewOne.contentMode = UIViewContentModeScaleAspectFill;
-    [self.uploadTempImageView addSubview:imageViewOne];
-    self.uploadTapFullSizeImageOne = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(uploadTapToSeeFullSizeImage:)];
-    [imageViewOne setUserInteractionEnabled:YES];
-    [imageViewOne addGestureRecognizer:self.uploadTapFullSizeImageOne];
-    UIImageView *imageViewTwo = [[UIImageView alloc] initWithFrame:CGRectMake(0, (self.view.frame.size.height/2), self.view.frame.size.width, self.view.frame.size.height/2)];
-    imageViewTwo.image = [self cropImage:self.uploadTempImageTwo cropSize:CGSizeMake(self.view.frame.size.width, self.uploadTempImageView.frame.size.height/2)];
-   // imageViewTwo.image = self.uploadTempImageTwo;
-    //imageViewTwo.clipsToBounds = YES;
-    //imageViewTwo.contentMode = UIViewContentModeScaleAspectFill;
-    [self.uploadTempImageView addSubview:imageViewTwo];
-    self.uploadTapFullSizeImageTwo = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(uploadTapToSeeFullSizeImage:)];
-    [imageViewTwo setUserInteractionEnabled:YES];
-    [imageViewTwo addGestureRecognizer:self.uploadTapFullSizeImageTwo];
+    
+    [self.uploadPostViewForImageViews addSubview:self.uploadPostImageViewOne];
+    self.uploadPostTapGestureToOpenImageViewOne = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(uploadTapToSeeFullSizeImage:)];
+    [self.uploadPostImageViewOne setUserInteractionEnabled:YES];
+    [self.uploadPostImageViewOne addGestureRecognizer:self.uploadPostTapGestureToOpenImageViewOne];
+    
+    self.uploadPostImageViewTwo = [[UIImageView alloc] initWithFrame:CGRectMake(0, (self.view.frame.size.height/2), self.view.frame.size.width, self.view.frame.size.height/2)];
+    self.uploadPostImageViewTwo.image = [self cropImage:self.uploadPostTempImageTwo cropSize:CGSizeMake(self.view.frame.size.width, self.uploadPostViewForImageViews.frame.size.height/2)];
+
+    [self.uploadPostViewForImageViews addSubview:self.uploadPostImageViewTwo];
+    self.uploadPostTapGestureToOpenImageViewTwo = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(uploadTapToSeeFullSizeImage:)];
+    [self.uploadPostImageViewTwo setUserInteractionEnabled:YES];
+    [self.uploadPostImageViewTwo addGestureRecognizer:self.uploadPostTapGestureToOpenImageViewTwo];
     
     
     
-    self.pinchToCloseUploadPreview = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(recognizePinchToCloseCurrentView:)];
-    [self.uploadTempImageView addGestureRecognizer:self.pinchToCloseUploadPreview];
+    self.uploadPostPinchGestureImageViews = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(recognizePinchToCloseCurrentView:)];
+    [self.uploadPostViewForImageViews addGestureRecognizer:self.uploadPostPinchGestureImageViews];
     
     
 }
+//upload see fullsize photos
 -(void)uploadTapToSeeFullSizeImage:(UITapGestureRecognizer*)recognize {
-    self.uploadViewForFullSizeImageView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
-    self.uploadViewForFullSizeImageView.backgroundColor = [UIColor blackColor];
-    [self.uploadTempImageView addSubview:self.uploadViewForFullSizeImageView];
+    self.uploadPostViewForFullSizeImageView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
+    self.uploadPostViewForFullSizeImageView.backgroundColor = [UIColor blackColor];
+    [self.uploadPostViewForImageViews addSubview:self.uploadPostViewForFullSizeImageView];
     self.uploadFullSizeImageView = [[UIImageView alloc] initWithFrame:self.view.frame];
-    if(recognize == self.uploadTapFullSizeImageOne){
-        self.uploadFullSizeImageView = [self inputImage:self.uploadTempImageOne];
+    if(recognize == self.uploadPostTapGestureToOpenImageViewOne){
+        self.uploadFullSizeImageView = [self inputImage:self.uploadPostTempImageOne];
     }
-    if(recognize == self.uploadTapFullSizeImageTwo){
-        self.uploadFullSizeImageView = [self inputImage:self.uploadTempImageTwo];
+    if(recognize == self.uploadPostTapGestureToOpenImageViewTwo){
+        self.uploadFullSizeImageView = [self inputImage:self.uploadPostTempImageTwo];
     }
-    [self.uploadViewForFullSizeImageView addSubview:self.uploadFullSizeImageView];
+    [self.uploadPostViewForFullSizeImageView addSubview:self.uploadFullSizeImageView];
     self.uploadCloseFullSizeImageView = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(uploadTapToCloseFullSizeImageView:)];
     [self.uploadFullSizeImageView setUserInteractionEnabled:YES];
     [self.uploadFullSizeImageView addGestureRecognizer:self.uploadCloseFullSizeImageView];
@@ -462,14 +535,16 @@
     
 }
 -(void)uploadTapToCloseFullSizeImageView:(UITapGestureRecognizer*)recognize{
-    [self.uploadViewForFullSizeImageView removeFromSuperview];
+    [self.uploadPostViewForFullSizeImageView removeFromSuperview];
 }
+//action to load personal posts
 - (IBAction)personalPosts:(id)sender {
    // [self initalizeTableView];
     [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationFade];
 
     [self loadPersonalPosts];
     }
+//initalize personal posts tableview
 -(void)initalizeTableView{
     CGFloat widthFrame = CGRectGetWidth(self.view.frame);
     CGFloat heightFrame = CGRectGetHeight(self.view.frame);
@@ -479,13 +554,12 @@
 
         self.personalPostsTableView.frame = tableViewSize;
    
-    self.pinchRecognizerPersonalPosts = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(recognizePinchToCloseCurrentView:)];
-    [self.personalPostsTableView addGestureRecognizer:self.pinchRecognizerPersonalPosts];
+    self.personalPostsPinchGesture = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(recognizePinchToCloseCurrentView:)];
+    [self.personalPostsTableView addGestureRecognizer:self.personalPostsPinchGesture];
     
     self.personalPostsTableView.delegate = self;
     self.personalPostsTableView.dataSource = self;
     self.personalPostsTableView.backgroundColor = [UIColor whiteColor];
-    //self.personalPostsTableView.rowHeight = (heightFrame/4)+100;
     self.personalPostsTableView.rowHeight = (widthFrame/2)+130;
     
     self.personalPostsTableView.userInteractionEnabled = YES;
@@ -496,6 +570,7 @@
     [self.personalPostsTableView setSeparatorColor:[UIColor darkGrayColor]];
     
 }
+//initalize posts Voted On Tableview
 -(void)initalizePostsVotedOnTableView{
     CGFloat widthFrame = CGRectGetWidth(self.view.frame);
     CGFloat heightFrame = CGRectGetHeight(self.view.frame);
@@ -505,8 +580,8 @@
 
         self.postsVotedOnTableView.frame = tableViewSize;
     
-    self.pinchRecognizerPostsVotedOn = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(recognizePinchToCloseCurrentView:)];
-    [self.postsVotedOnTableView addGestureRecognizer:self.pinchRecognizerPostsVotedOn];
+    self.postsVotedOnPinchGesture = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(recognizePinchToCloseCurrentView:)];
+    [self.postsVotedOnTableView addGestureRecognizer:self.postsVotedOnPinchGesture];
     self.postsVotedOnTableView.delegate = self;
     self.postsVotedOnTableView.dataSource = self;
     self.postsVotedOnTableView.backgroundColor = [UIColor whiteColor];
@@ -518,6 +593,7 @@
     [self.postsVotedOnTableView registerClass:[personalPostsTableViewCell class] forCellReuseIdentifier:@"cell"];
     [self.navigationController.view addSubview:self.postsVotedOnTableView];
 }
+//number of sections in tableview, personal, voted on and settings
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     if(tableView == self.personalPostsTableView){
           if([self.personalPostsArray count] >=1) {
@@ -565,6 +641,7 @@
     }
     return 0;
 }
+//number of rows in tableview for personal, voted on and settings
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if(tableView == self.personalPostsTableView){
     return [self.personalPostsArray count];
@@ -591,6 +668,7 @@
         return 0;
     }
 }
+//tittle header for settings tableview
 -(NSString*)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
     if(tableView == self.settingsTableview) {
         if(section == 0) {
@@ -609,6 +687,7 @@
     }
     return @"";
 }
+//cell for row at index for personal, voted on and settings tableview
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     if(tableView == self.personalPostsTableView){
@@ -718,7 +797,7 @@
     cell.textContent.font = [UIFont systemFontOfSize:20];
         cell.textContent.textAlignment = NSTextAlignmentCenter;
     cell.textContent.text = personalPost.textContent;
- // cell.textContent.text = @"testing number of characters we can use yooooo son whats up with you? Manchester United of Course will get";
+        
         cell.totalVotesLabel = [[UILabel alloc] initWithFrame:CGRectMake(3*(cell.contentView.frame.size.width/4)-15, 100, (cell.contentView.frame.size.width/4)+5, 30)];
         cell.totalVotesLabel.backgroundColor = [UIColor clearColor];
         cell.totalVotesLabel.textColor = [UIColor lightGrayColor];
@@ -931,6 +1010,11 @@
             NSString *sectionOneString = [self.settingsSection2LabelArray objectAtIndex:indexPath.row];
             cell2.textLabel.text = sectionOneString;
             cell2.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+            UIImage *image = [self.twitterIntstagramImagesArray objectAtIndex:indexPath.row];
+            cell2.imageView.image = image;
+        
+            
+            
             return cell2;
         }
         if(section == 2) {
@@ -946,6 +1030,7 @@
             cell4.textLabel.textColor = [UIColor redColor];
             cell4.textLabel.text = sectionThreeString;
             cell4.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+
             
             return cell4;
         }
@@ -954,7 +1039,7 @@
     }
     
 }
-
+//selecting tableview row for personal, voted on and settings tableview
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
     
@@ -965,28 +1050,28 @@
     CGFloat minHeight = CGRectGetMinY(self.personalPostsTableView.bounds);
         self.invisibleViewTableView = [[UIView alloc] initWithFrame:CGRectMake(0, minHeight, self.view.frame.size.width, self.personalPostsTableView.frame.size.height)];
         [self.personalPostsTableView addSubview:self.invisibleViewTableView];
-    self.personalPostsBothImagesBackGroundView = [[UIView alloc] initWithFrame:CGRectMake(0, minHeight, self.view.frame.size.width, self.personalPostsTableView.frame.size.height)];
+    self.personalPostsViewForImageViews = [[UIView alloc] initWithFrame:CGRectMake(0, minHeight, self.view.frame.size.width, self.personalPostsTableView.frame.size.height)];
     
-    self.personalPostsBothImagesBackGroundView.backgroundColor = [UIColor blackColor];
-    [self.personalPostsTableView addSubview:self.personalPostsBothImagesBackGroundView];
-    self.pinchRecognizerPersonalPostsPreviewImages = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(recognizePinchToCloseCurrentView:)];
-    [self.personalPostsBothImagesBackGroundView addGestureRecognizer:self.pinchRecognizerPersonalPostsPreviewImages];
+    self.personalPostsViewForImageViews.backgroundColor = [UIColor blackColor];
+    [self.personalPostsTableView addSubview:self.personalPostsViewForImageViews];
+    self.personalPostsPinchGestureImageViews = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(recognizePinchToCloseCurrentView:)];
+    [self.personalPostsViewForImageViews addGestureRecognizer:self.personalPostsPinchGestureImageViews];
    
     
-    self.personalPostsImageOne = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.personalPostsTableView.frame.size.height/2)];
-        self.personalPostsImageOne.image = [self cropImage:cell.tempImageOne cropSize:CGSizeMake(self.view.frame.size.width, self.personalPostsTableView.frame.size.height/2)];
-        self.personalPostsImageOne.userInteractionEnabled = YES;
-       [self.personalPostsBothImagesBackGroundView addSubview:self.personalPostsImageOne];
-    self.personalPostsImageTwo = [[UIImageView alloc] initWithFrame:CGRectMake(0, self.personalPostsTableView.frame.size.height/2, self.view.frame.size.width, self.personalPostsTableView.frame.size.height/2)];
-    self.personalPostsImageTwo.image = [self cropImage:cell.tempImageTwo cropSize:CGSizeMake(self.view.frame.size.width, self.personalPostsTableView.frame.size.height/2)];
-        self.personalPostsImageTwo.userInteractionEnabled = YES;
-    [self.personalPostsBothImagesBackGroundView addSubview:self.personalPostsImageTwo];
+    self.personalPostsImageViewOne = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.personalPostsTableView.frame.size.height/2)];
+        self.personalPostsImageViewOne.image = [self cropImage:cell.tempImageOne cropSize:CGSizeMake(self.view.frame.size.width, self.personalPostsTableView.frame.size.height/2)];
+        self.personalPostsImageViewOne.userInteractionEnabled = YES;
+       [self.personalPostsViewForImageViews addSubview:self.personalPostsImageViewOne];
+    self.personalPostsImageViewTwo = [[UIImageView alloc] initWithFrame:CGRectMake(0, self.personalPostsTableView.frame.size.height/2, self.view.frame.size.width, self.personalPostsTableView.frame.size.height/2)];
+    self.personalPostsImageViewTwo.image = [self cropImage:cell.tempImageTwo cropSize:CGSizeMake(self.view.frame.size.width, self.personalPostsTableView.frame.size.height/2)];
+        self.personalPostsImageViewTwo.userInteractionEnabled = YES;
+    [self.personalPostsViewForImageViews addSubview:self.personalPostsImageViewTwo];
         
-        self.personalPostsTapImageOne = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(personalPostsTapRecognizer:)];
-        [self.personalPostsImageOne addGestureRecognizer:self.personalPostsTapImageOne];
+        self.personalPostsTapGestureToOpenImageViewOne = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(personalPostsTapRecognizer:)];
+        [self.personalPostsImageViewOne addGestureRecognizer:self.personalPostsTapGestureToOpenImageViewOne];
         
-        self.personalPostsTapImageTwo = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(personalPostsTapRecognizer:)];
-        [self.personalPostsImageTwo addGestureRecognizer:self.personalPostsTapImageTwo];
+        self.personalPostsTapGestureToOpenImageViewTwo = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(personalPostsTapRecognizer:)];
+        [self.personalPostsImageViewTwo addGestureRecognizer:self.personalPostsTapGestureToOpenImageViewTwo];
         
         
     [self.personalPostsTableView deselectRowAtIndexPath:[self.personalPostsTableView indexPathForSelectedRow] animated:YES];
@@ -994,31 +1079,30 @@
     if(tableView == self.postsVotedOnTableView){
         personalPostsTableViewCell *cell = (personalPostsTableViewCell*)[tableView cellForRowAtIndexPath:indexPath];
         self.postsVotedOnInexPath = indexPath;
-         objects *personalPost = [self.postsVotedOnArray objectAtIndex:indexPath.row];
+         objects *postsVotedOnObject = [self.postsVotedOnArray objectAtIndex:indexPath.row];
         self.postsVotedOnTableView.scrollEnabled = NO;
         CGFloat minHeight = CGRectGetMinY(self.postsVotedOnTableView.bounds);
         self.invisibleViewTableView = [[UIView alloc] initWithFrame:CGRectMake(0, minHeight, self.view.frame.size.width, self.postsVotedOnTableView.frame.size.height)];
         [self.postsVotedOnTableView addSubview:self.invisibleViewTableView];
-        self.postsVotedOnBothPhotosView = [[UIView alloc] initWithFrame:CGRectMake(0, minHeight, self.view.frame.size.width, self.postsVotedOnTableView.frame.size.height)];
-        //self.postsVotedOnBothPhotosView.backgroundColor = [UIColor blueColor];
-        [self.postsVotedOnTableView addSubview:self.postsVotedOnBothPhotosView];
-        self.pinchRecognizerPostsVotedOnPreviewView = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(recognizePinchToCloseCurrentView:)];
-        [self.postsVotedOnBothPhotosView addGestureRecognizer:self.pinchRecognizerPostsVotedOnPreviewView];
+        self.postsVotedOnViewForImageViews = [[UIView alloc] initWithFrame:CGRectMake(0, minHeight, self.view.frame.size.width, self.postsVotedOnTableView.frame.size.height)];
+        [self.postsVotedOnTableView addSubview:self.postsVotedOnViewForImageViews];
+        self.postsVotedOnPinchGestureImageViews = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(recognizePinchToCloseCurrentView:)];
+        [self.postsVotedOnViewForImageViews addGestureRecognizer:self.postsVotedOnPinchGestureImageViews];
         
         self.postsVotedOnImageViewOne = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.postsVotedOnTableView.frame.size.height/2)];
         self.postsVotedOnImageViewOne.image = [self cropImage:cell.tempImageOne cropSize:CGSizeMake(self.view.frame.size.width, self.postsVotedOnTableView.frame.size.height/2)];
-        [self.postsVotedOnBothPhotosView addSubview:self.postsVotedOnImageViewOne];
+        [self.postsVotedOnViewForImageViews addSubview:self.postsVotedOnImageViewOne];
         self.postsVotedOnImageViewOne.userInteractionEnabled = YES;
         self.postsVotedOnImageViewTwo = [[UIImageView alloc] initWithFrame:CGRectMake(0, self.postsVotedOnTableView.frame.size.height/2, self.view.frame.size.width, self.postsVotedOnTableView.frame.size.height/2)];
         self.postsVotedOnImageViewTwo.image = [self cropImage:cell.tempImageTwo cropSize:CGSizeMake(self.view.frame.size.width, self.postsVotedOnTableView.frame.size.height/2)];
-        [self.postsVotedOnBothPhotosView addSubview:self.postsVotedOnImageViewTwo];
+        [self.postsVotedOnViewForImageViews addSubview:self.postsVotedOnImageViewTwo];
         self.postsVotedOnImageViewTwo.userInteractionEnabled = YES;
         [self.postsVotedOnTableView deselectRowAtIndexPath:[self.postsVotedOnTableView indexPathForSelectedRow] animated:YES];
-        self.postsVotedOnTapImageOneFullSize = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(postsVotedOnTapRecognizer:)];
-        [self.postsVotedOnImageViewOne addGestureRecognizer:self.postsVotedOnTapImageOneFullSize];
-        self.postsVotedOnTapImageTwoFullSize = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(postsVotedOnTapRecognizer:)];
-        [self.postsVotedOnImageViewTwo addGestureRecognizer:self.postsVotedOnTapImageTwoFullSize];
-        NSInteger imageVotedFor = [personalPost.vote integerValue];
+        self.postsVotedOnTapGestureToOpenImageViewOne = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(postsVotedOnTapRecognizer:)];
+        [self.postsVotedOnImageViewOne addGestureRecognizer:self.postsVotedOnTapGestureToOpenImageViewOne];
+        self.postsVotedOnTapGestureToOpenImageViewTwo = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(postsVotedOnTapRecognizer:)];
+        [self.postsVotedOnImageViewTwo addGestureRecognizer:self.postsVotedOnTapGestureToOpenImageViewTwo];
+        NSInteger imageVotedFor = [postsVotedOnObject.vote integerValue];
         UIImage *greenCheckImage = [UIImage imageNamed:@"check.png"];
         UIImageView *greenCheckImageView = [[UIImageView alloc] init];
         greenCheckImageView.image = greenCheckImage;
@@ -1125,6 +1209,7 @@
     }
 
 }
+//logout action from settings tableview
 -(void)logoutAction {
     
     
@@ -1159,30 +1244,32 @@
     [self.invisibleView removeFromSuperview];
 
 }
-
+//dismissing new mail message from settings tableview
 -(void)mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error {
     [self dismissViewControllerAnimated:YES completion:nil];
 }
+//dismissing new text message view controller from settings tableview
 -(void)messageComposeViewController:(MFMessageComposeViewController *)controller didFinishWithResult:(MessageComposeResult)result {
     [self dismissViewControllerAnimated:YES completion:nil];
 }
+//personal posts tap gesture to see fullsize imageview
 -(void)personalPostsTapRecognizer:(UITapGestureRecognizer*)recognize {
     personalPostsTableViewCell *cell = (personalPostsTableViewCell*)[self.personalPostsTableView cellForRowAtIndexPath:self.personalPostsIndexPath];
     self.personalPostsViewForFullSizeImageView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.personalPostsTableView.frame.size.height)];
     self.personalPostsViewForFullSizeImageView.backgroundColor = [UIColor blackColor];
-    [self.personalPostsBothImagesBackGroundView addSubview:self.personalPostsViewForFullSizeImageView];
-    if(recognize == self.personalPostsTapImageOne){
+    [self.personalPostsViewForImageViews addSubview:self.personalPostsViewForFullSizeImageView];
+    if(recognize == self.personalPostsTapGestureToOpenImageViewOne){
     
         self.personalPostsFullSizeImageView = [self inputImage:cell.tempImageOne];
         [self.personalPostsViewForFullSizeImageView addSubview:self.personalPostsFullSizeImageView];
     }
-    if(recognize == self.personalPostsTapImageTwo){
+    if(recognize == self.personalPostsTapGestureToOpenImageViewTwo){
         self.personalPostsFullSizeImageView = [self inputImage:cell.tempImageTwo];
         [self.personalPostsViewForFullSizeImageView addSubview:self.personalPostsFullSizeImageView];
     }
     self.personalPostsFullSizeImageView.userInteractionEnabled = YES;
-    self.personalPostsTapToCloseFullSizeImageView = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(personalPostsCloseFullSizeImage:)];
-    [self.personalPostsFullSizeImageView addGestureRecognizer:self.personalPostsTapToCloseFullSizeImageView];
+    self.personalPostsTapGestureToCloseFullSizeImageView = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(personalPostsCloseFullSizeImage:)];
+    [self.personalPostsFullSizeImageView addGestureRecognizer:self.personalPostsTapGestureToCloseFullSizeImageView];
     
 }
 -(void)personalPostsCloseFullSizeImage:(UITapGestureRecognizer*)recognize {
@@ -1190,28 +1277,30 @@
     [self.personalPostsViewForFullSizeImageView removeFromSuperview];
 
 }
+//posts voted on tap gesture to see fullsize imageview
 -(void)postsVotedOnTapRecognizer:(UITapGestureRecognizer*)recognize {
     personalPostsTableViewCell *cell = (personalPostsTableViewCell*)[self.postsVotedOnTableView cellForRowAtIndexPath:self.postsVotedOnInexPath];
     
-    self.postsVotedOnFullSizeViewForImageView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.postsVotedOnTableView.frame.size.height)];
-    self.postsVotedOnFullSizeViewForImageView.backgroundColor = [UIColor blackColor];
-    [self.postsVotedOnBothPhotosView addSubview:self.postsVotedOnFullSizeViewForImageView];
-    if(recognize == self.postsVotedOnTapImageOneFullSize){
+    self.postsVotedOnViewForFullSizeImageView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.postsVotedOnTableView.frame.size.height)];
+    self.postsVotedOnViewForFullSizeImageView.backgroundColor = [UIColor blackColor];
+    [self.postsVotedOnViewForImageViews addSubview:self.postsVotedOnViewForFullSizeImageView];
+    if(recognize == self.postsVotedOnTapGestureToOpenImageViewOne){
         self.postsVotedOnFullSizeImageView = [self inputImage:cell.tempImageOne];
-        [self.postsVotedOnFullSizeViewForImageView addSubview:self.postsVotedOnFullSizeImageView];
+        [self.postsVotedOnViewForFullSizeImageView addSubview:self.postsVotedOnFullSizeImageView];
         
     }
-    if(recognize == self.postsVotedOnTapImageTwoFullSize){
+    if(recognize == self.postsVotedOnTapGestureToOpenImageViewTwo){
         self.postsVotedOnFullSizeImageView = [self inputImage:cell.tempImageTwo];
-        [self.postsVotedOnFullSizeViewForImageView addSubview:self.postsVotedOnFullSizeImageView];
+        [self.postsVotedOnViewForFullSizeImageView addSubview:self.postsVotedOnFullSizeImageView];
     }
     self.postsVotedOnFullSizeImageView.userInteractionEnabled = YES;
     self.postsVotedOnTapCloseFullSizeImageView = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(postsVotedOnCloseFullSizeImage:)];
     [self.postsVotedOnFullSizeImageView addGestureRecognizer:self.postsVotedOnTapCloseFullSizeImageView];
 }
 -(void)postsVotedOnCloseFullSizeImage:(UITapGestureRecognizer*)recognize {
-    [self.postsVotedOnFullSizeViewForImageView removeFromSuperview];
+    [self.postsVotedOnViewForFullSizeImageView removeFromSuperview];
 }
+// allowing personal posts tableview to be edited for slide to delete
 -(BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
     if(tableView == self.personalPostsTableView){
         return YES;
@@ -1220,6 +1309,7 @@
         return NO;
     }
 }
+//slide to delete on personal posts tabelview
 -(void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     if(tableView == self.personalPostsTableView){
     if(editingStyle == UITableViewCellEditingStyleDelete) {
@@ -1244,26 +1334,25 @@
         }
     }
 }
-
+// upload post text view begin editing
 -(BOOL)textViewShouldBeginEditing:(UITextView *)textView {
-    if([self.textViewInput.text isEqualToString:@"What are you comparing?"]) {
-        self.textViewInput.text = @"";
+    if([self.uploadPostTextView.text isEqualToString:@"What are you comparing?"]) {
+        self.uploadPostTextView.text = @"";
     }
    
     return YES;
 }
+//upload post text view end edditing
 -(BOOL)textViewShouldEndEditing:(UITextView *)textView {
-    if([self.textViewInput.text isEqualToString:@""]){
-        self.textViewInput.text = @"What are you comparing?";
+    if([self.uploadPostTextView.text isEqualToString:@""]){
+        self.uploadPostTextView.text = @"What are you comparing?";
     } else {
-        self.uploadTextViewString = self.textViewInput.text;
-        NSLog(@"textViewSting:%@",self.uploadTextViewString);
-        
+        self.uploadPostTextViewString = self.uploadPostTextView.text;       
     }
     return YES;
 }
 
-
+//setting maximum number of charcters in upload text to 100
 -(BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text{
     if([text rangeOfCharacterFromSet:[NSCharacterSet newlineCharacterSet]].location == NSNotFound) {
         NSString *newString = [textView.text stringByReplacingCharactersInRange:range withString:text];
@@ -1273,15 +1362,15 @@
     return NO;
 }
 
-
+//determingin which camera button was pressed for imagepicker and initalizing imagepicker
 -(void)takePhotoButtonPressed:(UIButton*)button {
     
     
-    if(button == self.buttonImageOne){
+    if(button == self.uploadPostCameraButtonOne){
         self.selectedCameraInt = 1;
         NSLog(@"buttonOnePressed");
     }
-    if(button == self.buttonImageTwo){
+    if(button == self.uploadPostCameraButtonTwo){
         self.selectedCameraInt = 2;
         NSLog(@"buttonTwoPressed");
     }
@@ -1291,13 +1380,13 @@
     self.imagePicker.sourceType = type;
     self.imagePicker.delegate = self;
     self.imagePicker.cameraFlashMode = UIImagePickerControllerCameraFlashModeOff;
-    self.viewLibraryPhotosButton = [[UIButton alloc] initWithFrame:CGRectMake((self.view.frame.size.width/2)-75,5, 150, 30)];
-    [self.viewLibraryPhotosButton setTitle:@"Photo Library" forState:UIControlStateNormal];
-    [self.viewLibraryPhotosButton addTarget:self action:@selector(photoLibrary:) forControlEvents:UIControlEventTouchUpInside];
+    self.uploadPostLibraryPhotosButton = [[UIButton alloc] initWithFrame:CGRectMake((self.view.frame.size.width/2)-75,5, 150, 30)];
+    [self.uploadPostLibraryPhotosButton setTitle:@"Photo Library" forState:UIControlStateNormal];
+    [self.uploadPostLibraryPhotosButton addTarget:self action:@selector(photoLibrary:) forControlEvents:UIControlEventTouchUpInside];
     
     
     self.imagePicker.toolbarHidden = YES;
-    [self.imagePicker.view addSubview:self.viewLibraryPhotosButton];
+    [self.imagePicker.view addSubview:self.uploadPostLibraryPhotosButton];
     [self presentViewController:self.imagePicker animated:YES completion:nil];
 
     
@@ -1305,57 +1394,57 @@
     
    
 }
-
+//initalize photolibary to choose photos from
 -(void)photoLibrary:(UIButton*)recognize {
-   // [self.viewLibraryPhotosButton setHidden:YES];
     UIImagePickerControllerSourceType type;
     type = UIImagePickerControllerSourceTypePhotoLibrary;
     self.imagePicker.sourceType = type;
 }
+//returning image whether it is captured or picked from library
 -(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
-    [self.viewLibraryPhotosButton setHidden:YES];
+    [self.uploadPostLibraryPhotosButton setHidden:YES];
     if(self.selectedCameraInt == 1) {
         NSLog(@"YOLOONE");
-        self.uploadTempImageOne = [[UIImage alloc] init];
-        self.uploadTempImageOne = [info objectForKey:UIImagePickerControllerOriginalImage];
-        [[self.buttonImageOne imageView] setContentMode:UIViewContentModeScaleAspectFill];
-        [self.buttonImageOne setImage:self.uploadTempImageOne forState:UIControlStateNormal];
-        [self.buttonImageOne setTitle:@"" forState:UIControlStateNormal];
+        self.uploadPostTempImageOne = [[UIImage alloc] init];
+        self.uploadPostTempImageOne = [info objectForKey:UIImagePickerControllerOriginalImage];
+        [[self.uploadPostCameraButtonOne imageView] setContentMode:UIViewContentModeScaleAspectFill];
+        [self.uploadPostCameraButtonOne setImage:self.uploadPostTempImageOne forState:UIControlStateNormal];
+        [self.uploadPostCameraButtonOne setTitle:@"" forState:UIControlStateNormal];
     }
     if(self.selectedCameraInt == 2){
         NSLog(@"YOLOTWO");
-        self.uploadTempImageTwo = [[UIImage alloc] init];
-        self.uploadTempImageTwo = [info objectForKey:UIImagePickerControllerOriginalImage];
-        [[self.buttonImageTwo imageView] setContentMode:UIViewContentModeScaleAspectFill];
-        [self.buttonImageTwo setImage:self.uploadTempImageTwo forState:UIControlStateNormal];
-        [self.buttonImageTwo setTitle:@"" forState:UIControlStateNormal];
+        self.uploadPostTempImageTwo = [[UIImage alloc] init];
+        self.uploadPostTempImageTwo = [info objectForKey:UIImagePickerControllerOriginalImage];
+        [[self.uploadPostCameraButtonTwo imageView] setContentMode:UIViewContentModeScaleAspectFill];
+        [self.uploadPostCameraButtonTwo setImage:self.uploadPostTempImageTwo forState:UIControlStateNormal];
+        [self.uploadPostCameraButtonTwo setTitle:@"" forState:UIControlStateNormal];
        
     }
     [self dismissViewControllerAnimated:YES completion:nil];
-    if(self.uploadTempImageOne != nil && self.uploadTempImageTwo != nil) {
-        [self.uploadPreviewButton setHidden:NO];
-       // [self.uploadthisThatButton setHidden:NO];
-        [self.uploadThisThatView setHidden:NO];
+    if(self.uploadPostTempImageOne != nil && self.uploadPostTempImageTwo != nil) {
+        [self.uploadPostPreviewButton setHidden:NO];
+        [self.uploadPostSlideToUploadView setHidden:NO];
     }
     
 }
-
+//open newsfeed action
 - (IBAction)newsFeed:(id)sender {
     [self presentLoadingView];
     [self loadNewsFeedArray];
 
 }
+// news feed menu button to animate pictures to see text below it
 -(void)menuButtonSelected:(UIButton*)recognize{
-        [self.panRecognizerImageOne setEnabled:NO];
-        [self.panRecognizerImageTwo setEnabled:NO];
-        [self.tapToOpenImageOne setEnabled:NO];
-        [self.tapToOpenImageTwo setEnabled:NO];
-        [self.yellowMenuButotn setAlpha:0];
-        [self.viewForLabels setAlpha:1];
+        [self.newsFeedPanGestureImageViewOne setEnabled:NO];
+        [self.newsFeedPanGestureImageViewTwo setEnabled:NO];
+        [self.newsFeedTapGestureToOpenImageViewOne setEnabled:NO];
+        [self.newsFeedTapGestureToOpenImageViewTwo setEnabled:NO];
+        [self.newsFeedYellowMenuButton setAlpha:0];
+        [self.newsFeedViewForLabels setAlpha:1];
     [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionCurveEaseIn animations:^{
         
-        self.imageViewOneCurrent.frame =CGRectMake(0, -115, [self viewWidth], [self viewHeight]/2);
-        self.imageViewTwoCurrent.frame = CGRectMake(0, ([self viewHeight]/2)+115, [self viewWidth], [self viewHeight]/2);
+        self.newsFeedImageViewOne.frame =CGRectMake(0, -115, [self viewWidth], [self viewHeight]/2);
+        self.newsFeedImageViewTwo.frame = CGRectMake(0, ([self viewHeight]/2)+115, [self viewWidth], [self viewHeight]/2);
     } completion:^(BOOL finished) {
         UITapGestureRecognizer *closeMenu = [[UITapGestureRecognizer alloc] init];
         [closeMenu addTarget:self action:@selector(closeMenuSelector:)];
@@ -1364,46 +1453,48 @@
     }];
     
 }
+//news feed animate pictures to close to hide text
 -(void)closeMenuSelector:(UITapGestureRecognizer*)recognize{
     [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionCurveLinear animations:^{
-        self.imageViewOneCurrent.frame =CGRectMake(0, 0, [self viewWidth], [self viewHeight]/2);
-        self.imageViewTwoCurrent.frame = CGRectMake(0, ([self viewHeight]/2), [self viewWidth], [self viewHeight]/2);
+        self.newsFeedImageViewOne.frame =CGRectMake(0, 0, [self viewWidth], [self viewHeight]/2);
+        self.newsFeedImageViewTwo.frame = CGRectMake(0, ([self viewHeight]/2), [self viewWidth], [self viewHeight]/2);
         
     } completion:^(BOOL finished) {
-        [self.yellowMenuButotn setAlpha:1.0];
+        [self.newsFeedYellowMenuButton setAlpha:1.0];
         [self.newsFeedView removeGestureRecognizer:recognize];
-        [self.panRecognizerImageOne setEnabled:YES];
-        [self.panRecognizerImageTwo setEnabled:YES];
-        [self.tapToOpenImageOne setEnabled:YES];
-        [self.tapToOpenImageTwo setEnabled:YES];
-        [self.viewForLabels setAlpha:0];
+        [self.newsFeedPanGestureImageViewOne setEnabled:YES];
+        [self.newsFeedPanGestureImageViewTwo setEnabled:YES];
+        [self.newsFeedTapGestureToOpenImageViewOne setEnabled:YES];
+        [self.newsFeedTapGestureToOpenImageViewTwo setEnabled:YES];
+        [self.newsFeedViewForLabels setAlpha:0];
     }];
     
 }
+//news feed tap gesture to see fullsize image view
 -(void)recognizeTapToOpenImages:(UITapGestureRecognizer*)recognize {
     
-    self.viewForFullSizeImageView = [[UIView alloc] initWithFrame:self.view.frame];
-    self.viewForFullSizeImageView.backgroundColor = [UIColor blackColor];
-    [self.newsFeedView addSubview:self.viewForFullSizeImageView];
-    self.fullSizeImageView = [[UIImageView alloc] init];
-    if(recognize == self.tapToOpenImageOne){
-    self.fullSizeImageView = [self inputImage:self.tempImageOneCurrent];
-    [self.viewForFullSizeImageView addSubview:self.fullSizeImageView];
+    self.newsFeedViewForFullSizeImageView = [[UIView alloc] initWithFrame:self.view.frame];
+    self.newsFeedViewForFullSizeImageView.backgroundColor = [UIColor blackColor];
+    [self.newsFeedView addSubview:self.newsFeedViewForFullSizeImageView];
+    self.newsFeedFullSizeImageView = [[UIImageView alloc] init];
+    if(recognize == self.newsFeedTapGestureToOpenImageViewOne){
+    self.newsFeedFullSizeImageView = [self inputImage:self.newsFeedTempImageOne];
+    [self.newsFeedViewForFullSizeImageView addSubview:self.newsFeedFullSizeImageView];
     }
-    if(recognize == self.tapToOpenImageTwo){
-        self.fullSizeImageView = [self inputImage:self.tempImageTwoCurrent];
-        [self.viewForFullSizeImageView addSubview:self.fullSizeImageView];
+    if(recognize == self.newsFeedTapGestureToOpenImageViewTwo){
+        self.newsFeedFullSizeImageView = [self inputImage:self.newsFeedTempImageTwo];
+        [self.newsFeedViewForFullSizeImageView addSubview:self.newsFeedFullSizeImageView];
     }
-    self.tapToCloesImage = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(closeFullSizeView:)];
-    [self.viewForFullSizeImageView addGestureRecognizer:self.tapToCloesImage];
+    self.newsFeedTapGestureToCloseFullSizeImageView = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(closeFullSizeView:)];
+    [self.newsFeedViewForFullSizeImageView addGestureRecognizer:self.newsFeedTapGestureToCloseFullSizeImageView];
 }
 -(void)closeFullSizeView:(UITapGestureRecognizer *)recognize {
-    [self.viewForFullSizeImageView removeFromSuperview];
+    [self.newsFeedViewForFullSizeImageView removeFromSuperview];
 }
 
 
 // ****************************************************************************************************
-// Pinch Recognizer
+// Pinch Recognizer closing views
 
 -(void)recognizePinchToCloseCurrentView:(UIPinchGestureRecognizer *)recognize {
     
@@ -1416,28 +1507,28 @@
             break;
         case UIGestureRecognizerStateChanged:{
             if (factor < 1) {
-                if(recognize == self.pinchRecognizerNewsFeed){
+                if(recognize == self.newsFeedPinchGesture){
                 self.newsFeedView.transform = CGAffineTransformMakeScale(lastScaleFactor*factor, lastScaleFactor*factor);
             }
-                if(recognize == self.pinchToCloseView){
-                    self.addPhotosView.transform = CGAffineTransformMakeScale(lastScaleFactor*factor, lastScaleFactor*factor);
+                if(recognize == self.uploadPostPinchGesture){
+                    self.uploadPostView.transform = CGAffineTransformMakeScale(lastScaleFactor*factor, lastScaleFactor*factor);
                 }
-                if(recognize == self.pinchToCloseUploadPreview){
-                    self.uploadTempImageView.transform = CGAffineTransformMakeScale(lastScaleFactor*factor, lastScaleFactor*factor);
+                if(recognize == self.uploadPostPinchGestureImageViews){
+                    self.uploadPostViewForImageViews.transform = CGAffineTransformMakeScale(lastScaleFactor*factor, lastScaleFactor*factor);
                 }
-                if(recognize == self.pinchRecognizerPersonalPostsPreviewImages) {
-                    self.personalPostsBothImagesBackGroundView.transform = CGAffineTransformMakeScale(lastScaleFactor*factor, lastScaleFactor*factor);
+                if(recognize == self.personalPostsPinchGestureImageViews) {
+                    self.personalPostsViewForImageViews.transform = CGAffineTransformMakeScale(lastScaleFactor*factor, lastScaleFactor*factor);
                 }
-                if(recognize == self.pinchRecognizerPersonalPosts) {
+                if(recognize == self.personalPostsPinchGesture) {
                     self.personalPostsTableView.transform = CGAffineTransformMakeScale(lastScaleFactor*factor, lastScaleFactor*factor);
 
                 }
-                if(recognize == self.pinchRecognizerPostsVotedOn) {
+                if(recognize == self.postsVotedOnPinchGesture) {
                     self.postsVotedOnTableView.transform = CGAffineTransformMakeScale(lastScaleFactor*factor, lastScaleFactor*factor);
                     
                 }
-                if(recognize == self.pinchRecognizerPostsVotedOnPreviewView){
-                    self.postsVotedOnBothPhotosView.transform = CGAffineTransformMakeScale(lastScaleFactor*factor, lastScaleFactor*factor);
+                if(recognize == self.postsVotedOnPinchGestureImageViews){
+                    self.postsVotedOnViewForImageViews.transform = CGAffineTransformMakeScale(lastScaleFactor*factor, lastScaleFactor*factor);
                 }
                 if(recognize == self.pinchToCloseLoadingView){
                     self.loadingView.transform = CGAffineTransformMakeScale(lastScaleFactor*factor, lastScaleFactor*factor);
@@ -1447,46 +1538,46 @@
                 }
             }
             if(factor < 0.45) {
-                if(recognize == self.pinchRecognizerNewsFeed){
+                if(recognize == self.newsFeedPinchGesture){
                    [self.newsFeedView removeFromSuperview];
                     [self.invisibleView removeFromSuperview];
                     [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
                     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
 
                 }
-                if(recognize == self.pinchToCloseView){
-                    [self.addPhotosView removeFromSuperview];
+                if(recognize == self.uploadPostPinchGesture){
+                    [self.uploadPostView removeFromSuperview];
                     [self.invisibleView removeFromSuperview];
                     [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
                     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
 
                 }
-                if(recognize == self.pinchToCloseUploadPreview){
-                    [self.uploadTempImageView removeFromSuperview];
+                if(recognize == self.uploadPostPinchGestureImageViews){
+                    [self.uploadPostViewForImageViews removeFromSuperview];
                     
 
                 }
-                if(recognize == self.pinchRecognizerPersonalPostsPreviewImages){
-                    [self.personalPostsBothImagesBackGroundView removeFromSuperview];
+                if(recognize == self.personalPostsPinchGestureImageViews){
+                    [self.personalPostsViewForImageViews removeFromSuperview];
                     [self.invisibleViewTableView removeFromSuperview];
                     self.personalPostsTableView.scrollEnabled = YES;
                 }
-                if(recognize == self.pinchRecognizerPersonalPosts){
+                if(recognize == self.personalPostsPinchGesture){
                     [self.personalPostsTableView removeFromSuperview];
                     [self.invisibleView removeFromSuperview];
                     [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
                     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
 
                 }
-                if(recognize == self.pinchRecognizerPostsVotedOn){
+                if(recognize == self.postsVotedOnPinchGesture){
                     [self.postsVotedOnTableView removeFromSuperview];
                     [self.invisibleView removeFromSuperview];
                     [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
                     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
                     
                 }
-                if(recognize == self.pinchRecognizerPostsVotedOnPreviewView){
-                    [self.postsVotedOnBothPhotosView removeFromSuperview];
+                if(recognize == self.postsVotedOnPinchGestureImageViews){
+                    [self.postsVotedOnViewForImageViews removeFromSuperview];
                     [self.invisibleViewTableView removeFromSuperview];
                     self.postsVotedOnTableView.scrollEnabled = YES;
                 }
@@ -1505,52 +1596,52 @@
             break;
         case UIGestureRecognizerStateEnded: {
             if(factor > 0.45) {
-                if(recognize == self.pinchRecognizerNewsFeed){
+                if(recognize == self.newsFeedPinchGesture){
                     [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionCurveLinear animations:^{
                         self.newsFeedView.transform = CGAffineTransformMakeScale(lastScaleFactor, lastScaleFactor);
                     } completion:^(BOOL finished) {
                         
                     }];
                 }
-                if(recognize == self.pinchToCloseView){
+                if(recognize == self.uploadPostPinchGesture){
                     [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionCurveLinear animations:^{
-                        self.addPhotosView.transform = CGAffineTransformMakeScale(lastScaleFactor, lastScaleFactor);
+                        self.uploadPostView.transform = CGAffineTransformMakeScale(lastScaleFactor, lastScaleFactor);
                     } completion:^(BOOL finished) {
                         
                     }];
                     
                 }
-                if(recognize == self.pinchToCloseUploadPreview){
+                if(recognize == self.uploadPostPinchGestureImageViews){
                     [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionCurveLinear animations:^{
-                        self.uploadTempImageView.transform = CGAffineTransformMakeScale(lastScaleFactor, lastScaleFactor);
+                        self.uploadPostViewForImageViews.transform = CGAffineTransformMakeScale(lastScaleFactor, lastScaleFactor);
                     } completion:^(BOOL finished) {
                         
                     }];
                 }
-                if(recognize == self.pinchRecognizerPersonalPostsPreviewImages){
+                if(recognize == self.personalPostsPinchGestureImageViews){
                     [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionCurveLinear animations:^{
-                        self.personalPostsBothImagesBackGroundView.transform = CGAffineTransformMakeScale(lastScaleFactor, lastScaleFactor);
+                        self.personalPostsViewForImageViews.transform = CGAffineTransformMakeScale(lastScaleFactor, lastScaleFactor);
                     } completion:^(BOOL finished) {
                     
                     }];
                 }
-                if(recognize == self.pinchRecognizerPersonalPosts){
+                if(recognize == self.personalPostsPinchGesture){
                     [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionCurveLinear animations:^{
                         self.personalPostsTableView.transform = CGAffineTransformMakeScale(lastScaleFactor, lastScaleFactor);
                     } completion:^(BOOL finished) {
                         
                     }];
                 }
-                if(recognize == self.pinchRecognizerPostsVotedOn){
+                if(recognize == self.postsVotedOnPinchGesture){
                     [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionCurveLinear animations:^{
                         self.postsVotedOnTableView.transform = CGAffineTransformMakeScale(lastScaleFactor, lastScaleFactor);
                     } completion:^(BOOL finished) {
                         
                     }];
                 }
-                if(recognize == self.pinchRecognizerPostsVotedOnPreviewView){
+                if(recognize == self.postsVotedOnPinchGestureImageViews){
                     [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionCurveLinear animations:^{
-                        self.postsVotedOnBothPhotosView.transform = CGAffineTransformMakeScale(lastScaleFactor, lastScaleFactor);
+                        self.postsVotedOnViewForImageViews.transform = CGAffineTransformMakeScale(lastScaleFactor, lastScaleFactor);
                     } completion:^(BOOL finished) {
                         
                     }];
@@ -1578,9 +1669,7 @@
     
 }
     }
--(void)returnStatusbarToNormal {
-    [[[[UIApplication sharedApplication] delegate] window] setWindowLevel:UIWindowLevelStatusBar];
-}
+//pinch gesture personalposts needs to be moved with rest of pinch gestures
 -(void)recognizeThePinchPersonalPosts:(UIPinchGestureRecognizer *)recognize{
     CGFloat lastScaleFactor = 1;
     CGFloat factor = [(UIPinchGestureRecognizer *)recognize scale];
@@ -1619,51 +1708,47 @@
 }
 
 // ****************************************************************************************************
-// Pan Recognizer Image Current
+// Pan Recognizer Image Current in news feed for voting
 
 -(void)recognizeThePanImageCurrent:(UIPanGestureRecognizer *)recognize {
     CGFloat widthFrame = CGRectGetWidth(self.newsFeedView.frame);
     CGFloat heightFrame = CGRectGetHeight(self.newsFeedView.frame);
 
-   // CGFloat imageViewOneCurrentMaxX = CGRectGetMaxX(self.imageViewOneCurrent.frame);
-    CGFloat imageViewOneCurrentMinX = CGRectGetMinX(self.imageViewOneCurrent.frame);
-    CGFloat imageViewTwoCurrentMinX = CGRectGetMinX(self.imageViewTwoCurrent.frame);
+   
+    CGFloat imageViewOneCurrentMinX = CGRectGetMinX(self.newsFeedImageViewOne.frame);
+    CGFloat imageViewTwoCurrentMinX = CGRectGetMinX(self.newsFeedImageViewTwo.frame);
     CGFloat viewControllerMaxX = CGRectGetMaxX(self.view.frame);
     CGFloat viewControllerMinX = CGRectGetMinX(self.view.frame);
  
     switch (recognize.state) {
         case UIGestureRecognizerStateBegan:{
-            [self.yellowMenuButotn setAlpha:0];
-            if(recognize == self.panRecognizerImageOne){
-            [self.panRecognizerImageTwo setEnabled:NO];
-                [self.tapToOpenImageTwo setEnabled:NO];
+            [self.newsFeedYellowMenuButton setAlpha:0];
+            if(recognize == self.newsFeedPanGestureImageViewOne){
+            [self.newsFeedPanGestureImageViewTwo setEnabled:NO];
+                [self.newsFeedTapGestureToOpenImageViewTwo setEnabled:NO];
             }
-            if(recognize == self.panRecognizerImageTwo){
-                [self.panRecognizerImageOne setEnabled:NO];
-                [self.tapToOpenImageOne setEnabled:NO];
+            if(recognize == self.newsFeedPanGestureImageViewTwo){
+                [self.newsFeedPanGestureImageViewOne setEnabled:NO];
+                [self.newsFeedTapGestureToOpenImageViewOne setEnabled:NO];
             }
             
         }
             break;
         case UIGestureRecognizerStateChanged:{
             CGPoint currentPoint = [recognize translationInView:self.newsFeedView];
-            if(recognize == self.panRecognizerImageOne){
+            if(recognize == self.newsFeedPanGestureImageViewOne){
             recognize.view.center = CGPointMake(recognize.view.center.x + currentPoint.x, recognize.view.center.y);
             [recognize setTranslation:CGPointMake(0, 0) inView:self.newsFeedView];
-            self.imageViewTwoCurrent.center = CGPointMake(-recognize.view.center.x + currentPoint.x + widthFrame, recognize.view.center.y + heightFrame/2);
+            self.newsFeedImageViewTwo.center = CGPointMake(-recognize.view.center.x + currentPoint.x + widthFrame, recognize.view.center.y + heightFrame/2);
                 if(imageViewOneCurrentMinX > viewControllerMinX){//vote for image 1
                     
-                    CGFloat minXView = CGRectGetMinX(self.imageViewOneCurrent.frame);
+                    CGFloat minXView = CGRectGetMinX(self.newsFeedImageViewOne.frame);
                     CGFloat viewWdith = CGRectGetWidth(self.view.frame);
                     CGFloat alphaValue = [self minXImageView:minXView viewWdith:viewWdith];
                     CGFloat alphaValue2 = [self newMinXImageView:minXView newViewWdith:viewWdith];
-                    [self.voteForThisImageView setAlpha:alphaValue2];
-                    [self.notThatImageView setAlpha:alphaValue2];
-               /*     self.viewNewsFeedImageOneOverlay.backgroundColor = [self greenThisThatColor];
-                   [self.viewNewsFeedImageOneOverlay setAlpha:alphaValue];
-                    self.viewNewsFeedImageTwoOverlay.backgroundColor = [self redThisThatColor];
-                    [self.viewNewsFeedImageTwoOverlay setAlpha:alphaValue];*/
-                    
+                    [self.newsFeedVoteForThisImageView setAlpha:alphaValue2];
+                    [self.newsFeedNotThatImageView setAlpha:alphaValue2];
+                            
                    
                     [self.newsFeedImageOneCheckMarkView setAlpha:alphaValue];
                     [self.newsFeedImageOneXMarkView setAlpha:0];
@@ -1675,34 +1760,32 @@
                 }*/
                 if(imageViewTwoCurrentMinX > viewControllerMinX){//vote for image 2
                    
-                    CGFloat minXView = CGRectGetMinX(self.imageViewTwoCurrent.frame);
+                    CGFloat minXView = CGRectGetMinX(self.newsFeedImageViewTwo.frame);
                     CGFloat viewWdith = CGRectGetWidth(self.view.frame);
                     CGFloat alphaValue = [self minXImageView:minXView viewWdith:viewWdith];
                     CGFloat alphaValue2 = [self newMinXImageView:minXView newViewWdith:viewWdith];
                     
-                    [self.notThisImageView setAlpha:alphaValue2];
-                    [self.voteForThatImageView setAlpha:alphaValue2];
-                  //  self.viewNewsFeedImageOneOverlay.backgroundColor = [self redThisThatColor];
-                   // [self.viewNewsFeedImageOneOverlay setAlpha:alphaValue];
+                    [self.newsFeedNotThisImageView setAlpha:alphaValue2];
+                    [self.newsFeedVoteForThatImageView setAlpha:alphaValue2];
                     [self.newsFeedImageOneXMarkView setAlpha:alphaValue];
                     [self.newsFeedImageOneCheckMarkView setAlpha:0];
                     [self.newsFeedImageTwoCheckMarkView setAlpha:alphaValue];
                     [self.newsFeedImageTwoXMarkView setAlpha:0];
                 }
         }
-            if(recognize == self.panRecognizerImageTwo){
+            if(recognize == self.newsFeedPanGestureImageViewTwo){
                 recognize.view.center = CGPointMake(recognize.view.center.x + currentPoint.x, recognize.view.center.y);
                 [recognize setTranslation:CGPointZero inView:self.newsFeedView];
-                self.imageViewOneCurrent.center = CGPointMake(-recognize.view.center.x + currentPoint.x + widthFrame, recognize.view.center.y - heightFrame/2);
+                self.newsFeedImageViewOne.center = CGPointMake(-recognize.view.center.x + currentPoint.x + widthFrame, recognize.view.center.y - heightFrame/2);
                 if(imageViewOneCurrentMinX > viewControllerMinX){// vote for image 1
-                    CGFloat minXView = CGRectGetMinX(self.imageViewOneCurrent.frame);
+                    CGFloat minXView = CGRectGetMinX(self.newsFeedImageViewOne.frame);
                     CGFloat viewWdith = CGRectGetWidth(self.view.frame);
                     CGFloat alphaValue = [self minXImageView:minXView viewWdith:viewWdith];
                     CGFloat alphaValue2 = [self newMinXImageView:minXView newViewWdith:viewWdith];
                     
                     
-                    [self.voteForThisImageView setAlpha:alphaValue2];
-                    [self.notThatImageView setAlpha:alphaValue2];
+                    [self.newsFeedVoteForThisImageView setAlpha:alphaValue2];
+                    [self.newsFeedNotThatImageView setAlpha:alphaValue2];
                     [self.newsFeedImageOneCheckMarkView setAlpha:alphaValue];
                     [self.newsFeedImageOneXMarkView setAlpha:0];
                     [self.newsFeedImageTwoXMarkView setAlpha:alphaValue];
@@ -1710,12 +1793,12 @@
                     
                                    }
                 if(imageViewTwoCurrentMinX > viewControllerMinX){// vote for image 2
-                    CGFloat minXView = CGRectGetMinX(self.imageViewTwoCurrent.frame);
+                    CGFloat minXView = CGRectGetMinX(self.newsFeedImageViewTwo.frame);
                     CGFloat viewWdith = CGRectGetWidth(self.view.frame);
                     CGFloat alphaValue = [self minXImageView:minXView viewWdith:viewWdith];
                     CGFloat alphaValue2 = [self newMinXImageView:minXView newViewWdith:viewWdith];
-                    [self.notThisImageView setAlpha:alphaValue2];
-                    [self.voteForThatImageView setAlpha:alphaValue2];
+                    [self.newsFeedNotThisImageView setAlpha:alphaValue2];
+                    [self.newsFeedVoteForThatImageView setAlpha:alphaValue2];
                     
                     [self.newsFeedImageOneXMarkView setAlpha:alphaValue];
                     [self.newsFeedImageOneCheckMarkView setAlpha:0];
@@ -1729,17 +1812,17 @@
         default:
             break;
         case UIGestureRecognizerStateEnded:{
-            [self.panRecognizerImageOne setEnabled:YES];
-            [self.panRecognizerImageTwo setEnabled:YES];
-            [self.tapToOpenImageOne setEnabled:YES];
-            [self.tapToOpenImageTwo setEnabled:YES];
+            [self.newsFeedPanGestureImageViewOne setEnabled:YES];
+            [self.newsFeedPanGestureImageViewTwo setEnabled:YES];
+            [self.newsFeedTapGestureToOpenImageViewOne setEnabled:YES];
+            [self.newsFeedTapGestureToOpenImageViewTwo setEnabled:YES];
             // VOTE FOR IMAGE ONE
             if(imageViewOneCurrentMinX > 5*(viewControllerMaxX/10)){
                 self.voteCounter = 1;
                 [self voteForImage];
-                [self.voteForThisImageView setAlpha:1];
-                [self.notThatImageView setAlpha:1];
-                    CGFloat velocityX = fabsf([recognize velocityInView:self.imageViewOneCurrent].x);
+                [self.newsFeedVoteForThisImageView setAlpha:1];
+                [self.newsFeedNotThatImageView setAlpha:1];
+                    CGFloat velocityX = fabsf([recognize velocityInView:self.newsFeedImageViewOne].x);
                 NSLog(@"\nvelcotity:%f",velocityX);
                     CGFloat viewWidth = CGRectGetWidth(self.view.frame);
                     CGFloat distanceToOffScreen = fabsf(viewWidth - imageViewOneCurrentMinX);
@@ -1751,26 +1834,26 @@
       
                 
                 [UIView animateWithDuration:timeRemainingToOffScreen delay:0 options:UIViewAnimationOptionCurveEaseIn animations:^{
-                    self.imageViewOneCurrent.frame = CGRectMake(widthFrame, 0, widthFrame, heightFrame/2);
-                    self.imageViewTwoCurrent.frame = CGRectMake(-widthFrame, heightFrame/2, widthFrame, heightFrame/2);
+                    self.newsFeedImageViewOne.frame = CGRectMake(widthFrame, 0, widthFrame, heightFrame/2);
+                    self.newsFeedImageViewTwo.frame = CGRectMake(-widthFrame, heightFrame/2, widthFrame, heightFrame/2);
                     
                 } completion:^(BOOL finished) {
                     //[self loadImagesAfterSwipe];
                     [self imagesAreDonePreLoading];
-                    self.imageViewOneCurrent.frame = CGRectMake(0, -heightFrame/2, widthFrame, heightFrame/2);
-                    self.imageViewTwoCurrent.frame = CGRectMake(0, heightFrame, widthFrame, heightFrame/2);
+                    self.newsFeedImageViewOne.frame = CGRectMake(0, -heightFrame/2, widthFrame, heightFrame/2);
+                    self.newsFeedImageViewTwo.frame = CGRectMake(0, heightFrame, widthFrame, heightFrame/2);
                     [self.newsFeedImageOneCheckMarkView setAlpha:0];
                     [self.newsFeedImageTwoXMarkView setAlpha:0];
                     [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionCurveEaseIn animations:^{
-                        [self.voteForThisImageView setAlpha:0];
-                        [self.notThatImageView setAlpha:0];
+                        [self.newsFeedVoteForThisImageView setAlpha:0];
+                        [self.newsFeedNotThatImageView setAlpha:0];
                     } completion:^(BOOL finished) {
                         [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionCurveLinear animations:^{
-                            self.imageViewOneCurrent.frame =CGRectMake(0, 0, widthFrame, heightFrame/2);
-                            self.imageViewTwoCurrent.frame = CGRectMake(0, (heightFrame/2), widthFrame, heightFrame/2);
+                            self.newsFeedImageViewOne.frame =CGRectMake(0, 0, widthFrame, heightFrame/2);
+                            self.newsFeedImageViewTwo.frame = CGRectMake(0, (heightFrame/2), widthFrame, heightFrame/2);
                             
                         } completion:^(BOOL finished) {
-                            [self.yellowMenuButotn setAlpha:1.0];
+                            [self.newsFeedYellowMenuButton setAlpha:1.0];
                             
                         }];
 
@@ -1785,9 +1868,9 @@
             if(imageViewTwoCurrentMinX > 5*(viewControllerMaxX/10)){
                 self.voteCounter = 2;
                 [self voteForImage];
-                [self.notThisImageView setAlpha:1];
-                [self.voteForThatImageView setAlpha:1];
-                CGFloat velocityX = fabsf([recognize velocityInView:self.imageViewTwoCurrent].x);
+                [self.newsFeedNotThisImageView setAlpha:1];
+                [self.newsFeedVoteForThatImageView setAlpha:1];
+                CGFloat velocityX = fabsf([recognize velocityInView:self.newsFeedImageViewTwo].x);
                 NSLog(@"\nvelcotity:%f",velocityX);
                 CGFloat viewWidth = CGRectGetWidth(self.view.frame);
                 CGFloat distanceToOffScreen = fabsf(viewWidth - imageViewTwoCurrentMinX);
@@ -1798,25 +1881,25 @@
                 }
                 
                 [UIView animateWithDuration:timeRemainingToOffScreen delay:0 options:UIViewAnimationOptionCurveEaseIn animations:^{
-                    self.imageViewOneCurrent.frame = CGRectMake(-widthFrame, 0, widthFrame, heightFrame/2);
-                    self.imageViewTwoCurrent.frame = CGRectMake(widthFrame, heightFrame/2, widthFrame, heightFrame/2);
+                    self.newsFeedImageViewOne.frame = CGRectMake(-widthFrame, 0, widthFrame, heightFrame/2);
+                    self.newsFeedImageViewTwo.frame = CGRectMake(widthFrame, heightFrame/2, widthFrame, heightFrame/2);
                 } completion:^(BOOL finished) {
                     //[self loadImagesAfterSwipe];
                     [self imagesAreDonePreLoading];
-                    self.imageViewOneCurrent.frame = CGRectMake(0, -heightFrame/2, widthFrame, heightFrame/2);
-                    self.imageViewTwoCurrent.frame = CGRectMake(0, heightFrame, widthFrame, heightFrame/2);
+                    self.newsFeedImageViewOne.frame = CGRectMake(0, -heightFrame/2, widthFrame, heightFrame/2);
+                    self.newsFeedImageViewTwo.frame = CGRectMake(0, heightFrame, widthFrame, heightFrame/2);
                     [self.newsFeedImageOneXMarkView setAlpha:0];
                     [self.newsFeedImageTwoCheckMarkView setAlpha:0];
                     [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionCurveEaseIn animations:^{
-                        [self.notThisImageView setAlpha:0];
-                        [self.voteForThatImageView setAlpha:0];
+                        [self.newsFeedNotThisImageView setAlpha:0];
+                        [self.newsFeedVoteForThatImageView setAlpha:0];
                     } completion:^(BOOL finished) {
                         
                         [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionCurveLinear animations:^{
-                            self.imageViewOneCurrent.frame =CGRectMake(0, 0, widthFrame, heightFrame/2);
-                            self.imageViewTwoCurrent.frame = CGRectMake(0, (heightFrame/2), widthFrame, heightFrame/2);
+                            self.newsFeedImageViewOne.frame =CGRectMake(0, 0, widthFrame, heightFrame/2);
+                            self.newsFeedImageViewTwo.frame = CGRectMake(0, (heightFrame/2), widthFrame, heightFrame/2);
                         } completion:^(BOOL finished) {
-                            [self.yellowMenuButotn setAlpha:1.0];
+                            [self.newsFeedYellowMenuButton setAlpha:1.0];
                             
                         }];
                     }];
@@ -1828,20 +1911,20 @@
             }
             if(imageViewOneCurrentMinX < 5*(viewControllerMaxX/10) && imageViewTwoCurrentMinX < 5*(viewControllerMaxX/10)){
                 [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionCurveLinear animations:^{
-                    self.imageViewOneCurrent.frame = CGRectMake(0, 0, widthFrame, heightFrame/2);
-                    self.imageViewTwoCurrent.frame = CGRectMake(0, heightFrame/2, widthFrame, heightFrame/2);
+                    self.newsFeedImageViewOne.frame = CGRectMake(0, 0, widthFrame, heightFrame/2);
+                    self.newsFeedImageViewTwo.frame = CGRectMake(0, heightFrame/2, widthFrame, heightFrame/2);
          
-                    [self.voteForThisImageView setAlpha:0];
-                    [self.notThatImageView setAlpha:0];
-                    [self.notThisImageView setAlpha:0];
-                    [self.voteForThatImageView setAlpha:0];
+                    [self.newsFeedVoteForThisImageView setAlpha:0];
+                    [self.newsFeedNotThatImageView setAlpha:0];
+                    [self.newsFeedNotThisImageView setAlpha:0];
+                    [self.newsFeedVoteForThatImageView setAlpha:0];
                     [self.newsFeedImageOneCheckMarkView setAlpha:0];
                     [self.newsFeedImageOneXMarkView setAlpha:0];
                     [self.newsFeedImageTwoCheckMarkView setAlpha:0];
                     [self.newsFeedImageTwoXMarkView setAlpha:0];
                 } completion:^(BOOL finished) {
 
-                    [self.yellowMenuButotn setAlpha:1.0];
+                    [self.newsFeedYellowMenuButton setAlpha:1.0];
                 }];
             }
 
@@ -1849,7 +1932,7 @@
     }
     
 }
-
+//returning alpha value for opacity depending on amount panned
 -(CGFloat)minXImageView:(CGFloat)minXPosition viewWdith:(CGFloat)viewWdith {
     CGFloat percentCovered = minXPosition/viewWdith;
     if(percentCovered> 0.27) {
@@ -1885,6 +1968,7 @@
     
     
 }
+//second alpha value for opacity
 -(CGFloat)newMinXImageView:(CGFloat)minXPosition newViewWdith:(CGFloat)viewWdith {
     CGFloat percentCovered = minXPosition/viewWdith;
     if(percentCovered > 0.67) {
@@ -1924,34 +2008,6 @@
     
 }
 
-
--(void)recognizeTheLongPress:(UILongPressGestureRecognizer *)recognize {
-    switch (recognize.state) {
-        case UIGestureRecognizerStateBegan:{
-            [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionCurveLinear animations:^{
-                self.imageViewOneCurrent.frame =CGRectMake(0, -115, [self viewWidth], [self viewHeight]/2);
-               self.imageViewTwoCurrent.frame = CGRectMake(0, ([self viewHeight]/2)+115, [self viewWidth], [self viewHeight]/2);
-               
-
-            } completion:^(BOOL finished) {
-                
-            }];
-        }
-            break;
-        case UIGestureRecognizerStateEnded:{
-            [UIView animateWithDuration:0.2 delay:0 options:UIViewAnimationOptionCurveLinear animations:^{
-                self.imageViewOneCurrent.frame =CGRectMake(0, 0, [self viewWidth], [self viewHeight]/2);
-                self.imageViewTwoCurrent.frame = CGRectMake(0, ([self viewHeight]/2), [self viewWidth], [self viewHeight]/2);
-                
-            } completion:^(BOOL finished) {
-                
-            }];
-          
-        }
-        default:
-            break;
-    }
-}
 
 
 // ****************************************************************************************************
@@ -2026,7 +2082,7 @@
 }
 
 // ****************************************************************************************************
-// Load News Feed
+// news feed get request
 
 -(void)loadNewsFeedArray{
     NSUserDefaults *userDefaultContents = [NSUserDefaults standardUserDefaults];
@@ -2068,7 +2124,7 @@
     
 }
 // ****************************************************************************************************
-// Load Personal Posts
+// personal posts get request
 
 -(void)loadPersonalPosts {
     [self presentLoadingView];
@@ -2108,7 +2164,7 @@
 }
 
 // ****************************************************************************************************
-// Load Personal Posts
+// posts voted on get request
 
 -(void)loadPostsVotedOn {
     [self presentLoadingView];
@@ -2189,7 +2245,7 @@
     }
     return postingTime;
 }
-
+//resizing fullsize image to fit screen
 -(UIImageView*)inputImage:(UIImage*)image {
     CGFloat imageOriginalWidth = image.size.width;
     CGFloat imageOriginalHeight = image.size.height;
@@ -2209,20 +2265,8 @@
     return resizedImage;
     
 }
--(CGRect)inputImageForResizeFrame:(UIImage*)image {
-    CGFloat imageOriginalWidth = image.size.width;
-    CGFloat imageOriginalHeight = image.size.height;
-    CGFloat viewWidth = self.view.frame.size.width;
-    CGFloat viewHeight = self.view.frame.size.height;
-    CGFloat scaleFactor = imageOriginalWidth/viewWidth;
-    NSLog(@"scalefactor:%f",scaleFactor);
-    CGFloat newImageHeight = imageOriginalHeight/scaleFactor;
-    CGFloat yStartingPosition = (viewHeight - newImageHeight)/2;
-    CGRect newRect = CGRectMake(0, yStartingPosition, viewWidth, newImageHeight);
-    return newRect;
-    
-}
 
+//determing vote count percentage
 -(NSMutableArray*)voteCountOne:(NSNumber*)voteCountOne voteCountTwo:(NSNumber*)voteCountTwo{
     float voteCountOneFloat = [voteCountOne floatValue];
     float votecountTwoFloat = [voteCountTwo floatValue];
@@ -2247,10 +2291,8 @@
     return voteCountArray;
     
 }
--(BOOL)prefersStatusBarHidden {
-    return NO;
-}
-//BLUR
+
+//BLUR image unused
 - (UIImage *)blurWithCoreImage:(UIImage *)sourceImage
 {
     CIImage *inputImage = [CIImage imageWithCGImage:sourceImage.CGImage];
@@ -2293,29 +2335,18 @@
     
     return outputImage;
 }
-/*
--(void)downloadImageWithURL:(NSURL*)url completionBlock:(void (^)(BOOL succeeded, UIImage *image))completionBlock {
-    
-}*/
+
+//preload newsfeed images
 -(void)preLoadImages {
    
-    self.newsFeedMutableDictionary = [[NSMutableDictionary alloc] init];
+    
     self.newsFeedImageOneDictionary = [[NSMutableDictionary alloc] init];
     self.newsFeedImageTwoDictionary = [[NSMutableDictionary alloc] init];
-/*    self.newsFeedImagesMutableArray = [[NSMutableArray alloc] initWithCapacity:[self.newsFeedArray count]];
-    for(int i =0;i<[self.newsFeedArray count];i++){
-      [self.newsFeedImagesMutableArray insertObject:[NSNull null]atIndex:i];
-        
-    }
-    */
+
     if([self.newsFeedArray count] > 0){
     dispatch_group_t group = dispatch_group_create();
  
-   // SDWebImageManager *manager = [SDWebImageManager sharedManager];
-  //  manager.imageDownloader.maxConcurrentDownloads = 1;
-    
-
-    for(int i = 0; i < [self.newsFeedArray count]; i++) {
+      for(int i = 0; i < [self.newsFeedArray count]; i++) {
         UIImageView *imageViewOne = [[UIImageView alloc] init];
         __weak typeof(imageViewOne) weakImageViewOne = imageViewOne;
         UIImageView *imageViewTwo = [[UIImageView alloc] init];
@@ -2353,13 +2384,12 @@
 
         }];
     }
-    NSLog(@"mutableDictionaryContents:%@",self.newsFeedMutableDictionary);
+   
     dispatch_group_notify(group, dispatch_get_main_queue(), ^{
         [self.loadingView removeFromSuperview];
         NSLog(@"complete");
-    //    NSLog(@"contentsofArray:%@",self.newsFeedImagesMutableArray);
         NSLog(@"\nimageOneDict:%@\nimageTwoDict:%@",self.newsFeedImageOneDictionary,self.newsFeedImageTwoDictionary);
-        NSLog(@"contentsofdictatindex:%@",[self.newsFeedMutableDictionary objectForKey:@"imageOneIndex:0"]);
+       
         [self imagesAreDonePreLoading];
 
     });
@@ -2369,8 +2399,9 @@
     }
 
 }
+//images are done preloading, show them
 -(void)imagesAreDonePreLoading{
-    
+    NSLog(@"\nnewsFeedCounter:%d\nnewsFeedDicCount:%d",self.newsFeedCounter,[self.newsFeedImageOneDictionary count]);
     if(self.newsFeedCounter < [self.newsFeedImageOneDictionary count]) {
         objects *newsFeedObject = [self.newsFeedArray objectAtIndex:self.newsFeedCounter];
         NSString *imageOneKey = [NSString stringWithFormat:@"imageOneIndex:%d",self.newsFeedCounter];
@@ -2379,8 +2410,8 @@
         imageOne = [self.newsFeedImageOneDictionary objectForKey:imageOneKey];
         UIImage *imageTwo = [[UIImage alloc] init];
         imageTwo = [self.newsFeedImageTwoDictionary objectForKey:imageTwoKey];
-        self.tempImageOneCurrent = imageOne;
-        self.tempImageTwoCurrent = imageTwo;
+        self.newsFeedTempImageOne = imageOne;
+        self.newsFeedTempImageTwo = imageTwo;
         CGFloat imageWidth = imageOne.size.width;
         imageWidth = 2*imageWidth;
         CGFloat imageHeight = imageOne.size.height;
@@ -2389,21 +2420,23 @@
         
 
         
-        self.imageViewOneCurrent.image = [self cropImage:imageOne cropSize:CGSizeMake(self.view.frame.size.width, self.view.frame.size.height/2)];
-        self.imageViewTwoCurrent.image = [self cropImage:imageTwo cropSize:CGSizeMake(self.view.frame.size.width, self.view.frame.size.height/2)];
-        self.usernameLabel.text = newsFeedObject.username;
-        self.textContentLabel.text = newsFeedObject.textContent;
-        self.timeStampLabel.text = [self inputDate:newsFeedObject.createdAt];
+        self.newsFeedImageViewOne.image = [self cropImage:imageOne cropSize:CGSizeMake(self.view.frame.size.width, self.view.frame.size.height/2)];
+        self.newsFeedImageViewTwo.image = [self cropImage:imageTwo cropSize:CGSizeMake(self.view.frame.size.width, self.view.frame.size.height/2)];
+        self.newsFeedUsernameLabel.text = newsFeedObject.username;
+        self.newsFeedTextContentLabel.text = newsFeedObject.textContent;
+        self.newsFeedTimeStampLabel.text = [self inputDate:newsFeedObject.createdAt];
          NSMutableArray *voteCountArray = [self voteCountOne:newsFeedObject.voteCountOne voteCountTwo:newsFeedObject.voteCountTwo];
-        self.imageOnePercentage.text = [voteCountArray objectAtIndex:0];
-        self.imageTwoPercentage.text = [voteCountArray objectAtIndex:1];
-        self.totalNumberOfVotes.text = [self ForTotalVotesVoteCountOne:newsFeedObject.voteCountOne ForTotalVotesVoteCountTwo:newsFeedObject.voteCountTwo];
+        self.newsFeedImageViewOnePercentageLabel.text = [voteCountArray objectAtIndex:0];
+        self.newsFeedImageViewTwoPercentageLabel.text = [voteCountArray objectAtIndex:1];
+        self.newsFeedTotalNumberOfVotesLabel.text = [self ForTotalVotesVoteCountOne:newsFeedObject.voteCountOne ForTotalVotesVoteCountTwo:newsFeedObject.voteCountTwo];
+        [self.newsFeedImageViewOne setAlpha:1];
+        [self.newsFeedImageViewTwo setAlpha:1];
         [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionCurveEaseIn animations:^{
-            self.imageViewOneCurrent.frame = CGRectMake(0, 0, [self viewWidth], [self viewHeight]/2);
-            self.imageViewTwoCurrent.frame = CGRectMake(0, ([self viewHeight]/2), [self viewWidth], [self viewHeight]/2);
+            self.newsFeedImageViewOne.frame = CGRectMake(0, 0, [self viewWidth], [self viewHeight]/2);
+            self.newsFeedImageViewTwo.frame = CGRectMake(0, ([self viewHeight]/2), [self viewWidth], [self viewHeight]/2);
             
         } completion:^(BOOL finished) {
-            [self.yellowMenuButotn setAlpha:1];
+            [self.newsFeedYellowMenuButton setAlpha:1];
             
         }];
 
@@ -2412,15 +2445,16 @@
         //add new request to find posts when finished voting on first 20
         NSLog(@"noContentsToLoad");
        // UIColor *blackThisThatColor = [UIColor colorWithRed:(39/255.0) green:(35/255.0) blue:(34/255.0) alpha:1];
-       // [self.imageViewOneCurrent removeFromSuperview];
-       // [self.imageViewTwoCurrent removeFromSuperview];
-       // [self.viewForLabels removeFromSuperview];
+      
  
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
         //newSHIT to retrieve mroe
         [self.newsFeedImageOneDictionary removeAllObjects];
         [self.newsFeedImageTwoDictionary removeAllObjects];
         [self.newsFeedArray removeAllObjects];
+        [self.newsFeedImageViewOne setAlpha:0];
+        [self.newsFeedImageViewTwo setAlpha:0];
+        [self.newsFeedYellowMenuButton setAlpha:0];
         self.newsFeedCounter = 0;
         [self presentLoadingView];
         NSUserDefaults *userDefaultContents = [NSUserDefaults standardUserDefaults];
@@ -2436,9 +2470,9 @@
             }
             if([self.newsFeedArray count] == 0){
                 NSLog(@"noMOrePosts");
-                [self.imageViewOneCurrent removeFromSuperview];
-                [self.imageViewTwoCurrent removeFromSuperview];
-                [self.viewForLabels removeFromSuperview];
+                [self.newsFeedImageViewOne removeFromSuperview];
+                [self.newsFeedImageViewTwo removeFromSuperview];
+                [self.newsFeedViewForLabels removeFromSuperview];
                 [self.loadingView removeFromSuperview];
                 UILabel *noMorePostsLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
                 noMorePostsLabel.numberOfLines = 0;
@@ -2468,7 +2502,7 @@
        
     }
 }
-
+//total vote count
 -(NSString*)ForTotalVotesVoteCountOne:(NSNumber*)voteCountOne ForTotalVotesVoteCountTwo:(NSNumber*)voteCountTwo{
     NSInteger voteCountOneINT = [voteCountOne integerValue];
     NSInteger voteCountTwoINT = [voteCountTwo integerValue];
@@ -2476,6 +2510,7 @@
     NSString *totalVoteCountSTRING = [NSString stringWithFormat:@"%ld votes",(long)totalVoteCount];
     return totalVoteCountSTRING;
 }
+//compress image for uploading to reduce size and quality
 -(NSData*)compressImage:(UIImage*)image{
     float actualHeight = image.size.height;
     float actualWidth = image.size.width;
@@ -2513,7 +2548,7 @@
 
 }
 
-
+//cropping fullsize image to viewheight/2 for halfscreen imageviews
 - (UIImage *) cropImage:(UIImage *)originalImage cropSize:(CGSize)cropSize
 {
     
@@ -2572,7 +2607,7 @@
     
 }
 
-
+//posts voted on action
 
 - (IBAction)postsVotedOn:(id)sender {
     [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationFade];
@@ -2582,6 +2617,7 @@
     
     
 }
+//loading view
 -(void)presentLoadingView {
     UIColor *redColor = [UIColor colorWithRed:(231/255.0) green:(80/255.0) blue:(80/255.0) alpha:0.7];
     self.loadingView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
@@ -2612,14 +2648,15 @@
     [self.loadingView addGestureRecognizer:self.pinchToCloseLoadingView];
     [self.navigationController.view addSubview:self.loadingView];
 }
+//no posts to vote on in newsfeed view
 -(void)initalizedNewsFeedViewNoPostsToVoteOn {
     [self presentInvisibleView];
     [self.loadingView removeFromSuperview];
     self.newsFeedView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
     self.newsFeedView.backgroundColor = [UIColor whiteColor];
     [self.navigationController.view addSubview:self.newsFeedView];
-    self.pinchRecognizerNewsFeed = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(recognizePinchToCloseCurrentView:)];
-    [self.newsFeedView addGestureRecognizer:self.pinchRecognizerNewsFeed];
+    self.newsFeedPinchGesture = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(recognizePinchToCloseCurrentView:)];
+    [self.newsFeedView addGestureRecognizer:self.newsFeedPinchGesture];
     UILabel *noMorePostsLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
     noMorePostsLabel.numberOfLines = 0;
     noMorePostsLabel.textAlignment = NSTextAlignmentCenter;
@@ -2627,11 +2664,12 @@
     [self.newsFeedView addSubview:noMorePostsLabel];
     
 }
+//initalize newsfeed view
 -(void)initalizeNewsFeedView {
     [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationFade];
     [self presentInvisibleView];
     self.newsFeedCounter = 0;
-    UIColor *redColor = [UIColor colorWithRed:(231/255.0) green:(80/255.0) blue:(80/255.0) alpha:1];
+   // UIColor *redColor = [UIColor colorWithRed:(231/255.0) green:(80/255.0) blue:(80/255.0) alpha:1];
     CGFloat widthFrame = CGRectGetWidth(self.view.frame);
     CGFloat heightFrame = CGRectGetHeight(self.view.frame);
     NSLog(@"widthFrame:%f",widthFrame);
@@ -2639,194 +2677,183 @@
     self.newsFeedView = [[UIView alloc] initWithFrame:personalPostsViewSize];
     self.newsFeedView.backgroundColor = [UIColor whiteColor];
     [self.navigationController.view addSubview:self.newsFeedView];
-    self.pinchRecognizerNewsFeed = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(recognizePinchToCloseCurrentView:)];
-    [self.newsFeedView addGestureRecognizer:self.pinchRecognizerNewsFeed];
+    self.newsFeedPinchGesture = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(recognizePinchToCloseCurrentView:)];
+    [self.newsFeedView addGestureRecognizer:self.newsFeedPinchGesture];
 
 
     //LABELS
-    UIColor *blackThisThatColor = [UIColor colorWithRed:(39/255.0) green:(35/255.0) blue:(34/255.0) alpha:1];
-    self.viewForLabels = [[UIView alloc] initWithFrame:CGRectMake(0, ([self viewHeight]/2)-115, [self viewWidth], 230)];
-    self.viewForLabels.backgroundColor = blackThisThatColor;
-    self.viewForLabels.layer.borderWidth = 5;
-    self.viewForLabels.layer.borderColor = [UIColor grayColor].CGColor;
-    [self.newsFeedView addSubview:self.viewForLabels];
+   // UIColor *blackThisThatColor = [UIColor colorWithRed:(39/255.0) green:(35/255.0) blue:(34/255.0) alpha:1];
+    self.newsFeedViewForLabels = [[UIView alloc] initWithFrame:CGRectMake(0, ([self viewHeight]/2)-115, [self viewWidth], 230)];
+    self.newsFeedViewForLabels.backgroundColor = [UIColor whiteColor];
+    self.newsFeedViewForLabels.layer.borderWidth = 5;
+    self.newsFeedViewForLabels.layer.borderColor = [UIColor grayColor].CGColor;
+    [self.newsFeedView addSubview:self.newsFeedViewForLabels];
     
     
     
-    self.textContentLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 60, [self viewWidth]-20, 120)];
-    self.textContentLabel.backgroundColor = [UIColor clearColor];
-    // [self.textContentLabel setFont:[UIFont systemFontOfSize:30]];
-    
-    self.textContentLabel.font = [UIFont fontWithName:@"STHeitiTC-Medium" size:30];
-    self.textContentLabel.numberOfLines = 0;
-    self.textContentLabel.textAlignment = NSTextAlignmentCenter;
-    [self.textContentLabel setTextColor:redColor];
-    [self.viewForLabels addSubview:self.textContentLabel];
+    self.newsFeedTextContentLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 60, [self viewWidth]-20, 120)];
+    self.newsFeedTextContentLabel.backgroundColor = [UIColor clearColor];
+       
+    self.newsFeedTextContentLabel.font = [UIFont fontWithName:@"STHeitiTC-Medium" size:30];
+    self.newsFeedTextContentLabel.numberOfLines = 0;
+    self.newsFeedTextContentLabel.textAlignment = NSTextAlignmentCenter;
+    [self.newsFeedTextContentLabel setTextColor:[UIColor grayColor]];
+    [self.newsFeedViewForLabels addSubview:self.newsFeedTextContentLabel];
     
     
     //    [messageLabel sizeToFit];
     
-    self.usernameLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 10, (3*[self viewWidth]/4)-10, 30)];
-    self.usernameLabel.backgroundColor = [UIColor clearColor];
-    [self.usernameLabel setFont:[UIFont boldSystemFontOfSize:20]];
-    [self.usernameLabel setTextColor:redColor];
-    [self.usernameLabel setTextAlignment:NSTextAlignmentLeft];
-    [self.viewForLabels addSubview:self.usernameLabel];
+    self.newsFeedUsernameLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 10, (3*[self viewWidth]/4)-10, 30)];
+    self.newsFeedUsernameLabel.backgroundColor = [UIColor clearColor];
+    [self.newsFeedUsernameLabel setFont:[UIFont boldSystemFontOfSize:20]];
+    [self.newsFeedUsernameLabel setTextColor:[UIColor grayColor]];
+    [self.newsFeedUsernameLabel setTextAlignment:NSTextAlignmentLeft];
+    [self.newsFeedViewForLabels addSubview:self.newsFeedUsernameLabel];
     
     
-    self.timeStampLabel = [[UILabel alloc] initWithFrame:CGRectMake(3*([self viewWidth]/4), 10, ([self viewWidth]/4)-10, 30)];
-    self.timeStampLabel.backgroundColor = [UIColor clearColor];
-    [self.timeStampLabel setFont:[UIFont systemFontOfSize:15]];
-    [self.timeStampLabel setTextColor:[UIColor whiteColor]];
-    [self.timeStampLabel setTextAlignment:NSTextAlignmentRight];
-    [self.viewForLabels addSubview:self.timeStampLabel];
+    self.newsFeedTimeStampLabel = [[UILabel alloc] initWithFrame:CGRectMake(3*([self viewWidth]/4), 10, ([self viewWidth]/4)-10, 30)];
+    self.newsFeedTimeStampLabel.backgroundColor = [UIColor clearColor];
+    [self.newsFeedTimeStampLabel setFont:[UIFont systemFontOfSize:15]];
+    [self.newsFeedTimeStampLabel setTextColor:[UIColor grayColor]];
+    [self.newsFeedTimeStampLabel setTextAlignment:NSTextAlignmentRight];
+    [self.newsFeedViewForLabels addSubview:self.newsFeedTimeStampLabel];
     
-    self.locationWhereThisThatPosted = [[UILabel alloc] initWithFrame:CGRectMake(10, 40, [self viewWidth]-20, 20)];
-    self.locationWhereThisThatPosted.backgroundColor = [UIColor clearColor];
-    [self.locationWhereThisThatPosted setFont:[UIFont systemFontOfSize:15]];
-    [self.locationWhereThisThatPosted setTextAlignment:NSTextAlignmentLeft];
-    self.locationWhereThisThatPosted.text = @"Victoria BC, Canada";
-    self.locationWhereThisThatPosted.textColor = [UIColor grayColor];
-    [self.viewForLabels addSubview:self.locationWhereThisThatPosted];
+    self.newsFeedLocationLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 40, [self viewWidth]-20, 20)];
+    self.newsFeedLocationLabel.backgroundColor = [UIColor clearColor];
+    [self.newsFeedLocationLabel setFont:[UIFont systemFontOfSize:15]];
+    [self.newsFeedLocationLabel setTextAlignment:NSTextAlignmentLeft];
+    self.newsFeedLocationLabel.text = @"Victoria BC, Canada";
+    self.newsFeedLocationLabel.textColor = [UIColor grayColor];
+    [self.newsFeedViewForLabels addSubview:self.newsFeedLocationLabel];
     
-    self.totalNumberOfVotes = [[UILabel alloc] initWithFrame:CGRectMake(10, 190, [self viewWidth]-20, 30)];
-    self.totalNumberOfVotes.backgroundColor = [UIColor clearColor];
-    self.totalNumberOfVotes.textColor = [UIColor whiteColor];
-    [self.totalNumberOfVotes setFont:[UIFont systemFontOfSize:15]];
-    [self.viewForLabels addSubview:self.totalNumberOfVotes];
-    [self.viewForLabels setAlpha:0];
+    self.newsFeedTotalNumberOfVotesLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 190, [self viewWidth]-20, 30)];
+    self.newsFeedTotalNumberOfVotesLabel.backgroundColor = [UIColor clearColor];
+    self.newsFeedTotalNumberOfVotesLabel.textColor = [UIColor grayColor];
+    [self.newsFeedTotalNumberOfVotesLabel setFont:[UIFont systemFontOfSize:15]];
+    [self.newsFeedViewForLabels addSubview:self.newsFeedTotalNumberOfVotesLabel];
+    [self.newsFeedViewForLabels setAlpha:0];
     //PercentageLabels
 
-   // self.viewNewsFeedImageOneOverlay = [[UIView alloc] initWithFrame:CGRectMake(0, 0, widthFrame, heightFrame/2)];
-   // self.viewNewsFeedImageOneOverlay.backgroundColor = [self greenThisThatColor];
-    //[self.viewNewsFeedImageOneOverlay setAlpha:0];
-   // [self.newsFeedView addSubview:self.viewNewsFeedImageOneOverlay];
     UIImage *voteForThisImageAI = [UIImage imageNamed:@"voteThisAI.png"];
-    self.voteForThisImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height/2)];
-    self.voteForThisImageView.image = voteForThisImageAI;
-    self.voteForThisImageView.contentMode = UIViewContentModeScaleAspectFit;
-    [self.voteForThisImageView setAlpha:0];
-    [self.newsFeedView addSubview:self.voteForThisImageView];
+    self.newsFeedVoteForThisImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height/2)];
+    self.newsFeedVoteForThisImageView.image = voteForThisImageAI;
+    self.newsFeedVoteForThisImageView.contentMode = UIViewContentModeScaleAspectFit;
+    [self.newsFeedVoteForThisImageView setAlpha:0];
+    [self.newsFeedView addSubview:self.newsFeedVoteForThisImageView];
     UIImage *notThis = [UIImage imageNamed:@"notThisAI.png"];
-    self.notThisImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height/2)];
-    self.notThisImageView.image = notThis;
-    self.notThisImageView.contentMode = UIViewContentModeScaleAspectFit;
-    [self.notThisImageView setAlpha:0];
-    [self.newsFeedView addSubview:self.notThisImageView];
+    self.newsFeedNotThisImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height/2)];
+    self.newsFeedNotThisImageView.image = notThis;
+    self.newsFeedNotThisImageView.contentMode = UIViewContentModeScaleAspectFit;
+    [self.newsFeedNotThisImageView setAlpha:0];
+    [self.newsFeedView addSubview:self.newsFeedNotThisImageView];
     
     
     
     CGRect imageViewOneCurrentRect = CGRectMake(0, -(heightFrame/2), widthFrame, (heightFrame/2));
-    self.imageViewOneCurrent = [[UIImageView alloc] initWithFrame:imageViewOneCurrentRect];
-    [self.imageViewOneCurrent setUserInteractionEnabled:YES];
-    //   self.imageViewOneCurrent.image = [UIImage imageNamed:@"snowboarding.jpg"];
-    [self.newsFeedView addSubview:self.imageViewOneCurrent];
+    self.newsFeedImageViewOne = [[UIImageView alloc] initWithFrame:imageViewOneCurrentRect];
+    [self.newsFeedImageViewOne setUserInteractionEnabled:YES];
+    [self.newsFeedView addSubview:self.newsFeedImageViewOne];
    
     UIImage *greenCheckMarkImage = [[UIImage alloc] init];
     greenCheckMarkImage = [UIImage imageNamed:@"check.png"];
-    self.newsFeedImageOneCheckMarkView = [[UIImageView alloc] initWithFrame:CGRectMake(10, self.imageViewOneCurrent.frame.size.height-60, 50, 50)];
+    self.newsFeedImageOneCheckMarkView = [[UIImageView alloc] initWithFrame:CGRectMake(10, self.newsFeedImageViewOne.frame.size.height-60, 50, 50)];
     self.newsFeedImageOneCheckMarkView.image = greenCheckMarkImage;
     self.newsFeedImageOneCheckMarkView.layer.cornerRadius = 25;
     self.newsFeedImageOneCheckMarkView.clipsToBounds = YES;
     [self.newsFeedImageOneCheckMarkView setAlpha:0];
-    [self.imageViewOneCurrent addSubview:self.newsFeedImageOneCheckMarkView];
+    [self.newsFeedImageViewOne addSubview:self.newsFeedImageOneCheckMarkView];
     UIImage *redXMarkImage = [[UIImage alloc] init];
     redXMarkImage = [UIImage imageNamed:@"redx.png"];
-    self.newsFeedImageOneXMarkView = [[UIImageView alloc] initWithFrame:CGRectMake(self.imageViewOneCurrent.frame.size.width-60, self.imageViewOneCurrent.frame.size.height-60, 50, 50)];
+    self.newsFeedImageOneXMarkView = [[UIImageView alloc] initWithFrame:CGRectMake(self.newsFeedImageViewOne.frame.size.width-60, self.newsFeedImageViewOne.frame.size.height-60, 50, 50)];
     self.newsFeedImageOneXMarkView.image = redXMarkImage;
     self.newsFeedImageOneXMarkView.layer.cornerRadius = 25;
     self.newsFeedImageOneXMarkView.clipsToBounds = YES;
     [self.newsFeedImageOneXMarkView setAlpha:0];
-    [self.imageViewOneCurrent addSubview:self.newsFeedImageOneXMarkView];
+    [self.newsFeedImageViewOne addSubview:self.newsFeedImageOneXMarkView];
     
     
     //ImageOnePanRecognizer
-    self.panRecognizerImageOne = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(recognizeThePanImageCurrent:)];
-    [self.imageViewOneCurrent addGestureRecognizer:self.panRecognizerImageOne];
+    self.newsFeedPanGestureImageViewOne = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(recognizeThePanImageCurrent:)];
+    [self.newsFeedImageViewOne addGestureRecognizer:self.newsFeedPanGestureImageViewOne];
     
-    
-    /* self.imageViewTwoBehind = [[UIImageView alloc] init];
-     self.imageViewTwoBehind.userInteractionEnabled = YES;
-     [self.newsFeedView addSubview:self.imageViewTwoBehind];*/
-    //ImageViewTwoCurrent
+
+   
     UIImage *notThatImage = [UIImage imageNamed:@"notThatAI.png"];
-    self.notThatImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height/2, self.view.frame.size.width, self.view.frame.size.height/2)];
-    self.notThatImageView.image = notThatImage;
-    self.notThatImageView.contentMode = UIViewContentModeScaleAspectFit;
-    [self.notThatImageView setAlpha:0];
-    [self.newsFeedView addSubview:self.notThatImageView];
+    self.newsFeedNotThatImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height/2, self.view.frame.size.width, self.view.frame.size.height/2)];
+    self.newsFeedNotThatImageView.image = notThatImage;
+    self.newsFeedNotThatImageView.contentMode = UIViewContentModeScaleAspectFit;
+    [self.newsFeedNotThatImageView setAlpha:0];
+    [self.newsFeedView addSubview:self.newsFeedNotThatImageView];
     
     UIImage *voteForThat = [UIImage imageNamed:@"voteThatAI.png"];
-    self.voteForThatImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height/2, self.view.frame.size.width, self.view.frame.size.height/2)];
-    self.voteForThatImageView.image = voteForThat;
-    self.voteForThatImageView.contentMode = UIViewContentModeScaleAspectFit;
-    [self.voteForThatImageView setAlpha:0];
-    [self.newsFeedView addSubview:self.voteForThatImageView];
+    self.newsFeedVoteForThatImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height/2, self.view.frame.size.width, self.view.frame.size.height/2)];
+    self.newsFeedVoteForThatImageView.image = voteForThat;
+    self.newsFeedVoteForThatImageView.contentMode = UIViewContentModeScaleAspectFit;
+    [self.newsFeedVoteForThatImageView setAlpha:0];
+    [self.newsFeedView addSubview:self.newsFeedVoteForThatImageView];
     
     CGRect imageViewTwoCurrentRect = CGRectMake(0, (heightFrame), widthFrame, (heightFrame/2));
-    self.imageViewTwoCurrent = [[UIImageView alloc] initWithFrame:imageViewTwoCurrentRect];
-    [self.imageViewTwoCurrent setUserInteractionEnabled:YES];
-    [self.newsFeedView addSubview:self.imageViewTwoCurrent];
-    self.viewNewsFeedImageTwoOverlay = [[UIView alloc] initWithFrame:CGRectMake(0, 0, widthFrame, heightFrame/2)];
-    [self.imageViewTwoCurrent addSubview:self.viewNewsFeedImageTwoOverlay];
+    self.newsFeedImageViewTwo = [[UIImageView alloc] initWithFrame:imageViewTwoCurrentRect];
+    [self.newsFeedImageViewTwo setUserInteractionEnabled:YES];
+    [self.newsFeedView addSubview:self.newsFeedImageViewTwo];
+    
     self.newsFeedImageTwoCheckMarkView = [[UIImageView alloc] initWithFrame:CGRectMake(10, 10, 50, 50)];
     self.newsFeedImageTwoCheckMarkView.image = greenCheckMarkImage;
     self.newsFeedImageTwoCheckMarkView.layer.cornerRadius = 25;
     self.newsFeedImageTwoCheckMarkView.clipsToBounds = YES;
     [self.newsFeedImageTwoCheckMarkView setAlpha:0];
-    [self.imageViewTwoCurrent addSubview:self.newsFeedImageTwoCheckMarkView];
+    [self.newsFeedImageViewTwo addSubview:self.newsFeedImageTwoCheckMarkView];
     
-    self.newsFeedImageTwoXMarkView = [[UIImageView alloc] initWithFrame:CGRectMake(self.imageViewTwoCurrent.frame.size.width-60, 10, 50, 50)];
+    self.newsFeedImageTwoXMarkView = [[UIImageView alloc] initWithFrame:CGRectMake(self.newsFeedImageViewTwo.frame.size.width-60, 10, 50, 50)];
     self.newsFeedImageTwoXMarkView.image = redXMarkImage;
     self.newsFeedImageTwoXMarkView.layer.cornerRadius = 25;
     self.newsFeedImageTwoXMarkView.clipsToBounds = YES;
     [self.newsFeedImageTwoXMarkView setAlpha:0];
-    [self.imageViewTwoCurrent addSubview:self.newsFeedImageTwoXMarkView];
+    [self.newsFeedImageViewTwo addSubview:self.newsFeedImageTwoXMarkView];
     
     
     UIImage *yellowMenuImage = [[UIImage alloc] init];
     yellowMenuImage = [UIImage imageNamed:@"yellowMenu.png"];
-    self.yellowMenuButotn = [[UIButton alloc] initWithFrame:CGRectMake((self.view.frame.size.width/2)-25, (self.view.frame.size.height/2)-25, 50, 50)];
-    [self.yellowMenuButotn setImage:yellowMenuImage forState:UIControlStateNormal];
-    [self.yellowMenuButotn setAlpha:0];
-    [self.newsFeedView addSubview:self.yellowMenuButotn];
-    [self.yellowMenuButotn addTarget:self action:@selector(menuButtonSelected:) forControlEvents:UIControlEventTouchUpInside];
+    self.newsFeedYellowMenuButton = [[UIButton alloc] initWithFrame:CGRectMake((self.view.frame.size.width/2)-25, (self.view.frame.size.height/2)-25, 50, 50)];
+    [self.newsFeedYellowMenuButton setImage:yellowMenuImage forState:UIControlStateNormal];
+    [self.newsFeedYellowMenuButton setAlpha:0];
+    [self.newsFeedView addSubview:self.newsFeedYellowMenuButton];
+    [self.newsFeedYellowMenuButton addTarget:self action:@selector(menuButtonSelected:) forControlEvents:UIControlEventTouchUpInside];
     
     
     //ImageTwoPanRecognizer
-    self.panRecognizerImageTwo = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(recognizeThePanImageCurrent:)];
-    [self.imageViewTwoCurrent addGestureRecognizer:self.panRecognizerImageTwo];
+    self.newsFeedPanGestureImageViewTwo = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(recognizeThePanImageCurrent:)];
+    [self.newsFeedImageViewTwo addGestureRecognizer:self.newsFeedPanGestureImageViewTwo];
     
     
     //ActivityIndicator
     
-    self.imageOnePercentage = [[UILabel alloc] initWithFrame:CGRectMake([self viewWidth]-110, 10, 100, 50)];
-    self.imageOnePercentage.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.5];
-    self.imageOnePercentage.layer.cornerRadius = 7.0;
-    self.imageOnePercentage.clipsToBounds = YES;
-    [self.imageOnePercentage setTextColor:[UIColor whiteColor]];
-    [self.imageOnePercentage setFont:[UIFont systemFontOfSize:30]];
-    // self.imageOnePercentage.font = [UIFont fontWithName:@"System" size:30];
-    [self.imageOnePercentage setTextAlignment:NSTextAlignmentCenter];
-    [self.imageViewOneCurrent addSubview:self.imageOnePercentage];
+    self.newsFeedImageViewOnePercentageLabel = [[UILabel alloc] initWithFrame:CGRectMake([self viewWidth]-110, 10, 100, 50)];
+    self.newsFeedImageViewOnePercentageLabel.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.5];
+    self.newsFeedImageViewOnePercentageLabel.layer.cornerRadius = 7.0;
+    self.newsFeedImageViewOnePercentageLabel.clipsToBounds = YES;
+    [self.newsFeedImageViewOnePercentageLabel setTextColor:[UIColor whiteColor]];
+    [self.newsFeedImageViewOnePercentageLabel setFont:[UIFont systemFontOfSize:30]];
+    [self.newsFeedImageViewOnePercentageLabel setTextAlignment:NSTextAlignmentCenter];
+    [self.newsFeedImageViewOne addSubview:self.newsFeedImageViewOnePercentageLabel];
     
-    CGFloat maxYimageViewTwo = CGRectGetHeight(self.imageViewTwoCurrent.frame);
-    self.imageTwoPercentage = [[UILabel alloc] initWithFrame:CGRectMake([self viewWidth]-110, maxYimageViewTwo-60, 100, 50)];
-    self.imageTwoPercentage.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.5];
-    self.imageTwoPercentage.layer.cornerRadius = 7.0;
-    self.imageTwoPercentage.clipsToBounds = YES;
-    [self.imageTwoPercentage setTextColor:[UIColor whiteColor]];
-    [self.imageTwoPercentage setFont:[UIFont systemFontOfSize:30]];
-    //  self.imageTwoPercentage.font = [UIFont fontWithName:@"System" size:30];
-    [self.imageTwoPercentage setTextAlignment:NSTextAlignmentCenter];
-    [self.imageViewTwoCurrent addSubview:self.imageTwoPercentage];
+    CGFloat maxYimageViewTwo = CGRectGetHeight(self.newsFeedImageViewTwo.frame);
+    self.newsFeedImageViewTwoPercentageLabel = [[UILabel alloc] initWithFrame:CGRectMake([self viewWidth]-110, maxYimageViewTwo-60, 100, 50)];
+    self.newsFeedImageViewTwoPercentageLabel.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.5];
+    self.newsFeedImageViewTwoPercentageLabel.layer.cornerRadius = 7.0;
+    self.newsFeedImageViewTwoPercentageLabel.clipsToBounds = YES;
+    [self.newsFeedImageViewTwoPercentageLabel setTextColor:[UIColor whiteColor]];
+    [self.newsFeedImageViewTwoPercentageLabel setFont:[UIFont systemFontOfSize:30]];
+    [self.newsFeedImageViewTwoPercentageLabel setTextAlignment:NSTextAlignmentCenter];
+    [self.newsFeedImageViewTwo addSubview:self.newsFeedImageViewTwoPercentageLabel];
     //[self loadNewsFeedArray];
     
-    self.tapToOpenImageOne = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(recognizeTapToOpenImages:)];
-    [self.imageViewOneCurrent addGestureRecognizer:self.tapToOpenImageOne];
-    self.tapToOpenImageTwo = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(recognizeTapToOpenImages:)];
-    [self.imageViewTwoCurrent addGestureRecognizer:self.tapToOpenImageTwo];
+    self.newsFeedTapGestureToOpenImageViewOne = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(recognizeTapToOpenImages:)];
+    [self.newsFeedImageViewOne addGestureRecognizer:self.newsFeedTapGestureToOpenImageViewOne];
+    self.newsFeedTapGestureToOpenImageViewTwo = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(recognizeTapToOpenImages:)];
+    [self.newsFeedImageViewTwo addGestureRecognizer:self.newsFeedTapGestureToOpenImageViewTwo];
 }
+//invisbleview so when pinching can't click any view behind it
 -(void)presentInvisibleView {
     self.invisibleView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
     [self.navigationController.view addSubview:self.invisibleView];
@@ -2839,14 +2866,18 @@
      UIColor *redThisThatColor = [UIColor colorWithRed:(231/255.0) green:(80/255.0) blue:(80/255.0) alpha:1];
     return redThisThatColor;
 }
+//alertview invalid token
 -(void)invaidTokenPresentLoginScreen {
     self.alertViewLogin = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Your session is no longer valid. Please login" delegate:self cancelButtonTitle:@"Okay" otherButtonTitles:nil];
     [self.alertViewLogin show];
 }
+//alertview internetoffline
 -(void)internetOffline {
     self.alertViewOffline = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Your internet connection appears to be offline. Please try again when you are connected." delegate:self cancelButtonTitle:@"Okay" otherButtonTitles:nil];
     [self.alertViewOffline show];
 }
+
+//alertview actions
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     if([alertView isEqual:self.alertViewLogin]) {
         
@@ -2870,15 +2901,16 @@
         }
     }
 }
+//upload nav bar detail
 -(void)uploadingNavBarDetail {
     UIColor *redColor = [UIColor colorWithRed:(207/255.0) green:(70/255.0) blue:(51/255.0) alpha:1];
-    self.uploadingNavBarView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.navigationController.navigationBar.frame.size.height+[UIApplication sharedApplication].statusBarFrame.size.height+5)];
-    self.uploadingNavBarView.backgroundColor = redColor;
-    [self.navigationController.view addSubview:self.uploadingNavBarView];
-    self.uploadingNavBarLabel = [[UILabel alloc] initWithFrame:CGRectMake(70, [UIApplication sharedApplication].statusBarFrame.size.height + 5, self.view.frame.size.width-70, 30)];
-    self.uploadingNavBarLabel.textColor = [UIColor whiteColor];
-    self.uploadingNavBarLabel.text = @"uploading your thisThat..";
-    [self.uploadingNavBarView addSubview:self.uploadingNavBarLabel];
+    self.uploadPostNavigationBarUploadView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.navigationController.navigationBar.frame.size.height+[UIApplication sharedApplication].statusBarFrame.size.height+5)];
+    self.uploadPostNavigationBarUploadView.backgroundColor = redColor;
+    [self.navigationController.view addSubview:self.uploadPostNavigationBarUploadView];
+    self.uploadPostNavigationBarUploadLabel = [[UILabel alloc] initWithFrame:CGRectMake(70, [UIApplication sharedApplication].statusBarFrame.size.height + 5, self.view.frame.size.width-70, 30)];
+    self.uploadPostNavigationBarUploadLabel.textColor = [UIColor whiteColor];
+    self.uploadPostNavigationBarUploadLabel.text = @"uploading your thisThat..";
+    [self.uploadPostNavigationBarUploadView addSubview:self.uploadPostNavigationBarUploadLabel];
 
     
 }
