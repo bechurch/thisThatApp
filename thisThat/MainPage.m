@@ -131,7 +131,7 @@
 
         NSLog(@"\nCurrent ID = %@\nCurrent UserIDToken =%@",currentIDObject,userDefaultObject);
     }
-    [self.navigationController.navigationBar setHidden:NO];
+  //  [self.navigationController.navigationBar setHidden:NO];
   
 }
 -(void)viewWillDisappear:(BOOL)animated {
@@ -167,12 +167,14 @@
     
     CGRect navBarFrame = self.navigationController.navigationBar.frame;
     UINavigationBar *navBar = [[UINavigationBar alloc] initWithFrame:navBarFrame];
-    [navBar setTintColor:[UIColor purpleColor]];
-    [navBar setBackgroundColor:[UIColor purpleColor]];
+    navBar.backgroundColor = [UIColor purpleColor];
+    [navBar setTintColor:[UIColor clearColor]];
+   // [navBar setBackgroundColor:[UIColor ]];
     [navBar setTranslucent:NO];
     UINavigationItem *navItem = [[UINavigationItem alloc] initWithTitle:@"Settings"];
     [navBar setItems:[NSArray arrayWithObjects:navItem, nil]];
     [self.settingsView addSubview:navBar];
+   
     
     CGFloat maxNavBarY = CGRectGetMaxY(navBar.frame);
     
@@ -203,58 +205,69 @@
     [self.navigationController.view addSubview:self.uploadPostView];
     self.uploadPostPinchGesture = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(recognizePinchToCloseCurrentView:)];
     [self.uploadPostView addGestureRecognizer:self.uploadPostPinchGesture];
-    self.uploadPostExampleTableViewCellView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, viewWidth, (viewHeight/4)+100)];
+    self.uploadPostExampleTableViewCellView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, viewWidth, (viewWidth/2)+130)];
     self.uploadPostExampleTableViewCellView.backgroundColor = [UIColor whiteColor];
     [self.uploadPostView addSubview:self.uploadPostExampleTableViewCellView];
     NSUserDefaults *userDefaultContents = [NSUserDefaults standardUserDefaults];
     NSObject *usernameObject = [userDefaultContents objectForKey:@"username"];
-    self.uploadPostUsernameLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 10, 3*(viewWidth/4)-15, 25)];
+    self.uploadPostUsernameLabel = [[UILabel alloc] initWithFrame:CGRectMake((viewWidth/2)+5, 10, (viewWidth/2)-15, 30)];
     self.uploadPostUsernameLabel.backgroundColor = [UIColor clearColor];
     [self.uploadPostUsernameLabel setFont:[UIFont boldSystemFontOfSize:20]];
-    self.uploadPostUsernameLabel.textColor = redThisThatColor;
+    self.uploadPostUsernameLabel.textColor = [UIColor grayColor];
+    self.uploadPostUsernameLabel.textAlignment = NSTextAlignmentCenter;
+    self.uploadPostUsernameLabel.adjustsFontSizeToFitWidth = YES;
+    self.uploadPostUsernameLabel.minimumScaleFactor = 0.8;
     self.uploadPostUsernameLabel.text = [NSString stringWithFormat:@"%@",usernameObject];
     [self.uploadPostExampleTableViewCellView addSubview:self.uploadPostUsernameLabel];
     
-    self.uploadPostTimeStampLabel = [[UILabel alloc] initWithFrame:CGRectMake(3*(viewWidth/4)+5, 10, (viewWidth/4)-15, 30)];
-    [self.uploadPostTimeStampLabel setFont:[UIFont systemFontOfSize:10]];
+    self.uploadPostTimeStampLabel = [[UILabel alloc] initWithFrame:CGRectMake((viewWidth/2)+5,100,(viewWidth/2)-15,30)];
+    [self.uploadPostTimeStampLabel setFont:[UIFont systemFontOfSize:15]];
     self.uploadPostTimeStampLabel.text = @"Just now";
-    self.uploadPostTimeStampLabel.textAlignment = NSTextAlignmentRight;
+    self.uploadPostTimeStampLabel.textAlignment = NSTextAlignmentCenter;
     self.uploadPostTimeStampLabel.backgroundColor = [UIColor clearColor];
     self.uploadPostTimeStampLabel.textColor = greyishThisThatColor;
     [self.uploadPostExampleTableViewCellView addSubview:self.uploadPostTimeStampLabel];
     
-    self.uploadPostCameraButtonOne = [[UIButton alloc ] initWithFrame:CGRectMake(10, 100, (viewWidth/2)-15, self.uploadPostExampleTableViewCellView.frame.size.height-110)];
-    self.uploadPostCameraButtonOne.backgroundColor = [UIColor blackColor];
+   // self.uploadPostCameraButtonOne = [[UIButton alloc ] initWithFrame:CGRectMake(10, 100, (viewWidth/2)-15, self.uploadPostExampleTableViewCellView.frame.size.height-110)];
+    self.uploadPostCameraButtonOne = [[UIButton alloc ] initWithFrame:CGRectMake(10, 10, (viewWidth/2)-15, (viewWidth/2)-15)];
+    self.uploadPostCameraButtonOne.backgroundColor = [UIColor grayColor];
     [self.uploadPostCameraButtonOne setTitle:@"Add photo" forState:UIControlStateNormal];
     [self.uploadPostCameraButtonOne addTarget:self action:@selector(takePhotoButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
     [self.uploadPostExampleTableViewCellView addSubview:self.uploadPostCameraButtonOne];
     
-    self.uploadPostCameraButtonTwo = [[UIButton alloc] initWithFrame:CGRectMake((viewWidth/2)+5, 100, (viewWidth/2)-15, self.uploadPostExampleTableViewCellView.frame.size.height-110)];
-    self.uploadPostCameraButtonTwo.backgroundColor = [UIColor blackColor];
+   // self.uploadPostCameraButtonTwo = [[UIButton alloc] initWithFrame:CGRectMake((viewWidth/2)+5, 100, (viewWidth/2)-15, self.uploadPostExampleTableViewCellView.frame.size.height-110)];
+     self.uploadPostCameraButtonTwo = [[UIButton alloc] initWithFrame:CGRectMake((viewWidth/2)+5, (self.uploadPostExampleTableViewCellView.frame.size.height)-(viewWidth/2)+5, (viewWidth/2)-15, (viewWidth/2)-15)];
+    self.uploadPostCameraButtonTwo.backgroundColor = [UIColor grayColor];
     [self.uploadPostCameraButtonTwo setTitle:@"Add photo" forState:UIControlStateNormal];
     [self.uploadPostCameraButtonTwo addTarget:self action:@selector(takePhotoButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
     [self.uploadPostExampleTableViewCellView addSubview:self.uploadPostCameraButtonTwo];
     
-    self.uploadPostTextView = [[UITextView alloc] initWithFrame:CGRectMake(10, 55, viewWidth-20, 40)];
+    self.uploadPostTextView = [[UITextView alloc] initWithFrame:CGRectMake(10, (viewWidth/2)+5, (viewWidth/2)-15, self.uploadPostExampleTableViewCellView.frame.size.height-15-(viewWidth/2))];
     self.uploadPostTextView.backgroundColor = [UIColor clearColor];
     self.uploadPostTextView.delegate = self;
     [self.uploadPostTextView setFont:[UIFont systemFontOfSize:15]];
     self.uploadPostTextView.textColor = [UIColor grayColor];
     self.uploadPostTextView.layer.borderWidth = 1.0;
     self.uploadPostTextView.layer.borderColor = [UIColor blackColor].CGColor;
+    self.uploadPostTextView.textAlignment = NSTextAlignmentCenter;
     self.uploadPostTextView.text = @"What are you comparing?";
     [self.uploadPostExampleTableViewCellView addSubview:self.uploadPostTextView];
     
-    self.uploadPostPreviewButton = [[UIButton alloc] initWithFrame:CGRectMake(0, (viewHeight/4)+145, viewWidth, 40)];
+    self.uploadPostPreviewButton = [[UIButton alloc] initWithFrame:CGRectMake(0, (viewWidth/2)+160, viewWidth, 40)];
     self.uploadPostPreviewButton.backgroundColor = blackThisThatColor;
     [self.uploadPostPreviewButton setTitle:@"PREVIEW POST" forState:UIControlStateNormal];
     [self.uploadPostPreviewButton addTarget:self action:@selector(previewUploadThisThat:) forControlEvents:UIControlEventTouchUpInside];
     [self.uploadPostView addSubview:self.uploadPostPreviewButton];
     [self.uploadPostPreviewButton setHidden:YES];
     
-
-    self.uploadPostSlideToUploadView = [[UIView alloc] initWithFrame:CGRectMake(10, (viewHeight/4)+205, 70, 70)];
-    self.uploadPostSlideToUploadView.backgroundColor = [UIColor orangeColor];
+    self.uploadPostSlideToUploadLabel = [[UILabel alloc] initWithFrame:CGRectMake(100, (viewWidth/2)+220, 180, 30)];
+    self.uploadPostSlideToUploadLabel.textColor = [UIColor blackColor];
+    self.uploadPostSlideToUploadLabel.text = @">> Slide to upload >>";
+    [self.uploadPostView addSubview:self.uploadPostSlideToUploadLabel];
+    [self.uploadPostSlideToUploadLabel setHidden:YES];
+    
+    self.uploadPostSlideToUploadView = [[UIView alloc] initWithFrame:CGRectMake(10, (viewWidth/2)+200, 70, 70)];
+    self.uploadPostSlideToUploadView.backgroundColor = [UIColor redColor];
     
     self.uploadPostSlideToUploadView.layer.cornerRadius = 35;
     self.uploadPostSlideToUploadView.clipsToBounds = YES;
@@ -269,18 +282,22 @@
     [self.uploadPostSlideToUploadView addSubview:uploadLabel];
                                                                      
     
-    self.uploadPostAddressLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 35, viewWidth-20, 20)];
+    self.uploadPostAddressLabel = [[UILabel alloc] initWithFrame:CGRectMake((viewWidth/2)+5,50,(viewWidth/2)-15,40)];
+    self.uploadPostAddressLabel.textAlignment = NSTextAlignmentCenter;
     self.uploadPostAddressLabel.backgroundColor = [UIColor clearColor];
-    [self.uploadPostAddressLabel setFont:[UIFont systemFontOfSize:10]];
-    self.uploadPostAddressLabel.textColor = blueishThisThatColor;
+    [self.uploadPostAddressLabel setFont:[UIFont systemFontOfSize:15]];
+    self.uploadPostAddressLabel.textColor = [UIColor grayColor];
+    self.uploadPostAddressLabel.numberOfLines = 0;
+    self.uploadPostAddressLabel.adjustsFontSizeToFitWidth = YES;
+    self.uploadPostAddressLabel.minimumScaleFactor = 0.5;
     self.uploadPostAddressLabel.text = @"Earth";
     [self.uploadPostView addSubview:self.uploadPostAddressLabel];
     
-    self.uploadPostLocationEnabledSwitch = [[UISwitch alloc] initWithFrame:CGRectMake(viewWidth-60, (viewHeight/4)+110, 30, 30)];
+    self.uploadPostLocationEnabledSwitch = [[UISwitch alloc] initWithFrame:CGRectMake(viewWidth-60, (viewWidth/2)+130, 30, 30)];
     [self.uploadPostLocationEnabledSwitch addTarget:self action:@selector(onOffSwitch:) forControlEvents:UIControlEventValueChanged];
     self.uploadPostLocationEnabledSwitch.onTintColor = blueishThisThatColor;
     [self.uploadPostView addSubview:self.uploadPostLocationEnabledSwitch];
-    self.uploadPostLocationEnabledLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, (viewHeight/4)+110, viewWidth-80, 30)];
+    self.uploadPostLocationEnabledLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, (viewWidth/2)+130, viewWidth-80, 30)];
     self.uploadPostLocationEnabledLabel.text = @"Enable current location";
     [self.uploadPostView addSubview:self.uploadPostLocationEnabledLabel];
     
@@ -306,26 +323,42 @@
            CGFloat maxX = CGRectGetMaxX(self.uploadPostSlideToUploadView.frame);
             CGFloat minX = CGRectGetMinX(self.uploadPostSlideToUploadView.frame);
             if(maxX >=self.uploadPostView.frame.size.width){
-                self.uploadPostSlideToUploadView.frame = CGRectMake(self.view.frame.size.width - 70, (self.view.frame.size.height/4)+205, 70 , 70);
+                self.uploadPostSlideToUploadView.frame = CGRectMake(self.view.frame.size.width - 70, (self.view.frame.size.width/2)+200, 70 , 70);
             }
             if(minX <= 10){
-                self.uploadPostSlideToUploadView.frame = CGRectMake(10, (self.view.frame.size.height/4)+205, 70 , 70);
+                self.uploadPostSlideToUploadView.frame = CGRectMake(10, (self.view.frame.size.width/2)+200, 70 , 70);
             }
+            CGFloat getMinX = CGRectGetMinX(self.uploadPostSlideToUploadView.frame);
+            CGFloat viewWidth = CGRectGetWidth(self.view.frame);
+            CGFloat percentCovered = getMinX/viewWidth;
+            if(percentCovered < 0.3) {
+                self.uploadPostSlideToUploadView.backgroundColor = [UIColor redColor];
+            }
+            if(percentCovered >= 0.3) {
+                self.uploadPostSlideToUploadView.backgroundColor = [UIColor greenColor];
+            }
+            
+            
+            
+            
         }
             break;
         case UIGestureRecognizerStateEnded: {
             CGFloat getCurrentMinPanMin = CGRectGetMinX(self.uploadPostSlideToUploadView.frame);
-            if(getCurrentMinPanMin >= (self.view.frame.size.width/2)){
+            CGFloat viewWidth = CGRectGetWidth(self.view.frame);
+            CGFloat percentCovered = getCurrentMinPanMin/viewWidth;
+            if(percentCovered >= 0.3){
                 
                 [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionCurveLinear animations:^{
-                    self.uploadPostSlideToUploadView.frame = CGRectMake(self.view.frame.size.width - 70, (self.view.frame.size.height/4)+205, 70 , 70);
+                    self.uploadPostSlideToUploadView.frame = CGRectMake(self.view.frame.size.width - 70, (self.view.frame.size.width/2)+200, 70 , 70);
                 } completion:^(BOOL finished) {
                         [self uploadThisThat];
                     }];
             }
             else {
             [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionCurveLinear animations:^{
-                self.uploadPostSlideToUploadView.frame = CGRectMake(10, (self.view.frame.size.height/4)+205, 70 , 70);
+                self.uploadPostSlideToUploadView.frame = CGRectMake(10, (self.view.frame.size.width/2)+200, 70 , 70);
+                self.uploadPostSlideToUploadView.backgroundColor = [UIColor redColor];
             } completion:^(BOOL finished) {
                 
             }];
@@ -481,6 +514,7 @@
     [geocoder reverseGeocodeLocation:currentLocation completionHandler:^(NSArray *placemarks, NSError *error) {
         if(error == nil && [placemarks count]>0) {
             placemark = [placemarks lastObject];
+            self.uploadPostAddressLabel.textAlignment = NSTextAlignmentCenter;
             self.uploadPostAddressLabel.text = [NSString stringWithFormat:@"%@ %@, %@",placemark.locality, placemark.administrativeArea, placemark.country];
         }
     }];
@@ -491,6 +525,52 @@
     self.uploadPostViewForImageViews = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
     self.uploadPostViewForImageViews.backgroundColor = [UIColor whiteColor];
     [self.uploadPostView addSubview:self.uploadPostViewForImageViews];
+    
+    self.uploadPostPreviewViewForLabels = [[UIView alloc] initWithFrame:CGRectMake(0, (self.view.frame.size.height/2)-115, self.view.frame.size.width, 230)];
+    self.uploadPostPreviewViewForLabels.layer.borderWidth = 5;
+    self.uploadPostPreviewViewForLabels.layer.borderColor = [UIColor grayColor].CGColor;
+    [self.uploadPostViewForImageViews addSubview:self.uploadPostPreviewViewForLabels];
+    
+    
+    self.uploadPostPreviewTextContentLabel = [[UILabel alloc] initWithFrame:CGRectMake(10,70, self.view.frame.size.width-20, 120)];
+    self.uploadPostPreviewTextContentLabel.text = self.uploadPostTextViewString;
+    self.uploadPostPreviewTextContentLabel.textColor = [UIColor grayColor];
+    [self.uploadPostPreviewTextContentLabel setFont:[UIFont systemFontOfSize:25]];
+    self.uploadPostPreviewTextContentLabel.numberOfLines = 0;
+    self.uploadPostPreviewTextContentLabel.adjustsFontSizeToFitWidth = YES;
+    self.uploadPostPreviewTextContentLabel.minimumScaleFactor = 0.8;
+    self.uploadPostPreviewTextContentLabel.textAlignment = NSTextAlignmentCenter;
+    [self.uploadPostPreviewViewForLabels addSubview:self.uploadPostPreviewTextContentLabel];
+    
+    self.uploadPostPreviewUsernameLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 30, (self.view.frame.size.width)-20, 35)];
+    NSUserDefaults *userDefaultContents = [NSUserDefaults standardUserDefaults];
+    NSObject *usernameObject = [userDefaultContents objectForKey:@"username"];
+    NSString *usernameString = [NSString stringWithFormat:@"%@",usernameObject];
+    self.uploadPostPreviewUsernameLabel.text = usernameString;
+    self.uploadPostPreviewUsernameLabel.textAlignment = NSTextAlignmentCenter;
+    self.uploadPostPreviewUsernameLabel.textColor = [UIColor grayColor];
+    [self.uploadPostPreviewUsernameLabel setFont:[UIFont systemFontOfSize:30]];
+    self.uploadPostPreviewUsernameLabel.adjustsFontSizeToFitWidth = YES;
+    self.uploadPostPreviewUsernameLabel.minimumScaleFactor = 0.5;
+    [self.uploadPostPreviewViewForLabels addSubview:self.uploadPostPreviewUsernameLabel];
+    
+    self.uploadPostPreviewTimeStampLabel = [[UILabel alloc] initWithFrame:CGRectMake(3*(self.view.frame.size.width/4), 10, (self.view.frame.size.width/4)-10, 20)];
+    self.uploadPostPreviewTimeStampLabel.text = @"Just now";
+    self.uploadPostPreviewTimeStampLabel.textColor = [UIColor grayColor];
+    [self.uploadPostPreviewTimeStampLabel setFont:[UIFont systemFontOfSize:15]];
+    self.uploadPostPreviewTimeStampLabel.adjustsFontSizeToFitWidth = YES;
+    self.uploadPostPreviewTimeStampLabel.minimumScaleFactor = 0.8;
+    [self.uploadPostPreviewViewForLabels addSubview:self.uploadPostPreviewTimeStampLabel];
+    
+    self.uploadPostPreviewLocationLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 10, 3*(self.view.frame.size.width/4)-10, 20)];
+    self.uploadPostPreviewLocationLabel.text = self.uploadPostAddressLabel.text;
+    [self.uploadPostPreviewLocationLabel setFont:[UIFont systemFontOfSize:15]];
+    self.uploadPostPreviewLocationLabel.textColor = [UIColor grayColor];
+    self.uploadPostPreviewLocationLabel.adjustsFontSizeToFitWidth = YES;
+    self.uploadPostPreviewLocationLabel.minimumScaleFactor = 0.6;
+    [self.uploadPostPreviewViewForLabels addSubview:self.uploadPostPreviewLocationLabel];
+    
+    
     self.uploadPostImageViewOne = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, (self.view.frame.size.height/2))];
     self.uploadPostImageViewOne.image = [self cropImage:self.uploadPostTempImageOne cropSize:CGSizeMake(self.view.frame.size.width, self.uploadPostViewForImageViews.frame.size.height/2)];
 
@@ -513,10 +593,46 @@
     self.uploadPostPinchGestureImageViews = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(recognizePinchToCloseCurrentView:)];
     [self.uploadPostViewForImageViews addGestureRecognizer:self.uploadPostPinchGestureImageViews];
     
+    self.uploadPostYellowMenuButton = [[UIButton alloc] initWithFrame:CGRectMake((self.view.frame.size.width/2)-25, (self.view.frame.size.height/2)-25, 50, 50)];
+    UIImage *yellowMenuButtonImage = [UIImage imageNamed:@"yellowMenu.png"];
+    [self.uploadPostYellowMenuButton setImage:yellowMenuButtonImage forState:UIControlStateNormal];
+    [self.uploadPostYellowMenuButton addTarget:self action:@selector(uploadPostYellowMenuButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
+    [self.uploadPostViewForImageViews addSubview:self.uploadPostYellowMenuButton];
+    
+    
     
 }
+//upload post yellow menu button pressed
+-(void)uploadPostYellowMenuButtonPressed:(UIButton*)button {
+    [self.uploadPostYellowMenuButton setAlpha:0];
+    [self.uploadPostTapGestureToOpenImageViewOne setEnabled:NO];
+    [self.uploadPostTapGestureToOpenImageViewTwo setEnabled:NO];
+    [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionCurveLinear animations:^{
+        self.uploadPostImageViewOne.frame =CGRectMake(0, -115, [self viewWidth], [self viewHeight]/2);
+        self.uploadPostImageViewTwo.frame = CGRectMake(0, ([self viewHeight]/2)+115, [self viewWidth], [self viewHeight]/2);
+
+    } completion:^(BOOL finished) {
+        UITapGestureRecognizer *uploadPostTapToCloseLabelMenu = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(uploadPostCloseMenuAction:)];
+        [self.uploadPostViewForImageViews addGestureRecognizer:uploadPostTapToCloseLabelMenu];
+    }];
+    
+    
+}
+
+-(void)uploadPostCloseMenuAction:(UIButton*)button {
+    [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionCurveLinear animations:^{
+        self.uploadPostImageViewOne.frame =CGRectMake(0, 0, [self viewWidth], [self viewHeight]/2);
+        self.uploadPostImageViewTwo.frame = CGRectMake(0, ([self viewHeight]/2), [self viewWidth], [self viewHeight]/2);
+    } completion:^(BOOL finished) {
+        [self.uploadPostYellowMenuButton setAlpha:1];
+        [self.uploadPostTapGestureToOpenImageViewOne setEnabled:YES];
+        [self.uploadPostTapGestureToOpenImageViewTwo setEnabled:YES];
+    }];
+}
+
 //upload see fullsize photos
 -(void)uploadTapToSeeFullSizeImage:(UITapGestureRecognizer*)recognize {
+    [self.uploadPostYellowMenuButton setAlpha:0];
     self.uploadPostViewForFullSizeImageView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
     self.uploadPostViewForFullSizeImageView.backgroundColor = [UIColor blackColor];
     [self.uploadPostViewForImageViews addSubview:self.uploadPostViewForFullSizeImageView];
@@ -536,6 +652,7 @@
 }
 -(void)uploadTapToCloseFullSizeImageView:(UITapGestureRecognizer*)recognize{
     [self.uploadPostViewForFullSizeImageView removeFromSuperview];
+    [self.uploadPostYellowMenuButton setAlpha:1];
 }
 //action to load personal posts
 - (IBAction)personalPosts:(id)sender {
@@ -671,6 +788,7 @@
 //tittle header for settings tableview
 -(NSString*)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
     if(tableView == self.settingsTableview) {
+        
         if(section == 0) {
             return @"share";
         }
@@ -1058,21 +1176,33 @@
     [self.personalPostsViewForImageViews addGestureRecognizer:self.personalPostsPinchGestureImageViews];
    
     
-    self.personalPostsImageViewOne = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.personalPostsTableView.frame.size.height/2)];
+    self.personalPostsImageViewOne = [[UIImageView alloc] initWithFrame:CGRectMake(0, -(self.view.frame.size.height/2), self.view.frame.size.width, self.personalPostsTableView.frame.size.height/2)];
         self.personalPostsImageViewOne.image = [self cropImage:cell.tempImageOne cropSize:CGSizeMake(self.view.frame.size.width, self.personalPostsTableView.frame.size.height/2)];
         self.personalPostsImageViewOne.userInteractionEnabled = YES;
        [self.personalPostsViewForImageViews addSubview:self.personalPostsImageViewOne];
-    self.personalPostsImageViewTwo = [[UIImageView alloc] initWithFrame:CGRectMake(0, self.personalPostsTableView.frame.size.height/2, self.view.frame.size.width, self.personalPostsTableView.frame.size.height/2)];
+    self.personalPostsImageViewTwo = [[UIImageView alloc] initWithFrame:CGRectMake(0, self.personalPostsTableView.frame.size.height, self.view.frame.size.width, self.personalPostsTableView.frame.size.height/2)];
     self.personalPostsImageViewTwo.image = [self cropImage:cell.tempImageTwo cropSize:CGSizeMake(self.view.frame.size.width, self.personalPostsTableView.frame.size.height/2)];
         self.personalPostsImageViewTwo.userInteractionEnabled = YES;
     [self.personalPostsViewForImageViews addSubview:self.personalPostsImageViewTwo];
         
-        self.personalPostsTapGestureToOpenImageViewOne = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(personalPostsTapRecognizer:)];
+        [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionCurveEaseIn animations:^{
+            self.personalPostsImageViewOne.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height/2);
+            self.personalPostsImageViewTwo.frame = CGRectMake(0, self.view.frame.size.height/2, self.view.frame.size.width, self.view.frame.size.height/2);
+        } completion:^(BOOL finished) {
+            self.personalPostsTapGestureToOpenImageViewOne = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(personalPostsTapRecognizer:)];
+            [self.personalPostsImageViewOne addGestureRecognizer:self.personalPostsTapGestureToOpenImageViewOne];
+            
+            self.personalPostsTapGestureToOpenImageViewTwo = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(personalPostsTapRecognizer:)];
+            [self.personalPostsImageViewTwo addGestureRecognizer:self.personalPostsTapGestureToOpenImageViewTwo];
+
+        }];
+        
+     /*   self.personalPostsTapGestureToOpenImageViewOne = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(personalPostsTapRecognizer:)];
         [self.personalPostsImageViewOne addGestureRecognizer:self.personalPostsTapGestureToOpenImageViewOne];
         
         self.personalPostsTapGestureToOpenImageViewTwo = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(personalPostsTapRecognizer:)];
         [self.personalPostsImageViewTwo addGestureRecognizer:self.personalPostsTapGestureToOpenImageViewTwo];
-        
+        */
         
     [self.personalPostsTableView deselectRowAtIndexPath:[self.personalPostsTableView indexPathForSelectedRow] animated:YES];
     }
@@ -1085,23 +1215,20 @@
         self.invisibleViewTableView = [[UIView alloc] initWithFrame:CGRectMake(0, minHeight, self.view.frame.size.width, self.postsVotedOnTableView.frame.size.height)];
         [self.postsVotedOnTableView addSubview:self.invisibleViewTableView];
         self.postsVotedOnViewForImageViews = [[UIView alloc] initWithFrame:CGRectMake(0, minHeight, self.view.frame.size.width, self.postsVotedOnTableView.frame.size.height)];
+        self.postsVotedOnViewForImageViews.backgroundColor = [UIColor blackColor];
         [self.postsVotedOnTableView addSubview:self.postsVotedOnViewForImageViews];
         self.postsVotedOnPinchGestureImageViews = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(recognizePinchToCloseCurrentView:)];
         [self.postsVotedOnViewForImageViews addGestureRecognizer:self.postsVotedOnPinchGestureImageViews];
         
-        self.postsVotedOnImageViewOne = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.postsVotedOnTableView.frame.size.height/2)];
+        self.postsVotedOnImageViewOne = [[UIImageView alloc] initWithFrame:CGRectMake(0, -(self.view.frame.size.height/2), self.view.frame.size.width, self.postsVotedOnTableView.frame.size.height/2)];
         self.postsVotedOnImageViewOne.image = [self cropImage:cell.tempImageOne cropSize:CGSizeMake(self.view.frame.size.width, self.postsVotedOnTableView.frame.size.height/2)];
         [self.postsVotedOnViewForImageViews addSubview:self.postsVotedOnImageViewOne];
         self.postsVotedOnImageViewOne.userInteractionEnabled = YES;
-        self.postsVotedOnImageViewTwo = [[UIImageView alloc] initWithFrame:CGRectMake(0, self.postsVotedOnTableView.frame.size.height/2, self.view.frame.size.width, self.postsVotedOnTableView.frame.size.height/2)];
+        self.postsVotedOnImageViewTwo = [[UIImageView alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height, self.view.frame.size.width, self.postsVotedOnTableView.frame.size.height/2)];
         self.postsVotedOnImageViewTwo.image = [self cropImage:cell.tempImageTwo cropSize:CGSizeMake(self.view.frame.size.width, self.postsVotedOnTableView.frame.size.height/2)];
         [self.postsVotedOnViewForImageViews addSubview:self.postsVotedOnImageViewTwo];
         self.postsVotedOnImageViewTwo.userInteractionEnabled = YES;
-        [self.postsVotedOnTableView deselectRowAtIndexPath:[self.postsVotedOnTableView indexPathForSelectedRow] animated:YES];
-        self.postsVotedOnTapGestureToOpenImageViewOne = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(postsVotedOnTapRecognizer:)];
-        [self.postsVotedOnImageViewOne addGestureRecognizer:self.postsVotedOnTapGestureToOpenImageViewOne];
-        self.postsVotedOnTapGestureToOpenImageViewTwo = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(postsVotedOnTapRecognizer:)];
-        [self.postsVotedOnImageViewTwo addGestureRecognizer:self.postsVotedOnTapGestureToOpenImageViewTwo];
+        
         NSInteger imageVotedFor = [postsVotedOnObject.vote integerValue];
         UIImage *greenCheckImage = [UIImage imageNamed:@"check.png"];
         UIImageView *greenCheckImageView = [[UIImageView alloc] init];
@@ -1115,6 +1242,21 @@
             [self.postsVotedOnImageViewTwo addSubview:greenCheckImageView];
             
         }
+        
+        [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionCurveEaseIn animations:^{
+            self.postsVotedOnImageViewOne.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height/2);
+            self.postsVotedOnImageViewTwo.frame = CGRectMake(0, self.view.frame.size.height/2, self.view.frame.size.width, self.view.frame.size.height/2);
+        } completion:^(BOOL finished) {
+            self.postsVotedOnTapGestureToOpenImageViewOne = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(postsVotedOnTapRecognizer:)];
+            [self.postsVotedOnImageViewOne addGestureRecognizer:self.postsVotedOnTapGestureToOpenImageViewOne];
+            self.postsVotedOnTapGestureToOpenImageViewTwo = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(postsVotedOnTapRecognizer:)];
+            [self.postsVotedOnImageViewTwo addGestureRecognizer:self.postsVotedOnTapGestureToOpenImageViewTwo];
+        }];
+        
+        
+        [self.postsVotedOnTableView deselectRowAtIndexPath:[self.postsVotedOnTableView indexPathForSelectedRow] animated:YES];
+       
+     
     }
     
     if(tableView == self.settingsTableview) {
@@ -1319,14 +1461,17 @@
         
         NSLog(@"\npostID:%@",personalPost.postId);
         [self.personalPostsTableView performSelector:@selector(reloadData) withObject:nil afterDelay:0.3];
+
         NSUserDefaults *userDefaultContents = [NSUserDefaults standardUserDefaults];
         NSObject *currentIDTokenObject = [userDefaultContents objectForKey:@"tokenIDString"];
         NSLog(@"\nDeleteWithString: /api/v1/thisthats/%@?access_token=%@",personalPost.postId,currentIDTokenObject);
       
         NSString *deletePostPath = [NSString stringWithFormat:@"/api/v1/thisthats/%@?access_token=%@",personalPost.postId,currentIDTokenObject];
         
-        [[RKObjectManager sharedManager] deleteObject:nil path:deletePostPath parameters:nil success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
+      [[RKObjectManager sharedManager] deleteObject:nil path:deletePostPath parameters:nil success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
             NSLog(@"deletedPost:%@ successfully",personalPost.postId);
+          
+
         } failure:^(RKObjectRequestOperation *operation, NSError *error) {
             NSLog(@"fail");
         }];
@@ -1383,10 +1528,13 @@
     self.uploadPostLibraryPhotosButton = [[UIButton alloc] initWithFrame:CGRectMake((self.view.frame.size.width/2)-75,5, 150, 30)];
     [self.uploadPostLibraryPhotosButton setTitle:@"Photo Library" forState:UIControlStateNormal];
     [self.uploadPostLibraryPhotosButton addTarget:self action:@selector(photoLibrary:) forControlEvents:UIControlEventTouchUpInside];
-    
+    self.imagePicker.modalPresentationStyle = UIModalPresentationCurrentContext;
     
     self.imagePicker.toolbarHidden = YES;
     [self.imagePicker.view addSubview:self.uploadPostLibraryPhotosButton];
+
+
+   // [self.navigationController presentViewController:self.imagePicker animated:YES completion:nil];
     [self presentViewController:self.imagePicker animated:YES completion:nil];
 
     
@@ -1424,6 +1572,7 @@
     if(self.uploadPostTempImageOne != nil && self.uploadPostTempImageTwo != nil) {
         [self.uploadPostPreviewButton setHidden:NO];
         [self.uploadPostSlideToUploadView setHidden:NO];
+        [self.uploadPostSlideToUploadLabel setHidden:NO];
     }
     
 }
@@ -1583,6 +1732,8 @@
                 }
                 if(recognize == self.pinchToCloseLoadingView){
                     [self.loadingView removeFromSuperview];
+                    [[RKObjectManager sharedManager].operationQueue cancelAllOperations];
+    
                     [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
                     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
                     
@@ -2619,14 +2770,15 @@
 }
 //loading view
 -(void)presentLoadingView {
-    UIColor *redColor = [UIColor colorWithRed:(231/255.0) green:(80/255.0) blue:(80/255.0) alpha:0.7];
+  //  UIColor *redColor = [UIColor colorWithRed:(231/255.0) green:(80/255.0) blue:(80/255.0) alpha:0.7];
     self.loadingView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
     self.loadingView.backgroundColor = [UIColor clearColor];
     self.spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
     CGFloat spinnerHeight = CGRectGetHeight(self.spinner.frame);
     CGFloat totalViewHeight = spinnerHeight + 120;
     UIView *loadingViewForLabels = [[UIView alloc] initWithFrame:CGRectMake((self.view.frame.size.width/2)-100, (self.view.frame.size.height/2)-(totalViewHeight/2), 200, totalViewHeight)];
-    loadingViewForLabels.backgroundColor = redColor;
+    //loadingViewForLabels.backgroundColor = redColor;
+    loadingViewForLabels.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.7];
     loadingViewForLabels.layer.cornerRadius = 10;
     loadingViewForLabels.clipsToBounds = YES;
     [self.loadingView addSubview:loadingViewForLabels];
@@ -2691,11 +2843,13 @@
     
     
     
-    self.newsFeedTextContentLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 60, [self viewWidth]-20, 120)];
+    self.newsFeedTextContentLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 70, [self viewWidth]-20, 120)];
     self.newsFeedTextContentLabel.backgroundColor = [UIColor clearColor];
        
-    self.newsFeedTextContentLabel.font = [UIFont fontWithName:@"STHeitiTC-Medium" size:30];
+    self.newsFeedTextContentLabel.font = [UIFont fontWithName:@"STHeitiTC-Medium" size:25];
     self.newsFeedTextContentLabel.numberOfLines = 0;
+    self.newsFeedTextContentLabel.adjustsFontSizeToFitWidth = YES;
+    [self.newsFeedTextContentLabel setMinimumScaleFactor:0.8];
     self.newsFeedTextContentLabel.textAlignment = NSTextAlignmentCenter;
     [self.newsFeedTextContentLabel setTextColor:[UIColor grayColor]];
     [self.newsFeedViewForLabels addSubview:self.newsFeedTextContentLabel];
@@ -2703,27 +2857,33 @@
     
     //    [messageLabel sizeToFit];
     
-    self.newsFeedUsernameLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 10, (3*[self viewWidth]/4)-10, 30)];
+    self.newsFeedUsernameLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 30, [self viewWidth]-20, 35)];
     self.newsFeedUsernameLabel.backgroundColor = [UIColor clearColor];
-    [self.newsFeedUsernameLabel setFont:[UIFont boldSystemFontOfSize:20]];
+    [self.newsFeedUsernameLabel setFont:[UIFont boldSystemFontOfSize:30]];
     [self.newsFeedUsernameLabel setTextColor:[UIColor grayColor]];
-    [self.newsFeedUsernameLabel setTextAlignment:NSTextAlignmentLeft];
+    [self.newsFeedUsernameLabel setTextAlignment:NSTextAlignmentCenter];
+    self.newsFeedUsernameLabel.adjustsFontSizeToFitWidth = YES;
+    self.newsFeedUsernameLabel.minimumScaleFactor = 0.5;
     [self.newsFeedViewForLabels addSubview:self.newsFeedUsernameLabel];
     
     
-    self.newsFeedTimeStampLabel = [[UILabel alloc] initWithFrame:CGRectMake(3*([self viewWidth]/4), 10, ([self viewWidth]/4)-10, 30)];
+    self.newsFeedTimeStampLabel = [[UILabel alloc] initWithFrame:CGRectMake(3*([self viewWidth]/4), 10, ([self viewWidth]/4)-10, 20)];
     self.newsFeedTimeStampLabel.backgroundColor = [UIColor clearColor];
     [self.newsFeedTimeStampLabel setFont:[UIFont systemFontOfSize:15]];
     [self.newsFeedTimeStampLabel setTextColor:[UIColor grayColor]];
     [self.newsFeedTimeStampLabel setTextAlignment:NSTextAlignmentRight];
+    self.newsFeedTimeStampLabel.adjustsFontSizeToFitWidth = YES;
+    self.newsFeedTimeStampLabel.minimumScaleFactor = 0.8;
     [self.newsFeedViewForLabels addSubview:self.newsFeedTimeStampLabel];
     
-    self.newsFeedLocationLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 40, [self viewWidth]-20, 20)];
+    self.newsFeedLocationLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 10, (3*[self viewWidth]/4)-10, 20)];
     self.newsFeedLocationLabel.backgroundColor = [UIColor clearColor];
     [self.newsFeedLocationLabel setFont:[UIFont systemFontOfSize:15]];
     [self.newsFeedLocationLabel setTextAlignment:NSTextAlignmentLeft];
-    self.newsFeedLocationLabel.text = @"Victoria BC, Canada";
+    self.newsFeedLocationLabel.text = @"Vancouver BC, Canada";
     self.newsFeedLocationLabel.textColor = [UIColor grayColor];
+    self.newsFeedLocationLabel.adjustsFontSizeToFitWidth = YES;
+    self.newsFeedLocationLabel.minimumScaleFactor = 0.6;
     [self.newsFeedViewForLabels addSubview:self.newsFeedLocationLabel];
     
     self.newsFeedTotalNumberOfVotesLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 190, [self viewWidth]-20, 30)];
@@ -2912,6 +3072,11 @@
     self.uploadPostNavigationBarUploadLabel.text = @"uploading your thisThat..";
     [self.uploadPostNavigationBarUploadView addSubview:self.uploadPostNavigationBarUploadLabel];
 
+    
+}
+-(void)cancelAllGetRequests {
+    
+    
     
 }
 @end

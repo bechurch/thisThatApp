@@ -82,10 +82,14 @@
     
     self.signupButton = [[UIButton alloc] initWithFrame:CGRectMake((self.view.frame.size.width/2)-40, (self.view.frame.size.height/2)+76, 80, 30)];
     self.signupButton.backgroundColor = redColor;
+
     [self.signupButton setTitle:@"Sign Up" forState:UIControlStateNormal];
     [self.signupButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
   //  self.signupButton.titleLabel.font = [UIFont systemFontOfSize:15];
+    [self.signupButton addTarget:self action:@selector(buttonWasPressedDown:) forControlEvents:UIControlEventValueChanged];
+
     [self.signupButton addTarget:self action:@selector(signupButtonAction:) forControlEvents:UIControlEventTouchUpInside];
+
     [self.backgroundImageView addSubview:self.signupButton];
     
     self.alreadyHaveAnAccountLabel = [[UILabel alloc] initWithFrame:CGRectMake((self.view.frame.size.width/2)-105, self.view.frame.size.height-40, 150, 30)];
@@ -104,6 +108,18 @@
     [self.loginButton addTarget:self action:@selector(loginButtonAction:) forControlEvents:UIControlEventTouchUpInside];
     [self.backgroundImageView addSubview:self.loginButton];
     
+    
+}
+-(void)buttonWasPressedDown:(UIButton*)button {
+    if([button isEqual:self.signupButton]){
+        NSLog(@"swag");
+        if(button.state == UIControlEventTouchDown){
+        self.signupButton.backgroundColor = [UIColor grayColor];
+    }
+        if(button.state == UIControlEventValueChanged){
+            self.signupButton.backgroundColor = [UIColor redColor];
+        }
+    }
     
 }
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {

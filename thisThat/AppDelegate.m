@@ -9,6 +9,8 @@
 #import "AppDelegate.h"
 #import "AFNetworking.h"
 #import "AFNetworkActivityIndicatorManager.h"
+#import "LoginScreen.h"
+#import "MainPage.h"
 @interface AppDelegate ()
 
 @end
@@ -21,6 +23,12 @@
 -(BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     [NSThread sleepForTimeInterval:0.5];
     [AFNetworkActivityIndicatorManager sharedManager].enabled = YES;
+    
+    
+    //new shit
+    
+ 
+
     return YES;
 }
 

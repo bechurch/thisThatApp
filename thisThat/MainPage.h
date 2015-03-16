@@ -106,6 +106,7 @@
 @property (nonatomic, strong) UIView *uploadPostViewForImageViews;
 @property (nonatomic, strong) UIView *uploadPostViewForFullSizeImageView;
 @property (nonatomic, strong) UIView *uploadPostSlideToUploadView;
+@property (nonatomic, strong) UIView *uploadPostPreviewViewForLabels;
 @property (nonatomic, strong) UIImagePickerController *imagePicker;
 @property (nonatomic, strong) UIImage *uploadPostTempImageOne;
 @property (nonatomic, strong) UIImage *uploadPostTempImageTwo;
@@ -125,11 +126,17 @@
 @property (nonatomic, strong) UIButton *uploadPostNavigationBarDeleteUploadButton;
 @property (nonatomic, strong) UIButton *uploadPostPreviewButton;
 @property (nonatomic, strong) UIButton *uploadPostLibraryPhotosButton;
+@property (nonatomic, strong) UIButton *uploadPostYellowMenuButton;
 @property (nonatomic, strong) UILabel *uploadPostTimeStampLabel;
 @property (nonatomic, strong) UILabel *uploadPostLocationEnabledLabel;
 @property (nonatomic, strong) UILabel *uploadPostUsernameLabel;
 @property (nonatomic, strong) UILabel *uploadPostAddressLabel;
 @property (nonatomic, strong) UILabel *uploadPostNavigationBarUploadLabel;
+@property (nonatomic, strong) UILabel *uploadPostSlideToUploadLabel;
+@property (nonatomic, strong) UILabel *uploadPostPreviewTextContentLabel;
+@property (nonatomic, strong) UILabel *uploadPostPreviewUsernameLabel;
+@property (nonatomic, strong) UILabel *uploadPostPreviewTimeStampLabel;
+@property (nonatomic, strong) UILabel *uploadPostPreviewLocationLabel;
 @property (nonatomic, strong) NSString *uploadPostTextViewString;
 @property (nonatomic, strong) NSString *uploadPostPathString;
 @property (nonatomic, strong) NSData *uploadPostImageOneData;
