@@ -30,8 +30,9 @@
 }
 -(void)initalizeSignupView {
    // UIColor *redColor = [UIColor colorWithRed:(207/255.0) green:(70/255.0) blue:(51/255.0) alpha:1];
-    UIColor *redColor = [UIColor colorWithRed:(255/255.0) green:(102/255.0) blue:(102/255.0) alpha:1];
-
+   // UIColor *redColor = [UIColor colorWithRed:(255/255.0) green:(102/255.0) blue:(102/255.0) alpha:1];
+     UIColor *redColor2 = [UIColor colorWithRed:(207/255.0) green:(70/255.0) blue:(51/255.0) alpha:1];
+    UIColor *redColor2Alpha = [UIColor colorWithRed:(207/255.0) green:(70/255.0) blue:(51/255.0) alpha:0.8];
     UIImage *backgroundImage = [UIImage imageNamed:@"IMG_6322.jpg"];
     self.backgroundImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
     self.backgroundImageView.image = backgroundImage;
@@ -56,32 +57,42 @@
     [self.passwordTextField setKeyboardType:UIKeyboardTypeDefault];
     [self.passwordTextField setSecureTextEntry:YES];
     self.passwordTextField.font = [UIFont systemFontOfSize:12];
-    self.passwordTextField.placeholder = @" password";
+    self.passwordTextField.placeholder = @"password";
     [self.backgroundImageView addSubview:self.passwordTextField];
     self.passwordTextField.delegate = self;
+    UIView *spacerViewPassword = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 10, 10)];
+    [self.passwordTextField setLeftViewMode:UITextFieldViewModeAlways];
+    [self.passwordTextField setLeftView:spacerViewPassword];
     
     self.usernameTextField = [[UITextField alloc] initWithFrame:CGRectMake(10, (self.view.frame.size.height/2)-46, self.view.frame.size.width-20, 30)];
     self.usernameTextField.backgroundColor = [UIColor whiteColor];
     [self.usernameTextField setBorderStyle:UITextBorderStyleNone];
     [self.usernameTextField setKeyboardType:UIKeyboardTypeDefault];
     self.usernameTextField.font = [UIFont systemFontOfSize:12];
-    self.usernameTextField.placeholder = @" username";
+    self.usernameTextField.placeholder = @"username";
     [self.backgroundImageView addSubview:self.usernameTextField];
     self.usernameTextField.delegate = self;
+    UIView *spacerViewUsername = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 10, 10)];
+    [self.usernameTextField setLeftViewMode:UITextFieldViewModeAlways];
+    [self.usernameTextField setLeftView:spacerViewUsername];
     
     self.phoneNumberTextField = [[UITextField alloc] initWithFrame:CGRectMake(10, (self.view.frame.size.height/2)+16, self.view.frame.size.width-20, 30)];
     self.phoneNumberTextField.backgroundColor = [UIColor whiteColor];
     [self.phoneNumberTextField setBorderStyle:UITextBorderStyleNone];
-    [self.phoneNumberTextField setKeyboardType:UIKeyboardTypeNumberPad];
+    [self.phoneNumberTextField setKeyboardType:UIKeyboardTypeNumbersAndPunctuation];
     self.phoneNumberTextField.font = [UIFont systemFontOfSize:12];
-    self.phoneNumberTextField.placeholder = @" 10 digit phone number";
+    self.phoneNumberTextField.placeholder = @"10 digit phone number";
     [self.backgroundImageView addSubview:self.phoneNumberTextField];
     self.phoneNumberTextField.delegate = self;
+    UIView *spacerViewPhone = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 10, 10)];
+    [self.phoneNumberTextField setLeftViewMode:UITextFieldViewModeAlways];
+    [self.phoneNumberTextField setLeftView:spacerViewPhone];
     
     self.maxYPhoneNumber = CGRectGetMaxY(self.phoneNumberTextField.frame);
     
     self.signupButton = [[UIButton alloc] initWithFrame:CGRectMake((self.view.frame.size.width/2)-40, (self.view.frame.size.height/2)+76, 80, 30)];
-    self.signupButton.backgroundColor = redColor;
+    [self.signupButton setBackgroundImage:[self imageWithColor:redColor2] forState:UIControlStateNormal];
+    [self.signupButton setBackgroundImage:[self imageWithColor:redColor2Alpha] forState:UIControlStateHighlighted];
 
     [self.signupButton setTitle:@"Sign Up" forState:UIControlStateNormal];
     [self.signupButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
@@ -104,12 +115,27 @@
     [self.loginButton setTitle:@"Login" forState:UIControlStateNormal];
     [self.loginButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     self.loginButton.titleLabel.font = [UIFont systemFontOfSize:12];
-    self.loginButton.backgroundColor = redColor;
+    [self.loginButton setBackgroundImage:[self imageWithColor:redColor2] forState:UIControlStateNormal];
+    [self.loginButton setBackgroundImage:[self imageWithColor:redColor2Alpha] forState:UIControlStateHighlighted];
     [self.loginButton addTarget:self action:@selector(loginButtonAction:) forControlEvents:UIControlEventTouchUpInside];
     [self.backgroundImageView addSubview:self.loginButton];
     
     
 }
+-(UIImage*)imageWithColor:(UIColor*)color {
+    CGRect rect = CGRectMake(0.0f, 0.0f, 1.0f, 1.0f);
+    UIGraphicsBeginImageContext(rect.size);
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    
+    CGContextSetFillColorWithColor(context, [color CGColor]);
+    CGContextFillRect(context, rect);
+    
+    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    return image;
+}
+
 -(void)buttonWasPressedDown:(UIButton*)button {
     if([button isEqual:self.signupButton]){
         NSLog(@"swag");
@@ -139,6 +165,15 @@
 -(void)textFieldDidBeginEditing:(UITextField *)textField {
     if([textField isEqual:self.usernameTextField] || [textField isEqual:self.passwordTextField] || [textField isEqual:self.phoneNumberTextField]){
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidShow:) name:UIKeyboardDidShowNotification object:nil];
+        if(textField == self.usernameTextField){
+            textField.returnKeyType = UIReturnKeyNext;
+        }
+        if(textField == self.passwordTextField) {
+            textField.returnKeyType = UIReturnKeyNext;
+        }
+        if(textField == self.phoneNumberTextField){
+            textField.returnKeyType = UIReturnKeyGo;
+        }
     }
 }
 -(void)keyboardDidShow:(NSNotification*)notification {
@@ -160,7 +195,16 @@
     
 }
 -(BOOL)textFieldShouldReturn:(UITextField *)textField {
-    
+    if(textField == self.phoneNumberTextField){
+        [self signUpActionReturnKeyAndButton];
+        [textField resignFirstResponder];
+    }
+    if(textField == self.passwordTextField) {
+        [self.phoneNumberTextField becomeFirstResponder];
+    }
+    if(textField == self.usernameTextField) {
+        [self.passwordTextField becomeFirstResponder];
+    }
     [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionCurveEaseIn animations:^{
         self.phoneNumberTextField.frame = CGRectMake(10, (self.view.frame.size.height/2)+16, self.view.frame.size.width-20, 30);
         self.usernameTextField.frame = CGRectMake(10, (self.view.frame.size.height/2)-46, self.view.frame.size.width-20, 30);
@@ -169,7 +213,7 @@
         
     }];
     
-    [textField resignFirstResponder];
+    //[textField resignFirstResponder];
     return YES;
 }
 
@@ -187,6 +231,11 @@
 
 -(void)signupButtonAction:(UIButton*)button {
     
+    [self signUpActionReturnKeyAndButton];
+    
+    
+}
+-(void)signUpActionReturnKeyAndButton {
     NSString *usernameString = [self.usernameTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
     NSString *passwordString = [self.passwordTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
     NSString *phoneString = [self.phoneNumberTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
@@ -195,9 +244,9 @@
     
     NSURL *baseURL  = [NSURL URLWithString:hostUrl]; //host url : http://local-app.co:1337
     AFHTTPClient *client = [[AFHTTPClient alloc] initWithBaseURL:baseURL];
-//RKObjectManager *objectManager = [[RKObjectManager alloc] initWithHTTPClient:client];
-
-  
+    //RKObjectManager *objectManager = [[RKObjectManager alloc] initWithHTTPClient:client];
+    
+    
     
     [[RKObjectManager sharedManager] postObject:nil path:@"/api/v1/users" parameters:parameters success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
         NSLog(@"success");
@@ -269,10 +318,8 @@
         }
         
     }];
- 
+    
 
-    
-    
 }
 -(void)createdAccountSuccessfully {
     self.accountSuccessfullyCreated = [[UIAlertView alloc] initWithTitle:@"Welcome to thisThat" message:@"Your account has been created, have fun!"  delegate:self cancelButtonTitle:@"Enter" otherButtonTitles:nil];

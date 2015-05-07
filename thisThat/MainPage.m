@@ -33,7 +33,8 @@
     
     
     
-    UIColor *redColor = [UIColor colorWithRed:(255/255.0) green:(102/255.0) blue:(102/255.0) alpha:1];
+ //   UIColor *redColor = [UIColor colorWithRed:(255/255.0) green:(102/255.0) blue:(102/255.0) alpha:1];
+    UIColor *redColor = [UIColor colorWithRed:(207/255.0) green:(70/255.0) blue:(51/255.0) alpha:1];
     
    /* UIImage *backgroundImage = [UIImage imageNamed:@"IMG_6322.jpg"];
     UIImageView *backGroundImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
@@ -42,21 +43,63 @@
     backGroundImageView.clipsToBounds = YES;
     [self.view addSubview:backGroundImageView];*/
     self.view.backgroundColor = redColor;
+    
+    CGFloat width = CGRectGetWidth(self.view.frame);
+    CGFloat height = CGRectGetHeight(self.view.frame);
+    
+    UIButton *personalButton = [[UIButton alloc] initWithFrame:CGRectMake((width/2)-25, (height/2)-90, 100, 30)];
+    [personalButton setTitle:@"personal" forState:UIControlStateNormal];
+    personalButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+    [personalButton setTitleEdgeInsets:UIEdgeInsetsMake(0, 10, 0, 0)];
+    [personalButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [personalButton setTitleColor:[[UIColor whiteColor] colorWithAlphaComponent:0.5] forState:UIControlStateHighlighted];
+    [personalButton.titleLabel setFont:[UIFont boldSystemFontOfSize:22]];
+    [personalButton addTarget:self action:@selector(personalPostsButtonAction:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:personalButton];
+    
+    
+    UIImage *personalIcon = [UIImage imageNamed:@"personalIconexport.png"];
+    UIButton *personalImageButton = [[UIButton alloc] initWithFrame:CGRectMake((width/2)-75, (height/2)-100, 50, 50)];
+    [personalImageButton setImage:personalIcon forState:UIControlStateNormal];
+    [personalImageButton addTarget:self action:@selector(personalPostsButtonAction:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:personalImageButton];
 
-    UIImage *personalImage = [UIImage imageNamed:@"personalIconexport.png"];
-    UIImageView *personalImageView = [[UIImageView alloc] initWithFrame:CGRectMake(10, 100, 50, 50)];
-    personalImageView.image = personalImage;
-    [self.view addSubview:personalImageView];
     
-    UIImage *feedImage = [UIImage imageNamed:@"feed.png"];
-    UIImageView *feedImageView = [[UIImageView alloc] initWithFrame:CGRectMake(10, 175, 50, 50)];
-    feedImageView.image = feedImage;
-    [self.view addSubview:feedImageView];
+
     
-    UIImage *votedImage = [UIImage imageNamed:@"voted.png"];
-    UIImageView *votedImageView = [[UIImageView alloc] initWithFrame:CGRectMake(10, 250, 50, 50)];
-    votedImageView.image = votedImage;
-    [self.view addSubview:votedImageView];
+    UIButton *feedButton = [[UIButton alloc] initWithFrame:CGRectMake((width/2)-25, (height/2)-15, 100, 30)];
+    [feedButton setTitle:@"feed" forState:UIControlStateNormal];
+    feedButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+    [feedButton setTitleEdgeInsets:UIEdgeInsetsMake(0, 10, 0, 0)];
+    [feedButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [feedButton setTitleColor:[[UIColor whiteColor] colorWithAlphaComponent:0.5] forState:UIControlStateHighlighted];
+    [feedButton.titleLabel setFont:[UIFont boldSystemFontOfSize:22]];
+    [feedButton addTarget:self action:@selector(feedButtonAction:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:feedButton];
+    
+    
+    UIImage *feedIcon = [UIImage imageNamed:@"feed.png"];
+    UIButton *feedImageButton = [[UIButton alloc] initWithFrame:CGRectMake((width/2)-75, (height/2)-25, 50, 50)];
+    [feedImageButton setImage:feedIcon forState:UIControlStateNormal];
+    [feedImageButton addTarget:self action:@selector(feedButtonAction:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:feedImageButton];
+    
+    
+    UIButton *votedButton = [[UIButton alloc] initWithFrame:CGRectMake((width/2)-25, (height/2)+60, 100, 30)];
+    [votedButton setTitle:@"voted" forState:UIControlStateNormal];
+    votedButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+    [votedButton setTitleEdgeInsets:UIEdgeInsetsMake(0, 10, 0, 0)];
+    [votedButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [votedButton setTitleColor:[[UIColor whiteColor] colorWithAlphaComponent:0.5] forState:UIControlStateHighlighted];
+    [votedButton.titleLabel setFont:[UIFont boldSystemFontOfSize:22]];
+    [votedButton addTarget:self action:@selector(votedButtonAction:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:votedButton];
+    
+    UIImage *votedIcon = [UIImage imageNamed:@"voted.png"];
+    UIButton *votedImageButton = [[UIButton alloc] initWithFrame:CGRectMake((width/2)-75, (height/2)+50, 50, 50)];
+    [votedImageButton setImage:votedIcon forState:UIControlStateNormal];
+    [votedImageButton addTarget:self action:@selector(votedButtonAction:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:votedImageButton];
     
     [self configureRestKit];
     
@@ -113,8 +156,8 @@
 }
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    
-     NSUserDefaults *userDefaultContents = [NSUserDefaults standardUserDefaults];
+    UIColor *redColor = [UIColor colorWithRed:(207/255.0) green:(70/255.0) blue:(51/255.0) alpha:1];
+    NSUserDefaults *userDefaultContents = [NSUserDefaults standardUserDefaults];
     NSObject *userDefaultObject = [userDefaultContents objectForKey:@"tokenIDString"];
     NSObject *currentIDObject = [userDefaultContents objectForKey:@"userIDString"];
     NSObject *usernameObject = [userDefaultContents objectForKey:@"username"];
@@ -122,7 +165,11 @@
         NSLog(@"\nCurrent ID = %@\nCurrent UserIDToken = %@\nUsername= %@",currentIDObject,userDefaultObject,usernameObject);
     
         NSString *username = [NSString stringWithFormat:@"%@",usernameObject];
+       
+        self.navigationController.navigationBar.titleTextAttributes = @{NSForegroundColorAttributeName : redColor };
         self.navigationItem.title = username;
+        
+
         
     } else {
        // if no contents in userdefaults show login screen
@@ -158,7 +205,7 @@
     
     self.settingsSection1LabelArray = [[NSArray alloc] initWithObjects:@"Invite your friends to thisThat", nil];
     self.settingsSection2LabelArray = [[NSArray alloc] initWithObjects:@"Instagram",@"Twitter", nil];
-    self.settingsSection3LabelArray = [[NSArray alloc] initWithObjects:@"thisThat website",@"Suggestions",@"Report a problem",@"Delete account", nil];
+    self.settingsSection3LabelArray = [[NSArray alloc] initWithObjects:@"thisThat website",@"Suggestions",@"Report a problem", nil];
     self.settingsSection4LaeblArray = [[NSArray alloc] initWithObjects:@"Logout of thisThat", nil];
     
     UIImage *twitterImage = [UIImage imageNamed:@"Twitter_logo_blue.png"];
@@ -191,7 +238,7 @@
 }
 //uploadPost initalize
 - (IBAction)upload:(id)sender {
-
+UIColor *redColor = [UIColor colorWithRed:(207/255.0) green:(70/255.0) blue:(51/255.0) alpha:1];
     [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationFade];
        CGFloat viewHeight = self.view.frame.size.height;
     CGFloat viewWidth = self.view.frame.size.width;
@@ -201,65 +248,98 @@
     UIColor *blackThisThatColor = [UIColor colorWithRed:(39/255.0) green:(35/255.0) blue:(34/255.0) alpha:1];
     [self presentInvisibleView];
     self.uploadPostView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, viewWidth, viewHeight)];
-    self.uploadPostView.backgroundColor = [UIColor grayColor];
+    self.uploadPostView.backgroundColor = [UIColor whiteColor];
     [self.navigationController.view addSubview:self.uploadPostView];
     self.uploadPostPinchGesture = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(recognizePinchToCloseCurrentView:)];
     [self.uploadPostView addGestureRecognizer:self.uploadPostPinchGesture];
-    self.uploadPostExampleTableViewCellView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, viewWidth, (viewWidth/2)+130)];
+    CGFloat heightOfCell = (viewWidth/2) + 130;
+    CGFloat heighOfInstructionsLabel = (viewHeight/2)-(heightOfCell/2);
+    
+    self.uploadPostInstructionsLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, (heighOfInstructionsLabel/2)-15, viewWidth-20, 30)];
+    self.uploadPostInstructionsLabel.text = @"Create a new thisThat";
+    self.uploadPostInstructionsLabel.textAlignment = NSTextAlignmentCenter;
+    [self.uploadPostView addSubview:self.uploadPostInstructionsLabel];
+    
+    self.uploadPostExampleTableViewCellView = [[UIView alloc] initWithFrame:CGRectMake(0, (viewHeight/2)-(heightOfCell/2), viewWidth, (viewWidth/2)+130)];
     self.uploadPostExampleTableViewCellView.backgroundColor = [UIColor whiteColor];
     [self.uploadPostView addSubview:self.uploadPostExampleTableViewCellView];
+    
+    UIView *topLine = [[UIView alloc] initWithFrame:CGRectMake(0, 0, viewWidth, 1)];
+    topLine.backgroundColor = [UIColor blackColor];
+    [self.uploadPostExampleTableViewCellView addSubview:topLine];
+    
+    UIView *bottomLine = [[UIView alloc] initWithFrame:CGRectMake(0, heightOfCell-1, viewWidth, 1)];
+    bottomLine.backgroundColor = [UIColor blackColor];
+    [self.uploadPostExampleTableViewCellView addSubview:bottomLine];
+    
     NSUserDefaults *userDefaultContents = [NSUserDefaults standardUserDefaults];
     NSObject *usernameObject = [userDefaultContents objectForKey:@"username"];
-    self.uploadPostUsernameLabel = [[UILabel alloc] initWithFrame:CGRectMake((viewWidth/2)+5, 10, (viewWidth/2)-15, 30)];
+    self.uploadPostUsernameLabel = [[UILabel alloc] initWithFrame:CGRectMake((viewWidth/2)+5, (heightOfCell-(viewWidth/2)+15)/2 -30, (viewWidth/2)-5, 30)];
     self.uploadPostUsernameLabel.backgroundColor = [UIColor clearColor];
     [self.uploadPostUsernameLabel setFont:[UIFont boldSystemFontOfSize:20]];
-    self.uploadPostUsernameLabel.textColor = [UIColor grayColor];
+    self.uploadPostUsernameLabel.textColor = redColor;
     self.uploadPostUsernameLabel.textAlignment = NSTextAlignmentCenter;
     self.uploadPostUsernameLabel.adjustsFontSizeToFitWidth = YES;
     self.uploadPostUsernameLabel.minimumScaleFactor = 0.8;
     self.uploadPostUsernameLabel.text = [NSString stringWithFormat:@"%@",usernameObject];
     [self.uploadPostExampleTableViewCellView addSubview:self.uploadPostUsernameLabel];
     
-    self.uploadPostTimeStampLabel = [[UILabel alloc] initWithFrame:CGRectMake((viewWidth/2)+5,100,(viewWidth/2)-15,30)];
+   /* self.uploadPostTimeStampLabel = [[UILabel alloc] initWithFrame:CGRectMake((viewWidth/2)+5,100,(viewWidth/2)-15,30)];
     [self.uploadPostTimeStampLabel setFont:[UIFont systemFontOfSize:15]];
     self.uploadPostTimeStampLabel.text = @"Just now";
     self.uploadPostTimeStampLabel.textAlignment = NSTextAlignmentCenter;
     self.uploadPostTimeStampLabel.backgroundColor = [UIColor clearColor];
     self.uploadPostTimeStampLabel.textColor = greyishThisThatColor;
-    [self.uploadPostExampleTableViewCellView addSubview:self.uploadPostTimeStampLabel];
+    [self.uploadPostExampleTableViewCellView addSubview:self.uploadPostTimeStampLabel];*/
     
    // self.uploadPostCameraButtonOne = [[UIButton alloc ] initWithFrame:CGRectMake(10, 100, (viewWidth/2)-15, self.uploadPostExampleTableViewCellView.frame.size.height-110)];
     self.uploadPostCameraButtonOne = [[UIButton alloc ] initWithFrame:CGRectMake(10, 10, (viewWidth/2)-15, (viewWidth/2)-15)];
-    self.uploadPostCameraButtonOne.backgroundColor = [UIColor grayColor];
+    self.uploadPostCameraButtonOne.backgroundColor = [UIColor lightGrayColor];
     [self.uploadPostCameraButtonOne setTitle:@"Add photo" forState:UIControlStateNormal];
     [self.uploadPostCameraButtonOne addTarget:self action:@selector(takePhotoButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
     [self.uploadPostExampleTableViewCellView addSubview:self.uploadPostCameraButtonOne];
     
    // self.uploadPostCameraButtonTwo = [[UIButton alloc] initWithFrame:CGRectMake((viewWidth/2)+5, 100, (viewWidth/2)-15, self.uploadPostExampleTableViewCellView.frame.size.height-110)];
      self.uploadPostCameraButtonTwo = [[UIButton alloc] initWithFrame:CGRectMake((viewWidth/2)+5, (self.uploadPostExampleTableViewCellView.frame.size.height)-(viewWidth/2)+5, (viewWidth/2)-15, (viewWidth/2)-15)];
-    self.uploadPostCameraButtonTwo.backgroundColor = [UIColor grayColor];
+    self.uploadPostCameraButtonTwo.backgroundColor = [UIColor lightGrayColor];
     [self.uploadPostCameraButtonTwo setTitle:@"Add photo" forState:UIControlStateNormal];
     [self.uploadPostCameraButtonTwo addTarget:self action:@selector(takePhotoButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
     [self.uploadPostExampleTableViewCellView addSubview:self.uploadPostCameraButtonTwo];
+    
+    
     
     self.uploadPostTextView = [[UITextView alloc] initWithFrame:CGRectMake(10, (viewWidth/2)+5, (viewWidth/2)-15, self.uploadPostExampleTableViewCellView.frame.size.height-15-(viewWidth/2))];
     self.uploadPostTextView.backgroundColor = [UIColor clearColor];
     self.uploadPostTextView.delegate = self;
     [self.uploadPostTextView setFont:[UIFont systemFontOfSize:15]];
-    self.uploadPostTextView.textColor = [UIColor grayColor];
+    self.uploadPostTextView.textColor = [UIColor blackColor];
     self.uploadPostTextView.layer.borderWidth = 1.0;
     self.uploadPostTextView.layer.borderColor = [UIColor blackColor].CGColor;
     self.uploadPostTextView.textAlignment = NSTextAlignmentCenter;
     self.uploadPostTextView.text = @"What are you comparing?";
+    self.uploadPostTextView.returnKeyType = UIReturnKeyDone;
     [self.uploadPostExampleTableViewCellView addSubview:self.uploadPostTextView];
     
-    self.uploadPostPreviewButton = [[UIButton alloc] initWithFrame:CGRectMake(0, (viewWidth/2)+160, viewWidth, 40)];
+    CGFloat maxCellYValue = CGRectGetMaxY(self.uploadPostExampleTableViewCellView.frame);
+    CGFloat lengthEndCellToEndScreen = viewHeight - maxCellYValue;
+    
+    
+    self.uploadPostPreviewButton = [[UIButton alloc] initWithFrame:CGRectMake(10, maxCellYValue + lengthEndCellToEndScreen/2 - 15, viewWidth/3 -15
+                                                                              , 30)];
     self.uploadPostPreviewButton.backgroundColor = blackThisThatColor;
-    [self.uploadPostPreviewButton setTitle:@"PREVIEW POST" forState:UIControlStateNormal];
+    [self.uploadPostPreviewButton setTitle:@"Preview" forState:UIControlStateNormal];
     [self.uploadPostPreviewButton addTarget:self action:@selector(previewUploadThisThat:) forControlEvents:UIControlEventTouchUpInside];
     [self.uploadPostView addSubview:self.uploadPostPreviewButton];
     [self.uploadPostPreviewButton setHidden:YES];
     
+    self.uploadPostButton = [[UIButton alloc] initWithFrame:CGRectMake(viewWidth/3+5, maxCellYValue + lengthEndCellToEndScreen/2 - 15, 2*(viewWidth/3)-15, 30)];
+    self.uploadPostButton.backgroundColor = redColor;
+    [self.uploadPostButton setTitle:@"Upload" forState:UIControlStateNormal];
+    [self.uploadPostButton addTarget:self action:@selector(uploadPostAction:) forControlEvents:UIControlEventTouchUpInside];
+    [self.uploadPostView addSubview:self.uploadPostButton];
+    [self.uploadPostButton setHidden:YES];
+    
+    /*
     self.uploadPostSlideToUploadLabel = [[UILabel alloc] initWithFrame:CGRectMake(100, (viewWidth/2)+220, 180, 30)];
     self.uploadPostSlideToUploadLabel.textColor = [UIColor blackColor];
     self.uploadPostSlideToUploadLabel.text = @">> Slide to upload >>";
@@ -280,8 +360,8 @@
     [uploadLabel setFont:[UIFont systemFontOfSize:15]];
     uploadLabel.text = @"Upload";
     [self.uploadPostSlideToUploadView addSubview:uploadLabel];
-                                                                     
-    
+        */
+    /*
     self.uploadPostAddressLabel = [[UILabel alloc] initWithFrame:CGRectMake((viewWidth/2)+5,50,(viewWidth/2)-15,40)];
     self.uploadPostAddressLabel.textAlignment = NSTextAlignmentCenter;
     self.uploadPostAddressLabel.backgroundColor = [UIColor clearColor];
@@ -292,7 +372,8 @@
     self.uploadPostAddressLabel.minimumScaleFactor = 0.5;
     self.uploadPostAddressLabel.text = @"Earth";
     [self.uploadPostView addSubview:self.uploadPostAddressLabel];
-    
+    */
+    /*
     self.uploadPostLocationEnabledSwitch = [[UISwitch alloc] initWithFrame:CGRectMake(viewWidth-60, (viewWidth/2)+130, 30, 30)];
     [self.uploadPostLocationEnabledSwitch addTarget:self action:@selector(onOffSwitch:) forControlEvents:UIControlEventValueChanged];
     self.uploadPostLocationEnabledSwitch.onTintColor = blueishThisThatColor;
@@ -305,10 +386,54 @@
     locationManager.delegate = self;
     [locationManager requestAlwaysAuthorization];
     geocoder = [[CLGeocoder alloc] init];
-
+*/
 
 }
 //pan to upload new post
+-(void)uploadPostAction:(UIButton *)recognize {
+    [self uploadThisThat];
+}
+-(void)textViewDidBeginEditing:(UITextView *)textView {
+    if([textView isEqual:self.uploadPostTextView]){
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidShow:) name:UIKeyboardDidShowNotification object:nil];
+    }
+}
+-(void)keyboardDidShow:(NSNotification*)notification {
+    CGRect keyboardSize = [[[notification userInfo] objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue];
+    CGFloat keyboardHeight = keyboardSize.size.height;
+    self.maxYKeyboard = self.view.frame.size.height - keyboardHeight;
+    CGFloat viewHeight = self.view.frame.size.height;
+    CGFloat viewWidth = self.view.frame.size.width;
+    CGFloat heightOfCell = (viewWidth/2) + 130;
+    CGFloat heighOfInstructionsLabel = (viewHeight/2)-(heightOfCell/2);
+    [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionCurveLinear animations:^{
+        self.uploadPostExampleTableViewCellView.frame = CGRectMake(0, viewHeight-heightOfCell-keyboardHeight, viewWidth, (viewWidth/2)+130);
+        self.uploadPostInstructionsLabel.frame = CGRectMake(10, viewHeight-heightOfCell-keyboardHeight-self.uploadPostInstructionsLabel.frame.size.height, viewWidth-20, 30);
+    } completion:^(BOOL finished) {
+        self.uploadPostCameraButtonOne.enabled = NO;
+        self.uploadPostCameraButtonTwo.enabled = NO;
+        self.uploadPostTapGestureToCloseKeyboard = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapToCloseKeyboard:)];
+        [self.uploadPostView addGestureRecognizer:self.uploadPostTapGestureToCloseKeyboard];
+    }];
+    
+}
+-(void)tapToCloseKeyboard:(UITapGestureRecognizer*)recognize {
+    [self.uploadPostTextView resignFirstResponder];
+    [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionCurveLinear animations:^{
+        CGFloat viewHeight = self.view.frame.size.height;
+        CGFloat viewWidth = self.view.frame.size.width;
+        CGFloat heightOfCell = (viewWidth/2) + 130;
+        CGFloat heighOfInstructionsLabel = (viewHeight/2)-(heightOfCell/2);
+        self.uploadPostExampleTableViewCellView.frame = CGRectMake(0, (viewHeight/2)-(heightOfCell/2), viewWidth, (viewWidth/2)+130);
+        self.uploadPostInstructionsLabel.frame = CGRectMake(10, (heighOfInstructionsLabel/2)-15, viewWidth-20, 30);
+    } completion:^(BOOL finished) {
+        self.uploadPostCameraButtonOne.enabled = YES;
+        self.uploadPostCameraButtonTwo.enabled = YES;
+        [self.uploadPostTextView removeGestureRecognizer:self.uploadPostTapGestureToCloseKeyboard];
+    }];
+    
+}
+/*
 -(void)recognizePanUploadThisThatView:(UIPanGestureRecognizer*)recognize {
 
 
@@ -368,7 +493,7 @@
             break;
     }
     
-}
+} */
 //called when pan to upload post is complete
 -(void)uploadThisThat {
     [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
@@ -492,6 +617,7 @@
     
 }
 //upload post, allow location to be found
+/*
 -(void)onOffSwitch:(id)recognize {
     if([recognize isOn]){
         NSLog(@"switchON");
@@ -519,22 +645,25 @@
         }
     }];
 }
+ */
+
 //upload see photos 1/2 size of viewscreen
 -(void)previewUploadThisThat:(UIButton *)recognize {
-    
+    UIColor *redColor = [UIColor colorWithRed:(207/255.0) green:(70/255.0) blue:(51/255.0) alpha:1];
+
     self.uploadPostViewForImageViews = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
     self.uploadPostViewForImageViews.backgroundColor = [UIColor whiteColor];
     [self.uploadPostView addSubview:self.uploadPostViewForImageViews];
     
     self.uploadPostPreviewViewForLabels = [[UIView alloc] initWithFrame:CGRectMake(0, (self.view.frame.size.height/2)-115, self.view.frame.size.width, 230)];
     self.uploadPostPreviewViewForLabels.layer.borderWidth = 5;
-    self.uploadPostPreviewViewForLabels.layer.borderColor = [UIColor grayColor].CGColor;
+    self.uploadPostPreviewViewForLabels.layer.borderColor = [UIColor darkGrayColor].CGColor;
     [self.uploadPostViewForImageViews addSubview:self.uploadPostPreviewViewForLabels];
     
     
     self.uploadPostPreviewTextContentLabel = [[UILabel alloc] initWithFrame:CGRectMake(10,70, self.view.frame.size.width-20, 120)];
     self.uploadPostPreviewTextContentLabel.text = self.uploadPostTextViewString;
-    self.uploadPostPreviewTextContentLabel.textColor = [UIColor grayColor];
+    self.uploadPostPreviewTextContentLabel.textColor = [UIColor darkGrayColor];
     [self.uploadPostPreviewTextContentLabel setFont:[UIFont systemFontOfSize:25]];
     self.uploadPostPreviewTextContentLabel.numberOfLines = 0;
     self.uploadPostPreviewTextContentLabel.adjustsFontSizeToFitWidth = YES;
@@ -548,28 +677,28 @@
     NSString *usernameString = [NSString stringWithFormat:@"%@",usernameObject];
     self.uploadPostPreviewUsernameLabel.text = usernameString;
     self.uploadPostPreviewUsernameLabel.textAlignment = NSTextAlignmentCenter;
-    self.uploadPostPreviewUsernameLabel.textColor = [UIColor grayColor];
+    self.uploadPostPreviewUsernameLabel.textColor = redColor;
     [self.uploadPostPreviewUsernameLabel setFont:[UIFont systemFontOfSize:30]];
     self.uploadPostPreviewUsernameLabel.adjustsFontSizeToFitWidth = YES;
     self.uploadPostPreviewUsernameLabel.minimumScaleFactor = 0.5;
     [self.uploadPostPreviewViewForLabels addSubview:self.uploadPostPreviewUsernameLabel];
     
-    self.uploadPostPreviewTimeStampLabel = [[UILabel alloc] initWithFrame:CGRectMake(3*(self.view.frame.size.width/4), 10, (self.view.frame.size.width/4)-10, 20)];
+  /*  self.uploadPostPreviewTimeStampLabel = [[UILabel alloc] initWithFrame:CGRectMake(3*(self.view.frame.size.width/4), 10, (self.view.frame.size.width/4)-10, 20)];
     self.uploadPostPreviewTimeStampLabel.text = @"Just now";
     self.uploadPostPreviewTimeStampLabel.textColor = [UIColor grayColor];
     [self.uploadPostPreviewTimeStampLabel setFont:[UIFont systemFontOfSize:15]];
     self.uploadPostPreviewTimeStampLabel.adjustsFontSizeToFitWidth = YES;
     self.uploadPostPreviewTimeStampLabel.minimumScaleFactor = 0.8;
-    [self.uploadPostPreviewViewForLabels addSubview:self.uploadPostPreviewTimeStampLabel];
+    [self.uploadPostPreviewViewForLabels addSubview:self.uploadPostPreviewTimeStampLabel];*/
     
-    self.uploadPostPreviewLocationLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 10, 3*(self.view.frame.size.width/4)-10, 20)];
+   /* self.uploadPostPreviewLocationLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 10, 3*(self.view.frame.size.width/4)-10, 20)];
     self.uploadPostPreviewLocationLabel.text = self.uploadPostAddressLabel.text;
     [self.uploadPostPreviewLocationLabel setFont:[UIFont systemFontOfSize:15]];
     self.uploadPostPreviewLocationLabel.textColor = [UIColor grayColor];
     self.uploadPostPreviewLocationLabel.adjustsFontSizeToFitWidth = YES;
     self.uploadPostPreviewLocationLabel.minimumScaleFactor = 0.6;
     [self.uploadPostPreviewViewForLabels addSubview:self.uploadPostPreviewLocationLabel];
-    
+    */
     
     self.uploadPostImageViewOne = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, (self.view.frame.size.height/2))];
     self.uploadPostImageViewOne.image = [self cropImage:self.uploadPostTempImageOne cropSize:CGSizeMake(self.view.frame.size.width, self.uploadPostViewForImageViews.frame.size.height/2)];
@@ -655,12 +784,21 @@
     [self.uploadPostYellowMenuButton setAlpha:1];
 }
 //action to load personal posts
+-(void)personalPostsButtonAction:(UIButton*)sender {
+   
+    
+    [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationFade];
+    
+    [self loadPersonalPosts];
+}
+/*
 - (IBAction)personalPosts:(id)sender {
    // [self initalizeTableView];
     [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationFade];
 
     [self loadPersonalPosts];
     }
+ */
 //initalize personal posts tableview
 -(void)initalizeTableView{
     CGFloat widthFrame = CGRectGetWidth(self.view.frame);
@@ -774,7 +912,7 @@
             return 2;
         }
         if(section == 2) {
-            return 4;
+            return 3;
         }
         if(section == 3) {
             return 1;
@@ -875,11 +1013,11 @@
     }];
     
     cell.backgroundColor = [UIColor whiteColor];
-
+UIColor *redColor = [UIColor colorWithRed:(207/255.0) green:(70/255.0) blue:(51/255.0) alpha:1];
         cell.username = [[UILabel alloc] initWithFrame:CGRectMake((cell.contentView.frame.size.width/2)+5, 10, (cell.contentView.frame.size.width/2)-15, 30)];
         cell.username.textAlignment = NSTextAlignmentCenter;
         cell.username.backgroundColor = [UIColor clearColor];
-    cell.username.textColor = [UIColor darkGrayColor];
+        cell.username.textColor = redColor;
     cell.username.font = [UIFont boldSystemFontOfSize:20];
         NSUserDefaults *userDefaultContents = [NSUserDefaults standardUserDefaults];
         NSObject *usernameObject = [userDefaultContents objectForKey:@"username"];
@@ -888,7 +1026,7 @@
         cell.username.minimumScaleFactor = 0.5;
         
         cell.username.text = [NSString stringWithFormat:@"%@",usernameObject];
-        cell.locationLabel = [[UILabel alloc] initWithFrame:CGRectMake((cell.contentView.frame.size.width/2)+5, 50, (cell.contentView.frame.size.width/2)-15, 40)];
+     /*   cell.locationLabel = [[UILabel alloc] initWithFrame:CGRectMake((cell.contentView.frame.size.width/2)+5, 50, (cell.contentView.frame.size.width/2)-15, 40)];
         cell.locationLabel.textAlignment = NSTextAlignmentCenter;
         cell.locationLabel.backgroundColor = [UIColor clearColor];
         cell.locationLabel.textColor = [UIColor lightGrayColor];
@@ -896,31 +1034,31 @@
         cell.locationLabel.numberOfLines = 0;
         cell.locationLabel.text = @"Victoria BC";
         cell.locationLabel.adjustsFontSizeToFitWidth = YES;
-        cell.locationLabel.minimumScaleFactor = 0.5;
+        cell.locationLabel.minimumScaleFactor = 0.5;*/
         
 
-        cell.timeStamp = [[UILabel alloc] initWithFrame:CGRectMake((cell.contentView.frame.size.width/2)+5, 100, (cell.contentView.frame.size.width/4)-15, 30)];
+        cell.timeStamp = [[UILabel alloc] initWithFrame:CGRectMake((cell.contentView.frame.size.width/2)+5, 100, (cell.contentView.frame.size.width/2)-15, 30)];
         cell.timeStamp.backgroundColor = [UIColor clearColor];
     cell.timeStamp.textColor = [UIColor lightGrayColor];
     cell.timeStamp.font = [UIFont systemFontOfSize:15];
-    cell.timeStamp.textAlignment = NSTextAlignmentLeft;
+    cell.timeStamp.textAlignment = NSTextAlignmentCenter;
     cell.timeStamp.text = [self inputDate:personalPost.createdAt];
 
         cell.textContent = [[UILabel alloc] initWithFrame:CGRectMake(10, (cell.contentView.frame.size.width/2)+5, (cell.contentView.frame.size.width/2)-15, cell.contentView.frame.size.height-15-(cell.contentView.frame.size.width/2))];
     cell.textContent.backgroundColor = [UIColor clearColor];
         cell.textContent.numberOfLines = 0;
-    cell.textContent.textColor = [UIColor darkGrayColor];
+        cell.textContent.textColor = [UIColor darkGrayColor];
         cell.textContent.adjustsFontSizeToFitWidth = YES;
         cell.textContent.minimumScaleFactor = 0.8;
     cell.textContent.font = [UIFont systemFontOfSize:20];
         cell.textContent.textAlignment = NSTextAlignmentCenter;
     cell.textContent.text = personalPost.textContent;
         
-        cell.totalVotesLabel = [[UILabel alloc] initWithFrame:CGRectMake(3*(cell.contentView.frame.size.width/4)-15, 100, (cell.contentView.frame.size.width/4)+5, 30)];
+        cell.totalVotesLabel = [[UILabel alloc] initWithFrame:CGRectMake((cell.contentView.frame.size.width/2)+5, 50, (cell.contentView.frame.size.width/2)-15, 40)];
         cell.totalVotesLabel.backgroundColor = [UIColor clearColor];
-        cell.totalVotesLabel.textColor = [UIColor lightGrayColor];
+        cell.totalVotesLabel.textColor = [UIColor darkGrayColor];
         [cell.totalVotesLabel setFont:[UIFont systemFontOfSize:15]];
-        cell.totalVotesLabel.textAlignment = NSTextAlignmentRight;
+        cell.totalVotesLabel.textAlignment = NSTextAlignmentCenter;
         cell.totalVotesLabel.text = [self ForTotalVotesVoteCountOne:personalPost.voteCountOne ForTotalVotesVoteCountTwo:personalPost.voteCountTwo];
         
     cell.votePercentageOneLabel = [[UILabel alloc] initWithFrame:cell.imageViewOne.frame];
@@ -945,7 +1083,7 @@
     [cell.contentView addSubview:cell.votePercentageOneLabel];
     [cell.contentView addSubview:cell.votePercentageTwoLabel];
         [cell.contentView addSubview:cell.totalVotesLabel];
-        [cell.contentView addSubview:cell.locationLabel];
+       // [cell.contentView addSubview:cell.locationLabel];
     
     return cell;
     }
@@ -1013,19 +1151,19 @@
         } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
             
         }];
-        
+        UIColor *redColor = [UIColor colorWithRed:(207/255.0) green:(70/255.0) blue:(51/255.0) alpha:1];
         cell.backgroundColor = [UIColor whiteColor];
         cell.username = [[UILabel alloc] initWithFrame:CGRectMake((cell.contentView.frame.size.width/2)+5, 10, (cell.contentView.frame.size.width/2)-15, 30)];
         cell.username.textAlignment = NSTextAlignmentCenter;
         cell.username.backgroundColor = [UIColor clearColor];
-        cell.username.textColor = [UIColor darkGrayColor];
+        cell.username.textColor = redColor;
         cell.username.font = [UIFont boldSystemFontOfSize:20];
  
         cell.username.adjustsFontSizeToFitWidth = YES;
         cell.username.minimumScaleFactor = 0.5;
         
         cell.username.text = personalPost.username;
-        cell.locationLabel = [[UILabel alloc] initWithFrame:CGRectMake((cell.contentView.frame.size.width/2)+5, 50, (cell.contentView.frame.size.width/2)-15, 40)];
+    /*    cell.locationLabel = [[UILabel alloc] initWithFrame:CGRectMake((cell.contentView.frame.size.width/2)+5, 50, (cell.contentView.frame.size.width/2)-15, 40)];
         cell.locationLabel.textAlignment = NSTextAlignmentCenter;
         cell.locationLabel.backgroundColor = [UIColor clearColor];
         cell.locationLabel.textColor = [UIColor lightGrayColor];
@@ -1033,14 +1171,14 @@
         cell.locationLabel.numberOfLines = 0;
         cell.locationLabel.text = @"Victoria BC";
         cell.locationLabel.adjustsFontSizeToFitWidth = YES;
-        cell.locationLabel.minimumScaleFactor = 0.5;
+        cell.locationLabel.minimumScaleFactor = 0.5;*/
         
         
-        cell.timeStamp = [[UILabel alloc] initWithFrame:CGRectMake((cell.contentView.frame.size.width/2)+5, 100, (cell.contentView.frame.size.width/4)-15, 30)];
+        cell.timeStamp = [[UILabel alloc] initWithFrame:CGRectMake((cell.contentView.frame.size.width/2)+5, 100, (cell.contentView.frame.size.width/2)-15, 30)];
         cell.timeStamp.backgroundColor = [UIColor clearColor];
         cell.timeStamp.textColor = [UIColor lightGrayColor];
         cell.timeStamp.font = [UIFont systemFontOfSize:15];
-        cell.timeStamp.textAlignment = NSTextAlignmentLeft;
+        cell.timeStamp.textAlignment = NSTextAlignmentCenter;
         cell.timeStamp.text = [self inputDate:personalPost.createdAt];
         
         cell.textContent = [[UILabel alloc] initWithFrame:CGRectMake(10, (cell.contentView.frame.size.width/2)+5, (cell.contentView.frame.size.width/2)-15, cell.contentView.frame.size.height-15-(cell.contentView.frame.size.width/2))];
@@ -1053,11 +1191,11 @@
         cell.textContent.textAlignment = NSTextAlignmentCenter;
         cell.textContent.text = personalPost.textContent;
     
-        cell.totalVotesLabel = [[UILabel alloc] initWithFrame:CGRectMake(3*(cell.contentView.frame.size.width/4)-15, 100, (cell.contentView.frame.size.width/4)+5, 30)];
+        cell.totalVotesLabel = [[UILabel alloc] initWithFrame:CGRectMake((cell.contentView.frame.size.width/2)+5, 50, (cell.contentView.frame.size.width/2)-15, 30)];
         cell.totalVotesLabel.backgroundColor = [UIColor clearColor];
-        cell.totalVotesLabel.textColor = [UIColor lightGrayColor];
+        cell.totalVotesLabel.textColor = [UIColor darkGrayColor];
         [cell.totalVotesLabel setFont:[UIFont systemFontOfSize:15]];
-        cell.totalVotesLabel.textAlignment = NSTextAlignmentRight;
+        cell.totalVotesLabel.textAlignment = NSTextAlignmentCenter;
         cell.totalVotesLabel.text = [self ForTotalVotesVoteCountOne:personalPost.voteCountOne ForTotalVotesVoteCountTwo:personalPost.voteCountTwo];
         
         cell.votePercentageOneLabel = [[UILabel alloc] initWithFrame:cell.imageViewOne.frame];
@@ -1100,7 +1238,7 @@
         [cell.contentView addSubview:cell.username];
         [cell.contentView addSubview:cell.timeStamp];
         [cell.contentView addSubview:cell.textContent];
-        [cell.contentView addSubview:cell.locationLabel];
+      //  [cell.contentView addSubview:cell.locationLabel];
         [cell.contentView addSubview:cell.votePercentageOneLabel];
         [cell.contentView addSubview:cell.votePercentageTwoLabel];
         [cell.contentView addSubview:cell.totalVotesLabel];
@@ -1108,7 +1246,8 @@
         
     }
     else {
-        
+        UIColor *redColor = [UIColor colorWithRed:(207/255.0) green:(70/255.0) blue:(51/255.0) alpha:1];
+
         NSUInteger section = [indexPath indexAtPosition:[indexPath length]-2];
         static NSString *cellID1 = @"cell";
         static NSString *cellID2 = @"cell";
@@ -1128,8 +1267,8 @@
             NSString *sectionOneString = [self.settingsSection2LabelArray objectAtIndex:indexPath.row];
             cell2.textLabel.text = sectionOneString;
             cell2.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-            UIImage *image = [self.twitterIntstagramImagesArray objectAtIndex:indexPath.row];
-            cell2.imageView.image = image;
+           // UIImage *image = [self.twitterIntstagramImagesArray objectAtIndex:indexPath.row];
+           // cell2.imageView.image = image;
         
             
             
@@ -1145,7 +1284,7 @@
         else {
             UITableViewCell *cell4 = [tableView dequeueReusableCellWithIdentifier:cellID4 forIndexPath:indexPath];
             NSString *sectionThreeString = [self.settingsSection4LaeblArray objectAtIndex:indexPath.row];
-            cell4.textLabel.textColor = [UIColor redColor];
+            cell4.textLabel.textColor = redColor;
             cell4.textLabel.text = sectionThreeString;
             cell4.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 
@@ -1321,7 +1460,7 @@
                 
                 
             }
-            if(selectedRow == 3){
+           /* if(selectedRow == 3){
                 //delete account
                 if([MFMailComposeViewController canSendMail]) {
                     MFMailComposeViewController *composeViewController = [[MFMailComposeViewController alloc] initWithNibName:nil bundle:nil];
@@ -1335,7 +1474,7 @@
                 }
                 
                 
-            }
+            }*/
         }
         if(selectedSection == 3){
             if(selectedRow == 0){
@@ -1480,6 +1619,7 @@
     }
 }
 // upload post text view begin editing
+
 -(BOOL)textViewShouldBeginEditing:(UITextView *)textView {
     if([self.uploadPostTextView.text isEqualToString:@"What are you comparing?"]) {
         self.uploadPostTextView.text = @"";
@@ -1504,8 +1644,23 @@
         return !([newString length] >100);
     }
     [textView resignFirstResponder];
+    [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionCurveLinear animations:^{
+        CGFloat viewHeight = self.view.frame.size.height;
+        CGFloat viewWidth = self.view.frame.size.width;
+        CGFloat heightOfCell = (viewWidth/2) + 130;
+        CGFloat heighOfInstructionsLabel = (viewHeight/2)-(heightOfCell/2);
+        
+        self.uploadPostExampleTableViewCellView.frame = CGRectMake(0, (viewHeight/2)-(heightOfCell/2), viewWidth, (viewWidth/2)+130);
+        self.uploadPostInstructionsLabel.frame = CGRectMake(10, (heighOfInstructionsLabel/2)-15, viewWidth-20, 30);
+        
+    } completion:^(BOOL finished) {
+        self.uploadPostCameraButtonOne.enabled = YES;
+        self.uploadPostCameraButtonTwo.enabled = YES;
+        
+    }];
     return NO;
 }
+
 
 //determingin which camera button was pressed for imagepicker and initalizing imagepicker
 -(void)takePhotoButtonPressed:(UIButton*)button {
@@ -1571,17 +1726,21 @@
     [self dismissViewControllerAnimated:YES completion:nil];
     if(self.uploadPostTempImageOne != nil && self.uploadPostTempImageTwo != nil) {
         [self.uploadPostPreviewButton setHidden:NO];
-        [self.uploadPostSlideToUploadView setHidden:NO];
-        [self.uploadPostSlideToUploadLabel setHidden:NO];
+        [self.uploadPostButton setHidden:NO];
     }
     
 }
 //open newsfeed action
+-(void)feedButtonAction:(UIButton*)sender {
+    [self presentLoadingView];
+    [self loadNewsFeedArray];
+}
+/*
 - (IBAction)newsFeed:(id)sender {
     [self presentLoadingView];
     [self loadNewsFeedArray];
 
-}
+}*/
 // news feed menu button to animate pictures to see text below it
 -(void)menuButtonSelected:(UIButton*)recognize{
         [self.newsFeedPanGestureImageViewOne setEnabled:NO];
@@ -1835,7 +1994,7 @@
                 self.personalPostsTableView.transform = CGAffineTransformMakeScale(lastScaleFactor*factor, lastScaleFactor*factor);
             }
             if(factor < 0.45) {
-                [self.personalPostsButton setEnabled:YES];
+               // [self.personalPostsButton setEnabled:YES];
                 [self.personalPostsTableView removeFromSuperview];
                 
             }
@@ -2577,8 +2736,8 @@
         self.newsFeedTextContentLabel.text = newsFeedObject.textContent;
         self.newsFeedTimeStampLabel.text = [self inputDate:newsFeedObject.createdAt];
          NSMutableArray *voteCountArray = [self voteCountOne:newsFeedObject.voteCountOne voteCountTwo:newsFeedObject.voteCountTwo];
-        self.newsFeedImageViewOnePercentageLabel.text = [voteCountArray objectAtIndex:0];
-        self.newsFeedImageViewTwoPercentageLabel.text = [voteCountArray objectAtIndex:1];
+   //     self.newsFeedImageViewOnePercentageLabel.text = [voteCountArray objectAtIndex:0];
+   //     self.newsFeedImageViewTwoPercentageLabel.text = [voteCountArray objectAtIndex:1];
         self.newsFeedTotalNumberOfVotesLabel.text = [self ForTotalVotesVoteCountOne:newsFeedObject.voteCountOne ForTotalVotesVoteCountTwo:newsFeedObject.voteCountTwo];
         [self.newsFeedImageViewOne setAlpha:1];
         [self.newsFeedImageViewTwo setAlpha:1];
@@ -2658,8 +2817,14 @@
     NSInteger voteCountOneINT = [voteCountOne integerValue];
     NSInteger voteCountTwoINT = [voteCountTwo integerValue];
     NSInteger totalVoteCount = voteCountOneINT + voteCountTwoINT;
+    if(totalVoteCount == 1) {
+        NSString *totalVoteCountSTRING = [NSString stringWithFormat:@"%ld vote",(long)totalVoteCount];
+        return totalVoteCountSTRING;
+    }
+    else {
     NSString *totalVoteCountSTRING = [NSString stringWithFormat:@"%ld votes",(long)totalVoteCount];
     return totalVoteCountSTRING;
+    }
 }
 //compress image for uploading to reduce size and quality
 -(NSData*)compressImage:(UIImage*)image{
@@ -2759,7 +2924,12 @@
 }
 
 //posts voted on action
-
+-(void)votedButtonAction:(UIButton*)sender {
+    [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationFade];
+    
+    [self loadPostsVotedOn];
+}
+/*
 - (IBAction)postsVotedOn:(id)sender {
     [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationFade];
     
@@ -2767,7 +2937,7 @@
     
     
     
-}
+}*/
 //loading view
 -(void)presentLoadingView {
   //  UIColor *redColor = [UIColor colorWithRed:(231/255.0) green:(80/255.0) blue:(80/255.0) alpha:0.7];
@@ -2802,6 +2972,7 @@
 }
 //no posts to vote on in newsfeed view
 -(void)initalizedNewsFeedViewNoPostsToVoteOn {
+    
     [self presentInvisibleView];
     [self.loadingView removeFromSuperview];
     self.newsFeedView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
@@ -2818,6 +2989,8 @@
 }
 //initalize newsfeed view
 -(void)initalizeNewsFeedView {
+    UIColor *redColor = [UIColor colorWithRed:(207/255.0) green:(70/255.0) blue:(51/255.0) alpha:1];
+
     [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationFade];
     [self presentInvisibleView];
     self.newsFeedCounter = 0;
@@ -2838,7 +3011,7 @@
     self.newsFeedViewForLabels = [[UIView alloc] initWithFrame:CGRectMake(0, ([self viewHeight]/2)-115, [self viewWidth], 230)];
     self.newsFeedViewForLabels.backgroundColor = [UIColor whiteColor];
     self.newsFeedViewForLabels.layer.borderWidth = 5;
-    self.newsFeedViewForLabels.layer.borderColor = [UIColor grayColor].CGColor;
+    self.newsFeedViewForLabels.layer.borderColor = [UIColor darkGrayColor].CGColor;
     [self.newsFeedView addSubview:self.newsFeedViewForLabels];
     
     
@@ -2851,7 +3024,7 @@
     self.newsFeedTextContentLabel.adjustsFontSizeToFitWidth = YES;
     [self.newsFeedTextContentLabel setMinimumScaleFactor:0.8];
     self.newsFeedTextContentLabel.textAlignment = NSTextAlignmentCenter;
-    [self.newsFeedTextContentLabel setTextColor:[UIColor grayColor]];
+    [self.newsFeedTextContentLabel setTextColor:[UIColor darkGrayColor]];
     [self.newsFeedViewForLabels addSubview:self.newsFeedTextContentLabel];
     
     
@@ -2860,14 +3033,14 @@
     self.newsFeedUsernameLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 30, [self viewWidth]-20, 35)];
     self.newsFeedUsernameLabel.backgroundColor = [UIColor clearColor];
     [self.newsFeedUsernameLabel setFont:[UIFont boldSystemFontOfSize:30]];
-    [self.newsFeedUsernameLabel setTextColor:[UIColor grayColor]];
+    [self.newsFeedUsernameLabel setTextColor:redColor];
     [self.newsFeedUsernameLabel setTextAlignment:NSTextAlignmentCenter];
     self.newsFeedUsernameLabel.adjustsFontSizeToFitWidth = YES;
     self.newsFeedUsernameLabel.minimumScaleFactor = 0.5;
     [self.newsFeedViewForLabels addSubview:self.newsFeedUsernameLabel];
     
     
-    self.newsFeedTimeStampLabel = [[UILabel alloc] initWithFrame:CGRectMake(3*([self viewWidth]/4), 10, ([self viewWidth]/4)-10, 20)];
+    self.newsFeedTimeStampLabel = [[UILabel alloc] initWithFrame:CGRectMake(3*([self viewWidth]/4), 190, ([self viewWidth]/4)-10, 20)];
     self.newsFeedTimeStampLabel.backgroundColor = [UIColor clearColor];
     [self.newsFeedTimeStampLabel setFont:[UIFont systemFontOfSize:15]];
     [self.newsFeedTimeStampLabel setTextColor:[UIColor grayColor]];
@@ -2876,7 +3049,7 @@
     self.newsFeedTimeStampLabel.minimumScaleFactor = 0.8;
     [self.newsFeedViewForLabels addSubview:self.newsFeedTimeStampLabel];
     
-    self.newsFeedLocationLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 10, (3*[self viewWidth]/4)-10, 20)];
+  /*  self.newsFeedLocationLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 10, (3*[self viewWidth]/4)-10, 20)];
     self.newsFeedLocationLabel.backgroundColor = [UIColor clearColor];
     [self.newsFeedLocationLabel setFont:[UIFont systemFontOfSize:15]];
     [self.newsFeedLocationLabel setTextAlignment:NSTextAlignmentLeft];
@@ -2884,9 +3057,9 @@
     self.newsFeedLocationLabel.textColor = [UIColor grayColor];
     self.newsFeedLocationLabel.adjustsFontSizeToFitWidth = YES;
     self.newsFeedLocationLabel.minimumScaleFactor = 0.6;
-    [self.newsFeedViewForLabels addSubview:self.newsFeedLocationLabel];
+    [self.newsFeedViewForLabels addSubview:self.newsFeedLocationLabel];*/
     
-    self.newsFeedTotalNumberOfVotesLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 190, [self viewWidth]-20, 30)];
+    self.newsFeedTotalNumberOfVotesLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 190, [self viewWidth]/2-20, 30)];
     self.newsFeedTotalNumberOfVotesLabel.backgroundColor = [UIColor clearColor];
     self.newsFeedTotalNumberOfVotesLabel.textColor = [UIColor grayColor];
     [self.newsFeedTotalNumberOfVotesLabel setFont:[UIFont systemFontOfSize:15]];
@@ -2988,24 +3161,24 @@
     
     //ActivityIndicator
     
-    self.newsFeedImageViewOnePercentageLabel = [[UILabel alloc] initWithFrame:CGRectMake([self viewWidth]-110, 10, 100, 50)];
+  /*  self.newsFeedImageViewOnePercentageLabel = [[UILabel alloc] initWithFrame:CGRectMake([self viewWidth]-110, 10, 100, 50)];
     self.newsFeedImageViewOnePercentageLabel.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.5];
     self.newsFeedImageViewOnePercentageLabel.layer.cornerRadius = 7.0;
     self.newsFeedImageViewOnePercentageLabel.clipsToBounds = YES;
     [self.newsFeedImageViewOnePercentageLabel setTextColor:[UIColor whiteColor]];
     [self.newsFeedImageViewOnePercentageLabel setFont:[UIFont systemFontOfSize:30]];
     [self.newsFeedImageViewOnePercentageLabel setTextAlignment:NSTextAlignmentCenter];
-    [self.newsFeedImageViewOne addSubview:self.newsFeedImageViewOnePercentageLabel];
+    [self.newsFeedImageViewOne addSubview:self.newsFeedImageViewOnePercentageLabel]; */
     
     CGFloat maxYimageViewTwo = CGRectGetHeight(self.newsFeedImageViewTwo.frame);
-    self.newsFeedImageViewTwoPercentageLabel = [[UILabel alloc] initWithFrame:CGRectMake([self viewWidth]-110, maxYimageViewTwo-60, 100, 50)];
+   /* self.newsFeedImageViewTwoPercentageLabel = [[UILabel alloc] initWithFrame:CGRectMake([self viewWidth]-110, maxYimageViewTwo-60, 100, 50)];
     self.newsFeedImageViewTwoPercentageLabel.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.5];
     self.newsFeedImageViewTwoPercentageLabel.layer.cornerRadius = 7.0;
     self.newsFeedImageViewTwoPercentageLabel.clipsToBounds = YES;
     [self.newsFeedImageViewTwoPercentageLabel setTextColor:[UIColor whiteColor]];
     [self.newsFeedImageViewTwoPercentageLabel setFont:[UIFont systemFontOfSize:30]];
     [self.newsFeedImageViewTwoPercentageLabel setTextAlignment:NSTextAlignmentCenter];
-    [self.newsFeedImageViewTwo addSubview:self.newsFeedImageViewTwoPercentageLabel];
+    [self.newsFeedImageViewTwo addSubview:self.newsFeedImageViewTwoPercentageLabel];*/
     //[self loadNewsFeedArray];
     
     self.newsFeedTapGestureToOpenImageViewOne = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(recognizeTapToOpenImages:)];

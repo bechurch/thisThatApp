@@ -12,7 +12,6 @@
 @property (nonatomic, strong) UILabel *textContent;
 @property (nonatomic, strong) UILabel *username;
 @property (nonatomic, strong) UILabel *timeStamp;
-@property (nonatomic, strong) UILabel *locationLabel;
 @property (nonatomic, strong) UILabel *totalVotesLabel;
 @property (nonatomic, strong) UIImageView *imageViewOne;
 @property (nonatomic, strong) UIImageView *imageViewTwo;

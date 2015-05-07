@@ -35,7 +35,7 @@
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 // newsFeed
-- (IBAction)newsFeed:(id)sender;
+
 @property (nonatomic, strong) NSMutableArray *newsFeedArray;
 @property (nonatomic, strong) UIView *newsFeedView;
 @property (nonatomic, strong) UIView *newsFeedViewForLabels;
@@ -73,8 +73,8 @@
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // personalPosts
-- (IBAction)personalPosts:(id)sender;
-@property (weak, nonatomic) IBOutlet UIButton *personalPostsButton;
+
+
 @property (nonatomic, strong) NSMutableArray *personalPostsArray;
 @property (nonatomic, strong) UITableView *personalPostsTableView;
 @property (nonatomic, strong) UIView *personalPostsViewForImageViews;
@@ -119,6 +119,7 @@
 @property (nonatomic, strong) UITapGestureRecognizer *uploadPostTapGestureToOpenImageViewOne;
 @property (nonatomic, strong) UITapGestureRecognizer *uploadPostTapGestureToOpenImageViewTwo;
 @property (nonatomic, strong) UITapGestureRecognizer *uploadCloseFullSizeImageView;
+@property (nonatomic, strong) UITapGestureRecognizer *uploadPostTapGestureToCloseKeyboard;
 @property (nonatomic, strong) UIPanGestureRecognizer *uploadPostPanGestureSlideToUploadView;
 @property (nonatomic, strong) UIButton *uploadPostCameraButtonOne;
 @property (nonatomic, strong) UIButton *uploadPostCameraButtonTwo;
@@ -127,6 +128,7 @@
 @property (nonatomic, strong) UIButton *uploadPostPreviewButton;
 @property (nonatomic, strong) UIButton *uploadPostLibraryPhotosButton;
 @property (nonatomic, strong) UIButton *uploadPostYellowMenuButton;
+@property (nonatomic, strong) UIButton *uploadPostButton;
 @property (nonatomic, strong) UILabel *uploadPostTimeStampLabel;
 @property (nonatomic, strong) UILabel *uploadPostLocationEnabledLabel;
 @property (nonatomic, strong) UILabel *uploadPostUsernameLabel;
@@ -137,6 +139,7 @@
 @property (nonatomic, strong) UILabel *uploadPostPreviewUsernameLabel;
 @property (nonatomic, strong) UILabel *uploadPostPreviewTimeStampLabel;
 @property (nonatomic, strong) UILabel *uploadPostPreviewLocationLabel;
+@property (nonatomic, strong) UILabel *uploadPostInstructionsLabel;
 @property (nonatomic, strong) NSString *uploadPostTextViewString;
 @property (nonatomic, strong) NSString *uploadPostPathString;
 @property (nonatomic, strong) NSData *uploadPostImageOneData;
@@ -148,11 +151,13 @@
 @property (nonatomic, strong) UISwitch *uploadPostLocationEnabledSwitch;
 @property int selectedCameraInt;
 
+@property CGFloat maxYKeyboard;
+
 
 
 //posts voted on
 
-- (IBAction)postsVotedOn:(id)sender;
+
 @property (nonatomic, strong) NSMutableArray *postsVotedOnArray;
 @property (nonatomic, strong) UITableView *postsVotedOnTableView;
 @property (nonatomic, strong) UIView *postsVotedOnViewForImageViews;
