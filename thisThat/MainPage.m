@@ -256,7 +256,7 @@ UIColor *redColor = [UIColor colorWithRed:(207/255.0) green:(70/255.0) blue:(51/
     CGFloat heighOfInstructionsLabel = (viewHeight/2)-(heightOfCell/2);
     
     self.uploadPostInstructionsLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, (heighOfInstructionsLabel/2)-15, viewWidth-20, 30)];
-    self.uploadPostInstructionsLabel.text = @"Create a new thisThat";
+    self.uploadPostInstructionsLabel.text = @"Create a new post";
     self.uploadPostInstructionsLabel.textAlignment = NSTextAlignmentCenter;
     [self.uploadPostView addSubview:self.uploadPostInstructionsLabel];
     
@@ -307,6 +307,16 @@ UIColor *redColor = [UIColor colorWithRed:(207/255.0) green:(70/255.0) blue:(51/
     [self.uploadPostExampleTableViewCellView addSubview:self.uploadPostCameraButtonTwo];
     
     
+    self.uploadPostTextViewPlaceHolderLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, (viewWidth/2)+5, (viewWidth/2)-15, self.uploadPostExampleTableViewCellView.frame.size.height-15-(viewWidth/2))];
+    self.uploadPostTextViewPlaceHolderLabel.text = @"What are you comparing?";
+    self.uploadPostTextViewPlaceHolderLabel.textAlignment = NSTextAlignmentCenter;
+    self.uploadPostTextViewPlaceHolderLabel.numberOfLines = 0;
+    [self.uploadPostTextViewPlaceHolderLabel sizeToFit];
+    self.uploadPostTextViewPlaceHolderLabel.frame = CGRectMake((viewWidth/2)/2 - (self.uploadPostTextViewPlaceHolderLabel.frame.size.width/2), self.uploadPostTextViewPlaceHolderLabel.frame.origin.y, self.uploadPostTextViewPlaceHolderLabel.frame.size.width, self.uploadPostTextViewPlaceHolderLabel.frame.size.height);
+    [self.uploadPostTextViewPlaceHolderLabel setFont:[UIFont systemFontOfSize:15]];
+    self.uploadPostTextViewPlaceHolderLabel.textColor = [UIColor lightGrayColor];
+    [self.uploadPostExampleTableViewCellView addSubview:self.uploadPostTextViewPlaceHolderLabel];
+    
     
     self.uploadPostTextView = [[UITextView alloc] initWithFrame:CGRectMake(10, (viewWidth/2)+5, (viewWidth/2)-15, self.uploadPostExampleTableViewCellView.frame.size.height-15-(viewWidth/2))];
     self.uploadPostTextView.backgroundColor = [UIColor clearColor];
@@ -316,7 +326,7 @@ UIColor *redColor = [UIColor colorWithRed:(207/255.0) green:(70/255.0) blue:(51/
     self.uploadPostTextView.layer.borderWidth = 1.0;
     self.uploadPostTextView.layer.borderColor = [UIColor blackColor].CGColor;
     self.uploadPostTextView.textAlignment = NSTextAlignmentCenter;
-    self.uploadPostTextView.text = @"What are you comparing?";
+    //self.uploadPostTextView.text = @"What are you comparing?";
     self.uploadPostTextView.returnKeyType = UIReturnKeyDone;
     [self.uploadPostExampleTableViewCellView addSubview:self.uploadPostTextView];
     
@@ -777,7 +787,122 @@ UIColor *redColor = [UIColor colorWithRed:(207/255.0) green:(70/255.0) blue:(51/
     [self.uploadFullSizeImageView setUserInteractionEnabled:YES];
     [self.uploadFullSizeImageView addGestureRecognizer:self.uploadCloseFullSizeImageView];
     
+    self.uploadPostPanToZoomInOnFullSizeImageView = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panToZoomInOnFullSizeImageView:)];
+    [self.uploadFullSizeImageView addGestureRecognizer:self.uploadPostPanToZoomInOnFullSizeImageView];
     
+}
+-(void)panToZoomInOnFullSizeImageView:(UIPanGestureRecognizer*)recognize {
+    switch (recognize.state) {
+        case UIGestureRecognizerStateBegan:{
+            if(recognize == self.uploadPostPanToZoomInOnFullSizeImageView) {
+            CGPoint locationPoint = [recognize locationInView:self.uploadFullSizeImageView];
+            self.zoomInStartingYPosition = locationPoint.y;
+            }
+            if(recognize == self.personalPostsPanToZoomInOnFullSizeImageView) {
+                CGPoint locationPoint = [recognize locationInView:self.personalPostsFullSizeImageView];
+                self.zoomInStartingYPosition = locationPoint.y;
+            }
+            if(recognize == self.newsFeedPanToZoomInOnFullSizeImageView) {
+                CGPoint locationPoint = [recognize locationInView:self.newsFeedFullSizeImageView];
+                self.zoomInStartingYPosition = locationPoint.y;
+                NSLog(@"yourMom");
+            }
+            if(recognize == self.postsVotedOnPanToZoomInOnFullSizeImageView) {
+                CGPoint locationPoint = [recognize locationInView:self.postsVotedOnFullSizeImageView];
+                self.zoomInStartingYPosition = locationPoint.y;
+                NSLog(@"yourMom");
+            }
+        }
+            break;
+        case UIGestureRecognizerStateChanged:{
+            if(recognize == self.uploadPostPanToZoomInOnFullSizeImageView) {
+                
+            CGPoint currentLocationPoint = [recognize locationInView:self.uploadFullSizeImageView];
+            CGFloat currentLocationPointY = currentLocationPoint.y;
+            if (currentLocationPointY < self.zoomInStartingYPosition) {
+                currentLocationPointY = self.zoomInStartingYPosition;
+            }
+            CGFloat yDistanceMoved = fabsf(self.zoomInStartingYPosition - fabsf(currentLocationPointY));
+            CGFloat yAmountZoomedIn = 1 + (yDistanceMoved/self.uploadFullSizeImageView.frame.size.height);
+            CGAffineTransform transform = CGAffineTransformMakeScale(yAmountZoomedIn, yAmountZoomedIn);
+            self.uploadFullSizeImageView.transform = transform;
+        }
+            if(recognize == self.personalPostsPanToZoomInOnFullSizeImageView) {
+                
+                CGPoint currentLocationPoint = [recognize locationInView:self.personalPostsFullSizeImageView];
+                CGFloat currentLocationPointY = currentLocationPoint.y;
+                if (currentLocationPointY < self.zoomInStartingYPosition) {
+                    currentLocationPointY = self.zoomInStartingYPosition;
+                }
+                CGFloat yDistanceMoved = fabsf(self.zoomInStartingYPosition - fabsf(currentLocationPointY));
+                CGFloat yAmountZoomedIn = 1 + (yDistanceMoved/self.personalPostsFullSizeImageView.frame.size.height);
+                CGAffineTransform transform = CGAffineTransformMakeScale(yAmountZoomedIn, yAmountZoomedIn);
+                self.personalPostsFullSizeImageView.transform = transform;
+            }
+            if(recognize == self.newsFeedPanToZoomInOnFullSizeImageView) {
+                
+                CGPoint currentLocationPoint = [recognize locationInView:self.newsFeedFullSizeImageView];
+                CGFloat currentLocationPointY = currentLocationPoint.y;
+                if (currentLocationPointY < self.zoomInStartingYPosition) {
+                    currentLocationPointY = self.zoomInStartingYPosition;
+                }
+                CGFloat yDistanceMoved = fabsf(self.zoomInStartingYPosition - fabsf(currentLocationPointY));
+                CGFloat yAmountZoomedIn = 1 + (yDistanceMoved/self.newsFeedFullSizeImageView.frame.size.height);
+                CGAffineTransform transform = CGAffineTransformMakeScale(yAmountZoomedIn, yAmountZoomedIn);
+                self.newsFeedFullSizeImageView.transform = transform;
+            }
+            if(recognize == self.postsVotedOnPanToZoomInOnFullSizeImageView) {
+                
+                CGPoint currentLocationPoint = [recognize locationInView:self.postsVotedOnFullSizeImageView];
+                CGFloat currentLocationPointY = currentLocationPoint.y;
+                if (currentLocationPointY < self.zoomInStartingYPosition) {
+                    currentLocationPointY = self.zoomInStartingYPosition;
+                }
+                CGFloat yDistanceMoved = fabsf(self.zoomInStartingYPosition - fabsf(currentLocationPointY));
+                CGFloat yAmountZoomedIn = 1 + (yDistanceMoved/self.postsVotedOnFullSizeImageView.frame.size.height);
+                CGAffineTransform transform = CGAffineTransformMakeScale(yAmountZoomedIn, yAmountZoomedIn);
+                self.postsVotedOnFullSizeImageView.transform = transform;
+            }
+
+        }
+            break;
+        case UIGestureRecognizerStateEnded:{
+            if(recognize == self.uploadPostPanToZoomInOnFullSizeImageView) {
+            [UIView animateWithDuration:0.2 delay:0 options:UIViewAnimationOptionCurveLinear animations:^{
+                CGAffineTransform transform = CGAffineTransformMakeScale(1, 1);
+                self.uploadFullSizeImageView.transform = transform;
+            } completion:^(BOOL finished) {
+                self.zoomInStartingYPosition = 0;
+            }];
+        }
+            if(recognize == self.personalPostsPanToZoomInOnFullSizeImageView) {
+                [UIView animateWithDuration:0.2 delay:0 options:UIViewAnimationOptionCurveLinear animations:^{
+                    CGAffineTransform transform = CGAffineTransformMakeScale(1, 1);
+                    self.personalPostsFullSizeImageView.transform = transform;
+                } completion:^(BOOL finished) {
+                    self.zoomInStartingYPosition = 0;
+                }];
+            }
+            if(recognize == self.newsFeedPanToZoomInOnFullSizeImageView) {
+                [UIView animateWithDuration:0.2 delay:0 options:UIViewAnimationOptionCurveLinear animations:^{
+                    CGAffineTransform transform = CGAffineTransformMakeScale(1, 1);
+                    self.newsFeedFullSizeImageView.transform = transform;
+                } completion:^(BOOL finished) {
+                    self.zoomInStartingYPosition = 0;
+                }];
+            }
+            if(recognize == self.postsVotedOnPanToZoomInOnFullSizeImageView) {
+                [UIView animateWithDuration:0.2 delay:0 options:UIViewAnimationOptionCurveLinear animations:^{
+                    CGAffineTransform transform = CGAffineTransformMakeScale(1, 1);
+                    self.postsVotedOnFullSizeImageView.transform = transform;
+                } completion:^(BOOL finished) {
+                    self.zoomInStartingYPosition = 0;
+                }];
+            }
+        }
+        default:
+            break;
+    }
 }
 -(void)uploadTapToCloseFullSizeImageView:(UITapGestureRecognizer*)recognize{
     [self.uploadPostViewForFullSizeImageView removeFromSuperview];
@@ -1551,6 +1676,8 @@ UIColor *redColor = [UIColor colorWithRed:(207/255.0) green:(70/255.0) blue:(51/
     self.personalPostsFullSizeImageView.userInteractionEnabled = YES;
     self.personalPostsTapGestureToCloseFullSizeImageView = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(personalPostsCloseFullSizeImage:)];
     [self.personalPostsFullSizeImageView addGestureRecognizer:self.personalPostsTapGestureToCloseFullSizeImageView];
+    self.personalPostsPanToZoomInOnFullSizeImageView = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panToZoomInOnFullSizeImageView:)];
+    [self.personalPostsFullSizeImageView addGestureRecognizer:self.personalPostsPanToZoomInOnFullSizeImageView];
     
 }
 -(void)personalPostsCloseFullSizeImage:(UITapGestureRecognizer*)recognize {
@@ -1577,6 +1704,9 @@ UIColor *redColor = [UIColor colorWithRed:(207/255.0) green:(70/255.0) blue:(51/
     self.postsVotedOnFullSizeImageView.userInteractionEnabled = YES;
     self.postsVotedOnTapCloseFullSizeImageView = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(postsVotedOnCloseFullSizeImage:)];
     [self.postsVotedOnFullSizeImageView addGestureRecognizer:self.postsVotedOnTapCloseFullSizeImageView];
+    
+    self.postsVotedOnPanToZoomInOnFullSizeImageView = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panToZoomInOnFullSizeImageView:)];
+    [self.postsVotedOnFullSizeImageView addGestureRecognizer:self.postsVotedOnPanToZoomInOnFullSizeImageView];
 }
 -(void)postsVotedOnCloseFullSizeImage:(UITapGestureRecognizer*)recognize {
     [self.postsVotedOnViewForFullSizeImageView removeFromSuperview];
@@ -1621,19 +1751,26 @@ UIColor *redColor = [UIColor colorWithRed:(207/255.0) green:(70/255.0) blue:(51/
 // upload post text view begin editing
 
 -(BOOL)textViewShouldBeginEditing:(UITextView *)textView {
-    if([self.uploadPostTextView.text isEqualToString:@"What are you comparing?"]) {
+  /*  if([self.uploadPostTextView.text isEqualToString:@"What are you comparing?"]) {
         self.uploadPostTextView.text = @"";
-    }
+    }*/
+    [self.uploadPostTextViewPlaceHolderLabel setHidden:YES];
    
     return YES;
 }
 //upload post text view end edditing
 -(BOOL)textViewShouldEndEditing:(UITextView *)textView {
-    if([self.uploadPostTextView.text isEqualToString:@""]){
+   /* if([self.uploadPostTextView.text isEqualToString:@""]){
         self.uploadPostTextView.text = @"What are you comparing?";
     } else {
         self.uploadPostTextViewString = self.uploadPostTextView.text;       
+    }*/
+    if([self.uploadPostTextView.text isEqualToString:@""]){
+        [self.uploadPostTextViewPlaceHolderLabel setHidden:NO];
+    } else {
+        self.uploadPostTextViewString = self.uploadPostTextView.text;
     }
+    
     return YES;
 }
 
@@ -1785,6 +1922,7 @@ UIColor *redColor = [UIColor colorWithRed:(207/255.0) green:(70/255.0) blue:(51/
     self.newsFeedViewForFullSizeImageView.backgroundColor = [UIColor blackColor];
     [self.newsFeedView addSubview:self.newsFeedViewForFullSizeImageView];
     self.newsFeedFullSizeImageView = [[UIImageView alloc] init];
+    
     if(recognize == self.newsFeedTapGestureToOpenImageViewOne){
     self.newsFeedFullSizeImageView = [self inputImage:self.newsFeedTempImageOne];
     [self.newsFeedViewForFullSizeImageView addSubview:self.newsFeedFullSizeImageView];
@@ -1793,8 +1931,13 @@ UIColor *redColor = [UIColor colorWithRed:(207/255.0) green:(70/255.0) blue:(51/
         self.newsFeedFullSizeImageView = [self inputImage:self.newsFeedTempImageTwo];
         [self.newsFeedViewForFullSizeImageView addSubview:self.newsFeedFullSizeImageView];
     }
+    self.newsFeedFullSizeImageView.userInteractionEnabled = YES;
     self.newsFeedTapGestureToCloseFullSizeImageView = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(closeFullSizeView:)];
     [self.newsFeedViewForFullSizeImageView addGestureRecognizer:self.newsFeedTapGestureToCloseFullSizeImageView];
+    
+    self.newsFeedPanToZoomInOnFullSizeImageView = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panToZoomInOnFullSizeImageView:)];
+    [self.newsFeedFullSizeImageView addGestureRecognizer:self.newsFeedPanToZoomInOnFullSizeImageView];
+    
 }
 -(void)closeFullSizeView:(UITapGestureRecognizer *)recognize {
     [self.newsFeedViewForFullSizeImageView removeFromSuperview];
@@ -1858,6 +2001,9 @@ UIColor *redColor = [UIColor colorWithRed:(207/255.0) green:(70/255.0) blue:(51/
                     [self.invisibleView removeFromSuperview];
                     [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
                     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
+                    self.uploadPostTextViewString = nil;
+                    self.uploadPostTempImageOne = nil;
+                    self.uploadPostTempImageTwo = nil;
 
                 }
                 if(recognize == self.uploadPostPinchGestureImageViews){

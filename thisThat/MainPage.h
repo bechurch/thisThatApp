@@ -60,6 +60,7 @@
 @property (nonatomic, strong) UITapGestureRecognizer *newsFeedTapGestureToOpenImageViewTwo;
 @property (nonatomic, strong) UIPanGestureRecognizer *newsFeedPanGestureImageViewOne;
 @property (nonatomic, strong) UIPanGestureRecognizer *newsFeedPanGestureImageViewTwo;
+@property (nonatomic, strong) UIPanGestureRecognizer *newsFeedPanToZoomInOnFullSizeImageView;
 @property (nonatomic, strong) UIPinchGestureRecognizer *newsFeedPinchGesture;
 @property (nonatomic, strong) UILabel *newsFeedTextContentLabel;
 @property (nonatomic, strong) UILabel *newsFeedTimeStampLabel;
@@ -87,6 +88,7 @@
 @property (nonatomic, strong) UITapGestureRecognizer *personalPostsTapGestureToOpenImageViewOne;
 @property (nonatomic, strong) UITapGestureRecognizer *personalPostsTapGestureToOpenImageViewTwo;
 @property (nonatomic, strong) UITapGestureRecognizer *personalPostsTapGestureToCloseFullSizeImageView;
+@property (nonatomic, strong) UIPanGestureRecognizer *personalPostsPanToZoomInOnFullSizeImageView;
 @property (nonatomic, strong) NSIndexPath *personalPostsIndexPath;
 
 
@@ -121,6 +123,7 @@
 @property (nonatomic, strong) UITapGestureRecognizer *uploadCloseFullSizeImageView;
 @property (nonatomic, strong) UITapGestureRecognizer *uploadPostTapGestureToCloseKeyboard;
 @property (nonatomic, strong) UIPanGestureRecognizer *uploadPostPanGestureSlideToUploadView;
+@property (nonatomic, strong) UIPanGestureRecognizer *uploadPostPanToZoomInOnFullSizeImageView;
 @property (nonatomic, strong) UIButton *uploadPostCameraButtonOne;
 @property (nonatomic, strong) UIButton *uploadPostCameraButtonTwo;
 @property (nonatomic, strong) UIButton *uploadPostNavigationBarRetryUploadButton;
@@ -140,6 +143,7 @@
 @property (nonatomic, strong) UILabel *uploadPostPreviewTimeStampLabel;
 @property (nonatomic, strong) UILabel *uploadPostPreviewLocationLabel;
 @property (nonatomic, strong) UILabel *uploadPostInstructionsLabel;
+@property (nonatomic, strong) UILabel *uploadPostTextViewPlaceHolderLabel;
 @property (nonatomic, strong) NSString *uploadPostTextViewString;
 @property (nonatomic, strong) NSString *uploadPostPathString;
 @property (nonatomic, strong) NSData *uploadPostImageOneData;
@@ -152,11 +156,10 @@
 @property int selectedCameraInt;
 
 @property CGFloat maxYKeyboard;
-
+@property CGFloat zoomInStartingYPosition;
 
 
 //posts voted on
-
 
 @property (nonatomic, strong) NSMutableArray *postsVotedOnArray;
 @property (nonatomic, strong) UITableView *postsVotedOnTableView;
@@ -165,6 +168,7 @@
 @property (nonatomic, strong) UIImageView *postsVotedOnImageViewOne;
 @property (nonatomic, strong) UIImageView *postsVotedOnImageViewTwo;
 @property (nonatomic, strong) UIImageView *postsVotedOnFullSizeImageView;
+@property (nonatomic, strong) UIPanGestureRecognizer *postsVotedOnPanToZoomInOnFullSizeImageView;
 @property (nonatomic, strong) UIPinchGestureRecognizer *postsVotedOnPinchGestureImageViews;
 @property (nonatomic, strong) UIPinchGestureRecognizer *postsVotedOnPinchGesture;
 @property (nonatomic, strong) UITapGestureRecognizer *postsVotedOnTapGestureToOpenImageViewOne; 
