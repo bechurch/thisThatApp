@@ -32,6 +32,12 @@
 @property (nonatomic, strong) NSArray *twitterIntstagramImagesArray;
 @property (nonatomic, strong) UINavigationBar *settingsNavigationBar;
 @property (nonatomic, strong) UIPinchGestureRecognizer *pinchRecognizerSettingsView;
+//main page
+
+
+@property (nonatomic, strong) UIButton *feedImageButton;
+@property (nonatomic, strong) UIButton *personalImageButton;
+@property (nonatomic, strong) UIButton *votedImageButton;
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 // newsFeed
@@ -98,6 +104,7 @@
 //ActivityIndicator
 @property (nonatomic, strong) UIActivityIndicatorView *spinner;
 @property (nonatomic, strong) UIView *invisibleView;
+@property (nonatomic, strong) UIView *invisibleView2;
 @property (nonatomic, strong) UIView *invisibleViewTableView;
 
 

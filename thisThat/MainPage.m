@@ -53,36 +53,52 @@
     [personalButton setTitleEdgeInsets:UIEdgeInsetsMake(0, 10, 0, 0)];
     [personalButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [personalButton setTitleColor:[[UIColor whiteColor] colorWithAlphaComponent:0.5] forState:UIControlStateHighlighted];
+    [personalButton addTarget:self action:@selector(personalButtonHighlighted:) forControlEvents:UIControlEventTouchDown];
+    [personalButton addTarget:self action:@selector(personalButtonUnhighlighted:) forControlEvents:UIControlEventTouchDragOutside];
+    [personalButton addTarget:self action:@selector(personalButtonDragHighlighted:) forControlEvents:UIControlEventTouchDragInside];
     [personalButton.titleLabel setFont:[UIFont boldSystemFontOfSize:22]];
     [personalButton addTarget:self action:@selector(personalPostsButtonAction:) forControlEvents:UIControlEventTouchUpInside];
+    
     [self.view addSubview:personalButton];
     
     
-    UIImage *personalIcon = [UIImage imageNamed:@"personalIconexport.png"];
-    UIButton *personalImageButton = [[UIButton alloc] initWithFrame:CGRectMake((width/2)-75, (height/2)-100, 50, 50)];
-    [personalImageButton setImage:personalIcon forState:UIControlStateNormal];
-    [personalImageButton addTarget:self action:@selector(personalPostsButtonAction:) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:personalImageButton];
+  //  UIImage *personalIcon = [UIImage imageNamed:@"personalIconexport.png"];
+    UIImage *personalIcon = [UIImage imageNamed:@"personal.png"];
+    UIImage *personalIconSelected = [UIImage imageNamed:@"personalSelected.png"];
+    self.personalImageButton = [[UIButton alloc] initWithFrame:CGRectMake((width/2)-75, (height/2)-100, 50, 50)];
+    [self.personalImageButton setImage:personalIcon forState:UIControlStateNormal];
+    [self.personalImageButton setImage:personalIconSelected forState:UIControlStateHighlighted];
+    [self.personalImageButton addTarget:self action:@selector(personalPostsButtonAction:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:self.personalImageButton];
 
     
 
     
     UIButton *feedButton = [[UIButton alloc] initWithFrame:CGRectMake((width/2)-25, (height/2)-15, 100, 30)];
-    [feedButton setTitle:@"feed" forState:UIControlStateNormal];
+    [feedButton setTitle:@"thisThat" forState:UIControlStateNormal];
     feedButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
     [feedButton setTitleEdgeInsets:UIEdgeInsetsMake(0, 10, 0, 0)];
     [feedButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [feedButton setTitleColor:[[UIColor whiteColor] colorWithAlphaComponent:0.5] forState:UIControlStateHighlighted];
+    [feedButton addTarget:self action:@selector(feedButtonHighlighted:) forControlEvents:UIControlEventTouchDown];
+    [feedButton addTarget:self action:@selector(feedButtonUnhighlighted:) forControlEvents:UIControlEventTouchDragOutside];
+    [feedButton addTarget:self action:@selector(feedButtonDragHighlighted:) forControlEvents:UIControlEventTouchDragInside];
     [feedButton.titleLabel setFont:[UIFont boldSystemFontOfSize:22]];
     [feedButton addTarget:self action:@selector(feedButtonAction:) forControlEvents:UIControlEventTouchUpInside];
+    
     [self.view addSubview:feedButton];
     
     
-    UIImage *feedIcon = [UIImage imageNamed:@"feed.png"];
-    UIButton *feedImageButton = [[UIButton alloc] initWithFrame:CGRectMake((width/2)-75, (height/2)-25, 50, 50)];
-    [feedImageButton setImage:feedIcon forState:UIControlStateNormal];
-    [feedImageButton addTarget:self action:@selector(feedButtonAction:) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:feedImageButton];
+    UIImage *feedIcon = [UIImage imageNamed:@"newsFeedIconWhite.png"];
+    UIImage *feedIconSelected = [UIImage imageNamed:@"newsFeedIconWhiteSelected.png"];
+    self.feedImageButton = [[UIButton alloc] initWithFrame:CGRectMake((width/2)-75, (height/2)-25, 50, 50)];
+    [self.feedImageButton setImage:feedIcon forState:UIControlStateNormal];
+    [self.feedImageButton setImage:feedIconSelected forState:UIControlStateHighlighted];
+
+    [self.feedImageButton addTarget:self action:@selector(feedButtonAction:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:self.feedImageButton];
+    
+    
     
     
     UIButton *votedButton = [[UIButton alloc] initWithFrame:CGRectMake((width/2)-25, (height/2)+60, 100, 30)];
@@ -91,15 +107,21 @@
     [votedButton setTitleEdgeInsets:UIEdgeInsetsMake(0, 10, 0, 0)];
     [votedButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [votedButton setTitleColor:[[UIColor whiteColor] colorWithAlphaComponent:0.5] forState:UIControlStateHighlighted];
+    [votedButton addTarget:self action:@selector(votedButtonHighlighted:) forControlEvents:UIControlEventTouchDown];
+    [votedButton addTarget:self action:@selector(votedButtonUnhighlighted:) forControlEvents:UIControlEventTouchDragOutside];
+    [votedButton addTarget:self action:@selector(votedButtonDragHighlighted:) forControlEvents:UIControlEventTouchDragInside];
+    
     [votedButton.titleLabel setFont:[UIFont boldSystemFontOfSize:22]];
     [votedButton addTarget:self action:@selector(votedButtonAction:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:votedButton];
     
     UIImage *votedIcon = [UIImage imageNamed:@"voted.png"];
-    UIButton *votedImageButton = [[UIButton alloc] initWithFrame:CGRectMake((width/2)-75, (height/2)+50, 50, 50)];
-    [votedImageButton setImage:votedIcon forState:UIControlStateNormal];
-    [votedImageButton addTarget:self action:@selector(votedButtonAction:) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:votedImageButton];
+    UIImage *votedSelectedIcon = [UIImage imageNamed:@"votedSelected.png"];
+    self.votedImageButton = [[UIButton alloc] initWithFrame:CGRectMake((width/2)-75, (height/2)+50, 50, 50)];
+    [self.votedImageButton setImage:votedIcon forState:UIControlStateNormal];
+    [self.votedImageButton setImage:votedSelectedIcon forState:UIControlStateHighlighted];
+    [self.votedImageButton addTarget:self action:@selector(votedButtonAction:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:self.votedImageButton];
     
     [self configureRestKit];
     
@@ -150,6 +172,50 @@
 
 
 }
+-(void)personalButtonHighlighted:(UIButton*)sender {
+    UIImage *personalIconSelected = [UIImage imageNamed:@"personalSelected.png"];
+    [self.personalImageButton setImage:personalIconSelected forState:UIControlStateNormal];
+}
+-(void)personalButtonUnhighlighted:(UIButton*)sender {
+    UIImage *personalIcon = [UIImage imageNamed:@"personal.png"];
+    [self.personalImageButton setImage:personalIcon forState:UIControlStateNormal];
+}
+-(void)personalButtonDragHighlighted:(UIButton*)sender {
+    UIImage *personalIconSelected = [UIImage imageNamed:@"personalSelected.png"];
+    [self.personalImageButton setImage:personalIconSelected forState:UIControlStateNormal];
+    
+}
+-(void)feedButtonHighlighted:(UIButton*)sender {
+    UIImage *feedIconSelected = [UIImage imageNamed:@"newsFeedIconWhiteSelected.png"];
+    [self.feedImageButton setImage:feedIconSelected forState:UIControlStateNormal];
+    
+}
+-(void)feedButtonUnhighlighted:(UIButton*)sender {
+        UIImage *feedIcon = [UIImage imageNamed:@"newsFeedIconWhite.png"];
+        [self.feedImageButton setImage:feedIcon forState:UIControlStateNormal];
+    
+}
+-(void)feedButtonDragHighlighted:(UIButton*)sender {
+    UIImage *feedIcon = [UIImage imageNamed:@"newsFeedIconWhiteSelected.png"];
+    [self.feedImageButton setImage:feedIcon forState:UIControlStateNormal];
+}
+
+-(void)votedButtonHighlighted:(UIButton*)sender {
+    UIImage *votedSelectedIcon = [UIImage imageNamed:@"votedSelected.png"];
+    [self.votedImageButton setImage:votedSelectedIcon forState:UIControlStateNormal];
+    
+}
+-(void)votedButtonUnhighlighted:(UIButton*)sender {
+    UIImage *votedIcon = [UIImage imageNamed:@"voted.png"];
+    [self.votedImageButton setImage:votedIcon forState:UIControlStateNormal];
+    
+}
+-(void)votedButtonDragHighlighted:(UIButton*)sender {
+    UIImage *votedSelectedIcon = [UIImage imageNamed:@"votedSelected.png"];
+    [self.votedImageButton setImage:votedSelectedIcon forState:UIControlStateNormal];
+}
+
+
 -(void)closeFirstLaunchView:(UIButton*)button {
     [self.firstLaunchView removeFromSuperview];
     [self.firstLaunchScrollView removeFromSuperview];
@@ -238,7 +304,8 @@
 }
 //uploadPost initalize
 - (IBAction)upload:(id)sender {
-UIColor *redColor = [UIColor colorWithRed:(207/255.0) green:(70/255.0) blue:(51/255.0) alpha:1];
+    UIColor *redColor = [UIColor colorWithRed:(207/255.0) green:(70/255.0) blue:(51/255.0) alpha:1];
+    UIColor *redColor2 = [UIColor colorWithRed:(207/255.0) green:(70/255.0) blue:(51/255.0) alpha:0.8];
     [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationFade];
        CGFloat viewHeight = self.view.frame.size.height;
     CGFloat viewWidth = self.view.frame.size.width;
@@ -246,7 +313,9 @@ UIColor *redColor = [UIColor colorWithRed:(207/255.0) green:(70/255.0) blue:(51/
      UIColor *blueishThisThatColor = [UIColor colorWithRed:(60/255.0) green:(104/255.0) blue:(150/255.0) alpha:1];
     UIColor *greyishThisThatColor = [UIColor colorWithRed:(172/255.0) green:(166/255.0) blue:(158/255.0) alpha:1];
     UIColor *blackThisThatColor = [UIColor colorWithRed:(39/255.0) green:(35/255.0) blue:(34/255.0) alpha:1];
+    UIColor *blackThisThatColor2 = [UIColor colorWithRed:(39/255.0) green:(35/255.0) blue:(34/255.0) alpha:0.8];
     [self presentInvisibleView];
+    
     self.uploadPostView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, viewWidth, viewHeight)];
     self.uploadPostView.backgroundColor = [UIColor whiteColor];
     [self.navigationController.view addSubview:self.uploadPostView];
@@ -294,14 +363,15 @@ UIColor *redColor = [UIColor colorWithRed:(207/255.0) green:(70/255.0) blue:(51/
     
    // self.uploadPostCameraButtonOne = [[UIButton alloc ] initWithFrame:CGRectMake(10, 100, (viewWidth/2)-15, self.uploadPostExampleTableViewCellView.frame.size.height-110)];
     self.uploadPostCameraButtonOne = [[UIButton alloc ] initWithFrame:CGRectMake(10, 10, (viewWidth/2)-15, (viewWidth/2)-15)];
-    self.uploadPostCameraButtonOne.backgroundColor = [UIColor lightGrayColor];
+    [self.uploadPostCameraButtonOne setBackgroundImage:[self imageWithColor:[UIColor lightGrayColor]] forState:UIControlStateNormal];
     [self.uploadPostCameraButtonOne setTitle:@"Add photo" forState:UIControlStateNormal];
     [self.uploadPostCameraButtonOne addTarget:self action:@selector(takePhotoButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
+    
     [self.uploadPostExampleTableViewCellView addSubview:self.uploadPostCameraButtonOne];
     
    // self.uploadPostCameraButtonTwo = [[UIButton alloc] initWithFrame:CGRectMake((viewWidth/2)+5, 100, (viewWidth/2)-15, self.uploadPostExampleTableViewCellView.frame.size.height-110)];
      self.uploadPostCameraButtonTwo = [[UIButton alloc] initWithFrame:CGRectMake((viewWidth/2)+5, (self.uploadPostExampleTableViewCellView.frame.size.height)-(viewWidth/2)+5, (viewWidth/2)-15, (viewWidth/2)-15)];
-    self.uploadPostCameraButtonTwo.backgroundColor = [UIColor lightGrayColor];
+    [self.uploadPostCameraButtonTwo setBackgroundImage:[self imageWithColor:[UIColor lightGrayColor]] forState:UIControlStateNormal];
     [self.uploadPostCameraButtonTwo setTitle:@"Add photo" forState:UIControlStateNormal];
     [self.uploadPostCameraButtonTwo addTarget:self action:@selector(takePhotoButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
     [self.uploadPostExampleTableViewCellView addSubview:self.uploadPostCameraButtonTwo];
@@ -336,14 +406,18 @@ UIColor *redColor = [UIColor colorWithRed:(207/255.0) green:(70/255.0) blue:(51/
     
     self.uploadPostPreviewButton = [[UIButton alloc] initWithFrame:CGRectMake(10, maxCellYValue + lengthEndCellToEndScreen/2 - 15, viewWidth/3 -15
                                                                               , 30)];
-    self.uploadPostPreviewButton.backgroundColor = blackThisThatColor;
+    [self.uploadPostPreviewButton setBackgroundImage:[self imageWithColor:blackThisThatColor] forState:UIControlStateNormal];
+    [self.uploadPostPreviewButton setBackgroundImage:[self imageWithColor:blackThisThatColor2] forState:UIControlStateHighlighted];
+    
     [self.uploadPostPreviewButton setTitle:@"Preview" forState:UIControlStateNormal];
     [self.uploadPostPreviewButton addTarget:self action:@selector(previewUploadThisThat:) forControlEvents:UIControlEventTouchUpInside];
     [self.uploadPostView addSubview:self.uploadPostPreviewButton];
     [self.uploadPostPreviewButton setHidden:YES];
     
     self.uploadPostButton = [[UIButton alloc] initWithFrame:CGRectMake(viewWidth/3+5, maxCellYValue + lengthEndCellToEndScreen/2 - 15, 2*(viewWidth/3)-15, 30)];
-    self.uploadPostButton.backgroundColor = redColor;
+    [self.uploadPostButton setBackgroundImage:[self imageWithColor:redColor] forState:UIControlStateNormal];
+    [self.uploadPostButton setBackgroundImage:[self imageWithColor:redColor2] forState:UIControlStateHighlighted];
+    
     [self.uploadPostButton setTitle:@"Upload" forState:UIControlStateNormal];
     [self.uploadPostButton addTarget:self action:@selector(uploadPostAction:) forControlEvents:UIControlEventTouchUpInside];
     [self.uploadPostView addSubview:self.uploadPostButton];
@@ -398,6 +472,19 @@ UIColor *redColor = [UIColor colorWithRed:(207/255.0) green:(70/255.0) blue:(51/
     geocoder = [[CLGeocoder alloc] init];
 */
 
+}
+-(UIImage*)imageWithColor:(UIColor*)color {
+    CGRect rect = CGRectMake(0.0f, 0.0f, 1.0f, 1.0f);
+    UIGraphicsBeginImageContext(rect.size);
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    
+    CGContextSetFillColorWithColor(context, [color CGColor]);
+    CGContextFillRect(context, rect);
+    
+    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    return image;
 }
 //pan to upload new post
 -(void)uploadPostAction:(UIButton *)recognize {
@@ -554,8 +641,8 @@ UIColor *redColor = [UIColor colorWithRed:(207/255.0) green:(70/255.0) blue:(51/
 -(void)uploadErrorUpdateNavBar {
     self.uploadPostNavigationBarUploadLabel.text = @"Failed. Please try again.";
     UIColor *redColor = [UIColor colorWithRed:(207/255.0) green:(70/255.0) blue:(51/255.0) alpha:1];
-    self.uploadPostNavigationBarRetryUploadButton = [[UIButton alloc] initWithFrame:CGRectMake(self.view.frame.size.width-50, [UIApplication sharedApplication].statusBarFrame.size.height+5, 40, 30)];
-    self.uploadPostNavigationBarRetryUploadButton.backgroundColor = [UIColor whiteColor];
+    self.uploadPostNavigationBarRetryUploadButton = [[UIButton alloc] initWithFrame:CGRectMake(self.view.frame.size.width-60, [UIApplication sharedApplication].statusBarFrame.size.height+5, 50, 30)];
+    self.uploadPostNavigationBarRetryUploadButton.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.7];
     [self.uploadPostNavigationBarRetryUploadButton setTitleColor:redColor forState:UIControlStateNormal];
     self.uploadPostNavigationBarRetryUploadButton.titleLabel.adjustsFontSizeToFitWidth = YES;
     self.uploadPostNavigationBarRetryUploadButton.titleLabel.minimumScaleFactor = 0.6;
@@ -564,8 +651,8 @@ UIColor *redColor = [UIColor colorWithRed:(207/255.0) green:(70/255.0) blue:(51/
     [self.uploadPostNavigationBarUploadView addSubview:self.uploadPostNavigationBarRetryUploadButton];
     
     self.uploadPostNavigationBarDeleteUploadButton = [[UIButton alloc] initWithFrame:CGRectMake(10, [UIApplication sharedApplication].statusBarFrame.size.height+5, 50, 30)];
-    self.uploadPostNavigationBarDeleteUploadButton.backgroundColor = [UIColor whiteColor];
-    [self.uploadPostNavigationBarDeleteUploadButton setTitleColor:redColor forState:UIControlStateNormal];
+    self.uploadPostNavigationBarDeleteUploadButton.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.7];
+    [self.uploadPostNavigationBarDeleteUploadButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     self.uploadPostNavigationBarDeleteUploadButton.titleLabel.adjustsFontSizeToFitWidth = YES;
     self.uploadPostNavigationBarDeleteUploadButton.titleLabel.minimumScaleFactor = 0.6;
     [self.uploadPostNavigationBarDeleteUploadButton setTitle:@"Cancel" forState:UIControlStateNormal];
@@ -659,8 +746,10 @@ UIColor *redColor = [UIColor colorWithRed:(207/255.0) green:(70/255.0) blue:(51/
 
 //upload see photos 1/2 size of viewscreen
 -(void)previewUploadThisThat:(UIButton *)recognize {
+    self.invisibleView2 = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
+    [self.uploadPostView addSubview:self.invisibleView2];
     UIColor *redColor = [UIColor colorWithRed:(207/255.0) green:(70/255.0) blue:(51/255.0) alpha:1];
-
+    
     self.uploadPostViewForImageViews = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
     self.uploadPostViewForImageViews.backgroundColor = [UIColor whiteColor];
     [self.uploadPostView addSubview:self.uploadPostViewForImageViews];
@@ -910,7 +999,8 @@ UIColor *redColor = [UIColor colorWithRed:(207/255.0) green:(70/255.0) blue:(51/
 }
 //action to load personal posts
 -(void)personalPostsButtonAction:(UIButton*)sender {
-   
+    UIImage *personalIcon = [UIImage imageNamed:@"personal.png"];
+    [self.personalImageButton setImage:personalIcon forState:UIControlStateNormal];
     
     [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationFade];
     
@@ -1849,6 +1939,7 @@ UIColor *redColor = [UIColor colorWithRed:(207/255.0) green:(70/255.0) blue:(51/
         self.uploadPostTempImageOne = [info objectForKey:UIImagePickerControllerOriginalImage];
         [[self.uploadPostCameraButtonOne imageView] setContentMode:UIViewContentModeScaleAspectFill];
         [self.uploadPostCameraButtonOne setImage:self.uploadPostTempImageOne forState:UIControlStateNormal];
+        [self.uploadPostCameraButtonOne setImage:self.uploadPostTempImageOne forState:UIControlStateDisabled];
         [self.uploadPostCameraButtonOne setTitle:@"" forState:UIControlStateNormal];
     }
     if(self.selectedCameraInt == 2){
@@ -1857,6 +1948,7 @@ UIColor *redColor = [UIColor colorWithRed:(207/255.0) green:(70/255.0) blue:(51/
         self.uploadPostTempImageTwo = [info objectForKey:UIImagePickerControllerOriginalImage];
         [[self.uploadPostCameraButtonTwo imageView] setContentMode:UIViewContentModeScaleAspectFill];
         [self.uploadPostCameraButtonTwo setImage:self.uploadPostTempImageTwo forState:UIControlStateNormal];
+        [self.uploadPostCameraButtonTwo setImage:self.uploadPostTempImageTwo forState:UIControlStateDisabled];
         [self.uploadPostCameraButtonTwo setTitle:@"" forState:UIControlStateNormal];
        
     }
@@ -1869,6 +1961,9 @@ UIColor *redColor = [UIColor colorWithRed:(207/255.0) green:(70/255.0) blue:(51/
 }
 //open newsfeed action
 -(void)feedButtonAction:(UIButton*)sender {
+    UIImage *feedIcon = [UIImage imageNamed:@"newsFeedIconWhite.png"];
+    [self.feedImageButton setImage:feedIcon forState:UIControlStateNormal];
+    
     [self presentLoadingView];
     [self loadNewsFeedArray];
 }
@@ -1998,6 +2093,7 @@ UIColor *redColor = [UIColor colorWithRed:(207/255.0) green:(70/255.0) blue:(51/
                 }
                 if(recognize == self.uploadPostPinchGesture){
                     [self.uploadPostView removeFromSuperview];
+                    [self.invisibleView2 removeFromSuperview];
                     [self.invisibleView removeFromSuperview];
                     [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
                     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
@@ -2008,6 +2104,8 @@ UIColor *redColor = [UIColor colorWithRed:(207/255.0) green:(70/255.0) blue:(51/
                 }
                 if(recognize == self.uploadPostPinchGestureImageViews){
                     [self.uploadPostViewForImageViews removeFromSuperview];
+                    [self.invisibleView removeFromSuperview];
+                    [self.invisibleView2 removeFromSuperview];
                     
 
                 }
@@ -3071,6 +3169,8 @@ UIColor *redColor = [UIColor colorWithRed:(207/255.0) green:(70/255.0) blue:(51/
 
 //posts voted on action
 -(void)votedButtonAction:(UIButton*)sender {
+    UIImage *votedIcon = [UIImage imageNamed:@"voted.png"];
+    [self.votedImageButton setImage:votedIcon forState:UIControlStateNormal];
     [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationFade];
     
     [self loadPostsVotedOn];
@@ -3337,6 +3437,10 @@ UIColor *redColor = [UIColor colorWithRed:(207/255.0) green:(70/255.0) blue:(51/
     self.invisibleView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
     [self.navigationController.view addSubview:self.invisibleView];
 }
+-(void)presentInvisibleView2 {
+    self.invisibleView2 = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
+    [self.navigationController.view addSubview:self.invisibleView2];
+}
 -(UIColor*)greenThisThatColor {
     UIColor *greenThisThatColor = [UIColor colorWithRed:51/255.0 green:168/255.0 blue:70/255.0 alpha:1];
     return greenThisThatColor;
@@ -3384,10 +3488,13 @@ UIColor *redColor = [UIColor colorWithRed:(207/255.0) green:(70/255.0) blue:(51/
 -(void)uploadingNavBarDetail {
     UIColor *redColor = [UIColor colorWithRed:(207/255.0) green:(70/255.0) blue:(51/255.0) alpha:1];
     self.uploadPostNavigationBarUploadView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.navigationController.navigationBar.frame.size.height+[UIApplication sharedApplication].statusBarFrame.size.height+5)];
-    self.uploadPostNavigationBarUploadView.backgroundColor = redColor;
+    self.uploadPostNavigationBarUploadView.backgroundColor = [UIColor whiteColor];
+    UIView *blackLineView = [[UIView alloc] initWithFrame:CGRectMake(0, self.navigationController.navigationBar.frame.size.height+[UIApplication sharedApplication].statusBarFrame.size.height+4, self.view.frame.size.width, 1)];
+    blackLineView.backgroundColor = [UIColor blackColor];
+    [self.uploadPostNavigationBarUploadView addSubview:blackLineView];
     [self.navigationController.view addSubview:self.uploadPostNavigationBarUploadView];
     self.uploadPostNavigationBarUploadLabel = [[UILabel alloc] initWithFrame:CGRectMake(70, [UIApplication sharedApplication].statusBarFrame.size.height + 5, self.view.frame.size.width-70, 30)];
-    self.uploadPostNavigationBarUploadLabel.textColor = [UIColor whiteColor];
+    self.uploadPostNavigationBarUploadLabel.textColor = redColor;
     self.uploadPostNavigationBarUploadLabel.text = @"uploading your thisThat..";
     [self.uploadPostNavigationBarUploadView addSubview:self.uploadPostNavigationBarUploadLabel];
 
