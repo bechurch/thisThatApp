@@ -36,8 +36,11 @@
 
 
 @property (nonatomic, strong) UIButton *feedImageButton;
+@property (nonatomic, strong) UIButton *feedButton;
 @property (nonatomic, strong) UIButton *personalImageButton;
+@property (nonatomic, strong) UIButton *personalButton;
 @property (nonatomic, strong) UIButton *votedImageButton;
+@property (nonatomic, strong) UIButton *votedButton;
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 // newsFeed
@@ -160,6 +163,7 @@
 @property (nonatomic, strong) NSIndexPath *cellIndex;
 @property (nonatomic, strong) UITextView *uploadPostTextView;
 @property (nonatomic, strong) UISwitch *uploadPostLocationEnabledSwitch;
+@property (nonatomic, strong) UIAlertView *uploadPostNoTextContentAlertView;
 @property int selectedCameraInt;
 
 @property CGFloat maxYKeyboard;

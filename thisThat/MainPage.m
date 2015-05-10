@@ -47,19 +47,19 @@
     CGFloat width = CGRectGetWidth(self.view.frame);
     CGFloat height = CGRectGetHeight(self.view.frame);
     
-    UIButton *personalButton = [[UIButton alloc] initWithFrame:CGRectMake((width/2)-25, (height/2)-90, 100, 30)];
-    [personalButton setTitle:@"personal" forState:UIControlStateNormal];
-    personalButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
-    [personalButton setTitleEdgeInsets:UIEdgeInsetsMake(0, 10, 0, 0)];
-    [personalButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [personalButton setTitleColor:[[UIColor whiteColor] colorWithAlphaComponent:0.5] forState:UIControlStateHighlighted];
-    [personalButton addTarget:self action:@selector(personalButtonHighlighted:) forControlEvents:UIControlEventTouchDown];
-    [personalButton addTarget:self action:@selector(personalButtonUnhighlighted:) forControlEvents:UIControlEventTouchDragOutside];
-    [personalButton addTarget:self action:@selector(personalButtonDragHighlighted:) forControlEvents:UIControlEventTouchDragInside];
-    [personalButton.titleLabel setFont:[UIFont boldSystemFontOfSize:22]];
-    [personalButton addTarget:self action:@selector(personalPostsButtonAction:) forControlEvents:UIControlEventTouchUpInside];
+    self.personalButton = [[UIButton alloc] initWithFrame:CGRectMake((width/2)-25, (height/2)-90, 100, 30)];
+    [self.personalButton setTitle:@"personal" forState:UIControlStateNormal];
+    self.personalButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+    [self.personalButton setTitleEdgeInsets:UIEdgeInsetsMake(0, 10, 0, 0)];
+    [self.personalButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [self.personalButton setTitleColor:[[UIColor whiteColor] colorWithAlphaComponent:0.5] forState:UIControlStateHighlighted];
+    [self.personalButton addTarget:self action:@selector(personalButtonHighlighted:) forControlEvents:UIControlEventTouchDown];
+    [self.personalButton addTarget:self action:@selector(personalButtonUnhighlighted:) forControlEvents:UIControlEventTouchDragOutside];
+    [self.personalButton addTarget:self action:@selector(personalButtonDragHighlighted:) forControlEvents:UIControlEventTouchDragInside];
+    [self.personalButton.titleLabel setFont:[UIFont boldSystemFontOfSize:22]];
+    [self.personalButton addTarget:self action:@selector(personalPostsButtonAction:) forControlEvents:UIControlEventTouchUpInside];
     
-    [self.view addSubview:personalButton];
+    [self.view addSubview:self.personalButton];
     
     
   //  UIImage *personalIcon = [UIImage imageNamed:@"personalIconexport.png"];
@@ -68,25 +68,28 @@
     self.personalImageButton = [[UIButton alloc] initWithFrame:CGRectMake((width/2)-75, (height/2)-100, 50, 50)];
     [self.personalImageButton setImage:personalIcon forState:UIControlStateNormal];
     [self.personalImageButton setImage:personalIconSelected forState:UIControlStateHighlighted];
+    [self.personalImageButton addTarget:self action:@selector(personalImageButtonHighlighted:) forControlEvents:UIControlEventTouchDown];
+    [self.personalImageButton addTarget:self action:@selector(personalImageButtonUnhighlighted:) forControlEvents:UIControlEventTouchDragOutside];
+   [self.personalImageButton addTarget:self action:@selector(personalImageButtonDragHighlighted:) forControlEvents:UIControlEventTouchDragInside];
     [self.personalImageButton addTarget:self action:@selector(personalPostsButtonAction:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.personalImageButton];
 
     
 
     
-    UIButton *feedButton = [[UIButton alloc] initWithFrame:CGRectMake((width/2)-25, (height/2)-15, 100, 30)];
-    [feedButton setTitle:@"thisThat" forState:UIControlStateNormal];
-    feedButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
-    [feedButton setTitleEdgeInsets:UIEdgeInsetsMake(0, 10, 0, 0)];
-    [feedButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [feedButton setTitleColor:[[UIColor whiteColor] colorWithAlphaComponent:0.5] forState:UIControlStateHighlighted];
-    [feedButton addTarget:self action:@selector(feedButtonHighlighted:) forControlEvents:UIControlEventTouchDown];
-    [feedButton addTarget:self action:@selector(feedButtonUnhighlighted:) forControlEvents:UIControlEventTouchDragOutside];
-    [feedButton addTarget:self action:@selector(feedButtonDragHighlighted:) forControlEvents:UIControlEventTouchDragInside];
-    [feedButton.titleLabel setFont:[UIFont boldSystemFontOfSize:22]];
-    [feedButton addTarget:self action:@selector(feedButtonAction:) forControlEvents:UIControlEventTouchUpInside];
+    self.feedButton = [[UIButton alloc] initWithFrame:CGRectMake((width/2)-25, (height/2)-15, 100, 30)];
+    [self.feedButton setTitle:@"thisThat" forState:UIControlStateNormal];
+    self.feedButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+    [self.feedButton setTitleEdgeInsets:UIEdgeInsetsMake(0, 10, 0, 0)];
+    [self.feedButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [self.feedButton setTitleColor:[[UIColor whiteColor] colorWithAlphaComponent:0.5] forState:UIControlStateHighlighted];
+    [self.feedButton addTarget:self action:@selector(feedButtonHighlighted:) forControlEvents:UIControlEventTouchDown];
+    [self.feedButton addTarget:self action:@selector(feedButtonUnhighlighted:) forControlEvents:UIControlEventTouchDragOutside];
+    [self.feedButton addTarget:self action:@selector(feedButtonDragHighlighted:) forControlEvents:UIControlEventTouchDragInside];
+    [self.feedButton.titleLabel setFont:[UIFont boldSystemFontOfSize:22]];
+    [self.feedButton addTarget:self action:@selector(feedButtonAction:) forControlEvents:UIControlEventTouchUpInside];
     
-    [self.view addSubview:feedButton];
+    [self.view addSubview:self.feedButton];
     
     
     UIImage *feedIcon = [UIImage imageNamed:@"newsFeedIconWhite.png"];
@@ -94,32 +97,37 @@
     self.feedImageButton = [[UIButton alloc] initWithFrame:CGRectMake((width/2)-75, (height/2)-25, 50, 50)];
     [self.feedImageButton setImage:feedIcon forState:UIControlStateNormal];
     [self.feedImageButton setImage:feedIconSelected forState:UIControlStateHighlighted];
-
+    [self.feedImageButton addTarget:self action:@selector(feedImageButtonHighlighted:) forControlEvents:UIControlEventTouchDown];
+    [self.feedImageButton addTarget:self action:@selector(feedImageButtonUnhighlighted:) forControlEvents:UIControlEventTouchDragOutside];
+    [self.feedImageButton addTarget:self action:@selector(feedImageButtonDragHighlighted:) forControlEvents:UIControlEventTouchDragInside];
     [self.feedImageButton addTarget:self action:@selector(feedButtonAction:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.feedImageButton];
     
     
     
     
-    UIButton *votedButton = [[UIButton alloc] initWithFrame:CGRectMake((width/2)-25, (height/2)+60, 100, 30)];
-    [votedButton setTitle:@"voted" forState:UIControlStateNormal];
-    votedButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
-    [votedButton setTitleEdgeInsets:UIEdgeInsetsMake(0, 10, 0, 0)];
-    [votedButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [votedButton setTitleColor:[[UIColor whiteColor] colorWithAlphaComponent:0.5] forState:UIControlStateHighlighted];
-    [votedButton addTarget:self action:@selector(votedButtonHighlighted:) forControlEvents:UIControlEventTouchDown];
-    [votedButton addTarget:self action:@selector(votedButtonUnhighlighted:) forControlEvents:UIControlEventTouchDragOutside];
-    [votedButton addTarget:self action:@selector(votedButtonDragHighlighted:) forControlEvents:UIControlEventTouchDragInside];
+    self.votedButton = [[UIButton alloc] initWithFrame:CGRectMake((width/2)-25, (height/2)+60, 100, 30)];
+    [self.votedButton setTitle:@"voted" forState:UIControlStateNormal];
+    self.votedButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+    [self.votedButton setTitleEdgeInsets:UIEdgeInsetsMake(0, 10, 0, 0)];
+    [self.votedButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [self.votedButton setTitleColor:[[UIColor whiteColor] colorWithAlphaComponent:0.5] forState:UIControlStateHighlighted];
+    [self.votedButton addTarget:self action:@selector(votedButtonHighlighted:) forControlEvents:UIControlEventTouchDown];
+    [self.votedButton addTarget:self action:@selector(votedButtonUnhighlighted:) forControlEvents:UIControlEventTouchDragOutside];
+    [self.votedButton addTarget:self action:@selector(votedButtonDragHighlighted:) forControlEvents:UIControlEventTouchDragInside];
     
-    [votedButton.titleLabel setFont:[UIFont boldSystemFontOfSize:22]];
-    [votedButton addTarget:self action:@selector(votedButtonAction:) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:votedButton];
+    [self.votedButton.titleLabel setFont:[UIFont boldSystemFontOfSize:22]];
+    [self.votedButton addTarget:self action:@selector(votedButtonAction:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:self.votedButton];
     
     UIImage *votedIcon = [UIImage imageNamed:@"voted.png"];
     UIImage *votedSelectedIcon = [UIImage imageNamed:@"votedSelected.png"];
     self.votedImageButton = [[UIButton alloc] initWithFrame:CGRectMake((width/2)-75, (height/2)+50, 50, 50)];
     [self.votedImageButton setImage:votedIcon forState:UIControlStateNormal];
     [self.votedImageButton setImage:votedSelectedIcon forState:UIControlStateHighlighted];
+    [self.votedImageButton addTarget:self action:@selector(votedImageButtonHighlighted:) forControlEvents:UIControlEventTouchDown];
+    [self.votedImageButton addTarget:self action:@selector(votedImageButtonUnhighlighted:) forControlEvents:UIControlEventTouchDragOutside];
+    [self.votedImageButton addTarget:self action:@selector(votedImageButtonDragHighlighted:) forControlEvents:UIControlEventTouchDragInside];
     [self.votedImageButton addTarget:self action:@selector(votedButtonAction:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.votedImageButton];
     
@@ -133,6 +141,7 @@
     else {
         [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"hasLaunchedOnce"];
         [[NSUserDefaults standardUserDefaults] synchronize];
+        [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationFade];
         NSLog(@"First Launch Ever");
         self.firstLaunchScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
         self.firstLaunchScrollView.delegate = self;
@@ -141,36 +150,56 @@
         self.firstLaunchScrollView.bounces = NO;
         self.firstLaunchScrollView.pagingEnabled = YES;
         self.firstLaunchScrollView.showsHorizontalScrollIndicator = YES;
-        self.firstLaunchScrollView.contentSize = CGSizeMake(5*self.view.frame.size.width, self.view.frame.size.height);
+        self.firstLaunchScrollView.contentSize = CGSizeMake(4*self.view.frame.size.width, self.view.frame.size.height);
         [self.navigationController.view addSubview:self.firstLaunchScrollView];
-        self.firstLaunchView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 5*self.view.frame.size.width, self.view.frame.size.height)];
+        self.firstLaunchView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 4*self.view.frame.size.width, self.view.frame.size.height)];
         self.firstLaunchView.backgroundColor = [UIColor whiteColor];
         self.firstLaunchView.userInteractionEnabled = YES;
         [self.firstLaunchScrollView addSubview:self.firstLaunchView];
         
-        UIImage *image = [UIImage imageNamed:@"IMG_6322.jpg"];
+        UIImage *image = [UIImage imageNamed:@"welcomeFirstOpening.png"];
         UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
         imageView.image = image;
         imageView.contentMode = UIViewContentModeScaleToFill;
         [self.firstLaunchView addSubview:imageView];
-        UILabel *firstLaunchLabel = [[UILabel alloc] initWithFrame:CGRectMake(50, self.view.frame.size.height/2, 1500, 30)];
-        firstLaunchLabel.backgroundColor = redColor;
-        firstLaunchLabel.textColor = [UIColor whiteColor];
-        firstLaunchLabel.text = @"This view will show only the first time a user has loggedIn/SignedUp after downloading the app. A few pictures on how to use the app. Pinch in to close view, etc.";
-        [imageView addSubview:firstLaunchLabel];
-        UIImageView *imageViewTwo = [[UIImageView alloc] initWithFrame:CGRectMake(4*self.view.frame.size.width, 0, self.view.frame.size.width, self.view.frame.size.height)];
-        imageViewTwo.image = image;
-        imageViewTwo.userInteractionEnabled = YES;
-        [self.firstLaunchView addSubview:imageViewTwo];
-        UIButton *closeFirstLaunchViewButton = [[UIButton alloc] initWithFrame:CGRectMake(5*(self.view.frame.size.width)-60, self.view.frame.size.height-40, 50, 30)];
+        
+        UIImage *imageTwoFirstLaunch = [UIImage imageNamed:@"secondPageFirstOpening.png"];
+        UIImageView *imageViewTwoFirstLaunch = [[UIImageView alloc] initWithFrame:CGRectMake(self.view.frame.size.width, 0, self.view.frame.size.width, self.view.frame.size.height)];
+        imageViewTwoFirstLaunch.image = imageTwoFirstLaunch;
+        imageViewTwoFirstLaunch.contentMode = UIViewContentModeScaleToFill;
+        [self.firstLaunchView addSubview:imageViewTwoFirstLaunch];
+        
+        UIImage *imageThreeFirstLaunch = [UIImage imageNamed:@"thirdPageFirstOpening.png"];
+        UIImageView *imageViewThreeFirstLaunch = [[UIImageView alloc] initWithFrame:CGRectMake(2*self.view.frame.size.width, 0, self.view.frame.size.width, self.view.frame.size.height)];
+        imageViewThreeFirstLaunch.image = imageThreeFirstLaunch;
+        imageViewThreeFirstLaunch.contentMode = UIViewContentModeScaleToFill;
+        [self.firstLaunchView addSubview:imageViewThreeFirstLaunch];
+
+        UIImage *imageFourFirstLaunch = [UIImage imageNamed:@"fourthPageFirstOpening.png"];
+        UIImageView *imageViewFourFirstLaunch = [[UIImageView alloc] initWithFrame:CGRectMake(3*self.view.frame.size.width, 0, self.view.frame.size.width, self.view.frame.size.height)];
+        imageViewFourFirstLaunch.image = imageFourFirstLaunch;
+        imageViewFourFirstLaunch.userInteractionEnabled = YES;
+        [self.firstLaunchView addSubview:imageViewFourFirstLaunch];
+        UIButton *closeFirstLaunchViewButton = [[UIButton alloc] initWithFrame:CGRectMake(4*(self.view.frame.size.width)-60, self.view.frame.size.height-40, 50, 30)];
         [closeFirstLaunchViewButton setTitle:@"Close" forState:UIControlStateNormal];
-        [closeFirstLaunchViewButton setBackgroundColor:redColor];
+        [closeFirstLaunchViewButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        [closeFirstLaunchViewButton setBackgroundColor:[UIColor clearColor]];
         [closeFirstLaunchViewButton addTarget:self action:@selector(closeFirstLaunchView:) forControlEvents:UIControlEventTouchUpInside];
         [self.firstLaunchView addSubview:closeFirstLaunchViewButton];
     }
 
 
 
+}
+
+-(void)personalImageButtonHighlighted:(UIButton *)sender {
+    [self.personalButton setTitleColor:[[UIColor whiteColor] colorWithAlphaComponent:0.5] forState:UIControlStateNormal];
+}
+-(void)personalImageButtonUnhighlighted:(UIButton *)sender {
+    [self.personalButton setTitleColor:[[UIColor whiteColor] colorWithAlphaComponent:1.0] forState:UIControlStateNormal];
+}
+-(void)personalImageButtonDragHighlighted:(UIButton*)sender {
+    [self.personalButton setTitleColor:[[UIColor whiteColor] colorWithAlphaComponent:0.5] forState:UIControlStateNormal];
 }
 -(void)personalButtonHighlighted:(UIButton*)sender {
     UIImage *personalIconSelected = [UIImage imageNamed:@"personalSelected.png"];
@@ -185,6 +214,17 @@
     [self.personalImageButton setImage:personalIconSelected forState:UIControlStateNormal];
     
 }
+-(void)feedImageButtonHighlighted:(UIButton*)sender {
+    [self.feedButton setTitleColor:[[UIColor whiteColor] colorWithAlphaComponent:0.5] forState:UIControlStateNormal];
+}
+-(void)feedImageButtonUnhighlighted:(UIButton*)sender {
+    [self.feedButton setTitleColor:[[UIColor whiteColor] colorWithAlphaComponent:1.0] forState:UIControlStateNormal];
+}
+-(void)feedImageButtonDragHighlighted:(UIButton*)sender {
+    [self.feedButton setTitleColor:[[UIColor whiteColor] colorWithAlphaComponent:0.5] forState:UIControlStateNormal];
+}
+
+
 -(void)feedButtonHighlighted:(UIButton*)sender {
     UIImage *feedIconSelected = [UIImage imageNamed:@"newsFeedIconWhiteSelected.png"];
     [self.feedImageButton setImage:feedIconSelected forState:UIControlStateNormal];
@@ -199,7 +239,15 @@
     UIImage *feedIcon = [UIImage imageNamed:@"newsFeedIconWhiteSelected.png"];
     [self.feedImageButton setImage:feedIcon forState:UIControlStateNormal];
 }
-
+-(void)votedImageButtonHighlighted:(UIButton*)sender {
+    [self.votedButton setTitleColor:[[UIColor whiteColor] colorWithAlphaComponent:0.5] forState:UIControlStateNormal];
+}
+-(void)votedImageButtonUnhighlighted:(UIButton*)sender {
+    [self.votedButton setTitleColor:[[UIColor whiteColor] colorWithAlphaComponent:1.0] forState:UIControlStateNormal];
+}
+-(void)votedImageButtonDragHighlighted:(UIButton*)sender {
+    [self.votedButton setTitleColor:[[UIColor whiteColor] colorWithAlphaComponent:0.5] forState:UIControlStateNormal];
+}
 -(void)votedButtonHighlighted:(UIButton*)sender {
     UIImage *votedSelectedIcon = [UIImage imageNamed:@"votedSelected.png"];
     [self.votedImageButton setImage:votedSelectedIcon forState:UIControlStateNormal];
@@ -217,6 +265,8 @@
 
 
 -(void)closeFirstLaunchView:(UIButton*)button {
+    [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
     [self.firstLaunchView removeFromSuperview];
     [self.firstLaunchScrollView removeFromSuperview];
 }
@@ -309,9 +359,9 @@
     [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationFade];
        CGFloat viewHeight = self.view.frame.size.height;
     CGFloat viewWidth = self.view.frame.size.width;
-    UIColor *redThisThatColor = [UIColor colorWithRed:(231/255.0) green:(80/255.0) blue:(80/255.0) alpha:1];
+   /* UIColor *redThisThatColor = [UIColor colorWithRed:(231/255.0) green:(80/255.0) blue:(80/255.0) alpha:1];
      UIColor *blueishThisThatColor = [UIColor colorWithRed:(60/255.0) green:(104/255.0) blue:(150/255.0) alpha:1];
-    UIColor *greyishThisThatColor = [UIColor colorWithRed:(172/255.0) green:(166/255.0) blue:(158/255.0) alpha:1];
+    UIColor *greyishThisThatColor = [UIColor colorWithRed:(172/255.0) green:(166/255.0) blue:(158/255.0) alpha:1];*/
     UIColor *blackThisThatColor = [UIColor colorWithRed:(39/255.0) green:(35/255.0) blue:(34/255.0) alpha:1];
     UIColor *blackThisThatColor2 = [UIColor colorWithRed:(39/255.0) green:(35/255.0) blue:(34/255.0) alpha:0.8];
     [self presentInvisibleView];
@@ -488,7 +538,13 @@
 }
 //pan to upload new post
 -(void)uploadPostAction:(UIButton *)recognize {
+    if([self.uploadPostTextView.text isEqualToString:@""]) {
+        self.uploadPostNoTextContentAlertView = [[UIAlertView alloc] initWithTitle:@"What are you comparing?" message:@"Add some text to describe what you are comparing." delegate:self cancelButtonTitle:@"Continue without" otherButtonTitles:@"Add text", nil];
+        [self.uploadPostNoTextContentAlertView show];
+    }
+    else {
     [self uploadThisThat];
+    }
 }
 -(void)textViewDidBeginEditing:(UITextView *)textView {
     if([textView isEqual:self.uploadPostTextView]){
@@ -502,7 +558,7 @@
     CGFloat viewHeight = self.view.frame.size.height;
     CGFloat viewWidth = self.view.frame.size.width;
     CGFloat heightOfCell = (viewWidth/2) + 130;
-    CGFloat heighOfInstructionsLabel = (viewHeight/2)-(heightOfCell/2);
+   // CGFloat heighOfInstructionsLabel = (viewHeight/2)-(heightOfCell/2);
     [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionCurveLinear animations:^{
         self.uploadPostExampleTableViewCellView.frame = CGRectMake(0, viewHeight-heightOfCell-keyboardHeight, viewWidth, (viewWidth/2)+130);
         self.uploadPostInstructionsLabel.frame = CGRectMake(10, viewHeight-heightOfCell-keyboardHeight-self.uploadPostInstructionsLabel.frame.size.height, viewWidth-20, 30);
@@ -1001,7 +1057,7 @@
 -(void)personalPostsButtonAction:(UIButton*)sender {
     UIImage *personalIcon = [UIImage imageNamed:@"personal.png"];
     [self.personalImageButton setImage:personalIcon forState:UIControlStateNormal];
-    
+    [self.personalButton setTitleColor:[[UIColor whiteColor] colorWithAlphaComponent:1.0] forState:UIControlStateNormal];
     [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationFade];
     
     [self loadPersonalPosts];
@@ -1079,7 +1135,7 @@
             messageLabel.numberOfLines = 0;
             messageLabel.textAlignment = NSTextAlignmentCenter;
             //messageLabel.font = [UIFont fontWithName:@"Palatino-Italic" size:20];
-            messageLabel.font = [UIFont fontWithName:@"STHeitiTC-Medium" size:20];
+            messageLabel.font = [UIFont systemFontOfSize:20];
             [messageLabel sizeToFit];
             self.personalPostsTableView.backgroundView = messageLabel;
             self.personalPostsTableView.separatorStyle = UITableViewCellSelectionStyleNone;
@@ -1099,7 +1155,7 @@
             messageLabel.numberOfLines = 0;
             messageLabel.textAlignment = NSTextAlignmentCenter;
             //messageLabel.font = [UIFont fontWithName:@"Palatino-Italic" size:20];
-            messageLabel.font = [UIFont fontWithName:@"STHeitiTC-Medium" size:20];
+            messageLabel.font = [UIFont systemFontOfSize:20];
             [messageLabel sizeToFit];
             self.postsVotedOnTableView.backgroundView = messageLabel;
             self.postsVotedOnTableView.separatorStyle = UITableViewCellSelectionStyleNone;
@@ -1814,13 +1870,36 @@ UIColor *redColor = [UIColor colorWithRed:(207/255.0) green:(70/255.0) blue:(51/
 -(void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     if(tableView == self.personalPostsTableView){
     if(editingStyle == UITableViewCellEditingStyleDelete) {
+        if([self.personalPostsArray count] == 1) {
+            NSLog(@"YPPP");
+            objects *personalPost = [self.personalPostsArray objectAtIndex:indexPath.row];
+            [self.personalPostsArray removeObjectAtIndex:indexPath.row];
+            [self.personalPostsTableView deleteSections:[NSIndexSet indexSetWithIndex:indexPath.section] withRowAnimation:UITableViewRowAnimationRight];
+            [self.personalPostsTableView performSelector:@selector(reloadData) withObject:nil afterDelay:0.3];
+            NSUserDefaults *userDefaultContents = [NSUserDefaults standardUserDefaults];
+            NSObject *currentIDTokenObject = [userDefaultContents objectForKey:@"tokenIDString"];
+            NSLog(@"\nDeleteWithString: /api/v1/thisthats/%@?access_token=%@",personalPost.postId,currentIDTokenObject);
+            
+            NSString *deletePostPath = [NSString stringWithFormat:@"/api/v1/thisthats/%@?access_token=%@",personalPost.postId,currentIDTokenObject];
+            
+            [[RKObjectManager sharedManager] deleteObject:nil path:deletePostPath parameters:nil success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
+                NSLog(@"deletedPost:%@ successfully",personalPost.postId);
+                
+                
+            } failure:^(RKObjectRequestOperation *operation, NSError *error) {
+                NSLog(@"fail");
+            }];
+            [self.invisibleView removeFromSuperview];
+
+        }
+        if([self.personalPostsArray count] > 1) {
         objects *personalPost = [self.personalPostsArray objectAtIndex:indexPath.row];
         [self.personalPostsArray removeObjectAtIndex:indexPath.row];
         [self.personalPostsTableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationRight];
         
         NSLog(@"\npostID:%@",personalPost.postId);
         [self.personalPostsTableView performSelector:@selector(reloadData) withObject:nil afterDelay:0.3];
-
+        
         NSUserDefaults *userDefaultContents = [NSUserDefaults standardUserDefaults];
         NSObject *currentIDTokenObject = [userDefaultContents objectForKey:@"tokenIDString"];
         NSLog(@"\nDeleteWithString: /api/v1/thisthats/%@?access_token=%@",personalPost.postId,currentIDTokenObject);
@@ -1836,6 +1915,7 @@ UIColor *redColor = [UIColor colorWithRed:(207/255.0) green:(70/255.0) blue:(51/
         }];
 
         }
+    }
     }
 }
 // upload post text view begin editing
@@ -1868,7 +1948,7 @@ UIColor *redColor = [UIColor colorWithRed:(207/255.0) green:(70/255.0) blue:(51/
 -(BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text{
     if([text rangeOfCharacterFromSet:[NSCharacterSet newlineCharacterSet]].location == NSNotFound) {
         NSString *newString = [textView.text stringByReplacingCharactersInRange:range withString:text];
-        return !([newString length] >100);
+        return !([newString length] >80);
     }
     [textView resignFirstResponder];
     [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionCurveLinear animations:^{
@@ -1962,6 +2042,7 @@ UIColor *redColor = [UIColor colorWithRed:(207/255.0) green:(70/255.0) blue:(51/
 //open newsfeed action
 -(void)feedButtonAction:(UIButton*)sender {
     UIImage *feedIcon = [UIImage imageNamed:@"newsFeedIconWhite.png"];
+    [self.feedButton setTitleColor:[[UIColor whiteColor] colorWithAlphaComponent:1.0] forState:UIControlStateNormal];
     [self.feedImageButton setImage:feedIcon forState:UIControlStateNormal];
     
     [self presentLoadingView];
@@ -2979,7 +3060,7 @@ UIColor *redColor = [UIColor colorWithRed:(207/255.0) green:(70/255.0) blue:(51/
         self.newsFeedUsernameLabel.text = newsFeedObject.username;
         self.newsFeedTextContentLabel.text = newsFeedObject.textContent;
         self.newsFeedTimeStampLabel.text = [self inputDate:newsFeedObject.createdAt];
-         NSMutableArray *voteCountArray = [self voteCountOne:newsFeedObject.voteCountOne voteCountTwo:newsFeedObject.voteCountTwo];
+    //     NSMutableArray *voteCountArray = [self voteCountOne:newsFeedObject.voteCountOne voteCountTwo:newsFeedObject.voteCountTwo];
    //     self.newsFeedImageViewOnePercentageLabel.text = [voteCountArray objectAtIndex:0];
    //     self.newsFeedImageViewTwoPercentageLabel.text = [voteCountArray objectAtIndex:1];
         self.newsFeedTotalNumberOfVotesLabel.text = [self ForTotalVotesVoteCountOne:newsFeedObject.voteCountOne ForTotalVotesVoteCountTwo:newsFeedObject.voteCountTwo];
@@ -3028,11 +3109,11 @@ UIColor *redColor = [UIColor colorWithRed:(207/255.0) green:(70/255.0) blue:(51/
                 [self.newsFeedImageViewTwo removeFromSuperview];
                 [self.newsFeedViewForLabels removeFromSuperview];
                 [self.loadingView removeFromSuperview];
-                UILabel *noMorePostsLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
+                UILabel *noMorePostsLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 0, self.view.frame.size.width-20, self.view.frame.size.height)];
                 noMorePostsLabel.numberOfLines = 0;
                 noMorePostsLabel.backgroundColor  = [UIColor whiteColor];
                 noMorePostsLabel.textAlignment = NSTextAlignmentCenter;
-                noMorePostsLabel.text = @"There are no more thisThat posts for you to vote on.";
+                noMorePostsLabel.text = @"Currently there are no more thisThat posts for you to vote on.";
                 [self.newsFeedView addSubview:noMorePostsLabel];
             }
         }
@@ -3169,8 +3250,9 @@ UIColor *redColor = [UIColor colorWithRed:(207/255.0) green:(70/255.0) blue:(51/
 
 //posts voted on action
 -(void)votedButtonAction:(UIButton*)sender {
-    UIImage *votedIcon = [UIImage imageNamed:@"voted.png"];
-    [self.votedImageButton setImage:votedIcon forState:UIControlStateNormal];
+    [self.votedButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+      UIImage *votedIcon = [UIImage imageNamed:@"voted.png"];
+      [self.votedImageButton setImage:votedIcon forState:UIControlStateNormal];
     [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationFade];
     
     [self loadPostsVotedOn];
@@ -3218,18 +3300,21 @@ UIColor *redColor = [UIColor colorWithRed:(207/255.0) green:(70/255.0) blue:(51/
 }
 //no posts to vote on in newsfeed view
 -(void)initalizedNewsFeedViewNoPostsToVoteOn {
-    
+ //   UIColor *redColor = [UIColor colorWithRed:(207/255.0) green:(70/255.0) blue:(51/255.0) alpha:1];
+    UIColor *blackThisThatColor = [UIColor colorWithRed:(39/255.0) green:(35/255.0) blue:(34/255.0) alpha:1];
     [self presentInvisibleView];
     [self.loadingView removeFromSuperview];
     self.newsFeedView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
-    self.newsFeedView.backgroundColor = [UIColor whiteColor];
+    self.newsFeedView.backgroundColor = blackThisThatColor;
     [self.navigationController.view addSubview:self.newsFeedView];
     self.newsFeedPinchGesture = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(recognizePinchToCloseCurrentView:)];
     [self.newsFeedView addGestureRecognizer:self.newsFeedPinchGesture];
-    UILabel *noMorePostsLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
+    UILabel *noMorePostsLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 0, self.view.frame.size.width-20, self.view.frame.size.height)];
+    noMorePostsLabel.textColor = [UIColor whiteColor];
     noMorePostsLabel.numberOfLines = 0;
+    noMorePostsLabel.font = [UIFont systemFontOfSize:20];
     noMorePostsLabel.textAlignment = NSTextAlignmentCenter;
-    noMorePostsLabel.text = @"There are no more thisThat posts for you to vote on.";
+    noMorePostsLabel.text = @"Currently there are no more thisThat posts for you to vote on.";
     [self.newsFeedView addSubview:noMorePostsLabel];
     
 }
@@ -3416,7 +3501,7 @@ UIColor *redColor = [UIColor colorWithRed:(207/255.0) green:(70/255.0) blue:(51/
     [self.newsFeedImageViewOnePercentageLabel setTextAlignment:NSTextAlignmentCenter];
     [self.newsFeedImageViewOne addSubview:self.newsFeedImageViewOnePercentageLabel]; */
     
-    CGFloat maxYimageViewTwo = CGRectGetHeight(self.newsFeedImageViewTwo.frame);
+    //CGFloat maxYimageViewTwo = CGRectGetHeight(self.newsFeedImageViewTwo.frame);
    /* self.newsFeedImageViewTwoPercentageLabel = [[UILabel alloc] initWithFrame:CGRectMake([self viewWidth]-110, maxYimageViewTwo-60, 100, 50)];
     self.newsFeedImageViewTwoPercentageLabel.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.5];
     self.newsFeedImageViewTwoPercentageLabel.layer.cornerRadius = 7.0;
@@ -3483,6 +3568,12 @@ UIColor *redColor = [UIColor colorWithRed:(207/255.0) green:(70/255.0) blue:(51/
             [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
         }
     }
+    if([alertView isEqual:self.uploadPostNoTextContentAlertView]){
+        if(buttonIndex == [alertView cancelButtonIndex]) {
+            [self uploadThisThat];
+    }
+        
+}
 }
 //upload nav bar detail
 -(void)uploadingNavBarDetail {

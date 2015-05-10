@@ -220,7 +220,7 @@
 -(BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
     if([textField isEqual:self.usernameTextField]) {
         NSString *newString = [textField.text stringByReplacingCharactersInRange:range withString:string];
-        return !([newString length]>20);
+        return !([newString length]>15);
     }
   
     else {

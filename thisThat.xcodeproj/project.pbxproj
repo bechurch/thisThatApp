@@ -20,6 +20,10 @@
 		4F40863F1AFC45F30023FADD /* personalSelected.png in Resources */ = {isa = PBXBuildFile; fileRef = 4F40863E1AFC45F30023FADD /* personalSelected.png */; };
 		4F4086411AFC46960023FADD /* newsFeedIconWhiteSelected.png in Resources */ = {isa = PBXBuildFile; fileRef = 4F4086401AFC46960023FADD /* newsFeedIconWhiteSelected.png */; };
 		4F4086451AFC4C720023FADD /* settingsIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 4F4086441AFC4C720023FADD /* settingsIcon.png */; };
+		4F40864D1AFD976C0023FADD /* secondPageFirstOpening.png in Resources */ = {isa = PBXBuildFile; fileRef = 4F40864C1AFD976C0023FADD /* secondPageFirstOpening.png */; };
+		4F40864F1AFD977B0023FADD /* welcomeFirstOpening.png in Resources */ = {isa = PBXBuildFile; fileRef = 4F40864E1AFD977B0023FADD /* welcomeFirstOpening.png */; };
+		4F4086511AFEB64D0023FADD /* thirdPageFirstOpening.png in Resources */ = {isa = PBXBuildFile; fileRef = 4F4086501AFEB64D0023FADD /* thirdPageFirstOpening.png */; };
+		4F4086551AFEBDC30023FADD /* fourthPageFirstOpening.png in Resources */ = {isa = PBXBuildFile; fileRef = 4F4086541AFEBDC30023FADD /* fourthPageFirstOpening.png */; };
 		4FCA9B221A931E690095B476 /* signUpScreen.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FCA9B211A931E690095B476 /* signUpScreen.m */; };
 		4FCB25911AACE9E700F458A2 /* notThatAI.png in Resources */ = {isa = PBXBuildFile; fileRef = 4FCB258B1AACE9E700F458A2 /* notThatAI.png */; };
 		4FCB25921AACE9E700F458A2 /* notThisAI.png in Resources */ = {isa = PBXBuildFile; fileRef = 4FCB258C1AACE9E700F458A2 /* notThisAI.png */; };
@@ -78,6 +82,10 @@
 		4F40863E1AFC45F30023FADD /* personalSelected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = personalSelected.png; sourceTree = "<group>"; };
 		4F4086401AFC46960023FADD /* newsFeedIconWhiteSelected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = newsFeedIconWhiteSelected.png; sourceTree = "<group>"; };
 		4F4086441AFC4C720023FADD /* settingsIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = settingsIcon.png; sourceTree = "<group>"; };
+		4F40864C1AFD976C0023FADD /* secondPageFirstOpening.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = secondPageFirstOpening.png; sourceTree = "<group>"; };
+		4F40864E1AFD977B0023FADD /* welcomeFirstOpening.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = welcomeFirstOpening.png; sourceTree = "<group>"; };
+		4F4086501AFEB64D0023FADD /* thirdPageFirstOpening.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = thirdPageFirstOpening.png; sourceTree = "<group>"; };
+		4F4086541AFEBDC30023FADD /* fourthPageFirstOpening.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = fourthPageFirstOpening.png; sourceTree = "<group>"; };
 		4FCA9B201A931E690095B476 /* signUpScreen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = signUpScreen.h; sourceTree = "<group>"; };
 		4FCA9B211A931E690095B476 /* signUpScreen.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = signUpScreen.m; sourceTree = "<group>"; };
 		4FCB258B1AACE9E700F458A2 /* notThatAI.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = notThatAI.png; sourceTree = "<group>"; };
@@ -191,7 +199,11 @@
 				4FCB258C1AACE9E700F458A2 /* notThisAI.png */,
 				4F40863E1AFC45F30023FADD /* personalSelected.png */,
 				4F4086381AFC405E0023FADD /* voted.png */,
+				4F40864C1AFD976C0023FADD /* secondPageFirstOpening.png */,
 				4F4086401AFC46960023FADD /* newsFeedIconWhiteSelected.png */,
+				4F40864E1AFD977B0023FADD /* welcomeFirstOpening.png */,
+				4F4086501AFEB64D0023FADD /* thirdPageFirstOpening.png */,
+				4F4086541AFEBDC30023FADD /* fourthPageFirstOpening.png */,
 				4FCB259A1AAD42AC00F458A2 /* redx.png */,
 				4FCB259B1AAD42AC00F458A2 /* yellowMenu.png */,
 				4F40863A1AFC435A0023FADD /* votedSelected.png */,
@@ -355,12 +367,16 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4F4086511AFEB64D0023FADD /* thirdPageFirstOpening.png in Resources */,
+				4F40864F1AFD977B0023FADD /* welcomeFirstOpening.png in Resources */,
 				4F4086391AFC405E0023FADD /* voted.png in Resources */,
 				4FCB25991AAD3E9D00F458A2 /* check.png in Resources */,
 				A7F591D419FC641600D06A40 /* Main.storyboard in Resources */,
 				4F40863F1AFC45F30023FADD /* personalSelected.png in Resources */,
+				4F4086551AFEBDC30023FADD /* fourthPageFirstOpening.png in Resources */,
 				4F4086411AFC46960023FADD /* newsFeedIconWhiteSelected.png in Resources */,
 				4FCB259D1AAD42AC00F458A2 /* yellowMenu.png in Resources */,
+				4F40864D1AFD976C0023FADD /* secondPageFirstOpening.png in Resources */,
 				4F4086351AFC3D0B0023FADD /* newsFeedIconWhite.png in Resources */,
 				4FCB25921AACE9E700F458A2 /* notThisAI.png in Resources */,
 				4FDE01DD1AB29C21009481B3 /* Twitter_logo_blue.png in Resources */,
