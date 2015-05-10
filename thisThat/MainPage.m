@@ -327,17 +327,24 @@
     UIImage *twitterImage = [UIImage imageNamed:@"Twitter_logo_blue.png"];
     UIImage *instagramImage = [UIImage imageNamed:@"Instagram_Icon_Large.png"];
     self.twitterIntstagramImagesArray = [[NSArray alloc] initWithObjects:instagramImage,twitterImage, nil];
-    
+
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+     UIColor *redColor = [UIColor colorWithRed:(207/255.0) green:(70/255.0) blue:(51/255.0) alpha:1];
+    CGFloat statusBarHeight = [UIApplication sharedApplication].statusBarFrame.size.height;
+     UIView *statusBarViewColor = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, statusBarHeight)];
+    statusBarViewColor.backgroundColor = redColor;
+    [self.settingsView addSubview:statusBarViewColor];
     CGRect navBarFrame = self.navigationController.navigationBar.frame;
     UINavigationBar *navBar = [[UINavigationBar alloc] initWithFrame:navBarFrame];
-    navBar.backgroundColor = [UIColor purpleColor];
-    [navBar setTintColor:[UIColor clearColor]];
-   // [navBar setBackgroundColor:[UIColor ]];
+    navBar.barTintColor = redColor;
+    [navBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor]}];
+   
     [navBar setTranslucent:NO];
     UINavigationItem *navItem = [[UINavigationItem alloc] initWithTitle:@"Settings"];
     [navBar setItems:[NSArray arrayWithObjects:navItem, nil]];
+    [navBar setTintColor:[UIColor whiteColor]];
     [self.settingsView addSubview:navBar];
-   
+  
     
     CGFloat maxNavBarY = CGRectGetMaxY(navBar.frame);
     
@@ -1750,7 +1757,9 @@ UIColor *redColor = [UIColor colorWithRed:(207/255.0) green:(70/255.0) blue:(51/
         if(selectedSection == 3){
             if(selectedRow == 0){
                 //logout
+                
                 [self logoutAction];
+                [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
             }
         }
         
@@ -2223,6 +2232,7 @@ UIColor *redColor = [UIColor colorWithRed:(207/255.0) green:(70/255.0) blue:(51/
                     
                 }
                 if(recognize == self.pinchRecognizerSettingsView){
+                    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
                     [self.settingsView removeFromSuperview];
                     [self.invisibleView removeFromSuperview];
                 }
@@ -3301,6 +3311,7 @@ UIColor *redColor = [UIColor colorWithRed:(207/255.0) green:(70/255.0) blue:(51/
 //no posts to vote on in newsfeed view
 -(void)initalizedNewsFeedViewNoPostsToVoteOn {
  //   UIColor *redColor = [UIColor colorWithRed:(207/255.0) green:(70/255.0) blue:(51/255.0) alpha:1];
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
     UIColor *blackThisThatColor = [UIColor colorWithRed:(39/255.0) green:(35/255.0) blue:(34/255.0) alpha:1];
     [self presentInvisibleView];
     [self.loadingView removeFromSuperview];
