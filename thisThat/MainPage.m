@@ -2286,6 +2286,7 @@ UIColor *redColor = [UIColor colorWithRed:(207/255.0) green:(70/255.0) blue:(51/
             if (factor < 1) {
                 if(recognize == self.newsFeedPinchGesture){
                 self.newsFeedView.transform = CGAffineTransformMakeScale(lastScaleFactor*factor, lastScaleFactor*factor);
+                    [self.newsFeedCloseViewButton setAlpha:0];
             }
                 if(recognize == self.uploadPostPinchGesture){
                     self.uploadPostView.transform = CGAffineTransformMakeScale(lastScaleFactor*factor, lastScaleFactor*factor);
@@ -2386,7 +2387,7 @@ UIColor *redColor = [UIColor colorWithRed:(207/255.0) green:(70/255.0) blue:(51/
                     [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionCurveLinear animations:^{
                         self.newsFeedView.transform = CGAffineTransformMakeScale(lastScaleFactor, lastScaleFactor);
                     } completion:^(BOOL finished) {
-                        
+                        [self.newsFeedCloseViewButton setAlpha:1.0];
                     }];
                 }
                 if(recognize == self.uploadPostPinchGesture){
@@ -2509,6 +2510,7 @@ UIColor *redColor = [UIColor colorWithRed:(207/255.0) green:(70/255.0) blue:(51/
     switch (recognize.state) {
         case UIGestureRecognizerStateBegan:{
             [self.newsFeedYellowMenuButton setAlpha:0];
+            [self.newsFeedCloseViewButton setAlpha:0];
             if(recognize == self.newsFeedPanGestureImageViewOne){
             [self.newsFeedPanGestureImageViewTwo setEnabled:NO];
                 [self.newsFeedTapGestureToOpenImageViewTwo setEnabled:NO];
@@ -2640,6 +2642,7 @@ UIColor *redColor = [UIColor colorWithRed:(207/255.0) green:(70/255.0) blue:(51/
                             
                         } completion:^(BOOL finished) {
                             [self.newsFeedYellowMenuButton setAlpha:1.0];
+                            [self.newsFeedCloseViewButton setAlpha:1.0];
                             
                         }];
 
@@ -2686,7 +2689,7 @@ UIColor *redColor = [UIColor colorWithRed:(207/255.0) green:(70/255.0) blue:(51/
                             self.newsFeedImageViewTwo.frame = CGRectMake(0, (heightFrame/2), widthFrame, heightFrame/2);
                         } completion:^(BOOL finished) {
                             [self.newsFeedYellowMenuButton setAlpha:1.0];
-                            
+                            [self.newsFeedCloseViewButton setAlpha:1.0];
                         }];
                     }];
                     
@@ -2711,6 +2714,7 @@ UIColor *redColor = [UIColor colorWithRed:(207/255.0) green:(70/255.0) blue:(51/
                 } completion:^(BOOL finished) {
 
                     [self.newsFeedYellowMenuButton setAlpha:1.0];
+                    [self.newsFeedCloseViewButton setAlpha:1.0];
                 }];
             }
 
@@ -3570,10 +3574,13 @@ UIColor *redColor = [UIColor colorWithRed:(207/255.0) green:(70/255.0) blue:(51/
     [self.newsFeedImageViewOne setUserInteractionEnabled:YES];
     [self.newsFeedView addSubview:self.newsFeedImageViewOne];
    
-    UIButton *closeNewsFeedViewButton = [[UIButton alloc] initWithFrame:CGRectMake(5, 5, 25, 25)];
-    closeNewsFeedViewButton.backgroundColor = [UIColor whiteColor];
-    [closeNewsFeedViewButton addTarget:self action:@selector(closeNewsFeedViewAction:) forControlEvents:UIControlEventTouchUpInside];
-    [self.newsFeedImageViewOne addSubview:closeNewsFeedViewButton];
+    
+    UIImage *closedNewsFeedImage = [UIImage imageNamed:@"closeViewXmark.png"];
+    
+    self.newsFeedCloseViewButton = [[UIButton alloc] initWithFrame:CGRectMake(10, 10, 25, 25)];
+    [self.newsFeedCloseViewButton setImage:closedNewsFeedImage forState:UIControlStateNormal];
+    [self.newsFeedCloseViewButton addTarget:self action:@selector(closeNewsFeedViewAction:) forControlEvents:UIControlEventTouchUpInside];
+    [self.newsFeedImageViewOne addSubview:self.newsFeedCloseViewButton];
     
     
     UIImage *greenCheckMarkImage = [[UIImage alloc] init];

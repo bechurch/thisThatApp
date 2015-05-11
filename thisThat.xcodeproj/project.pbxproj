@@ -39,6 +39,7 @@
 		4FDE01DB1AB2134B009481B3 /* IMG_6322.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 4FDE01DA1AB2134B009481B3 /* IMG_6322.jpg */; };
 		4FDE01DD1AB29C21009481B3 /* Twitter_logo_blue.png in Resources */ = {isa = PBXBuildFile; fileRef = 4FDE01DC1AB29C21009481B3 /* Twitter_logo_blue.png */; };
 		4FDE01DF1AB29D23009481B3 /* Instagram_Icon_Large.png in Resources */ = {isa = PBXBuildFile; fileRef = 4FDE01DE1AB29D23009481B3 /* Instagram_Icon_Large.png */; };
+		4FF152FE1B00310C00D4082B /* closeViewXmark.png in Resources */ = {isa = PBXBuildFile; fileRef = 4FF152FD1B00310C00D4082B /* closeViewXmark.png */; };
 		A5DA0919C0368F7CC05ECA62 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C6ACDADA9294C872D0B4909B /* libPods.a */; };
 		A70035181A035FBC00B99A24 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A70035141A035FBC00B99A24 /* CFNetwork.framework */; };
 		A70035191A035FBC00B99A24 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A70035151A035FBC00B99A24 /* CoreData.framework */; };
@@ -102,6 +103,7 @@
 		4FDE01DA1AB2134B009481B3 /* IMG_6322.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = IMG_6322.jpg; path = "../../../../Pictures/iPhoto Library.photolibrary/Previews/2015/01/26/20150126-125452/IqZnLpUtQfarnK7iHB5DJA/IMG_6322.jpg"; sourceTree = "<group>"; };
 		4FDE01DC1AB29C21009481B3 /* Twitter_logo_blue.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Twitter_logo_blue.png; path = ../../../../Downloads/Twitter_logo_blue.png; sourceTree = "<group>"; };
 		4FDE01DE1AB29D23009481B3 /* Instagram_Icon_Large.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Instagram_Icon_Large.png; path = ../../../../Downloads/Instagram_Icon_Large.png; sourceTree = "<group>"; };
+		4FF152FD1B00310C00D4082B /* closeViewXmark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = closeViewXmark.png; sourceTree = "<group>"; };
 		7C813E9C6BC7D08BA058DB83 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		A70035141A035FBC00B99A24 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		A70035151A035FBC00B99A24 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
@@ -205,6 +207,7 @@
 				4F4086501AFEB64D0023FADD /* thirdPageFirstOpening.png */,
 				4F4086541AFEBDC30023FADD /* fourthPageFirstOpening.png */,
 				4FCB259A1AAD42AC00F458A2 /* redx.png */,
+				4FF152FD1B00310C00D4082B /* closeViewXmark.png */,
 				4FCB259B1AAD42AC00F458A2 /* yellowMenu.png */,
 				4F40863A1AFC435A0023FADD /* votedSelected.png */,
 				4F4086341AFC3D0B0023FADD /* newsFeedIconWhite.png */,
@@ -374,6 +377,7 @@
 				A7F591D419FC641600D06A40 /* Main.storyboard in Resources */,
 				4F40863F1AFC45F30023FADD /* personalSelected.png in Resources */,
 				4F4086551AFEBDC30023FADD /* fourthPageFirstOpening.png in Resources */,
+				4FF152FE1B00310C00D4082B /* closeViewXmark.png in Resources */,
 				4F4086411AFC46960023FADD /* newsFeedIconWhiteSelected.png in Resources */,
 				4FCB259D1AAD42AC00F458A2 /* yellowMenu.png in Resources */,
 				4F40864D1AFD976C0023FADD /* secondPageFirstOpening.png in Resources */,

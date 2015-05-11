@@ -83,6 +83,7 @@
 @property (nonatomic, strong) UILabel *newsFeedImageViewOnePercentageLabel;
 @property (nonatomic, strong) UILabel *newsFeedImageViewTwoPercentageLabel;
 @property (nonatomic, strong) UIButton *newsFeedYellowMenuButton;
+@property (nonatomic, strong) UIButton *newsFeedCloseViewButton;
 @property int newsFeedCounter;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
