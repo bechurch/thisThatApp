@@ -318,10 +318,10 @@
     [self.navigationController.view addSubview:self.settingsView];
     self.pinchRecognizerSettingsView = [[UIPinchGestureRecognizer alloc] initWithTarget:self  action:@selector(recognizePinchToCloseCurrentView:)];
     [self.settingsView addGestureRecognizer:self.pinchRecognizerSettingsView];
-    
+    self.settingsSection0LabelArray = [[NSArray alloc] initWithObjects:@"How to use thisThat", nil];
     self.settingsSection1LabelArray = [[NSArray alloc] initWithObjects:@"Invite your friends to thisThat", nil];
     self.settingsSection2LabelArray = [[NSArray alloc] initWithObjects:@"Instagram",@"Twitter", nil];
-    self.settingsSection3LabelArray = [[NSArray alloc] initWithObjects:@"thisThat website",@"Suggestions",@"Report a problem", nil];
+    self.settingsSection3LabelArray = [[NSArray alloc] initWithObjects:@"thisThat website",@"Suggestions/Report a problem", nil];
     self.settingsSection4LaeblArray = [[NSArray alloc] initWithObjects:@"Logout of thisThat", nil];
     
     UIImage *twitterImage = [UIImage imageNamed:@"Twitter_logo_blue.png"];
@@ -1170,7 +1170,7 @@
         
     }
     if(tableView == self.settingsTableview) {
-        return 4;
+        return 5;
     }
     return 0;
 }
@@ -1186,13 +1186,16 @@
         if(section == 0) {
             return 1;
         }
-        if(section == 1){
+        if(section == 1) {
+            return 1;
+        }
+        if(section == 2){
             return 2;
         }
-        if(section == 2) {
-            return 3;
-        }
         if(section == 3) {
+            return 2;
+        }
+        if(section == 4) {
             return 1;
         }
         return 0;
@@ -1204,17 +1207,19 @@
 //tittle header for settings tableview
 -(NSString*)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
     if(tableView == self.settingsTableview) {
-        
         if(section == 0) {
-            return @"share";
+            return @"instructions";
         }
         if(section == 1) {
-            return @"find us on social media";
+            return @"share";
         }
         if(section == 2) {
-            return @"contact us";
+            return @"find us on social media";
         }
         if(section == 3) {
+            return @"contact us";
+        }
+        if(section == 4) {
             return @"logout";
         }
         return @"";
@@ -1527,12 +1532,20 @@ UIColor *redColor = [UIColor colorWithRed:(207/255.0) green:(70/255.0) blue:(51/
         UIColor *redColor = [UIColor colorWithRed:(207/255.0) green:(70/255.0) blue:(51/255.0) alpha:1];
 
         NSUInteger section = [indexPath indexAtPosition:[indexPath length]-2];
+        static NSString *cellID0 = @"cell";
         static NSString *cellID1 = @"cell";
         static NSString *cellID2 = @"cell";
         static NSString *cellID3 = @"cell";
         static NSString *cellID4 = @"cell";
-        
         if(section == 0) {
+            UITableViewCell *cell0 = [tableView dequeueReusableCellWithIdentifier:cellID0 forIndexPath:indexPath];
+            NSString *sectionZeroString = [self.settingsSection0LabelArray objectAtIndex:indexPath.row];
+            cell0.textLabel.text = sectionZeroString;
+            cell0.textLabel.textColor = [UIColor blackColor];
+            cell0.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+            return cell0;
+        }
+        if(section == 1) {
             UITableViewCell *cell1 = [tableView dequeueReusableCellWithIdentifier:cellID1 forIndexPath:indexPath];
             NSString *sectionOneString = [self.settingsSection1LabelArray objectAtIndex:indexPath.row];
             cell1.textLabel.text = sectionOneString;
@@ -1540,7 +1553,7 @@ UIColor *redColor = [UIColor colorWithRed:(207/255.0) green:(70/255.0) blue:(51/
             cell1.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
             return cell1;
         }
-        if(section == 1) {
+        if(section == 2) {
             UITableViewCell *cell2 = [tableView dequeueReusableCellWithIdentifier:cellID2 forIndexPath:indexPath];
             NSString *sectionOneString = [self.settingsSection2LabelArray objectAtIndex:indexPath.row];
             cell2.textLabel.text = sectionOneString;
@@ -1552,7 +1565,7 @@ UIColor *redColor = [UIColor colorWithRed:(207/255.0) green:(70/255.0) blue:(51/
             
             return cell2;
         }
-        if(section == 2) {
+        if(section == 3) {
             UITableViewCell *cell3 = [tableView dequeueReusableCellWithIdentifier:cellID3 forIndexPath:indexPath];
             NSString *sectionTwoString = [self.settingsSection3LabelArray objectAtIndex:indexPath.row];
             cell3.textLabel.text = sectionTwoString;
@@ -1683,18 +1696,138 @@ UIColor *redColor = [UIColor colorWithRed:(207/255.0) green:(70/255.0) blue:(51/
         NSObject *usernameObject = [userDefaultContents objectForKey:@"username"];
         NSString *username = [NSString stringWithFormat:@"%@",usernameObject];
         if(selectedSection == 0) {
+            if(selectedRow == 0){
+                UIColor *redColor = [UIColor colorWithRed:(207/255.0) green:(70/255.0) blue:(51/255.0) alpha:1];
+                [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationFade];
+                [self.settingsTableview setScrollEnabled:NO];
+            [self presentInvisibleView2];
+            self.settingsInstructionsView = [[UIView alloc] initWithFrame:CGRectMake(10, 10, self.view.frame.size.width-20, self.view.frame.size.height-20)];
+                
+                [self.settingsInstructionsView setBackgroundColor:[UIColor whiteColor]];
+            [self.navigationController.view addSubview:self.settingsInstructionsView];
+                
+                
+                UILabel *instructionsViewTitleLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 10, self.settingsInstructionsView.frame.size.width-20, 40)];
+                instructionsViewTitleLabel.text = @"Instructions";
+                instructionsViewTitleLabel.textAlignment = NSTextAlignmentCenter;
+                instructionsViewTitleLabel.textColor = redColor;
+                instructionsViewTitleLabel.font = [UIFont boldSystemFontOfSize:30];
+                [instructionsViewTitleLabel setMinimumScaleFactor:0.5];
+                instructionsViewTitleLabel.adjustsFontSizeToFitWidth = YES;
+                [self.settingsInstructionsView addSubview:instructionsViewTitleLabel];
+                
+                UILabel *pinchToCloseCurrentViewLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 60, self.settingsInstructionsView.frame.size.width-20, 30)];
+                pinchToCloseCurrentViewLabel.text = @"1. Pinch to Close Current View";
+                pinchToCloseCurrentViewLabel.textAlignment = NSTextAlignmentLeft;
+                pinchToCloseCurrentViewLabel.textColor = [UIColor blackColor];
+                pinchToCloseCurrentViewLabel.font = [UIFont boldSystemFontOfSize:20];
+                [pinchToCloseCurrentViewLabel setMinimumScaleFactor:0.5];
+                pinchToCloseCurrentViewLabel.adjustsFontSizeToFitWidth = YES;
+                [self.settingsInstructionsView addSubview:pinchToCloseCurrentViewLabel];
+                
+                UILabel *pinchToCloseCurrentViewInstructionsLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 100, self.settingsInstructionsView.frame.size.width-20, 30)];
+                pinchToCloseCurrentViewInstructionsLabel.text = @"Using your thumb and index finger, press and hold both. Then glide your thumb and index finger towards each other with continuous contact on the screen. Continue this motion until the current view closes.";
+                pinchToCloseCurrentViewInstructionsLabel.textAlignment = NSTextAlignmentLeft;
+                pinchToCloseCurrentViewInstructionsLabel.textColor = [UIColor blackColor];
+                pinchToCloseCurrentViewInstructionsLabel.font = [UIFont systemFontOfSize:15];
+                pinchToCloseCurrentViewInstructionsLabel.numberOfLines = 0;
+                [pinchToCloseCurrentViewInstructionsLabel sizeToFit];
+               // [pinchToCloseCurrentViewInstructionsLabel setMinimumScaleFactor:0.5];
+               // pinchToCloseCurrentViewInstructionsLabel.adjustsFontSizeToFitWidth = YES;
+                [self.settingsInstructionsView addSubview:pinchToCloseCurrentViewInstructionsLabel];
+                CGFloat maxPinchToCloseCurrentViewInstructionLabelHeight = CGRectGetMaxY(pinchToCloseCurrentViewInstructionsLabel.frame);
+                
+                UILabel *voteForImageLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, maxPinchToCloseCurrentViewInstructionLabelHeight+10, self.settingsInstructionsView.frame.size.width-20, 30)];
+                voteForImageLabel.text = @"2. Vote for an Image";
+                voteForImageLabel.textAlignment = NSTextAlignmentLeft;
+                voteForImageLabel.textColor = [UIColor blackColor];
+                voteForImageLabel.font = [UIFont boldSystemFontOfSize:20];
+                [voteForImageLabel setMinimumScaleFactor:0.5];
+                voteForImageLabel.adjustsFontSizeToFitWidth = YES;
+                [self.settingsInstructionsView addSubview:voteForImageLabel];
+                
+                CGFloat maxVoteForImageLabelHeight = CGRectGetMaxY(voteForImageLabel.frame);
+                
+                UILabel *voteForImageInstructionsLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, maxVoteForImageLabelHeight+10, self.settingsInstructionsView.frame.size.width-20, 30)];
+                voteForImageInstructionsLabel.text = @"Swipe right on the image you want to vote for, releasing it after it has covered half the distance of the screen.";
+                voteForImageInstructionsLabel.textAlignment = NSTextAlignmentLeft;
+                voteForImageInstructionsLabel.textColor = [UIColor blackColor];
+                voteForImageInstructionsLabel.font = [UIFont systemFontOfSize:15];
+                voteForImageInstructionsLabel.numberOfLines = 0;
+                [voteForImageInstructionsLabel sizeToFit];
+                [self.settingsInstructionsView addSubview:voteForImageInstructionsLabel];
+                
+                CGFloat maxVoteForImageInstructionLabelHeight = CGRectGetMaxY(voteForImageInstructionsLabel.frame);
+                
+                UILabel *uploadPostLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, maxVoteForImageInstructionLabelHeight+10, self.settingsInstructionsView.frame.size.width-20, 30)];
+                uploadPostLabel.text = @"3. Upload a thisThat Post";
+                uploadPostLabel.textAlignment = NSTextAlignmentLeft;
+                uploadPostLabel.textColor = [UIColor blackColor];
+                uploadPostLabel.font = [UIFont boldSystemFontOfSize:20];
+                [uploadPostLabel setMinimumScaleFactor:0.5];
+                uploadPostLabel.adjustsFontSizeToFitWidth = YES;
+                [self.settingsInstructionsView addSubview:uploadPostLabel];
+                
+                CGFloat maxUploadPostLabelHeight = CGRectGetMaxY(uploadPostLabel.frame);
+                
+                UILabel *uploadPostInstructionsLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, maxUploadPostLabelHeight+10, self.settingsInstructionsView.frame.size.width-20, 30)];
+                uploadPostInstructionsLabel.text = @"To upload a thisThat, you must select two images. These images can be selected from your photo library or taken in the moment. You can also add optional text to describe the images you are comparing. The preview button allows you to see your thisThat post as other users will view it. After selecting the upload button, you will be informed when your post is uploaded successfully.";
+                uploadPostInstructionsLabel.textAlignment = NSTextAlignmentLeft;
+                uploadPostInstructionsLabel.textColor = [UIColor blackColor];
+                uploadPostInstructionsLabel.font = [UIFont systemFontOfSize:15];
+                uploadPostInstructionsLabel.numberOfLines = 0;
+                [uploadPostInstructionsLabel sizeToFit];
+                [self.settingsInstructionsView addSubview:uploadPostInstructionsLabel];
+                
+                CGFloat maxUploadPostInstructionLabelHeight = CGRectGetMaxY(uploadPostInstructionsLabel.frame);
+                
+                UILabel *haveFunLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, maxUploadPostInstructionLabelHeight+10, self.settingsInstructionsView.frame.size.width-20, 30)];
+                haveFunLabel.text = @"Have fun - thisThat Crew";
+                haveFunLabel.textAlignment = NSTextAlignmentCenter;
+                haveFunLabel.textColor = redColor;
+                haveFunLabel.font = [UIFont boldSystemFontOfSize:20];
+                [haveFunLabel setMinimumScaleFactor:0.5];
+                haveFunLabel.adjustsFontSizeToFitWidth = YES;
+                [self.settingsInstructionsView addSubview:haveFunLabel];
+                
+                CGFloat maxHaveFunLabelHeight = CGRectGetMaxY(haveFunLabel.frame);
+                
+                
+            UIButton *closeSettingsInstructionViewButton = [[UIButton alloc] initWithFrame:CGRectMake(self.settingsInstructionsView.frame.size.width-60, maxHaveFunLabelHeight+10, 50, 30)];
+            closeSettingsInstructionViewButton.backgroundColor = [UIColor blackColor];
+            [closeSettingsInstructionViewButton setTitle:@"Close" forState:UIControlStateNormal];
+            [closeSettingsInstructionViewButton.titleLabel setFont:[UIFont systemFontOfSize:15]];
+            [closeSettingsInstructionViewButton.titleLabel setMinimumScaleFactor:0.5];
+            closeSettingsInstructionViewButton.titleLabel.adjustsFontSizeToFitWidth = YES;
+            [self.settingsInstructionsView addSubview:closeSettingsInstructionViewButton];
+            [closeSettingsInstructionViewButton addTarget:self action:@selector(closeSettingsInstructionViewAction:) forControlEvents:UIControlEventTouchUpInside];
+                CGFloat maxButtonHeight = CGRectGetMaxY(closeSettingsInstructionViewButton.frame);
+                [self.settingsInstructionsView sizeToFit];
+                self.settingsInstructionsView.frame = CGRectMake(0, 0, self.view.frame.size.width-20, maxButtonHeight+10);
+                self.settingsInstructionViewScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(10, 10, self.view.frame.size.width-20, self.view.frame.size.height-20)];
+                self.settingsInstructionViewScrollView.delegate = self;
+                self.settingsInstructionViewScrollView.scrollEnabled = YES;
+                self.settingsInstructionViewScrollView.bounces = NO;
+                self.settingsInstructionViewScrollView.userInteractionEnabled = YES;
+                self.settingsInstructionViewScrollView.contentSize = CGSizeMake(self.view.frame.size.width-20, maxButtonHeight+20);
+                [self.navigationController.view addSubview:self.settingsInstructionViewScrollView];
+                [self.settingsInstructionViewScrollView addSubview:self.settingsInstructionsView];
+                
+            }
+        }
+        if(selectedSection == 1) {
             if(selectedRow == 0) {
                 if([MFMessageComposeViewController canSendText]) {
                     MFMessageComposeViewController *composeViewController = [[MFMessageComposeViewController alloc] initWithNibName:nil bundle:nil];
                     [composeViewController setMessageComposeDelegate:self];
-                    [composeViewController setBody:@"Come join me on thisThat... linkToAppStore"];
+                    [composeViewController setBody:@"Come join me on thisThat, http://itunes.com/apps/thisThat"];
                     [self presentViewController:composeViewController animated:YES completion:nil];
                     
                 }
                 
             }
         }
-        if(selectedSection == 1){
+        if(selectedSection == 2){
             if(selectedRow == 0){
                 //instagram
                 [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://instagram.com"]];
@@ -1704,7 +1837,7 @@ UIColor *redColor = [UIColor colorWithRed:(207/255.0) green:(70/255.0) blue:(51/
                 [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://twitter.com"]];
             }
         }
-        if(selectedSection == 2){
+        if(selectedSection == 3){
             if(selectedRow == 0){
                 //thisThat website
                 [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://local-app.co:1337"]];
@@ -1715,15 +1848,15 @@ UIColor *redColor = [UIColor colorWithRed:(207/255.0) green:(70/255.0) blue:(51/
                 if([MFMailComposeViewController canSendMail]) {
                     MFMailComposeViewController *composeViewController = [[MFMailComposeViewController alloc] initWithNibName:nil bundle:nil];
                     [composeViewController setMailComposeDelegate:self];
-                    [composeViewController setToRecipients:@[@"suggestions@thisThat.me"]];
-                    NSString *subjectString = [NSString stringWithFormat:@"Suggestions, user: %@",username];
+                    [composeViewController setToRecipients:@[@"thisthatapplication@gmail.com"]];
+                    NSString *subjectString = [NSString stringWithFormat:@"Suggestions/Report a problem, user: %@",username];
                     [composeViewController setSubject:subjectString];
                     [composeViewController setMessageBody:@"I have a suggestion for thisThat..." isHTML:YES];
                     [self presentViewController:composeViewController animated:YES completion:nil];
                     
                 }
             }
-            if(selectedRow == 2) {
+           /* if(selectedRow == 2) {
                 //report a problem
                 if([MFMailComposeViewController canSendMail]) {
                     MFMailComposeViewController *composeViewController = [[MFMailComposeViewController alloc] initWithNibName:nil bundle:nil];
@@ -1737,7 +1870,7 @@ UIColor *redColor = [UIColor colorWithRed:(207/255.0) green:(70/255.0) blue:(51/
                 }
                 
                 
-            }
+            }*/
            /* if(selectedRow == 3){
                 //delete account
                 if([MFMailComposeViewController canSendMail]) {
@@ -1754,7 +1887,7 @@ UIColor *redColor = [UIColor colorWithRed:(207/255.0) green:(70/255.0) blue:(51/
                 
             }*/
         }
-        if(selectedSection == 3){
+        if(selectedSection == 4){
             if(selectedRow == 0){
                 //logout
                 
@@ -1769,6 +1902,14 @@ UIColor *redColor = [UIColor colorWithRed:(207/255.0) green:(70/255.0) blue:(51/
         
     }
 
+}
+-(void)closeSettingsInstructionViewAction:(UIButton*)sender {
+    [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+    [self.settingsTableview setScrollEnabled:YES];
+    [self.settingsInstructionsView removeFromSuperview];
+    [self.settingsInstructionViewScrollView removeFromSuperview];
+    [self.invisibleView2 removeFromSuperview];
 }
 //logout action from settings tableview
 -(void)logoutAction {
@@ -3429,6 +3570,12 @@ UIColor *redColor = [UIColor colorWithRed:(207/255.0) green:(70/255.0) blue:(51/
     [self.newsFeedImageViewOne setUserInteractionEnabled:YES];
     [self.newsFeedView addSubview:self.newsFeedImageViewOne];
    
+    UIButton *closeNewsFeedViewButton = [[UIButton alloc] initWithFrame:CGRectMake(5, 5, 25, 25)];
+    closeNewsFeedViewButton.backgroundColor = [UIColor whiteColor];
+    [closeNewsFeedViewButton addTarget:self action:@selector(closeNewsFeedViewAction:) forControlEvents:UIControlEventTouchUpInside];
+    [self.newsFeedImageViewOne addSubview:closeNewsFeedViewButton];
+    
+    
     UIImage *greenCheckMarkImage = [[UIImage alloc] init];
     greenCheckMarkImage = [UIImage imageNamed:@"check.png"];
     self.newsFeedImageOneCheckMarkView = [[UIImageView alloc] initWithFrame:CGRectMake(10, self.newsFeedImageViewOne.frame.size.height-60, 50, 50)];
@@ -3527,6 +3674,13 @@ UIColor *redColor = [UIColor colorWithRed:(207/255.0) green:(70/255.0) blue:(51/
     [self.newsFeedImageViewOne addGestureRecognizer:self.newsFeedTapGestureToOpenImageViewOne];
     self.newsFeedTapGestureToOpenImageViewTwo = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(recognizeTapToOpenImages:)];
     [self.newsFeedImageViewTwo addGestureRecognizer:self.newsFeedTapGestureToOpenImageViewTwo];
+}
+-(void)closeNewsFeedViewAction:(UIButton*)sender {
+    [self.newsFeedView removeFromSuperview];
+    [self.invisibleView removeFromSuperview];
+    [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
+    
 }
 //invisbleview so when pinching can't click any view behind it
 -(void)presentInvisibleView {

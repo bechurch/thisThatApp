@@ -24,7 +24,10 @@
 @property (nonatomic, strong) UIScrollView *firstLaunchScrollView;
 //settings
 @property (nonatomic, strong) UIView *settingsView;
+@property (nonatomic, strong) UIView *settingsInstructionsView;
+@property (nonatomic, strong) UIScrollView *settingsInstructionViewScrollView;
 @property (nonatomic, strong) UITableView *settingsTableview;
+@property (nonatomic, strong) NSArray *settingsSection0LabelArray;
 @property (nonatomic, strong) NSArray *settingsSection1LabelArray;
 @property (nonatomic, strong) NSArray *settingsSection2LabelArray;
 @property (nonatomic, strong) NSArray *settingsSection3LabelArray;
@@ -32,6 +35,7 @@
 @property (nonatomic, strong) NSArray *twitterIntstagramImagesArray;
 @property (nonatomic, strong) UINavigationBar *settingsNavigationBar;
 @property (nonatomic, strong) UIPinchGestureRecognizer *pinchRecognizerSettingsView;
+
 //main page
 
 
