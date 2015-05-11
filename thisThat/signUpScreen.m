@@ -41,6 +41,8 @@
     self.backgroundImageView.userInteractionEnabled = YES;
     [self.view addSubview:self.backgroundImageView];
     
+
+    
     self.thisThatTitleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, (self.view.frame.size.height/4)-(self.view.frame.size.height/8), self.view.frame.size.width, self.view.frame.size.height/4)];
     self.thisThatTitleLabel.backgroundColor = [UIColor clearColor];
     self.thisThatTitleLabel.font = [UIFont systemFontOfSize:50];
@@ -76,12 +78,21 @@
     [self.usernameTextField setLeftViewMode:UITextFieldViewModeAlways];
     [self.usernameTextField setLeftView:spacerViewUsername];
     
+    
+    self.characterCountUsernameLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.usernameTextField.frame.size.width-55, 0, 50, 30)];
+    self.characterCountUsernameLabel.textAlignment = NSTextAlignmentRight;
+    self.characterCountUsernameLabel.textColor = [UIColor lightGrayColor];
+    self.characterCountUsernameLabel.font = [UIFont systemFontOfSize:10];
+    self.characterCountUsernameString = [[NSString alloc] init];
+    [self.usernameTextField addSubview:self.characterCountUsernameLabel];
+
+    
     self.phoneNumberTextField = [[UITextField alloc] initWithFrame:CGRectMake(10, (self.view.frame.size.height/2)+16, self.view.frame.size.width-20, 30)];
     self.phoneNumberTextField.backgroundColor = [UIColor whiteColor];
     [self.phoneNumberTextField setBorderStyle:UITextBorderStyleNone];
     [self.phoneNumberTextField setKeyboardType:UIKeyboardTypeNumbersAndPunctuation];
     self.phoneNumberTextField.font = [UIFont systemFontOfSize:12];
-    self.phoneNumberTextField.placeholder = @"10 digit phone number";
+    self.phoneNumberTextField.placeholder = @"10 digit phone number ex. 8557872437";
     [self.backgroundImageView addSubview:self.phoneNumberTextField];
     self.phoneNumberTextField.delegate = self;
     UIView *spacerViewPhone = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 10, 10)];
@@ -153,6 +164,7 @@
     [self.phoneNumberTextField resignFirstResponder];
     [self.passwordTextField resignFirstResponder];
     [self.usernameTextField resignFirstResponder];
+    [self.characterCountUsernameLabel setAlpha:0];
     [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionCurveEaseIn animations:^{
         self.phoneNumberTextField.frame = CGRectMake(10, (self.view.frame.size.height/2)+16, self.view.frame.size.width-20, 30);
         self.usernameTextField.frame = CGRectMake(10, (self.view.frame.size.height/2)-46, self.view.frame.size.width-20, 30);
@@ -167,11 +179,15 @@
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidShow:) name:UIKeyboardDidShowNotification object:nil];
         if(textField == self.usernameTextField){
             textField.returnKeyType = UIReturnKeyNext;
+            [self.characterCountUsernameLabel setAlpha:1];
+            
         }
         if(textField == self.passwordTextField) {
+            [self.characterCountUsernameLabel setAlpha:0];
             textField.returnKeyType = UIReturnKeyNext;
         }
         if(textField == self.phoneNumberTextField){
+            [self.characterCountUsernameLabel setAlpha:0];
             textField.returnKeyType = UIReturnKeyGo;
         }
     }
@@ -203,6 +219,7 @@
         [self.phoneNumberTextField becomeFirstResponder];
     }
     if(textField == self.usernameTextField) {
+        [self.characterCountUsernameLabel setAlpha:0];
         [self.passwordTextField becomeFirstResponder];
     }
     [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionCurveEaseIn animations:^{
@@ -218,8 +235,19 @@
 }
 
 -(BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
+     
     if([textField isEqual:self.usernameTextField]) {
         NSString *newString = [textField.text stringByReplacingCharactersInRange:range withString:string];
+        NSLog(@"textfield character count: %lu",(unsigned long)[textField.text length]);
+        NSInteger characterCount = [newString lengthOfBytesUsingEncoding:NSUTF32StringEncoding]/4;
+        if([newString length]>15) {
+            self.characterCountUsernameString = [NSString stringWithFormat:@"15/15"];
+            self.characterCountUsernameLabel.text = self.characterCountUsernameString;
+        }
+        else {
+        self.characterCountUsernameString = [NSString stringWithFormat:@"%d/15",characterCount];
+        self.characterCountUsernameLabel.text = self.characterCountUsernameString;
+        }
         return !([newString length]>15);
     }
   

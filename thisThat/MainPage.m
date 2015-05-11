@@ -457,6 +457,13 @@
     self.uploadPostTextView.returnKeyType = UIReturnKeyDone;
     [self.uploadPostExampleTableViewCellView addSubview:self.uploadPostTextView];
     
+    self.uploadPostTextViewCharacterCountLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.uploadPostTextView.frame.size.width-55, self.uploadPostTextView.frame.size.height-20, 50, 20)];
+    self.uploadPostTextViewCharacterCountLabel.textAlignment = NSTextAlignmentRight;
+    self.uploadPostTextViewCharacterCountLabel.textColor = [UIColor lightGrayColor];
+    self.uploadPostTextViewCharacterCountLabel.font = [UIFont systemFontOfSize:10];
+    self.uploadPostTextViewCharacterCountString = [[NSString alloc] init];
+    [self.uploadPostTextView addSubview:self.uploadPostTextViewCharacterCountLabel];
+    
     CGFloat maxCellYValue = CGRectGetMaxY(self.uploadPostExampleTableViewCellView.frame);
     CGFloat lengthEndCellToEndScreen = viewHeight - maxCellYValue;
     
@@ -590,6 +597,7 @@
         self.uploadPostCameraButtonOne.enabled = YES;
         self.uploadPostCameraButtonTwo.enabled = YES;
         [self.uploadPostTextView removeGestureRecognizer:self.uploadPostTapGestureToCloseKeyboard];
+        [self.uploadPostTextViewCharacterCountLabel setAlpha:0];
     }];
     
 }
@@ -1332,7 +1340,7 @@ UIColor *redColor = [UIColor colorWithRed:(207/255.0) green:(70/255.0) blue:(51/
         cell.textContent.numberOfLines = 0;
         cell.textContent.textColor = [UIColor darkGrayColor];
         cell.textContent.adjustsFontSizeToFitWidth = YES;
-        cell.textContent.minimumScaleFactor = 0.8;
+        cell.textContent.minimumScaleFactor = 0.5;
     cell.textContent.font = [UIFont systemFontOfSize:20];
         cell.textContent.textAlignment = NSTextAlignmentCenter;
     cell.textContent.text = personalPost.textContent;
@@ -1469,7 +1477,7 @@ UIColor *redColor = [UIColor colorWithRed:(207/255.0) green:(70/255.0) blue:(51/
         cell.textContent.numberOfLines = 0;
         cell.textContent.textColor = [UIColor darkGrayColor];
         cell.textContent.adjustsFontSizeToFitWidth = YES;
-        cell.textContent.minimumScaleFactor = 0.8;
+        cell.textContent.minimumScaleFactor = 0.5;
         cell.textContent.font = [UIFont systemFontOfSize:20];
         cell.textContent.textAlignment = NSTextAlignmentCenter;
         cell.textContent.text = personalPost.textContent;
@@ -1781,7 +1789,29 @@ UIColor *redColor = [UIColor colorWithRed:(207/255.0) green:(70/255.0) blue:(51/
                 
                 CGFloat maxUploadPostInstructionLabelHeight = CGRectGetMaxY(uploadPostInstructionsLabel.frame);
                 
-                UILabel *haveFunLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, maxUploadPostInstructionLabelHeight+10, self.settingsInstructionsView.frame.size.width-20, 30)];
+                UILabel *deletePostLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, maxUploadPostInstructionLabelHeight+10, self.settingsInstructionsView.frame.size.width-20, 30)];
+                deletePostLabel.text = @"4. Delete a thisThat Post";
+                deletePostLabel.textAlignment = NSTextAlignmentLeft;
+                deletePostLabel.textColor = [UIColor blackColor];
+                deletePostLabel.font = [UIFont boldSystemFontOfSize:20];
+                [deletePostLabel setMinimumScaleFactor:0.5];
+                deletePostLabel.adjustsFontSizeToFitWidth = YES;
+                [self.settingsInstructionsView addSubview:deletePostLabel];
+                
+                CGFloat maxDeletePostLabelHeight = CGRectGetMaxY(deletePostLabel.frame);
+                
+                UILabel *deletePostInstructionsLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, maxDeletePostLabelHeight+10, self.settingsInstructionsView.frame.size.width-20, 30)];
+                deletePostInstructionsLabel.text = @"After selecting the personal button on the home page, swipe right on the post you wish to delete. To confirm this action, select the red Delete button. Please note that deleting a thisThat post cannot be undone. All data associated with this post will be permanently deleted and other users will no longer be able to view it.";
+                deletePostInstructionsLabel.textAlignment = NSTextAlignmentLeft;
+                deletePostInstructionsLabel.textColor = [UIColor blackColor];
+                deletePostInstructionsLabel.font = [UIFont systemFontOfSize:15];
+                deletePostInstructionsLabel.numberOfLines = 0;
+                [deletePostInstructionsLabel sizeToFit];
+                [self.settingsInstructionsView addSubview:deletePostInstructionsLabel];
+                
+                CGFloat maxDeletePostInstructionsLabelHeight = CGRectGetMaxY(deletePostInstructionsLabel.frame);
+                
+                UILabel *haveFunLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, maxDeletePostInstructionsLabelHeight+10, self.settingsInstructionsView.frame.size.width-20, 30)];
                 haveFunLabel.text = @"Have fun - thisThat Crew";
                 haveFunLabel.textAlignment = NSTextAlignmentCenter;
                 haveFunLabel.textColor = redColor;
@@ -2075,6 +2105,7 @@ UIColor *redColor = [UIColor colorWithRed:(207/255.0) green:(70/255.0) blue:(51/
         self.uploadPostTextView.text = @"";
     }*/
     [self.uploadPostTextViewPlaceHolderLabel setHidden:YES];
+    [self.uploadPostTextViewCharacterCountLabel setAlpha:1];
    
     return YES;
 }
@@ -2090,7 +2121,7 @@ UIColor *redColor = [UIColor colorWithRed:(207/255.0) green:(70/255.0) blue:(51/
     } else {
         self.uploadPostTextViewString = self.uploadPostTextView.text;
     }
-    
+    [self.uploadPostTextViewCharacterCountLabel setAlpha:0];
     return YES;
 }
 
@@ -2098,6 +2129,16 @@ UIColor *redColor = [UIColor colorWithRed:(207/255.0) green:(70/255.0) blue:(51/
 -(BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text{
     if([text rangeOfCharacterFromSet:[NSCharacterSet newlineCharacterSet]].location == NSNotFound) {
         NSString *newString = [textView.text stringByReplacingCharactersInRange:range withString:text];
+        NSInteger characterCount = [newString lengthOfBytesUsingEncoding:NSUTF32StringEncoding]/4;
+        if([newString length]>80){
+            self.uploadPostTextViewCharacterCountString = [NSString stringWithFormat:@"80/80"];
+            self.uploadPostTextViewCharacterCountLabel.text = self.uploadPostTextViewCharacterCountString;
+        } else {
+            self.uploadPostTextViewCharacterCountString = [NSString stringWithFormat:@"%d/80",characterCount];
+            self.uploadPostTextViewCharacterCountLabel.text = self.uploadPostTextViewCharacterCountString;
+            
+        }
+        
         return !([newString length] >80);
     }
     [textView resignFirstResponder];

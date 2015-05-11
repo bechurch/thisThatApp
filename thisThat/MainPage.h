@@ -159,6 +159,8 @@
 @property (nonatomic, strong) UILabel *uploadPostPreviewLocationLabel;
 @property (nonatomic, strong) UILabel *uploadPostInstructionsLabel;
 @property (nonatomic, strong) UILabel *uploadPostTextViewPlaceHolderLabel;
+@property (nonatomic, strong) UILabel *uploadPostTextViewCharacterCountLabel;
+@property (nonatomic, strong) NSString *uploadPostTextViewCharacterCountString;
 @property (nonatomic, strong) NSString *uploadPostTextViewString;
 @property (nonatomic, strong) NSString *uploadPostPathString;
 @property (nonatomic, strong) NSData *uploadPostImageOneData;

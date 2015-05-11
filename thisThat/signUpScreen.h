@@ -24,6 +24,8 @@
 @property (nonatomic, strong) UIAlertView *internetConnectionOfflineAlert;
 @property (nonatomic, strong) UIAlertView *missingParametersAlert;
 @property (nonatomic, strong) UIAlertView *accountSuccessfullyCreated;
+@property (nonatomic, strong) NSString *characterCountUsernameString;
+@property (nonatomic, strong) UILabel *characterCountUsernameLabel;
 
 @property CGFloat maxYKeyboard;
 @property CGFloat maxYPhoneNumber;
