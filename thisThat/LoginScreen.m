@@ -29,9 +29,9 @@
     
 }
 -(void)initalizeLoginView {
- //UIColor *redColor = [UIColor colorWithRed:(207/255.0) green:(70/255.0) blue:(51/255.0) alpha:1];
-   // UIColor *redColor = [UIColor colorWithRed:(255/255.0) green:(102/255.0) blue:(102/255.0) alpha:1];
+ 
     UIColor *blueColor = [UIColor colorWithRed:(0/255.0) green:(196/255.0) blue:(222/255.0) alpha:1];
+    UIColor *blueColor2 = [UIColor colorWithRed:(0/255.0) green:(196/255.0) blue:(222/255.0) alpha:0.8];
     UIImage *backGroundImage = [UIImage imageNamed:@"IMG_6151.jpg"];
     self.backGroundImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
     self.backGroundImageView.image = backGroundImage;
@@ -50,6 +50,13 @@
     self.thisThatTitleLabel.adjustsFontSizeToFitWidth = YES;
     self.thisThatTitleLabel.minimumScaleFactor = 0.8;
     [self.backGroundImageView addSubview:self.thisThatTitleLabel];
+    
+    UILabel *thisThatLoginLabel = [[UILabel alloc] initWithFrame:CGRectMake((self.view.frame.size.width/2)-35, (self.view.frame.size.height/4)+20, 70, 30)];
+    thisThatLoginLabel.text = @"Login";
+    thisThatLoginLabel.textColor = [UIColor whiteColor];
+    thisThatLoginLabel.textAlignment = NSTextAlignmentCenter;
+    thisThatLoginLabel.font = [UIFont systemFontOfSize:20];
+    [self.backGroundImageView addSubview:thisThatLoginLabel];
     
     self.usernameTxtFld = [[UITextField alloc] initWithFrame:CGRectMake(10, (self.view.frame.size.height/2)-31, self.view.frame.size.width-20, 30)];
     self.usernameTxtFld.delegate = self;
@@ -81,7 +88,7 @@
     
     self.loginButton = [[UIButton alloc] initWithFrame:CGRectMake((self.view.frame.size.width/2)-35, (self.view.frame.size.height/2)+60, 70, 30)];
     [self.loginButton setBackgroundImage:[self imageWithColor:blueColor] forState:UIControlStateNormal];
-    [self.loginButton setBackgroundImage:[self imageWithColor:blueColor] forState:UIControlStateHighlighted];
+    [self.loginButton setBackgroundImage:[self imageWithColor:blueColor2] forState:UIControlStateHighlighted];
     [self.loginButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [self.loginButton setTitle:@"Login" forState:UIControlStateNormal];
     self.loginButton.titleLabel.textAlignment = NSTextAlignmentCenter;
@@ -92,7 +99,7 @@
     
     self.signUpButton = [[UIButton alloc] initWithFrame:CGRectMake((self.view.frame.size.width/2)+45, self.view.frame.size.height-40, 60, 30)];
     [self.signUpButton setBackgroundImage:[self imageWithColor:blueColor] forState:UIControlStateNormal];
-    [self.signUpButton setBackgroundImage:[self imageWithColor:blueColor] forState:UIControlStateHighlighted];
+    [self.signUpButton setBackgroundImage:[self imageWithColor:blueColor2] forState:UIControlStateHighlighted];
     [self.signUpButton setTitle:@"Sign Up" forState:UIControlStateNormal];
     [self.signUpButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [self.signUpButton.titleLabel setFont:[UIFont systemFontOfSize:12]];

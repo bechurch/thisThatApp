@@ -381,7 +381,8 @@
     CGFloat heighOfInstructionsLabel = (viewHeight/2)-(heightOfCell/2);
     
     self.uploadPostInstructionsLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, (heighOfInstructionsLabel/2)-15, viewWidth-20, 30)];
-    self.uploadPostInstructionsLabel.text = @"Create a new post";
+    self.uploadPostInstructionsLabel.text = @"Create a new thisThat post";
+    self.uploadPostInstructionsLabel.textColor = blueColor;
     self.uploadPostInstructionsLabel.textAlignment = NSTextAlignmentCenter;
     [self.uploadPostView addSubview:self.uploadPostInstructionsLabel];
     
@@ -988,7 +989,7 @@
             if (currentLocationPointY < self.zoomInStartingYPosition) {
                 currentLocationPointY = self.zoomInStartingYPosition;
             }
-            CGFloat yDistanceMoved = fabsf(self.zoomInStartingYPosition - fabsf(currentLocationPointY));
+            CGFloat yDistanceMoved = fabs(self.zoomInStartingYPosition - fabs(currentLocationPointY));
             CGFloat yAmountZoomedIn = 1 + (yDistanceMoved/self.uploadFullSizeImageView.frame.size.height);
             CGAffineTransform transform = CGAffineTransformMakeScale(yAmountZoomedIn, yAmountZoomedIn);
             self.uploadFullSizeImageView.transform = transform;
@@ -1000,7 +1001,7 @@
                 if (currentLocationPointY < self.zoomInStartingYPosition) {
                     currentLocationPointY = self.zoomInStartingYPosition;
                 }
-                CGFloat yDistanceMoved = fabsf(self.zoomInStartingYPosition - fabsf(currentLocationPointY));
+                CGFloat yDistanceMoved = fabs(self.zoomInStartingYPosition - fabs(currentLocationPointY));
                 CGFloat yAmountZoomedIn = 1 + (yDistanceMoved/self.personalPostsFullSizeImageView.frame.size.height);
                 CGAffineTransform transform = CGAffineTransformMakeScale(yAmountZoomedIn, yAmountZoomedIn);
                 self.personalPostsFullSizeImageView.transform = transform;
@@ -1012,7 +1013,7 @@
                 if (currentLocationPointY < self.zoomInStartingYPosition) {
                     currentLocationPointY = self.zoomInStartingYPosition;
                 }
-                CGFloat yDistanceMoved = fabsf(self.zoomInStartingYPosition - fabsf(currentLocationPointY));
+                CGFloat yDistanceMoved = fabs(self.zoomInStartingYPosition - fabs(currentLocationPointY));
                 CGFloat yAmountZoomedIn = 1 + (yDistanceMoved/self.newsFeedFullSizeImageView.frame.size.height);
                 CGAffineTransform transform = CGAffineTransformMakeScale(yAmountZoomedIn, yAmountZoomedIn);
                 self.newsFeedFullSizeImageView.transform = transform;
@@ -1024,7 +1025,7 @@
                 if (currentLocationPointY < self.zoomInStartingYPosition) {
                     currentLocationPointY = self.zoomInStartingYPosition;
                 }
-                CGFloat yDistanceMoved = fabsf(self.zoomInStartingYPosition - fabsf(currentLocationPointY));
+                CGFloat yDistanceMoved = fabs(self.zoomInStartingYPosition - fabs(currentLocationPointY));
                 CGFloat yAmountZoomedIn = 1 + (yDistanceMoved/self.postsVotedOnFullSizeImageView.frame.size.height);
                 CGAffineTransform transform = CGAffineTransformMakeScale(yAmountZoomedIn, yAmountZoomedIn);
                 self.postsVotedOnFullSizeImageView.transform = transform;
@@ -1148,11 +1149,11 @@
         }
         
         else {
-            UIColor *blackThisThatColor = [UIColor colorWithRed:(39/255.0) green:(35/255.0) blue:(34/255.0) alpha:1];
+            UIColor *blueColor = [UIColor colorWithRed:(0/255.0) green:(196/255.0) blue:(222/255.0) alpha:1];
             UILabel *messageLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height)];
             messageLabel.text = @"You have not yet posted any thisThats";
-            messageLabel.backgroundColor = blackThisThatColor;
-            messageLabel.textColor = [UIColor whiteColor];
+            messageLabel.backgroundColor = [UIColor whiteColor];
+            messageLabel.textColor = blueColor;
             messageLabel.numberOfLines = 0;
             messageLabel.textAlignment = NSTextAlignmentCenter;
             //messageLabel.font = [UIFont fontWithName:@"Palatino-Italic" size:20];
@@ -2146,7 +2147,7 @@
             self.uploadPostTextViewCharacterCountString = [NSString stringWithFormat:@"80/80"];
             self.uploadPostTextViewCharacterCountLabel.text = self.uploadPostTextViewCharacterCountString;
         } else {
-            self.uploadPostTextViewCharacterCountString = [NSString stringWithFormat:@"%d/80",characterCount];
+            self.uploadPostTextViewCharacterCountString = [NSString stringWithFormat:@"%ld/80",(long)characterCount];
             self.uploadPostTextViewCharacterCountLabel.text = self.uploadPostTextViewCharacterCountString;
             
         }
@@ -2185,18 +2186,26 @@
         NSLog(@"buttonTwoPressed");
     }
     self.imagePicker =[[UIImagePickerController alloc] init];
-    UIImagePickerControllerSourceType type;
-    type = UIImagePickerControllerSourceTypeCamera;
-    self.imagePicker.sourceType = type;
     self.imagePicker.delegate = self;
-    self.imagePicker.cameraFlashMode = UIImagePickerControllerCameraFlashModeOff;
-    self.uploadPostLibraryPhotosButton = [[UIButton alloc] initWithFrame:CGRectMake((self.view.frame.size.width/2)-75,5, 150, 30)];
-    [self.uploadPostLibraryPhotosButton setTitle:@"Photo Library" forState:UIControlStateNormal];
-    [self.uploadPostLibraryPhotosButton addTarget:self action:@selector(photoLibrary:) forControlEvents:UIControlEventTouchUpInside];
-    self.imagePicker.modalPresentationStyle = UIModalPresentationCurrentContext;
+
+    if([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
+        UIImagePickerControllerSourceType type;
+        type = UIImagePickerControllerSourceTypeCamera;
+        self.imagePicker.sourceType = type;
+        self.imagePicker.cameraFlashMode = UIImagePickerControllerCameraFlashModeOff;
+        self.uploadPostLibraryPhotosButton = [[UIButton alloc] initWithFrame:CGRectMake((self.view.frame.size.width/2)-75,5, 150, 30)];
+        [self.uploadPostLibraryPhotosButton setTitle:@"Photo Library" forState:UIControlStateNormal];
+        [self.uploadPostLibraryPhotosButton addTarget:self action:@selector(photoLibrary:) forControlEvents:UIControlEventTouchUpInside];
+        self.imagePicker.modalPresentationStyle = UIModalPresentationCurrentContext;
+        
+        self.imagePicker.toolbarHidden = YES;
+        [self.imagePicker.view addSubview:self.uploadPostLibraryPhotosButton];
+    } else {
+        UIImagePickerControllerSourceType type;
+        type = UIImagePickerControllerSourceTypePhotoLibrary;
+        self.imagePicker.sourceType = type;
+    }
     
-    self.imagePicker.toolbarHidden = YES;
-    [self.imagePicker.view addSubview:self.uploadPostLibraryPhotosButton];
 
 
    // [self.navigationController presentViewController:self.imagePicker animated:YES completion:nil];
@@ -2251,12 +2260,7 @@
     [self presentLoadingView];
     [self loadNewsFeedArray];
 }
-/*
-- (IBAction)newsFeed:(id)sender {
-    [self presentLoadingView];
-    [self loadNewsFeedArray];
 
-}*/
 // news feed menu button to animate pictures to see text below it
 -(void)menuButtonSelected:(UIButton*)recognize{
         [self.newsFeedPanGestureImageViewOne setEnabled:NO];
@@ -2366,6 +2370,7 @@
                 }
                 if(recognize == self.pinchRecognizerSettingsView){
                     self.settingsView.transform = CGAffineTransformMakeScale(lastScaleFactor*factor, lastScaleFactor*factor);
+                  
                 }
             }
             if(factor < 0.45) {
@@ -2663,10 +2668,10 @@
                 [self voteForImage];
                 [self.newsFeedVoteForThisImageView setAlpha:1];
                 [self.newsFeedNotThatImageView setAlpha:1];
-                    CGFloat velocityX = fabsf([recognize velocityInView:self.newsFeedImageViewOne].x);
+                    CGFloat velocityX = fabs([recognize velocityInView:self.newsFeedImageViewOne].x);
                 NSLog(@"\nvelcotity:%f",velocityX);
                     CGFloat viewWidth = CGRectGetWidth(self.view.frame);
-                    CGFloat distanceToOffScreen = fabsf(viewWidth - imageViewOneCurrentMinX);
+                    CGFloat distanceToOffScreen = fabs(viewWidth - imageViewOneCurrentMinX);
                     NSTimeInterval timeRemainingToOffScreen = distanceToOffScreen/velocityX;
                 
                 if(timeRemainingToOffScreen > 0.5) {
@@ -2712,10 +2717,10 @@
                 [self voteForImage];
                 [self.newsFeedNotThisImageView setAlpha:1];
                 [self.newsFeedVoteForThatImageView setAlpha:1];
-                CGFloat velocityX = fabsf([recognize velocityInView:self.newsFeedImageViewTwo].x);
+                CGFloat velocityX = fabs([recognize velocityInView:self.newsFeedImageViewTwo].x);
                 NSLog(@"\nvelcotity:%f",velocityX);
                 CGFloat viewWidth = CGRectGetWidth(self.view.frame);
-                CGFloat distanceToOffScreen = fabsf(viewWidth - imageViewTwoCurrentMinX);
+                CGFloat distanceToOffScreen = fabs(viewWidth - imageViewTwoCurrentMinX);
                 NSTimeInterval timeRemainingToOffScreen = distanceToOffScreen/velocityX;
                 
                 if(timeRemainingToOffScreen > 0.5) {
@@ -3253,7 +3258,7 @@
 }
 //images are done preloading, show them
 -(void)imagesAreDonePreLoading{
-    NSLog(@"\nnewsFeedCounter:%d\nnewsFeedDicCount:%d",self.newsFeedCounter,[self.newsFeedImageOneDictionary count]);
+
     if(self.newsFeedCounter < [self.newsFeedImageOneDictionary count]) {
         objects *newsFeedObject = [self.newsFeedArray objectAtIndex:self.newsFeedCounter];
         NSString *imageOneKey = [NSString stringWithFormat:@"imageOneIndex:%d",self.newsFeedCounter];
@@ -3277,9 +3282,6 @@
         self.newsFeedUsernameLabel.text = newsFeedObject.username;
         self.newsFeedTextContentLabel.text = newsFeedObject.textContent;
         self.newsFeedTimeStampLabel.text = [self inputDate:newsFeedObject.createdAt];
-    //     NSMutableArray *voteCountArray = [self voteCountOne:newsFeedObject.voteCountOne voteCountTwo:newsFeedObject.voteCountTwo];
-   //     self.newsFeedImageViewOnePercentageLabel.text = [voteCountArray objectAtIndex:0];
-   //     self.newsFeedImageViewTwoPercentageLabel.text = [voteCountArray objectAtIndex:1];
         self.newsFeedTotalNumberOfVotesLabel.text = [self ForTotalVotesVoteCountOne:newsFeedObject.voteCountOne ForTotalVotesVoteCountTwo:newsFeedObject.voteCountTwo];
         [self.newsFeedImageViewOne setAlpha:1];
         [self.newsFeedImageViewTwo setAlpha:1];
@@ -3294,10 +3296,7 @@
 
     }
     else {
-        //add new request to find posts when finished voting on first 20
-        NSLog(@"noContentsToLoad");
-       // UIColor *blackThisThatColor = [UIColor colorWithRed:(39/255.0) green:(35/255.0) blue:(34/255.0) alpha:1];
-      
+
  
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
         //newSHIT to retrieve mroe
@@ -3521,9 +3520,7 @@
 }
 //no posts to vote on in newsfeed view
 -(void)initalizedNewsFeedViewNoPostsToVoteOn {
- //   UIColor *redColor = [UIColor colorWithRed:(207/255.0) green:(70/255.0) blue:(51/255.0) alpha:1];
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
-    UIColor *blackThisThatColor = [UIColor colorWithRed:(39/255.0) green:(35/255.0) blue:(34/255.0) alpha:1];
     UIColor *blueColor = [UIColor colorWithRed:(0/255.0) green:(196/255.0) blue:(222/255.0) alpha:1];
     [self presentInvisibleView];
     [self.loadingView removeFromSuperview];
@@ -3572,6 +3569,8 @@
    // self.newsFeedViewForLabels.layer.borderWidth = 1;
    // self.newsFeedViewForLabels.layer.borderColor = blueColor.CGColor;
     [self.newsFeedView addSubview:self.newsFeedViewForLabels];
+    
+  
     
     
     
@@ -3754,6 +3753,7 @@
     self.newsFeedTapGestureToOpenImageViewTwo = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(recognizeTapToOpenImages:)];
     [self.newsFeedImageViewTwo addGestureRecognizer:self.newsFeedTapGestureToOpenImageViewTwo];
 }
+
 -(void)closeNewsFeedViewAction:(UIButton*)sender {
     [self.newsFeedView removeFromSuperview];
     [self.invisibleView removeFromSuperview];

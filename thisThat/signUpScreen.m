@@ -29,12 +29,9 @@
     // Dispose of any resources that can be recreated.
 }
 -(void)initalizeSignupView {
-   // UIColor *redColor = [UIColor colorWithRed:(207/255.0) green:(70/255.0) blue:(51/255.0) alpha:1];
-   // UIColor *redColor = [UIColor colorWithRed:(255/255.0) green:(102/255.0) blue:(102/255.0) alpha:1];
-     UIColor *redColor2 = [UIColor colorWithRed:(207/255.0) green:(70/255.0) blue:(51/255.0) alpha:1];
-    UIColor *redColor2Alpha = [UIColor colorWithRed:(207/255.0) green:(70/255.0) blue:(51/255.0) alpha:0.8];
-    UIColor *blueColor = [UIColor colorWithRed:(0/255.0) green:(196/255.0) blue:(222/255.0) alpha:1];
 
+    UIColor *blueColor = [UIColor colorWithRed:(0/255.0) green:(196/255.0) blue:(222/255.0) alpha:1];
+    UIColor *blueColor2 = [UIColor colorWithRed:(0/255.0) green:(196/255.0) blue:(222/255.0) alpha:0.8];
     UIImage *backgroundImage = [UIImage imageNamed:@"IMG_6322.jpg"];
     self.backgroundImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
     self.backgroundImageView.image = backgroundImage;
@@ -52,6 +49,14 @@
     self.thisThatTitleLabel.text = @"thisThat";
     self.thisThatTitleLabel.textAlignment = NSTextAlignmentCenter;
     [self.backgroundImageView addSubview:self.thisThatTitleLabel];
+    
+    UILabel *thisThatSignUpLabel = [[UILabel alloc] initWithFrame:CGRectMake((self.view.frame.size.width/2)-40, (self.view.frame.size.height/4)+20, 80, 30)];
+    thisThatSignUpLabel.text = @"Sign Up";
+    thisThatSignUpLabel.textColor = [UIColor whiteColor];
+    thisThatSignUpLabel.textAlignment = NSTextAlignmentCenter;
+    thisThatSignUpLabel.font = [UIFont systemFontOfSize:20];
+    [self.backgroundImageView addSubview:thisThatSignUpLabel];
+
     
     
     
@@ -105,7 +110,7 @@
     
     self.signupButton = [[UIButton alloc] initWithFrame:CGRectMake((self.view.frame.size.width/2)-40, (self.view.frame.size.height/2)+76, 80, 30)];
     [self.signupButton setBackgroundImage:[self imageWithColor:blueColor] forState:UIControlStateNormal];
-    [self.signupButton setBackgroundImage:[self imageWithColor:blueColor] forState:UIControlStateHighlighted];
+    [self.signupButton setBackgroundImage:[self imageWithColor:blueColor2] forState:UIControlStateHighlighted];
 
     [self.signupButton setTitle:@"Sign Up" forState:UIControlStateNormal];
     [self.signupButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
@@ -129,7 +134,7 @@
     [self.loginButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     self.loginButton.titleLabel.font = [UIFont systemFontOfSize:12];
     [self.loginButton setBackgroundImage:[self imageWithColor:blueColor] forState:UIControlStateNormal];
-    [self.loginButton setBackgroundImage:[self imageWithColor:blueColor] forState:UIControlStateHighlighted];
+    [self.loginButton setBackgroundImage:[self imageWithColor:blueColor2] forState:UIControlStateHighlighted];
     [self.loginButton addTarget:self action:@selector(loginButtonAction:) forControlEvents:UIControlEventTouchUpInside];
     [self.backgroundImageView addSubview:self.loginButton];
     
@@ -247,7 +252,7 @@
             self.characterCountUsernameLabel.text = self.characterCountUsernameString;
         }
         else {
-        self.characterCountUsernameString = [NSString stringWithFormat:@"%d/15",characterCount];
+        self.characterCountUsernameString = [NSString stringWithFormat:@"%ld/15",(long)characterCount];
         self.characterCountUsernameLabel.text = self.characterCountUsernameString;
         }
         return !([newString length]>15);
