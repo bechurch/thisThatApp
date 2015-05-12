@@ -82,7 +82,7 @@
 @property (nonatomic, strong) UILabel *newsFeedLocationLabel;
 @property (nonatomic, strong) UILabel *newsFeedImageViewOnePercentageLabel;
 @property (nonatomic, strong) UILabel *newsFeedImageViewTwoPercentageLabel;
-@property (nonatomic, strong) UIButton *newsFeedYellowMenuButton;
+@property (nonatomic, strong) UIButton *newsFeedBlueMenuButton;
 @property (nonatomic, strong) UIButton *newsFeedCloseViewButton;
 @property int newsFeedCounter;
 
@@ -145,7 +145,7 @@
 @property (nonatomic, strong) UIButton *uploadPostNavigationBarDeleteUploadButton;
 @property (nonatomic, strong) UIButton *uploadPostPreviewButton;
 @property (nonatomic, strong) UIButton *uploadPostLibraryPhotosButton;
-@property (nonatomic, strong) UIButton *uploadPostYellowMenuButton;
+@property (nonatomic, strong) UIButton *uploadPostBlueMenuButton;
 @property (nonatomic, strong) UIButton *uploadPostButton;
 @property (nonatomic, strong) UILabel *uploadPostTimeStampLabel;
 @property (nonatomic, strong) UILabel *uploadPostLocationEnabledLabel;

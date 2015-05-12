@@ -34,15 +34,15 @@
     
     
  //   UIColor *redColor = [UIColor colorWithRed:(255/255.0) green:(102/255.0) blue:(102/255.0) alpha:1];
-    UIColor *redColor = [UIColor colorWithRed:(207/255.0) green:(70/255.0) blue:(51/255.0) alpha:1];
-    
+
+     UIColor *blueColor = [UIColor colorWithRed:(0/255.0) green:(196/255.0) blue:(222/255.0) alpha:1];
    /* UIImage *backgroundImage = [UIImage imageNamed:@"IMG_6322.jpg"];
     UIImageView *backGroundImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
     backGroundImageView.image = backgroundImage;
     backGroundImageView.contentMode = UIViewContentModeScaleToFill;
     backGroundImageView.clipsToBounds = YES;
     [self.view addSubview:backGroundImageView];*/
-    self.view.backgroundColor = redColor;
+    self.view.backgroundColor = blueColor;
     
     CGFloat width = CGRectGetWidth(self.view.frame);
     CGFloat height = CGRectGetHeight(self.view.frame);
@@ -272,7 +272,7 @@
 }
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    UIColor *redColor = [UIColor colorWithRed:(207/255.0) green:(70/255.0) blue:(51/255.0) alpha:1];
+     UIColor *blueColor = [UIColor colorWithRed:(0/255.0) green:(196/255.0) blue:(222/255.0) alpha:1];
     NSUserDefaults *userDefaultContents = [NSUserDefaults standardUserDefaults];
     NSObject *userDefaultObject = [userDefaultContents objectForKey:@"tokenIDString"];
     NSObject *currentIDObject = [userDefaultContents objectForKey:@"userIDString"];
@@ -282,7 +282,7 @@
     
         NSString *username = [NSString stringWithFormat:@"%@",usernameObject];
        
-        self.navigationController.navigationBar.titleTextAttributes = @{NSForegroundColorAttributeName : redColor };
+        self.navigationController.navigationBar.titleTextAttributes = @{NSForegroundColorAttributeName : blueColor };
         self.navigationItem.title = username;
         
 
@@ -329,14 +329,14 @@
     self.twitterIntstagramImagesArray = [[NSArray alloc] initWithObjects:instagramImage,twitterImage, nil];
 
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
-     UIColor *redColor = [UIColor colorWithRed:(207/255.0) green:(70/255.0) blue:(51/255.0) alpha:1];
+     UIColor *blueColor = [UIColor colorWithRed:(0/255.0) green:(196/255.0) blue:(222/255.0) alpha:1];
     CGFloat statusBarHeight = [UIApplication sharedApplication].statusBarFrame.size.height;
      UIView *statusBarViewColor = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, statusBarHeight)];
-    statusBarViewColor.backgroundColor = redColor;
+    statusBarViewColor.backgroundColor = blueColor;
     [self.settingsView addSubview:statusBarViewColor];
     CGRect navBarFrame = self.navigationController.navigationBar.frame;
     UINavigationBar *navBar = [[UINavigationBar alloc] initWithFrame:navBarFrame];
-    navBar.barTintColor = redColor;
+    navBar.barTintColor = blueColor;
     [navBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor]}];
    
     [navBar setTranslucent:NO];
@@ -361,8 +361,7 @@
 }
 //uploadPost initalize
 - (IBAction)upload:(id)sender {
-    UIColor *redColor = [UIColor colorWithRed:(207/255.0) green:(70/255.0) blue:(51/255.0) alpha:1];
-    UIColor *redColor2 = [UIColor colorWithRed:(207/255.0) green:(70/255.0) blue:(51/255.0) alpha:0.8];
+    UIColor *blueColor = [UIColor colorWithRed:(0/255.0) green:(196/255.0) blue:(222/255.0) alpha:1];
     [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationFade];
        CGFloat viewHeight = self.view.frame.size.height;
     CGFloat viewWidth = self.view.frame.size.width;
@@ -403,7 +402,7 @@
     self.uploadPostUsernameLabel = [[UILabel alloc] initWithFrame:CGRectMake((viewWidth/2)+5, (heightOfCell-(viewWidth/2)+15)/2 -30, (viewWidth/2)-5, 30)];
     self.uploadPostUsernameLabel.backgroundColor = [UIColor clearColor];
     [self.uploadPostUsernameLabel setFont:[UIFont boldSystemFontOfSize:20]];
-    self.uploadPostUsernameLabel.textColor = redColor;
+    self.uploadPostUsernameLabel.textColor = blueColor;
     self.uploadPostUsernameLabel.textAlignment = NSTextAlignmentCenter;
     self.uploadPostUsernameLabel.adjustsFontSizeToFitWidth = YES;
     self.uploadPostUsernameLabel.minimumScaleFactor = 0.8;
@@ -420,7 +419,7 @@
     
    // self.uploadPostCameraButtonOne = [[UIButton alloc ] initWithFrame:CGRectMake(10, 100, (viewWidth/2)-15, self.uploadPostExampleTableViewCellView.frame.size.height-110)];
     self.uploadPostCameraButtonOne = [[UIButton alloc ] initWithFrame:CGRectMake(10, 10, (viewWidth/2)-15, (viewWidth/2)-15)];
-    [self.uploadPostCameraButtonOne setBackgroundImage:[self imageWithColor:[UIColor lightGrayColor]] forState:UIControlStateNormal];
+    [self.uploadPostCameraButtonOne setBackgroundImage:[self imageWithColor:blueColor] forState:UIControlStateNormal];
     [self.uploadPostCameraButtonOne setTitle:@"Add photo" forState:UIControlStateNormal];
     [self.uploadPostCameraButtonOne addTarget:self action:@selector(takePhotoButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
     
@@ -428,7 +427,7 @@
     
    // self.uploadPostCameraButtonTwo = [[UIButton alloc] initWithFrame:CGRectMake((viewWidth/2)+5, 100, (viewWidth/2)-15, self.uploadPostExampleTableViewCellView.frame.size.height-110)];
      self.uploadPostCameraButtonTwo = [[UIButton alloc] initWithFrame:CGRectMake((viewWidth/2)+5, (self.uploadPostExampleTableViewCellView.frame.size.height)-(viewWidth/2)+5, (viewWidth/2)-15, (viewWidth/2)-15)];
-    [self.uploadPostCameraButtonTwo setBackgroundImage:[self imageWithColor:[UIColor lightGrayColor]] forState:UIControlStateNormal];
+    [self.uploadPostCameraButtonTwo setBackgroundImage:[self imageWithColor:blueColor] forState:UIControlStateNormal];
     [self.uploadPostCameraButtonTwo setTitle:@"Add photo" forState:UIControlStateNormal];
     [self.uploadPostCameraButtonTwo addTarget:self action:@selector(takePhotoButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
     [self.uploadPostExampleTableViewCellView addSubview:self.uploadPostCameraButtonTwo];
@@ -479,8 +478,8 @@
     [self.uploadPostPreviewButton setHidden:YES];
     
     self.uploadPostButton = [[UIButton alloc] initWithFrame:CGRectMake(viewWidth/3+5, maxCellYValue + lengthEndCellToEndScreen/2 - 15, 2*(viewWidth/3)-15, 30)];
-    [self.uploadPostButton setBackgroundImage:[self imageWithColor:redColor] forState:UIControlStateNormal];
-    [self.uploadPostButton setBackgroundImage:[self imageWithColor:redColor2] forState:UIControlStateHighlighted];
+    [self.uploadPostButton setBackgroundImage:[self imageWithColor:blueColor] forState:UIControlStateNormal];
+    [self.uploadPostButton setBackgroundImage:[self imageWithColor:blueColor] forState:UIControlStateHighlighted];
     
     [self.uploadPostButton setTitle:@"Upload" forState:UIControlStateNormal];
     [self.uploadPostButton addTarget:self action:@selector(uploadPostAction:) forControlEvents:UIControlEventTouchUpInside];
@@ -711,10 +710,10 @@
 // upload progress displaye on nav bar
 -(void)uploadErrorUpdateNavBar {
     self.uploadPostNavigationBarUploadLabel.text = @"Failed. Please try again.";
-    UIColor *redColor = [UIColor colorWithRed:(207/255.0) green:(70/255.0) blue:(51/255.0) alpha:1];
+    UIColor *blueColor = [UIColor colorWithRed:(0/255.0) green:(196/255.0) blue:(222/255.0) alpha:1];
     self.uploadPostNavigationBarRetryUploadButton = [[UIButton alloc] initWithFrame:CGRectMake(self.view.frame.size.width-60, [UIApplication sharedApplication].statusBarFrame.size.height+5, 50, 30)];
-    self.uploadPostNavigationBarRetryUploadButton.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.7];
-    [self.uploadPostNavigationBarRetryUploadButton setTitleColor:redColor forState:UIControlStateNormal];
+    self.uploadPostNavigationBarRetryUploadButton.backgroundColor = blueColor;
+    [self.uploadPostNavigationBarRetryUploadButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     self.uploadPostNavigationBarRetryUploadButton.titleLabel.adjustsFontSizeToFitWidth = YES;
     self.uploadPostNavigationBarRetryUploadButton.titleLabel.minimumScaleFactor = 0.6;
     [self.uploadPostNavigationBarRetryUploadButton setTitle:@"Retry" forState:UIControlStateNormal];
@@ -722,7 +721,7 @@
     [self.uploadPostNavigationBarUploadView addSubview:self.uploadPostNavigationBarRetryUploadButton];
     
     self.uploadPostNavigationBarDeleteUploadButton = [[UIButton alloc] initWithFrame:CGRectMake(10, [UIApplication sharedApplication].statusBarFrame.size.height+5, 50, 30)];
-    self.uploadPostNavigationBarDeleteUploadButton.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.7];
+    self.uploadPostNavigationBarDeleteUploadButton.backgroundColor = blueColor;
     [self.uploadPostNavigationBarDeleteUploadButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     self.uploadPostNavigationBarDeleteUploadButton.titleLabel.adjustsFontSizeToFitWidth = YES;
     self.uploadPostNavigationBarDeleteUploadButton.titleLabel.minimumScaleFactor = 0.6;
@@ -771,7 +770,7 @@
 }
 //upload successful, displayed on nav bar
 -(void)uploadSuccesfulUpdateNavBar{
-    UIImage *checkimage = [UIImage imageNamed:@"check.png"];
+    UIImage *checkimage = [UIImage imageNamed:@"greenCheckAI.png"];
     self.uploadPostNavigationBarUploadImageView = [[UIImageView alloc] initWithFrame:CGRectMake(10, [UIApplication sharedApplication].statusBarFrame.size.height, 45, 45)];
     self.uploadPostNavigationBarUploadImageView.image = checkimage;
     [self.uploadPostNavigationBarUploadView addSubview:self.uploadPostNavigationBarUploadImageView];
@@ -819,21 +818,28 @@
 -(void)previewUploadThisThat:(UIButton *)recognize {
     self.invisibleView2 = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
     [self.uploadPostView addSubview:self.invisibleView2];
-    UIColor *redColor = [UIColor colorWithRed:(207/255.0) green:(70/255.0) blue:(51/255.0) alpha:1];
+    UIColor *blueColor = [UIColor colorWithRed:(0/255.0) green:(196/255.0) blue:(222/255.0) alpha:1];
     
     self.uploadPostViewForImageViews = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
     self.uploadPostViewForImageViews.backgroundColor = [UIColor whiteColor];
     [self.uploadPostView addSubview:self.uploadPostViewForImageViews];
     
     self.uploadPostPreviewViewForLabels = [[UIView alloc] initWithFrame:CGRectMake(0, (self.view.frame.size.height/2)-115, self.view.frame.size.width, 230)];
-    self.uploadPostPreviewViewForLabels.layer.borderWidth = 5;
-    self.uploadPostPreviewViewForLabels.layer.borderColor = [UIColor darkGrayColor].CGColor;
+    UIView *topLine = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 1)];
+    topLine.backgroundColor = [UIColor blackColor];
+    [self.uploadPostPreviewViewForLabels addSubview:topLine];
+  
+    UIView *bottomLine = [[UIView alloc] initWithFrame:CGRectMake(0, 229, self.view.frame.size.width, 1)];
+    bottomLine.backgroundColor = [UIColor blackColor];
+    [self.uploadPostPreviewViewForLabels addSubview:bottomLine];
+  //  self.uploadPostPreviewViewForLabels.layer.borderWidth = 5;
+  //  self.uploadPostPreviewViewForLabels.layer.borderColor = [UIColor darkGrayColor].CGColor;
     [self.uploadPostViewForImageViews addSubview:self.uploadPostPreviewViewForLabels];
     
     
     self.uploadPostPreviewTextContentLabel = [[UILabel alloc] initWithFrame:CGRectMake(10,70, self.view.frame.size.width-20, 120)];
     self.uploadPostPreviewTextContentLabel.text = self.uploadPostTextViewString;
-    self.uploadPostPreviewTextContentLabel.textColor = [UIColor darkGrayColor];
+    self.uploadPostPreviewTextContentLabel.textColor = [UIColor blackColor];
     [self.uploadPostPreviewTextContentLabel setFont:[UIFont systemFontOfSize:25]];
     self.uploadPostPreviewTextContentLabel.numberOfLines = 0;
     self.uploadPostPreviewTextContentLabel.adjustsFontSizeToFitWidth = YES;
@@ -847,7 +853,7 @@
     NSString *usernameString = [NSString stringWithFormat:@"%@",usernameObject];
     self.uploadPostPreviewUsernameLabel.text = usernameString;
     self.uploadPostPreviewUsernameLabel.textAlignment = NSTextAlignmentCenter;
-    self.uploadPostPreviewUsernameLabel.textColor = redColor;
+    self.uploadPostPreviewUsernameLabel.textColor = blueColor;
     [self.uploadPostPreviewUsernameLabel setFont:[UIFont systemFontOfSize:30]];
     self.uploadPostPreviewUsernameLabel.adjustsFontSizeToFitWidth = YES;
     self.uploadPostPreviewUsernameLabel.minimumScaleFactor = 0.5;
@@ -892,18 +898,18 @@
     self.uploadPostPinchGestureImageViews = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(recognizePinchToCloseCurrentView:)];
     [self.uploadPostViewForImageViews addGestureRecognizer:self.uploadPostPinchGestureImageViews];
     
-    self.uploadPostYellowMenuButton = [[UIButton alloc] initWithFrame:CGRectMake((self.view.frame.size.width/2)-25, (self.view.frame.size.height/2)-25, 50, 50)];
-    UIImage *yellowMenuButtonImage = [UIImage imageNamed:@"yellowMenu.png"];
-    [self.uploadPostYellowMenuButton setImage:yellowMenuButtonImage forState:UIControlStateNormal];
-    [self.uploadPostYellowMenuButton addTarget:self action:@selector(uploadPostYellowMenuButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
-    [self.uploadPostViewForImageViews addSubview:self.uploadPostYellowMenuButton];
+    self.uploadPostBlueMenuButton = [[UIButton alloc] initWithFrame:CGRectMake((self.view.frame.size.width/2)-25, (self.view.frame.size.height/2)-25, 50, 50)];
+    UIImage *yellowMenuButtonImage = [UIImage imageNamed:@"blueMenuAI.png"];
+    [self.uploadPostBlueMenuButton setImage:yellowMenuButtonImage forState:UIControlStateNormal];
+    [self.uploadPostBlueMenuButton addTarget:self action:@selector(uploadPostYellowMenuButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
+    [self.uploadPostViewForImageViews addSubview:self.uploadPostBlueMenuButton];
     
     
     
 }
 //upload post yellow menu button pressed
 -(void)uploadPostYellowMenuButtonPressed:(UIButton*)button {
-    [self.uploadPostYellowMenuButton setAlpha:0];
+    [self.uploadPostBlueMenuButton setAlpha:0];
     [self.uploadPostTapGestureToOpenImageViewOne setEnabled:NO];
     [self.uploadPostTapGestureToOpenImageViewTwo setEnabled:NO];
     [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionCurveLinear animations:^{
@@ -923,7 +929,7 @@
         self.uploadPostImageViewOne.frame =CGRectMake(0, 0, [self viewWidth], [self viewHeight]/2);
         self.uploadPostImageViewTwo.frame = CGRectMake(0, ([self viewHeight]/2), [self viewWidth], [self viewHeight]/2);
     } completion:^(BOOL finished) {
-        [self.uploadPostYellowMenuButton setAlpha:1];
+        [self.uploadPostBlueMenuButton setAlpha:1];
         [self.uploadPostTapGestureToOpenImageViewOne setEnabled:YES];
         [self.uploadPostTapGestureToOpenImageViewTwo setEnabled:YES];
     }];
@@ -931,7 +937,7 @@
 
 //upload see fullsize photos
 -(void)uploadTapToSeeFullSizeImage:(UITapGestureRecognizer*)recognize {
-    [self.uploadPostYellowMenuButton setAlpha:0];
+    [self.uploadPostBlueMenuButton setAlpha:0];
     self.uploadPostViewForFullSizeImageView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
     self.uploadPostViewForFullSizeImageView.backgroundColor = [UIColor blackColor];
     [self.uploadPostViewForImageViews addSubview:self.uploadPostViewForFullSizeImageView];
@@ -965,12 +971,12 @@
             if(recognize == self.newsFeedPanToZoomInOnFullSizeImageView) {
                 CGPoint locationPoint = [recognize locationInView:self.newsFeedFullSizeImageView];
                 self.zoomInStartingYPosition = locationPoint.y;
-                NSLog(@"yourMom");
+                
             }
             if(recognize == self.postsVotedOnPanToZoomInOnFullSizeImageView) {
                 CGPoint locationPoint = [recognize locationInView:self.postsVotedOnFullSizeImageView];
                 self.zoomInStartingYPosition = locationPoint.y;
-                NSLog(@"yourMom");
+               
             }
         }
             break;
@@ -1066,7 +1072,7 @@
 }
 -(void)uploadTapToCloseFullSizeImageView:(UITapGestureRecognizer*)recognize{
     [self.uploadPostViewForFullSizeImageView removeFromSuperview];
-    [self.uploadPostYellowMenuButton setAlpha:1];
+    [self.uploadPostBlueMenuButton setAlpha:1];
 }
 //action to load personal posts
 -(void)personalPostsButtonAction:(UIButton*)sender {
@@ -1304,11 +1310,12 @@
     }];
     
     cell.backgroundColor = [UIColor whiteColor];
-UIColor *redColor = [UIColor colorWithRed:(207/255.0) green:(70/255.0) blue:(51/255.0) alpha:1];
+        //UIColor *redColor = [UIColor colorWithRed:(207/255.0) green:(70/255.0) blue:(51/255.0) alpha:1];
+        UIColor *blueColor = [UIColor colorWithRed:(0/255.0) green:(196/255.0) blue:(222/255.0) alpha:1];
         cell.username = [[UILabel alloc] initWithFrame:CGRectMake((cell.contentView.frame.size.width/2)+5, 10, (cell.contentView.frame.size.width/2)-15, 30)];
         cell.username.textAlignment = NSTextAlignmentCenter;
         cell.username.backgroundColor = [UIColor clearColor];
-        cell.username.textColor = redColor;
+        cell.username.textColor = blueColor;
     cell.username.font = [UIFont boldSystemFontOfSize:20];
         NSUserDefaults *userDefaultContents = [NSUserDefaults standardUserDefaults];
         NSObject *usernameObject = [userDefaultContents objectForKey:@"username"];
@@ -1330,7 +1337,7 @@ UIColor *redColor = [UIColor colorWithRed:(207/255.0) green:(70/255.0) blue:(51/
 
         cell.timeStamp = [[UILabel alloc] initWithFrame:CGRectMake((cell.contentView.frame.size.width/2)+5, 100, (cell.contentView.frame.size.width/2)-15, 30)];
         cell.timeStamp.backgroundColor = [UIColor clearColor];
-    cell.timeStamp.textColor = [UIColor lightGrayColor];
+    cell.timeStamp.textColor = [UIColor blackColor];
     cell.timeStamp.font = [UIFont systemFontOfSize:15];
     cell.timeStamp.textAlignment = NSTextAlignmentCenter;
     cell.timeStamp.text = [self inputDate:personalPost.createdAt];
@@ -1338,7 +1345,7 @@ UIColor *redColor = [UIColor colorWithRed:(207/255.0) green:(70/255.0) blue:(51/
         cell.textContent = [[UILabel alloc] initWithFrame:CGRectMake(10, (cell.contentView.frame.size.width/2)+5, (cell.contentView.frame.size.width/2)-15, cell.contentView.frame.size.height-15-(cell.contentView.frame.size.width/2))];
     cell.textContent.backgroundColor = [UIColor clearColor];
         cell.textContent.numberOfLines = 0;
-        cell.textContent.textColor = [UIColor darkGrayColor];
+        cell.textContent.textColor = [UIColor blackColor];
         cell.textContent.adjustsFontSizeToFitWidth = YES;
         cell.textContent.minimumScaleFactor = 0.5;
     cell.textContent.font = [UIFont systemFontOfSize:20];
@@ -1347,7 +1354,7 @@ UIColor *redColor = [UIColor colorWithRed:(207/255.0) green:(70/255.0) blue:(51/
         
         cell.totalVotesLabel = [[UILabel alloc] initWithFrame:CGRectMake((cell.contentView.frame.size.width/2)+5, 50, (cell.contentView.frame.size.width/2)-15, 40)];
         cell.totalVotesLabel.backgroundColor = [UIColor clearColor];
-        cell.totalVotesLabel.textColor = [UIColor darkGrayColor];
+        cell.totalVotesLabel.textColor = [UIColor blackColor];
         [cell.totalVotesLabel setFont:[UIFont systemFontOfSize:15]];
         cell.totalVotesLabel.textAlignment = NSTextAlignmentCenter;
         cell.totalVotesLabel.text = [self ForTotalVotesVoteCountOne:personalPost.voteCountOne ForTotalVotesVoteCountTwo:personalPost.voteCountTwo];
@@ -1442,12 +1449,14 @@ UIColor *redColor = [UIColor colorWithRed:(207/255.0) green:(70/255.0) blue:(51/
         } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
             
         }];
-        UIColor *redColor = [UIColor colorWithRed:(207/255.0) green:(70/255.0) blue:(51/255.0) alpha:1];
+     //   UIColor *redColor = [UIColor colorWithRed:(207/255.0) green:(70/255.0) blue:(51/255.0) alpha:1];
+        UIColor *blueColor = [UIColor colorWithRed:(0/255.0) green:(196/255.0) blue:(222/255.0) alpha:1];
+       
         cell.backgroundColor = [UIColor whiteColor];
         cell.username = [[UILabel alloc] initWithFrame:CGRectMake((cell.contentView.frame.size.width/2)+5, 10, (cell.contentView.frame.size.width/2)-15, 30)];
         cell.username.textAlignment = NSTextAlignmentCenter;
         cell.username.backgroundColor = [UIColor clearColor];
-        cell.username.textColor = redColor;
+        cell.username.textColor = blueColor;
         cell.username.font = [UIFont boldSystemFontOfSize:20];
  
         cell.username.adjustsFontSizeToFitWidth = YES;
@@ -1467,7 +1476,7 @@ UIColor *redColor = [UIColor colorWithRed:(207/255.0) green:(70/255.0) blue:(51/
         
         cell.timeStamp = [[UILabel alloc] initWithFrame:CGRectMake((cell.contentView.frame.size.width/2)+5, 100, (cell.contentView.frame.size.width/2)-15, 30)];
         cell.timeStamp.backgroundColor = [UIColor clearColor];
-        cell.timeStamp.textColor = [UIColor lightGrayColor];
+        cell.timeStamp.textColor = [UIColor blackColor];
         cell.timeStamp.font = [UIFont systemFontOfSize:15];
         cell.timeStamp.textAlignment = NSTextAlignmentCenter;
         cell.timeStamp.text = [self inputDate:personalPost.createdAt];
@@ -1475,7 +1484,7 @@ UIColor *redColor = [UIColor colorWithRed:(207/255.0) green:(70/255.0) blue:(51/
         cell.textContent = [[UILabel alloc] initWithFrame:CGRectMake(10, (cell.contentView.frame.size.width/2)+5, (cell.contentView.frame.size.width/2)-15, cell.contentView.frame.size.height-15-(cell.contentView.frame.size.width/2))];
         cell.textContent.backgroundColor = [UIColor clearColor];
         cell.textContent.numberOfLines = 0;
-        cell.textContent.textColor = [UIColor darkGrayColor];
+        cell.textContent.textColor = [UIColor blackColor];
         cell.textContent.adjustsFontSizeToFitWidth = YES;
         cell.textContent.minimumScaleFactor = 0.5;
         cell.textContent.font = [UIFont systemFontOfSize:20];
@@ -1484,7 +1493,7 @@ UIColor *redColor = [UIColor colorWithRed:(207/255.0) green:(70/255.0) blue:(51/
     
         cell.totalVotesLabel = [[UILabel alloc] initWithFrame:CGRectMake((cell.contentView.frame.size.width/2)+5, 50, (cell.contentView.frame.size.width/2)-15, 30)];
         cell.totalVotesLabel.backgroundColor = [UIColor clearColor];
-        cell.totalVotesLabel.textColor = [UIColor darkGrayColor];
+        cell.totalVotesLabel.textColor = [UIColor blackColor];
         [cell.totalVotesLabel setFont:[UIFont systemFontOfSize:15]];
         cell.totalVotesLabel.textAlignment = NSTextAlignmentCenter;
         cell.totalVotesLabel.text = [self ForTotalVotesVoteCountOne:personalPost.voteCountOne ForTotalVotesVoteCountTwo:personalPost.voteCountTwo];
@@ -1504,7 +1513,7 @@ UIColor *redColor = [UIColor colorWithRed:(207/255.0) green:(70/255.0) blue:(51/
         cell.votePercentageTwoLabel.text = [voteCountArray objectAtIndex:1];
         cell.contentView.backgroundColor = [UIColor whiteColor];
         //
-        UIImage *checkMarkImage = [UIImage imageNamed:@"check.png"];
+        UIImage *checkMarkImage = [UIImage imageNamed:@"greenCheckAI.png"];
         NSInteger imageVotedFor = [personalPost.vote integerValue];
         if(imageVotedFor == 1) {
             cell.checkMarkImageView = [[UIImageView alloc] initWithFrame:CGRectMake(10,10, 30, 30)];
@@ -1537,7 +1546,7 @@ UIColor *redColor = [UIColor colorWithRed:(207/255.0) green:(70/255.0) blue:(51/
         
     }
     else {
-        UIColor *redColor = [UIColor colorWithRed:(207/255.0) green:(70/255.0) blue:(51/255.0) alpha:1];
+        UIColor *blueColor = [UIColor colorWithRed:(0/255.0) green:(196/255.0) blue:(222/255.0) alpha:1];
 
         NSUInteger section = [indexPath indexAtPosition:[indexPath length]-2];
         static NSString *cellID0 = @"cell";
@@ -1583,7 +1592,7 @@ UIColor *redColor = [UIColor colorWithRed:(207/255.0) green:(70/255.0) blue:(51/
         else {
             UITableViewCell *cell4 = [tableView dequeueReusableCellWithIdentifier:cellID4 forIndexPath:indexPath];
             NSString *sectionThreeString = [self.settingsSection4LaeblArray objectAtIndex:indexPath.row];
-            cell4.textLabel.textColor = redColor;
+            cell4.textLabel.textColor = blueColor;
             cell4.textLabel.text = sectionThreeString;
             cell4.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 
@@ -1668,7 +1677,7 @@ UIColor *redColor = [UIColor colorWithRed:(207/255.0) green:(70/255.0) blue:(51/
         self.postsVotedOnImageViewTwo.userInteractionEnabled = YES;
         
         NSInteger imageVotedFor = [postsVotedOnObject.vote integerValue];
-        UIImage *greenCheckImage = [UIImage imageNamed:@"check.png"];
+        UIImage *greenCheckImage = [UIImage imageNamed:@"greenCheckAI.png"];
         UIImageView *greenCheckImageView = [[UIImageView alloc] init];
         greenCheckImageView.image = greenCheckImage;
         if(imageVotedFor == 1){
@@ -1705,20 +1714,21 @@ UIColor *redColor = [UIColor colorWithRed:(207/255.0) green:(70/255.0) blue:(51/
         NSString *username = [NSString stringWithFormat:@"%@",usernameObject];
         if(selectedSection == 0) {
             if(selectedRow == 0){
-                UIColor *redColor = [UIColor colorWithRed:(207/255.0) green:(70/255.0) blue:(51/255.0) alpha:1];
+                UIColor *blueColor = [UIColor colorWithRed:(0/255.0) green:(196/255.0) blue:(222/255.0) alpha:1];
                 [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationFade];
                 [self.settingsTableview setScrollEnabled:NO];
             [self presentInvisibleView2];
             self.settingsInstructionsView = [[UIView alloc] initWithFrame:CGRectMake(10, 10, self.view.frame.size.width-20, self.view.frame.size.height-20)];
                 
                 [self.settingsInstructionsView setBackgroundColor:[UIColor whiteColor]];
+   
             [self.navigationController.view addSubview:self.settingsInstructionsView];
                 
                 
                 UILabel *instructionsViewTitleLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 10, self.settingsInstructionsView.frame.size.width-20, 40)];
                 instructionsViewTitleLabel.text = @"Instructions";
                 instructionsViewTitleLabel.textAlignment = NSTextAlignmentCenter;
-                instructionsViewTitleLabel.textColor = redColor;
+                instructionsViewTitleLabel.textColor = blueColor;
                 instructionsViewTitleLabel.font = [UIFont boldSystemFontOfSize:30];
                 [instructionsViewTitleLabel setMinimumScaleFactor:0.5];
                 instructionsViewTitleLabel.adjustsFontSizeToFitWidth = YES;
@@ -1814,7 +1824,7 @@ UIColor *redColor = [UIColor colorWithRed:(207/255.0) green:(70/255.0) blue:(51/
                 UILabel *haveFunLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, maxDeletePostInstructionsLabelHeight+10, self.settingsInstructionsView.frame.size.width-20, 30)];
                 haveFunLabel.text = @"Have fun - thisThat Crew";
                 haveFunLabel.textAlignment = NSTextAlignmentCenter;
-                haveFunLabel.textColor = redColor;
+                haveFunLabel.textColor = blueColor;
                 haveFunLabel.font = [UIFont boldSystemFontOfSize:20];
                 [haveFunLabel setMinimumScaleFactor:0.5];
                 haveFunLabel.adjustsFontSizeToFitWidth = YES;
@@ -1839,7 +1849,9 @@ UIColor *redColor = [UIColor colorWithRed:(207/255.0) green:(70/255.0) blue:(51/
                 self.settingsInstructionViewScrollView.scrollEnabled = YES;
                 self.settingsInstructionViewScrollView.bounces = NO;
                 self.settingsInstructionViewScrollView.userInteractionEnabled = YES;
-                self.settingsInstructionViewScrollView.contentSize = CGSizeMake(self.view.frame.size.width-20, maxButtonHeight+20);
+                self.settingsInstructionViewScrollView.contentSize = CGSizeMake(self.view.frame.size.width-20, maxButtonHeight+10);
+                self.settingsInstructionViewScrollView.layer.borderWidth = 1;
+                self.settingsInstructionViewScrollView.layer.borderColor = [UIColor blackColor].CGColor;
                 [self.navigationController.view addSubview:self.settingsInstructionViewScrollView];
                 [self.settingsInstructionViewScrollView addSubview:self.settingsInstructionsView];
                 
@@ -2251,7 +2263,7 @@ UIColor *redColor = [UIColor colorWithRed:(207/255.0) green:(70/255.0) blue:(51/
         [self.newsFeedPanGestureImageViewTwo setEnabled:NO];
         [self.newsFeedTapGestureToOpenImageViewOne setEnabled:NO];
         [self.newsFeedTapGestureToOpenImageViewTwo setEnabled:NO];
-        [self.newsFeedYellowMenuButton setAlpha:0];
+        [self.newsFeedBlueMenuButton setAlpha:0];
         [self.newsFeedViewForLabels setAlpha:1];
     [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionCurveEaseIn animations:^{
         
@@ -2272,7 +2284,7 @@ UIColor *redColor = [UIColor colorWithRed:(207/255.0) green:(70/255.0) blue:(51/
         self.newsFeedImageViewTwo.frame = CGRectMake(0, ([self viewHeight]/2), [self viewWidth], [self viewHeight]/2);
         
     } completion:^(BOOL finished) {
-        [self.newsFeedYellowMenuButton setAlpha:1.0];
+        [self.newsFeedBlueMenuButton setAlpha:1.0];
         [self.newsFeedView removeGestureRecognizer:recognize];
         [self.newsFeedPanGestureImageViewOne setEnabled:YES];
         [self.newsFeedPanGestureImageViewTwo setEnabled:YES];
@@ -2550,7 +2562,7 @@ UIColor *redColor = [UIColor colorWithRed:(207/255.0) green:(70/255.0) blue:(51/
  
     switch (recognize.state) {
         case UIGestureRecognizerStateBegan:{
-            [self.newsFeedYellowMenuButton setAlpha:0];
+            [self.newsFeedBlueMenuButton setAlpha:0];
             [self.newsFeedCloseViewButton setAlpha:0];
             if(recognize == self.newsFeedPanGestureImageViewOne){
             [self.newsFeedPanGestureImageViewTwo setEnabled:NO];
@@ -2682,7 +2694,7 @@ UIColor *redColor = [UIColor colorWithRed:(207/255.0) green:(70/255.0) blue:(51/
                             self.newsFeedImageViewTwo.frame = CGRectMake(0, (heightFrame/2), widthFrame, heightFrame/2);
                             
                         } completion:^(BOOL finished) {
-                            [self.newsFeedYellowMenuButton setAlpha:1.0];
+                            [self.newsFeedBlueMenuButton setAlpha:1.0];
                             [self.newsFeedCloseViewButton setAlpha:1.0];
                             
                         }];
@@ -2729,7 +2741,7 @@ UIColor *redColor = [UIColor colorWithRed:(207/255.0) green:(70/255.0) blue:(51/
                             self.newsFeedImageViewOne.frame =CGRectMake(0, 0, widthFrame, heightFrame/2);
                             self.newsFeedImageViewTwo.frame = CGRectMake(0, (heightFrame/2), widthFrame, heightFrame/2);
                         } completion:^(BOOL finished) {
-                            [self.newsFeedYellowMenuButton setAlpha:1.0];
+                            [self.newsFeedBlueMenuButton setAlpha:1.0];
                             [self.newsFeedCloseViewButton setAlpha:1.0];
                         }];
                     }];
@@ -2754,7 +2766,7 @@ UIColor *redColor = [UIColor colorWithRed:(207/255.0) green:(70/255.0) blue:(51/
                     [self.newsFeedImageTwoXMarkView setAlpha:0];
                 } completion:^(BOOL finished) {
 
-                    [self.newsFeedYellowMenuButton setAlpha:1.0];
+                    [self.newsFeedBlueMenuButton setAlpha:1.0];
                     [self.newsFeedCloseViewButton setAlpha:1.0];
                 }];
             }
@@ -3085,15 +3097,24 @@ UIColor *redColor = [UIColor colorWithRed:(207/255.0) green:(70/255.0) blue:(51/
     CGFloat scaleFactor = imageOriginalWidth/viewWidth;
     NSLog(@"scalefactor:%f",scaleFactor);
     CGFloat newImageHeight = imageOriginalHeight/scaleFactor;
-    CGFloat yStartingPosition = (viewHeight - newImageHeight)/2;
+    if(newImageHeight > viewHeight) {
+        CGFloat heightScaleFactor = imageOriginalHeight/viewHeight;
+        CGFloat newImageWidth = imageOriginalWidth/heightScaleFactor;
+        CGFloat xStartingPosition = (viewWidth - newImageWidth)/2;
+        UIImageView *resizedImage = [[UIImageView alloc] initWithFrame:CGRectMake(xStartingPosition, 0, newImageWidth, viewHeight)];
+        resizedImage.image = image;
+        return resizedImage;
+    }
+    else {
+        CGFloat yStartingPosition = (viewHeight - newImageHeight)/2;
+        UIImageView *resizedImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, yStartingPosition, viewWidth, newImageHeight)];
+        resizedImage.image = image;
+        return resizedImage;
+    }
     
-  
-    UIImageView *resizedImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, yStartingPosition, viewWidth, newImageHeight)];
 //    UIImageView *resizedImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, viewWidth, newImageHeight)];
 
-    resizedImage.image = image;
     
-    return resizedImage;
     
 }
 
@@ -3267,7 +3288,7 @@ UIColor *redColor = [UIColor colorWithRed:(207/255.0) green:(70/255.0) blue:(51/
             self.newsFeedImageViewTwo.frame = CGRectMake(0, ([self viewHeight]/2), [self viewWidth], [self viewHeight]/2);
             
         } completion:^(BOOL finished) {
-            [self.newsFeedYellowMenuButton setAlpha:1];
+            [self.newsFeedBlueMenuButton setAlpha:1];
             
         }];
 
@@ -3285,7 +3306,7 @@ UIColor *redColor = [UIColor colorWithRed:(207/255.0) green:(70/255.0) blue:(51/
         [self.newsFeedArray removeAllObjects];
         [self.newsFeedImageViewOne setAlpha:0];
         [self.newsFeedImageViewTwo setAlpha:0];
-        [self.newsFeedYellowMenuButton setAlpha:0];
+        [self.newsFeedBlueMenuButton setAlpha:0];
         self.newsFeedCounter = 0;
         [self presentLoadingView];
         NSUserDefaults *userDefaultContents = [NSUserDefaults standardUserDefaults];
@@ -3305,11 +3326,14 @@ UIColor *redColor = [UIColor colorWithRed:(207/255.0) green:(70/255.0) blue:(51/
                 [self.newsFeedImageViewTwo removeFromSuperview];
                 [self.newsFeedViewForLabels removeFromSuperview];
                 [self.loadingView removeFromSuperview];
+                UIColor *blueColor = [UIColor colorWithRed:(0/255.0) green:(196/255.0) blue:(222/255.0) alpha:1];
                 UILabel *noMorePostsLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 0, self.view.frame.size.width-20, self.view.frame.size.height)];
                 noMorePostsLabel.numberOfLines = 0;
                 noMorePostsLabel.backgroundColor  = [UIColor whiteColor];
                 noMorePostsLabel.textAlignment = NSTextAlignmentCenter;
+                noMorePostsLabel.font = [UIFont systemFontOfSize:20];
                 noMorePostsLabel.text = @"Currently there are no more thisThat posts for you to vote on.";
+                noMorePostsLabel.textColor = blueColor;
                 [self.newsFeedView addSubview:noMorePostsLabel];
             }
         }
@@ -3353,9 +3377,10 @@ UIColor *redColor = [UIColor colorWithRed:(207/255.0) green:(70/255.0) blue:(51/
     float actualWidth = image.size.width;
     float maxHeight = 600.0;
     float maxWidth = 800.0;
+   
     float imgRatio = actualWidth/actualHeight;
     float maxRatio = maxWidth/maxHeight;
-    float compressionQuality = 0.5;
+    float compressionQuality = 0.7;
     if (actualHeight > maxHeight || actualWidth > maxWidth){
         if(imgRatio < maxRatio){
             //adjust width according to maxHeight
@@ -3497,17 +3522,18 @@ UIColor *redColor = [UIColor colorWithRed:(207/255.0) green:(70/255.0) blue:(51/
 //no posts to vote on in newsfeed view
 -(void)initalizedNewsFeedViewNoPostsToVoteOn {
  //   UIColor *redColor = [UIColor colorWithRed:(207/255.0) green:(70/255.0) blue:(51/255.0) alpha:1];
-    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
     UIColor *blackThisThatColor = [UIColor colorWithRed:(39/255.0) green:(35/255.0) blue:(34/255.0) alpha:1];
+    UIColor *blueColor = [UIColor colorWithRed:(0/255.0) green:(196/255.0) blue:(222/255.0) alpha:1];
     [self presentInvisibleView];
     [self.loadingView removeFromSuperview];
     self.newsFeedView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
-    self.newsFeedView.backgroundColor = blackThisThatColor;
+    self.newsFeedView.backgroundColor = [UIColor whiteColor];
     [self.navigationController.view addSubview:self.newsFeedView];
     self.newsFeedPinchGesture = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(recognizePinchToCloseCurrentView:)];
     [self.newsFeedView addGestureRecognizer:self.newsFeedPinchGesture];
     UILabel *noMorePostsLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 0, self.view.frame.size.width-20, self.view.frame.size.height)];
-    noMorePostsLabel.textColor = [UIColor whiteColor];
+    noMorePostsLabel.textColor = blueColor;
     noMorePostsLabel.numberOfLines = 0;
     noMorePostsLabel.font = [UIFont systemFontOfSize:20];
     noMorePostsLabel.textAlignment = NSTextAlignmentCenter;
@@ -3517,8 +3543,7 @@ UIColor *redColor = [UIColor colorWithRed:(207/255.0) green:(70/255.0) blue:(51/
 }
 //initalize newsfeed view
 -(void)initalizeNewsFeedView {
-    UIColor *redColor = [UIColor colorWithRed:(207/255.0) green:(70/255.0) blue:(51/255.0) alpha:1];
-
+    UIColor *blueColor = [UIColor colorWithRed:(0/255.0) green:(196/255.0) blue:(222/255.0) alpha:1];
     [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationFade];
     [self presentInvisibleView];
     self.newsFeedCounter = 0;
@@ -3538,8 +3563,14 @@ UIColor *redColor = [UIColor colorWithRed:(207/255.0) green:(70/255.0) blue:(51/
    // UIColor *blackThisThatColor = [UIColor colorWithRed:(39/255.0) green:(35/255.0) blue:(34/255.0) alpha:1];
     self.newsFeedViewForLabels = [[UIView alloc] initWithFrame:CGRectMake(0, ([self viewHeight]/2)-115, [self viewWidth], 230)];
     self.newsFeedViewForLabels.backgroundColor = [UIColor whiteColor];
-    self.newsFeedViewForLabels.layer.borderWidth = 5;
-    self.newsFeedViewForLabels.layer.borderColor = [UIColor darkGrayColor].CGColor;
+    UIView *topLine = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 1)];
+    topLine.backgroundColor = [UIColor blackColor];
+    [self.newsFeedViewForLabels addSubview:topLine];
+    UIView *bottomLine = [[UIView alloc] initWithFrame:CGRectMake(0, 229, self.view.frame.size.width, 1)];
+    bottomLine.backgroundColor = [UIColor blackColor];
+    [self.newsFeedViewForLabels addSubview:bottomLine];
+   // self.newsFeedViewForLabels.layer.borderWidth = 1;
+   // self.newsFeedViewForLabels.layer.borderColor = blueColor.CGColor;
     [self.newsFeedView addSubview:self.newsFeedViewForLabels];
     
     
@@ -3552,7 +3583,7 @@ UIColor *redColor = [UIColor colorWithRed:(207/255.0) green:(70/255.0) blue:(51/
     self.newsFeedTextContentLabel.adjustsFontSizeToFitWidth = YES;
     [self.newsFeedTextContentLabel setMinimumScaleFactor:0.8];
     self.newsFeedTextContentLabel.textAlignment = NSTextAlignmentCenter;
-    [self.newsFeedTextContentLabel setTextColor:[UIColor darkGrayColor]];
+    [self.newsFeedTextContentLabel setTextColor:[UIColor blackColor]];
     [self.newsFeedViewForLabels addSubview:self.newsFeedTextContentLabel];
     
     
@@ -3561,7 +3592,7 @@ UIColor *redColor = [UIColor colorWithRed:(207/255.0) green:(70/255.0) blue:(51/
     self.newsFeedUsernameLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 30, [self viewWidth]-20, 35)];
     self.newsFeedUsernameLabel.backgroundColor = [UIColor clearColor];
     [self.newsFeedUsernameLabel setFont:[UIFont boldSystemFontOfSize:30]];
-    [self.newsFeedUsernameLabel setTextColor:redColor];
+    [self.newsFeedUsernameLabel setTextColor:blueColor];
     [self.newsFeedUsernameLabel setTextAlignment:NSTextAlignmentCenter];
     self.newsFeedUsernameLabel.adjustsFontSizeToFitWidth = YES;
     self.newsFeedUsernameLabel.minimumScaleFactor = 0.5;
@@ -3571,7 +3602,7 @@ UIColor *redColor = [UIColor colorWithRed:(207/255.0) green:(70/255.0) blue:(51/
     self.newsFeedTimeStampLabel = [[UILabel alloc] initWithFrame:CGRectMake(3*([self viewWidth]/4), 190, ([self viewWidth]/4)-10, 20)];
     self.newsFeedTimeStampLabel.backgroundColor = [UIColor clearColor];
     [self.newsFeedTimeStampLabel setFont:[UIFont systemFontOfSize:15]];
-    [self.newsFeedTimeStampLabel setTextColor:[UIColor grayColor]];
+    [self.newsFeedTimeStampLabel setTextColor:[UIColor blackColor]];
     [self.newsFeedTimeStampLabel setTextAlignment:NSTextAlignmentRight];
     self.newsFeedTimeStampLabel.adjustsFontSizeToFitWidth = YES;
     self.newsFeedTimeStampLabel.minimumScaleFactor = 0.8;
@@ -3589,20 +3620,20 @@ UIColor *redColor = [UIColor colorWithRed:(207/255.0) green:(70/255.0) blue:(51/
     
     self.newsFeedTotalNumberOfVotesLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 190, [self viewWidth]/2-20, 30)];
     self.newsFeedTotalNumberOfVotesLabel.backgroundColor = [UIColor clearColor];
-    self.newsFeedTotalNumberOfVotesLabel.textColor = [UIColor grayColor];
+    self.newsFeedTotalNumberOfVotesLabel.textColor = [UIColor blackColor];
     [self.newsFeedTotalNumberOfVotesLabel setFont:[UIFont systemFontOfSize:15]];
     [self.newsFeedViewForLabels addSubview:self.newsFeedTotalNumberOfVotesLabel];
     [self.newsFeedViewForLabels setAlpha:0];
     //PercentageLabels
 
-    UIImage *voteForThisImageAI = [UIImage imageNamed:@"voteThisAI.png"];
-    self.newsFeedVoteForThisImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height/2)];
+    UIImage *voteForThisImageAI = [UIImage imageNamed:@"voteTHIS.png"];
+    self.newsFeedVoteForThisImageView = [[UIImageView alloc] initWithFrame:CGRectMake(30, 30, self.view.frame.size.width-60,(self.view.frame.size.height/2)-60)];
     self.newsFeedVoteForThisImageView.image = voteForThisImageAI;
     self.newsFeedVoteForThisImageView.contentMode = UIViewContentModeScaleAspectFit;
     [self.newsFeedVoteForThisImageView setAlpha:0];
     [self.newsFeedView addSubview:self.newsFeedVoteForThisImageView];
-    UIImage *notThis = [UIImage imageNamed:@"notThisAI.png"];
-    self.newsFeedNotThisImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height/2)];
+    UIImage *notThis = [UIImage imageNamed:@"notTHIS.png"];
+    self.newsFeedNotThisImageView = [[UIImageView alloc] initWithFrame:CGRectMake(30, 30, self.view.frame.size.width-60, (self.view.frame.size.height/2)-60)];
     self.newsFeedNotThisImageView.image = notThis;
     self.newsFeedNotThisImageView.contentMode = UIViewContentModeScaleAspectFit;
     [self.newsFeedNotThisImageView setAlpha:0];
@@ -3618,14 +3649,14 @@ UIColor *redColor = [UIColor colorWithRed:(207/255.0) green:(70/255.0) blue:(51/
     
     UIImage *closedNewsFeedImage = [UIImage imageNamed:@"closeViewXmark.png"];
     
-    self.newsFeedCloseViewButton = [[UIButton alloc] initWithFrame:CGRectMake(10, 10, 25, 25)];
+    self.newsFeedCloseViewButton = [[UIButton alloc] initWithFrame:CGRectMake(15, 15, 25, 25)];
     [self.newsFeedCloseViewButton setImage:closedNewsFeedImage forState:UIControlStateNormal];
     [self.newsFeedCloseViewButton addTarget:self action:@selector(closeNewsFeedViewAction:) forControlEvents:UIControlEventTouchUpInside];
     [self.newsFeedImageViewOne addSubview:self.newsFeedCloseViewButton];
     
     
     UIImage *greenCheckMarkImage = [[UIImage alloc] init];
-    greenCheckMarkImage = [UIImage imageNamed:@"check.png"];
+    greenCheckMarkImage = [UIImage imageNamed:@"greenCheckAI.png"];
     self.newsFeedImageOneCheckMarkView = [[UIImageView alloc] initWithFrame:CGRectMake(10, self.newsFeedImageViewOne.frame.size.height-60, 50, 50)];
     self.newsFeedImageOneCheckMarkView.image = greenCheckMarkImage;
     self.newsFeedImageOneCheckMarkView.layer.cornerRadius = 25;
@@ -3633,7 +3664,7 @@ UIColor *redColor = [UIColor colorWithRed:(207/255.0) green:(70/255.0) blue:(51/
     [self.newsFeedImageOneCheckMarkView setAlpha:0];
     [self.newsFeedImageViewOne addSubview:self.newsFeedImageOneCheckMarkView];
     UIImage *redXMarkImage = [[UIImage alloc] init];
-    redXMarkImage = [UIImage imageNamed:@"redx.png"];
+    redXMarkImage = [UIImage imageNamed:@"redXAI.png"];
     self.newsFeedImageOneXMarkView = [[UIImageView alloc] initWithFrame:CGRectMake(self.newsFeedImageViewOne.frame.size.width-60, self.newsFeedImageViewOne.frame.size.height-60, 50, 50)];
     self.newsFeedImageOneXMarkView.image = redXMarkImage;
     self.newsFeedImageOneXMarkView.layer.cornerRadius = 25;
@@ -3648,15 +3679,15 @@ UIColor *redColor = [UIColor colorWithRed:(207/255.0) green:(70/255.0) blue:(51/
     
 
    
-    UIImage *notThatImage = [UIImage imageNamed:@"notThatAI.png"];
-    self.newsFeedNotThatImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height/2, self.view.frame.size.width, self.view.frame.size.height/2)];
+    UIImage *notThatImage = [UIImage imageNamed:@"notThis-That.png"];
+    self.newsFeedNotThatImageView = [[UIImageView alloc] initWithFrame:CGRectMake(30, (self.view.frame.size.height/2)+30, self.view.frame.size.width-60, (self.view.frame.size.height/2)-60)];
     self.newsFeedNotThatImageView.image = notThatImage;
     self.newsFeedNotThatImageView.contentMode = UIViewContentModeScaleAspectFit;
     [self.newsFeedNotThatImageView setAlpha:0];
     [self.newsFeedView addSubview:self.newsFeedNotThatImageView];
     
-    UIImage *voteForThat = [UIImage imageNamed:@"voteThatAI.png"];
-    self.newsFeedVoteForThatImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height/2, self.view.frame.size.width, self.view.frame.size.height/2)];
+    UIImage *voteForThat = [UIImage imageNamed:@"voteTHAT.png"];
+    self.newsFeedVoteForThatImageView = [[UIImageView alloc] initWithFrame:CGRectMake(30, (self.view.frame.size.height/2)+30, self.view.frame.size.width-60, (self.view.frame.size.height/2)-60)];
     self.newsFeedVoteForThatImageView.image = voteForThat;
     self.newsFeedVoteForThatImageView.contentMode = UIViewContentModeScaleAspectFit;
     [self.newsFeedVoteForThatImageView setAlpha:0];
@@ -3682,13 +3713,13 @@ UIColor *redColor = [UIColor colorWithRed:(207/255.0) green:(70/255.0) blue:(51/
     [self.newsFeedImageViewTwo addSubview:self.newsFeedImageTwoXMarkView];
     
     
-    UIImage *yellowMenuImage = [[UIImage alloc] init];
-    yellowMenuImage = [UIImage imageNamed:@"yellowMenu.png"];
-    self.newsFeedYellowMenuButton = [[UIButton alloc] initWithFrame:CGRectMake((self.view.frame.size.width/2)-25, (self.view.frame.size.height/2)-25, 50, 50)];
-    [self.newsFeedYellowMenuButton setImage:yellowMenuImage forState:UIControlStateNormal];
-    [self.newsFeedYellowMenuButton setAlpha:0];
-    [self.newsFeedView addSubview:self.newsFeedYellowMenuButton];
-    [self.newsFeedYellowMenuButton addTarget:self action:@selector(menuButtonSelected:) forControlEvents:UIControlEventTouchUpInside];
+    UIImage *blueMenuImage = [[UIImage alloc] init];
+    blueMenuImage = [UIImage imageNamed:@"blueMenuAI.png"];
+    self.newsFeedBlueMenuButton = [[UIButton alloc] initWithFrame:CGRectMake((self.view.frame.size.width/2)-25, (self.view.frame.size.height/2)-25, 50, 50)];
+    [self.newsFeedBlueMenuButton setImage:blueMenuImage forState:UIControlStateNormal];
+    [self.newsFeedBlueMenuButton setAlpha:0];
+    [self.newsFeedView addSubview:self.newsFeedBlueMenuButton];
+    [self.newsFeedBlueMenuButton addTarget:self action:@selector(menuButtonSelected:) forControlEvents:UIControlEventTouchUpInside];
     
     
     //ImageTwoPanRecognizer
@@ -3790,7 +3821,7 @@ UIColor *redColor = [UIColor colorWithRed:(207/255.0) green:(70/255.0) blue:(51/
 }
 //upload nav bar detail
 -(void)uploadingNavBarDetail {
-    UIColor *redColor = [UIColor colorWithRed:(207/255.0) green:(70/255.0) blue:(51/255.0) alpha:1];
+    UIColor *blueColor = [UIColor colorWithRed:(0/255.0) green:(196/255.0) blue:(222/255.0) alpha:1];
     self.uploadPostNavigationBarUploadView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.navigationController.navigationBar.frame.size.height+[UIApplication sharedApplication].statusBarFrame.size.height+5)];
     self.uploadPostNavigationBarUploadView.backgroundColor = [UIColor whiteColor];
     UIView *blackLineView = [[UIView alloc] initWithFrame:CGRectMake(0, self.navigationController.navigationBar.frame.size.height+[UIApplication sharedApplication].statusBarFrame.size.height+4, self.view.frame.size.width, 1)];
@@ -3798,7 +3829,7 @@ UIColor *redColor = [UIColor colorWithRed:(207/255.0) green:(70/255.0) blue:(51/
     [self.uploadPostNavigationBarUploadView addSubview:blackLineView];
     [self.navigationController.view addSubview:self.uploadPostNavigationBarUploadView];
     self.uploadPostNavigationBarUploadLabel = [[UILabel alloc] initWithFrame:CGRectMake(70, [UIApplication sharedApplication].statusBarFrame.size.height + 5, self.view.frame.size.width-70, 30)];
-    self.uploadPostNavigationBarUploadLabel.textColor = redColor;
+    self.uploadPostNavigationBarUploadLabel.textColor = blueColor;
     self.uploadPostNavigationBarUploadLabel.text = @"uploading your thisThat..";
     [self.uploadPostNavigationBarUploadView addSubview:self.uploadPostNavigationBarUploadLabel];
 
