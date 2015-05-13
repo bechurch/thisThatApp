@@ -139,8 +139,8 @@
     }
     //App first time launch, display few pics on how to use
     else {
-        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"hasLaunchedOnce"];
-        [[NSUserDefaults standardUserDefaults] synchronize];
+       // [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"hasLaunchedOnce"];
+       // [[NSUserDefaults standardUserDefaults] synchronize];
         [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationFade];
         NSLog(@"First Launch Ever");
         self.firstLaunchScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
@@ -180,9 +180,11 @@
         imageViewFourFirstLaunch.image = imageFourFirstLaunch;
         imageViewFourFirstLaunch.userInteractionEnabled = YES;
         [self.firstLaunchView addSubview:imageViewFourFirstLaunch];
-        UIButton *closeFirstLaunchViewButton = [[UIButton alloc] initWithFrame:CGRectMake(4*(self.view.frame.size.width)-60, self.view.frame.size.height-40, 50, 30)];
+        UIButton *closeFirstLaunchViewButton = [[UIButton alloc] initWithFrame:CGRectMake(4*(self.view.frame.size.width)-70, self.view.frame.size.height-50, 60, 40)];
         [closeFirstLaunchViewButton setTitle:@"Close" forState:UIControlStateNormal];
-        [closeFirstLaunchViewButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        [closeFirstLaunchViewButton setTitleColor:blueColor forState:UIControlStateNormal];
+        [closeFirstLaunchViewButton setBackgroundImage:[self imageWithColor:[UIColor whiteColor]] forState:UIControlStateNormal];
+        [closeFirstLaunchViewButton setBackgroundImage:[self imageWithColor:[[UIColor whiteColor] colorWithAlphaComponent:0.5]] forState:UIControlStateHighlighted];
         [closeFirstLaunchViewButton setBackgroundColor:[UIColor clearColor]];
         [closeFirstLaunchViewButton addTarget:self action:@selector(closeFirstLaunchView:) forControlEvents:UIControlEventTouchUpInside];
         [self.firstLaunchView addSubview:closeFirstLaunchViewButton];
@@ -265,6 +267,8 @@
 
 
 -(void)closeFirstLaunchView:(UIButton*)button {
+    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"hasLaunchedOnce"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
     [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
     [self.firstLaunchView removeFromSuperview];
@@ -3290,7 +3294,12 @@
             self.newsFeedImageViewTwo.frame = CGRectMake(0, ([self viewHeight]/2), [self viewWidth], [self viewHeight]/2);
             
         } completion:^(BOOL finished) {
+            if(self.newsFeedCounter == 0) {
+            [self.newsFeedBlueMenuButton setHidden:NO];
             [self.newsFeedBlueMenuButton setAlpha:1];
+            } else {
+                
+            }
             
         }];
 
@@ -3306,6 +3315,7 @@
         [self.newsFeedImageViewOne setAlpha:0];
         [self.newsFeedImageViewTwo setAlpha:0];
         [self.newsFeedBlueMenuButton setAlpha:0];
+        [self.newsFeedBlueMenuButton setHidden:YES];
         self.newsFeedCounter = 0;
         [self presentLoadingView];
         NSUserDefaults *userDefaultContents = [NSUserDefaults standardUserDefaults];

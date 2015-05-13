@@ -25,8 +25,9 @@
 @property (nonatomic, strong) UIAlertView *missingParametersAlert;
 @property (nonatomic, strong) UIAlertView *accountSuccessfullyCreated;
 @property (nonatomic, strong) NSString *characterCountUsernameString;
+@property (nonatomic, strong) NSString *characterCountPhoneNumberString;
 @property (nonatomic, strong) UILabel *characterCountUsernameLabel;
-
+@property (nonatomic, strong) UILabel *characterCountPhoneNumberLabel;
 @property CGFloat maxYKeyboard;
 @property CGFloat maxYPhoneNumber;
 @end

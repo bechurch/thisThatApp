@@ -106,6 +106,13 @@
     [self.phoneNumberTextField setLeftViewMode:UITextFieldViewModeAlways];
     [self.phoneNumberTextField setLeftView:spacerViewPhone];
     
+    self.characterCountPhoneNumberLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.phoneNumberTextField.frame.size.width-55, 0, 50, 30)];
+    self.characterCountPhoneNumberLabel.textAlignment = NSTextAlignmentRight;
+    self.characterCountPhoneNumberLabel.textColor = [UIColor lightGrayColor];
+    self.characterCountPhoneNumberLabel.font = [UIFont systemFontOfSize:10];
+    self.characterCountPhoneNumberString = [[NSString alloc] init];
+    [self.phoneNumberTextField addSubview:self.characterCountPhoneNumberLabel];
+    
     self.maxYPhoneNumber = CGRectGetMaxY(self.phoneNumberTextField.frame);
     
     self.signupButton = [[UIButton alloc] initWithFrame:CGRectMake((self.view.frame.size.width/2)-40, (self.view.frame.size.height/2)+76, 80, 30)];
@@ -172,6 +179,7 @@
     [self.passwordTextField resignFirstResponder];
     [self.usernameTextField resignFirstResponder];
     [self.characterCountUsernameLabel setAlpha:0];
+    [self.characterCountPhoneNumberLabel setAlpha:0];
     [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionCurveEaseIn animations:^{
         self.phoneNumberTextField.frame = CGRectMake(10, (self.view.frame.size.height/2)+16, self.view.frame.size.width-20, 30);
         self.usernameTextField.frame = CGRectMake(10, (self.view.frame.size.height/2)-46, self.view.frame.size.width-20, 30);
@@ -187,14 +195,17 @@
         if(textField == self.usernameTextField){
             textField.returnKeyType = UIReturnKeyNext;
             [self.characterCountUsernameLabel setAlpha:1];
+            [self.characterCountPhoneNumberLabel setAlpha:0];
             
         }
         if(textField == self.passwordTextField) {
             [self.characterCountUsernameLabel setAlpha:0];
+            [self.characterCountPhoneNumberLabel setAlpha:0];
             textField.returnKeyType = UIReturnKeyNext;
         }
         if(textField == self.phoneNumberTextField){
             [self.characterCountUsernameLabel setAlpha:0];
+            [self.characterCountPhoneNumberLabel setAlpha:1];
             textField.returnKeyType = UIReturnKeyGo;
         }
     }
@@ -220,6 +231,7 @@
 -(BOOL)textFieldShouldReturn:(UITextField *)textField {
     if(textField == self.phoneNumberTextField){
         [self signUpActionReturnKeyAndButton];
+        [self.characterCountPhoneNumberLabel setAlpha:0];
         [textField resignFirstResponder];
     }
     if(textField == self.passwordTextField) {
@@ -257,6 +269,19 @@
         }
         return !([newString length]>15);
     }
+    if([textField isEqual:self.phoneNumberTextField]) {
+        NSString *newString = [textField.text stringByReplacingCharactersInRange:range withString:string];
+        NSInteger characterCount = [newString lengthOfBytesUsingEncoding:NSUTF32StringEncoding]/4;
+        if([newString length]>10) {
+            self.characterCountPhoneNumberString = [NSString stringWithFormat:@"10/10"];
+            self.characterCountPhoneNumberLabel.text = self.characterCountPhoneNumberString;
+        }
+        else {
+            self.characterCountPhoneNumberString = [NSString stringWithFormat:@"%ld/10",(long)characterCount];
+            self.characterCountPhoneNumberLabel.text = self.characterCountPhoneNumberString;
+        }
+        return !([newString length]>10);
+    }
   
     else {
         //[textField resignFirstResponder];
@@ -271,88 +296,95 @@
     
 }
 -(void)signUpActionReturnKeyAndButton {
+    
     NSString *usernameString = [self.usernameTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
     NSString *passwordString = [self.passwordTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
     NSString *phoneString = [self.phoneNumberTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
-    
-    NSDictionary *parameters = @{@"username" : usernameString, @"password" : passwordString, @"phone_number" : phoneString};
-    
-    NSURL *baseURL  = [NSURL URLWithString:hostUrl]; //host url : http://local-app.co:1337
-    AFHTTPClient *client = [[AFHTTPClient alloc] initWithBaseURL:baseURL];
-    //RKObjectManager *objectManager = [[RKObjectManager alloc] initWithHTTPClient:client];
-    
-    
-    
-    [[RKObjectManager sharedManager] postObject:nil path:@"/api/v1/users" parameters:parameters success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
-        NSLog(@"success");
-        RKObjectManager *objectManager = [[RKObjectManager alloc] initWithHTTPClient:client];
-        RKObjectMapping *objectMapping = [RKObjectMapping mappingForClass:[token class]];
-        [objectManager.HTTPClient setAuthorizationHeaderWithUsername:usernameString password:passwordString];
+    if([phoneString length] == 10) {
+        NSDictionary *parameters = @{@"username" : usernameString, @"password" : passwordString, @"phone_number" : phoneString};
         
-        [objectMapping addAttributeMappingsFromDictionary:@{@"token":@"token",
-                                                            @"userId":@"userId"}];
-        RKResponseDescriptor *responseDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:objectMapping method:RKRequestMethodPOST pathPattern:@"/api/v1/auth/login" keyPath:nil statusCodes:[NSIndexSet indexSetWithIndex:200]];
-        [objectManager addResponseDescriptor:responseDescriptor];
+        NSURL *baseURL  = [NSURL URLWithString:hostUrl]; //host url : http://local-app.co:1337
+        AFHTTPClient *client = [[AFHTTPClient alloc] initWithBaseURL:baseURL];
+        //RKObjectManager *objectManager = [[RKObjectManager alloc] initWithHTTPClient:client];
         
-        [objectManager postObject:nil path:@"http://local-app.co:1337/api/v1/auth/login" parameters:nil success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
+        
+        
+        [[RKObjectManager sharedManager] postObject:nil path:@"/api/v1/users" parameters:parameters success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
             NSLog(@"success");
-            NSArray *tokenID = mappingResult.array;
-            token *theToken = [tokenID objectAtIndex:0];
+            RKObjectManager *objectManager = [[RKObjectManager alloc] initWithHTTPClient:client];
+            RKObjectMapping *objectMapping = [RKObjectMapping mappingForClass:[token class]];
+            [objectManager.HTTPClient setAuthorizationHeaderWithUsername:usernameString password:passwordString];
             
-            NSString *tokenIDString = theToken.token;
-            NSString *userIDString = theToken.userId;
-            NSLog(@"\ntokenValue:%@\n userId:%@",tokenIDString,userIDString);
+            [objectMapping addAttributeMappingsFromDictionary:@{@"token":@"token",
+                                                                @"userId":@"userId"}];
+            RKResponseDescriptor *responseDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:objectMapping method:RKRequestMethodPOST pathPattern:@"/api/v1/auth/login" keyPath:nil statusCodes:[NSIndexSet indexSetWithIndex:200]];
+            [objectManager addResponseDescriptor:responseDescriptor];
             
-            [[NSUserDefaults standardUserDefaults] setObject:tokenIDString forKey:@"tokenIDString"];
-            [[NSUserDefaults standardUserDefaults] setObject:userIDString forKey:@"userIDString"];
-            [[NSUserDefaults standardUserDefaults] setObject:usernameString forKey:@"username"];
-            [[NSUserDefaults standardUserDefaults] synchronize];
-            
-            [self createdAccountSuccessfully];
+            [objectManager postObject:nil path:@"http://local-app.co:1337/api/v1/auth/login" parameters:nil success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
+                NSLog(@"success");
+                NSArray *tokenID = mappingResult.array;
+                token *theToken = [tokenID objectAtIndex:0];
+                
+                NSString *tokenIDString = theToken.token;
+                NSString *userIDString = theToken.userId;
+                NSLog(@"\ntokenValue:%@\n userId:%@",tokenIDString,userIDString);
+                
+                [[NSUserDefaults standardUserDefaults] setObject:tokenIDString forKey:@"tokenIDString"];
+                [[NSUserDefaults standardUserDefaults] setObject:userIDString forKey:@"userIDString"];
+                [[NSUserDefaults standardUserDefaults] setObject:usernameString forKey:@"username"];
+                [[NSUserDefaults standardUserDefaults] synchronize];
+                
+                [self createdAccountSuccessfully];
+                
+                
+            } failure:^(RKObjectRequestOperation *operation, NSError *error) {
+                NSLog(@"fail");
+                NSLog(@"errorLogingin:%@",error);
+                NSLog(@"localizedDescription:%@",[error localizedDescription]);
+                NSLog(@"localizedFailureReason:%@",[error localizedFailureReason]);
+                NSLog(@"localizedRecoverySuggestion:%@",[error localizedRecoverySuggestion]);
+                NSLog(@"localizedRecoveryOption:%@",[error localizedRecoveryOptions]);
+            }];
             
             
         } failure:^(RKObjectRequestOperation *operation, NSError *error) {
             NSLog(@"fail");
-            NSLog(@"errorLogingin:%@",error);
-            NSLog(@"localizedDescription:%@",[error localizedDescription]);
-            NSLog(@"localizedFailureReason:%@",[error localizedFailureReason]);
-            NSLog(@"localizedRecoverySuggestion:%@",[error localizedRecoverySuggestion]);
-            NSLog(@"localizedRecoveryOption:%@",[error localizedRecoveryOptions]);
+            NSLog(@"errorSigningUp:%@",error);
+            NSString *localizedRecoverySuggestion = [error localizedRecoverySuggestion];
+            NSString *localizedDescriptor = [error localizedDescription];
+            NSString *usernameAlreadyInUseString = [NSString stringWithFormat:@"\{\"message\":\"an error occured while creating user: Key (username)=(%@) already exists.\"}",usernameString];
+            NSString *numberAlreadyInUseString = [NSString stringWithFormat:@"\{\"message\":\"an error occured while creating user: Key (phone_number)=(%@) already exists.\"}",phoneString];
+            NSString *missingParameters = @"\{\"message\":\"missing parameters!\"}";
+            
+            if([localizedRecoverySuggestion isEqualToString:usernameAlreadyInUseString]){
+                NSString *errorMessage = [NSString stringWithFormat:@"The username: \"%@\" already exists. Please select a different one.",usernameString];
+                self.usernameAlreadySelectedAlert = [[UIAlertView alloc] initWithTitle:@"Error" message:errorMessage delegate:self cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+                [self.usernameAlreadySelectedAlert show];
+            }
+            if([localizedRecoverySuggestion isEqualToString:numberAlreadyInUseString]){
+                NSString *errorMessage = [NSString stringWithFormat:@"The phone number: \"%@\" is already linked to another user. Please enter a different phone number.",phoneString];
+                self.phoneNumberAlreadyExistsAlert = [[UIAlertView alloc] initWithTitle:@"Error" message:errorMessage delegate:self cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+                [self.phoneNumberAlreadyExistsAlert show];
+                
+            }
+            if([localizedRecoverySuggestion isEqualToString:missingParameters]) {
+                self.missingParametersAlert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Please enter a username, password and phone number." delegate:self cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+                [self.missingParametersAlert show];
+                
+            }
+            if([localizedDescriptor isEqualToString:@"The Internet connection appears to be offline."] || [localizedDescriptor isEqualToString:@"The network connection was lost."] || [localizedDescriptor isEqualToString:@"A server with the specified hostname could not be found."]) {
+                self.internetConnectionOfflineAlert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Your internet connection appears to be offline. Please try again when you are connected." delegate:self cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+                [self.internetConnectionOfflineAlert show];
+                
+            }
+            
         }];
-        
-        
-    } failure:^(RKObjectRequestOperation *operation, NSError *error) {
-        NSLog(@"fail");
-        NSLog(@"errorSigningUp:%@",error);
-        NSString *localizedRecoverySuggestion = [error localizedRecoverySuggestion];
-        NSString *localizedDescriptor = [error localizedDescription];
-        NSString *usernameAlreadyInUseString = [NSString stringWithFormat:@"\{\"message\":\"an error occured while creating user: Key (username)=(%@) already exists.\"\}",usernameString];
-        NSString *numberAlreadyInUseString = [NSString stringWithFormat:@"\{\"message\":\"an error occured while creating user: Key (phone_number)=(%@) already exists.\"\}",phoneString];
-        NSString *missingParameters = @"\{\"message\":\"missing parameters!\"\}";
-        
-        if([localizedRecoverySuggestion isEqualToString:usernameAlreadyInUseString]){
-            NSString *errorMessage = [NSString stringWithFormat:@"The username: \"%@\" already exists. Please select a different one.",usernameString];
-            self.usernameAlreadySelectedAlert = [[UIAlertView alloc] initWithTitle:@"Error" message:errorMessage delegate:self cancelButtonTitle:@"Okay" otherButtonTitles:nil];
-            [self.usernameAlreadySelectedAlert show];
-        }
-        if([localizedRecoverySuggestion isEqualToString:numberAlreadyInUseString]){
-            NSString *errorMessage = [NSString stringWithFormat:@"The phone number: \"%@\" is already linked to another user. Please enter a different phone number.",phoneString];
-            self.phoneNumberAlreadyExistsAlert = [[UIAlertView alloc] initWithTitle:@"Error" message:errorMessage delegate:self cancelButtonTitle:@"Okay" otherButtonTitles:nil];
-            [self.phoneNumberAlreadyExistsAlert show];
-            
-        }
-        if([localizedRecoverySuggestion isEqualToString:missingParameters]) {
-            self.missingParametersAlert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Please enter a username, password and phone number." delegate:self cancelButtonTitle:@"Okay" otherButtonTitles:nil];
-            [self.missingParametersAlert show];
-            
-        }
-        if([localizedDescriptor isEqualToString:@"The Internet connection appears to be offline."] || [localizedDescriptor isEqualToString:@"The network connection was lost."] || [localizedDescriptor isEqualToString:@"A server with the specified hostname could not be found."]) {
-            self.internetConnectionOfflineAlert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Your internet connection appears to be offline. Please try again when you are connected." delegate:self cancelButtonTitle:@"Okay" otherButtonTitles:nil];
-            [self.internetConnectionOfflineAlert show];
-            
-        }
-        
-    }];
+    }
+    else {
+        UIAlertView *phoneNumberNotTenDigits = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Please enter a 10 digit phone number" delegate:self cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+        [phoneNumberNotTenDigits show];
+    }
+    
     
 
 }

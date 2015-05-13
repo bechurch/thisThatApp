@@ -21,7 +21,7 @@
 //enable networkspinner in status bar whenever a network request happens
 
 -(BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    [NSThread sleepForTimeInterval:0.5];
+    [NSThread sleepForTimeInterval:0.4];
     [AFNetworkActivityIndicatorManager sharedManager].enabled = YES;
     
     
