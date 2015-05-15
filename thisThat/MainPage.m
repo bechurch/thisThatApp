@@ -10,7 +10,6 @@
 #import "constants.h"
 #import <RestKit/RestKit.h>
 #import <Social/Social.h>
-#import <FBSDKShareKit/FBSDKShareKit.h>
 #import <UIKit/UIKit.h>
 #import <SDWebImage/UIImageView+WebCache.h>
 #import "objects.h"
