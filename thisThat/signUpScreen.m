@@ -74,6 +74,8 @@
     [self.passwordTextField setLeftView:spacerViewPassword];
     
     self.usernameTextField = [[UITextField alloc] initWithFrame:CGRectMake(10, (self.view.frame.size.height/2)-46, self.view.frame.size.width-20, 30)];
+    self.usernameTextField.autocapitalizationType = UITextAutocapitalizationTypeNone;
+    self.usernameTextField.autocorrectionType = UITextAutocorrectionTypeNo;
     self.usernameTextField.backgroundColor = [UIColor whiteColor];
     [self.usernameTextField setBorderStyle:UITextBorderStyleNone];
     [self.usernameTextField setKeyboardType:UIKeyboardTypeDefault];
@@ -296,6 +298,7 @@
     
 }
 -(void)signUpActionReturnKeyAndButton {
+    [self.signupButton setEnabled:NO];
     
     NSString *usernameString = [self.usernameTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
     NSString *passwordString = [self.passwordTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
@@ -311,6 +314,7 @@
         
         [[RKObjectManager sharedManager] postObject:nil path:@"/api/v1/users" parameters:parameters success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
             NSLog(@"success");
+            [self.signupButton setEnabled:YES];
             RKObjectManager *objectManager = [[RKObjectManager alloc] initWithHTTPClient:client];
             RKObjectMapping *objectMapping = [RKObjectMapping mappingForClass:[token class]];
             [objectManager.HTTPClient setAuthorizationHeaderWithUsername:usernameString password:passwordString];
@@ -338,6 +342,7 @@
                 
                 
             } failure:^(RKObjectRequestOperation *operation, NSError *error) {
+                [self.signupButton setEnabled:YES];
                 NSLog(@"fail");
                 NSLog(@"errorLogingin:%@",error);
                 NSLog(@"localizedDescription:%@",[error localizedDescription]);
@@ -348,6 +353,7 @@
             
             
         } failure:^(RKObjectRequestOperation *operation, NSError *error) {
+            [self.signupButton setEnabled:YES];
             NSLog(@"fail");
             NSLog(@"errorSigningUp:%@",error);
             NSString *localizedRecoverySuggestion = [error localizedRecoverySuggestion];

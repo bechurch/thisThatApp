@@ -85,6 +85,7 @@
 @property (nonatomic, strong) UIButton *newsFeedBlueMenuButton;
 @property (nonatomic, strong) UIButton *newsFeedCloseViewButton;
 @property int newsFeedCounter;
+@property int initalizeNewsFeedCounterSecondRetrevial;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // personalPosts

@@ -60,6 +60,8 @@
     
     self.usernameTxtFld = [[UITextField alloc] initWithFrame:CGRectMake(10, (self.view.frame.size.height/2)-31, self.view.frame.size.width-20, 30)];
     self.usernameTxtFld.delegate = self;
+    self.usernameTxtFld.autocorrectionType = UITextAutocorrectionTypeNo;
+    self.usernameTxtFld.autocapitalizationType = UITextAutocapitalizationTypeNone;
     self.usernameTxtFld.borderStyle = UITextBorderStyleNone;
     self.usernameTxtFld.keyboardType = UIKeyboardTypeDefault;
     self.usernameTxtFld.backgroundColor = [UIColor whiteColor];
@@ -208,6 +210,7 @@
     //self.navigationController.interactivePopGestureRecognizer.enabled = YES;
 }
 -(void)loginActionReturnKeyAndButton {
+    [self.loginButton setEnabled:NO];
     NSString *username = [self.usernameTxtFld.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
     NSString *password = [self.passwordTxtFld.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
     
@@ -226,6 +229,7 @@
     
     
     [objectManager postObject:nil path:@"http://local-app.co:1337/api/v1/auth/login" parameters:nil success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
+        [self.loginButton setEnabled:YES];
         NSLog(@"success");
         NSArray *tokenID = mappingResult.array;
         token *theToken = [tokenID objectAtIndex:0];
@@ -243,7 +247,7 @@
         //[self.navigationController popToRootViewControllerAnimated:YES];
         
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
-        
+        [self.loginButton setEnabled:YES];
         NSLog(@"fail");
         NSString *localizedRecoverySuggestion = [error localizedRecoverySuggestion];
         NSString *localizedDescription = [error localizedDescription];
