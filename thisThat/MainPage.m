@@ -49,7 +49,8 @@
     CGFloat width = CGRectGetWidth(self.view.frame);
     CGFloat height = CGRectGetHeight(self.view.frame);
     
-    self.personalButton = [[UIButton alloc] initWithFrame:CGRectMake((width/2)-25, (height/2)-90, 100, 30)];
+  //  self.personalButton = [[UIButton alloc] initWithFrame:CGRectMake((width/2)-25, (height/2)-90, 100, 30)];
+    self.personalButton = [[UIButton alloc] initWithFrame:CGRectMake((width/2)-25, (height/2)-15, 100, 30)];
     [self.personalButton setTitle:@"personal" forState:UIControlStateNormal];
     self.personalButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
     [self.personalButton setTitleEdgeInsets:UIEdgeInsetsMake(0, 10, 0, 0)];
@@ -67,7 +68,8 @@
   //  UIImage *personalIcon = [UIImage imageNamed:@"personalIconexport.png"];
     UIImage *personalIcon = [UIImage imageNamed:@"personal.png"];
     UIImage *personalIconSelected = [UIImage imageNamed:@"personalSelected.png"];
-    self.personalImageButton = [[UIButton alloc] initWithFrame:CGRectMake((width/2)-75, (height/2)-100, 50, 50)];
+    //self.personalImageButton = [[UIButton alloc] initWithFrame:CGRectMake((width/2)-75, (height/2)-100, 50, 50)];
+    self.personalImageButton = [[UIButton alloc] initWithFrame:CGRectMake((width/2)-75, (height/2)-25, 50, 50)];
     [self.personalImageButton setImage:personalIcon forState:UIControlStateNormal];
     [self.personalImageButton setImage:personalIconSelected forState:UIControlStateHighlighted];
     [self.personalImageButton addTarget:self action:@selector(personalImageButtonHighlighted:) forControlEvents:UIControlEventTouchDown];
@@ -79,7 +81,8 @@
     
 
     
-    self.feedButton = [[UIButton alloc] initWithFrame:CGRectMake((width/2)-25, (height/2)-15, 100, 30)];
+  //  self.feedButton = [[UIButton alloc] initWithFrame:CGRectMake((width/2)-25, (height/2)-15, 100, 30)];
+    self.feedButton = [[UIButton alloc] initWithFrame:CGRectMake((width/2)-25, (height/2)-90, 100, 30)];
     [self.feedButton setTitle:@"thisThat" forState:UIControlStateNormal];
     self.feedButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
     [self.feedButton setTitleEdgeInsets:UIEdgeInsetsMake(0, 10, 0, 0)];
@@ -96,7 +99,8 @@
     
     UIImage *feedIcon = [UIImage imageNamed:@"newsFeedIconWhite.png"];
     UIImage *feedIconSelected = [UIImage imageNamed:@"newsFeedIconWhiteSelected.png"];
-    self.feedImageButton = [[UIButton alloc] initWithFrame:CGRectMake((width/2)-75, (height/2)-25, 50, 50)];
+   // self.feedImageButton = [[UIButton alloc] initWithFrame:CGRectMake((width/2)-75, (height/2)-25, 50, 50)];
+    self.feedImageButton = [[UIButton alloc] initWithFrame:CGRectMake((width/2)-75, (height/2)-100, 50, 50)];
     [self.feedImageButton setImage:feedIcon forState:UIControlStateNormal];
     [self.feedImageButton setImage:feedIconSelected forState:UIControlStateHighlighted];
     [self.feedImageButton addTarget:self action:@selector(feedImageButtonHighlighted:) forControlEvents:UIControlEventTouchDown];
@@ -104,9 +108,6 @@
     [self.feedImageButton addTarget:self action:@selector(feedImageButtonDragHighlighted:) forControlEvents:UIControlEventTouchDragInside];
     [self.feedImageButton addTarget:self action:@selector(feedButtonAction:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.feedImageButton];
-    
-    
-    
     
     self.votedButton = [[UIButton alloc] initWithFrame:CGRectMake((width/2)-25, (height/2)+60, 100, 30)];
     [self.votedButton setTitle:@"voted" forState:UIControlStateNormal];
@@ -392,7 +393,7 @@
 //uploadPost initalize
 - (IBAction)upload:(id)sender {
     UIColor *blueColor = [UIColor colorWithRed:(0/255.0) green:(196/255.0) blue:(222/255.0) alpha:1];
-    [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationFade];
+
        CGFloat viewHeight = self.view.frame.size.height;
     CGFloat viewWidth = self.view.frame.size.width;
    /* UIColor *redThisThatColor = [UIColor colorWithRed:(231/255.0) green:(80/255.0) blue:(80/255.0) alpha:1];
@@ -405,6 +406,14 @@
     self.uploadPostView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, viewWidth, viewHeight)];
     self.uploadPostView.backgroundColor = [UIColor whiteColor];
     [self.navigationController.view addSubview:self.uploadPostView];
+    
+    UIImage *closedNewsFeedImage = [UIImage imageNamed:@"closeViewXmark.png"];
+    CGFloat statusBarHeight = CGRectGetHeight([[UIApplication sharedApplication] statusBarFrame]);
+    self.uploadPostExitViewButton = [[UIButton alloc] initWithFrame:CGRectMake(10, statusBarHeight, 30, 30)];
+    [self.uploadPostExitViewButton setImage:closedNewsFeedImage forState:UIControlStateNormal];
+    [self.uploadPostExitViewButton addTarget:self action:@selector(closeUploadPostViewAction:) forControlEvents:UIControlEventTouchUpInside];
+    [self.uploadPostView addSubview:self.uploadPostExitViewButton];
+    
     self.uploadPostPinchGesture = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(recognizePinchToCloseCurrentView:)];
     [self.uploadPostView addGestureRecognizer:self.uploadPostPinchGesture];
     CGFloat heightOfCell = (viewWidth/2) + 130;
@@ -452,7 +461,7 @@
     self.uploadPostCameraButtonOne = [[UIButton alloc ] initWithFrame:CGRectMake(10, 10, (viewWidth/2)-15, (viewWidth/2)-15)];
     [self.uploadPostCameraButtonOne setBackgroundImage:[self imageWithColor:blueColor] forState:UIControlStateNormal];
     [self.uploadPostCameraButtonOne setTitle:@"Add photo" forState:UIControlStateNormal];
-    [self.uploadPostCameraButtonOne addTarget:self action:@selector(takePhotoButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
+    [self.uploadPostCameraButtonOne addTarget:self action:@selector(addPhotoButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
     
     [self.uploadPostExampleTableViewCellView addSubview:self.uploadPostCameraButtonOne];
     
@@ -460,7 +469,7 @@
      self.uploadPostCameraButtonTwo = [[UIButton alloc] initWithFrame:CGRectMake((viewWidth/2)+5, (self.uploadPostExampleTableViewCellView.frame.size.height)-(viewWidth/2)+5, (viewWidth/2)-15, (viewWidth/2)-15)];
     [self.uploadPostCameraButtonTwo setBackgroundImage:[self imageWithColor:blueColor] forState:UIControlStateNormal];
     [self.uploadPostCameraButtonTwo setTitle:@"Add photo" forState:UIControlStateNormal];
-    [self.uploadPostCameraButtonTwo addTarget:self action:@selector(takePhotoButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
+    [self.uploadPostCameraButtonTwo addTarget:self action:@selector(addPhotoButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
     [self.uploadPostExampleTableViewCellView addSubview:self.uploadPostCameraButtonTwo];
     
     
@@ -567,6 +576,14 @@
 */
 
 }
+-(void)closeUploadPostViewAction:(UIButton*)sender {
+    [self.uploadPostView removeFromSuperview];
+    [self.invisibleView removeFromSuperview];
+    self.uploadPostTextViewString = nil;
+    self.uploadPostTempImageOne = nil;
+    self.uploadPostTempImageTwo = nil;
+    
+}
 -(UIImage*)imageWithColor:(UIColor*)color {
     CGRect rect = CGRectMake(0.0f, 0.0f, 1.0f, 1.0f);
     UIGraphicsBeginImageContext(rect.size);
@@ -603,20 +620,22 @@
     CGFloat viewWidth = self.view.frame.size.width;
     CGFloat heightOfCell = (viewWidth/2) + 130;
    // CGFloat heighOfInstructionsLabel = (viewHeight/2)-(heightOfCell/2);
-    [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionCurveLinear animations:^{
+    [UIView animateWithDuration:0.5 delay:0 usingSpringWithDamping:0.6 initialSpringVelocity:0 options:UIViewAnimationOptionCurveLinear animations:^{
         self.uploadPostExampleTableViewCellView.frame = CGRectMake(0, viewHeight-heightOfCell-keyboardHeight, viewWidth, (viewWidth/2)+130);
         self.uploadPostInstructionsLabel.frame = CGRectMake(10, viewHeight-heightOfCell-keyboardHeight-self.uploadPostInstructionsLabel.frame.size.height, viewWidth-20, 30);
+        
     } completion:^(BOOL finished) {
         self.uploadPostCameraButtonOne.enabled = NO;
         self.uploadPostCameraButtonTwo.enabled = NO;
         self.uploadPostTapGestureToCloseKeyboard = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapToCloseKeyboard:)];
         [self.uploadPostView addGestureRecognizer:self.uploadPostTapGestureToCloseKeyboard];
     }];
+
     
 }
 -(void)tapToCloseKeyboard:(UITapGestureRecognizer*)recognize {
     [self.uploadPostTextView resignFirstResponder];
-    [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionCurveLinear animations:^{
+    [UIView animateWithDuration:0.5 delay:0 usingSpringWithDamping:0.6 initialSpringVelocity:0 options:UIViewAnimationOptionCurveLinear animations:^{
         CGFloat viewHeight = self.view.frame.size.height;
         CGFloat viewWidth = self.view.frame.size.width;
         CGFloat heightOfCell = (viewWidth/2) + 130;
@@ -628,7 +647,9 @@
         self.uploadPostCameraButtonTwo.enabled = YES;
         [self.uploadPostTextView removeGestureRecognizer:self.uploadPostTapGestureToCloseKeyboard];
         [self.uploadPostTextViewCharacterCountLabel setAlpha:0];
+
     }];
+
     
 }
 /*
@@ -847,6 +868,7 @@
 
 //upload see photos 1/2 size of viewscreen
 -(void)previewUploadThisThat:(UIButton *)recognize {
+    [[UIApplication sharedApplication] setStatusBarHidden:YES];
     self.invisibleView2 = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
     [self.uploadPostView addSubview:self.invisibleView2];
     UIColor *blueColor = [UIColor colorWithRed:(0/255.0) green:(196/255.0) blue:(222/255.0) alpha:1];
@@ -2186,7 +2208,22 @@
         return !([newString length] >80);
     }
     [textView resignFirstResponder];
-    [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionCurveLinear animations:^{
+    [UIView animateWithDuration:0.5 delay:0 usingSpringWithDamping:0.6 initialSpringVelocity:0 options:UIViewAnimationOptionCurveLinear animations:^{
+        CGFloat viewHeight = self.view.frame.size.height;
+        CGFloat viewWidth = self.view.frame.size.width;
+        CGFloat heightOfCell = (viewWidth/2) + 130;
+        CGFloat heighOfInstructionsLabel = (viewHeight/2)-(heightOfCell/2);
+        
+        self.uploadPostExampleTableViewCellView.frame = CGRectMake(0, (viewHeight/2)-(heightOfCell/2), viewWidth, (viewWidth/2)+130);
+        self.uploadPostInstructionsLabel.frame = CGRectMake(10, (heighOfInstructionsLabel/2)-15, viewWidth-20, 30);
+
+    } completion:^(BOOL finished) {
+        self.uploadPostCameraButtonOne.enabled = YES;
+        self.uploadPostCameraButtonTwo.enabled = YES;
+
+    }];
+
+ /*   [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionCurveLinear animations:^{
         CGFloat viewHeight = self.view.frame.size.height;
         CGFloat viewWidth = self.view.frame.size.width;
         CGFloat heightOfCell = (viewWidth/2) + 130;
@@ -2199,14 +2236,13 @@
         self.uploadPostCameraButtonOne.enabled = YES;
         self.uploadPostCameraButtonTwo.enabled = YES;
         
-    }];
+    }];*/
     return NO;
 }
 
 
 //determingin which camera button was pressed for imagepicker and initalizing imagepicker
--(void)takePhotoButtonPressed:(UIButton*)button {
-    
+-(void)addPhotoButtonPressed:(UIButton*)button {
     
     if(button == self.uploadPostCameraButtonOne){
         self.selectedCameraInt = 1;
@@ -2216,9 +2252,51 @@
         self.selectedCameraInt = 2;
         NSLog(@"buttonTwoPressed");
     }
+    UIColor *yellowColor = [UIColor colorWithRed:(255/255.0) green:(174/255.0) blue:(0/255.0) alpha:1];
+    UIColor *yellowColorSelected = [UIColor colorWithRed:(255/255.0) green:(174/255.0) blue:(0/255.0) alpha:0.5];
+     self.uploadPostAddPhotoBackgroundView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
+    self.uploadPostAddPhotoBackgroundView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.5];
+    [self.uploadPostView addSubview:self.uploadPostAddPhotoBackgroundView];
+    
+    self.uploadPostTapGestureToCloseTypeOfPhotoMenu = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(closeTypeOfPhotoMenu:)];
+    [self.uploadPostAddPhotoBackgroundView addGestureRecognizer:self.uploadPostTapGestureToCloseTypeOfPhotoMenu];
+     self.uploadPostViewTypeOfPhotoMenu = [[UIView alloc] initWithFrame:CGRectMake(10, self.view.frame.size.height, self.view.frame.size.width-20, 81)];
+    self.uploadPostViewTypeOfPhotoMenu.backgroundColor = [UIColor clearColor];
+
+    [self.uploadPostAddPhotoBackgroundView addSubview:self.uploadPostViewTypeOfPhotoMenu];
+    
+    self.uploadPostPhotoLibraryButton = [[UIButton alloc] initWithFrame:CGRectMake(0, (self.uploadPostViewTypeOfPhotoMenu.frame.size.height/2)+1, self.uploadPostViewTypeOfPhotoMenu.frame.size.width, self.uploadPostViewTypeOfPhotoMenu.frame.size.height/2)];
+    [self.uploadPostPhotoLibraryButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [self.uploadPostPhotoLibraryButton addTarget:self action:@selector(photoLibraryButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
+    [self.uploadPostPhotoLibraryButton setBackgroundImage:[self imageWithColor:yellowColor] forState:UIControlStateNormal];
+    [self.uploadPostPhotoLibraryButton setBackgroundImage:[self imageWithColor:yellowColorSelected] forState:UIControlStateSelected];
+    [self.uploadPostPhotoLibraryButton.titleLabel setFont:[UIFont systemFontOfSize:20]];
+    [self.uploadPostPhotoLibraryButton setTitle:@"Photo Library" forState:UIControlStateNormal];
+    [self.uploadPostViewTypeOfPhotoMenu addSubview:self.uploadPostPhotoLibraryButton];
+    
+     self.uploadPostTakePhotoButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, self.uploadPostViewTypeOfPhotoMenu.frame.size.width, self.uploadPostViewTypeOfPhotoMenu.frame.size.height/2)];
+    [self.uploadPostTakePhotoButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [self.uploadPostTakePhotoButton addTarget:self action:@selector(takePhotoButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
+    [self.uploadPostTakePhotoButton setBackgroundImage:[self imageWithColor:yellowColor] forState:UIControlStateNormal];
+    [self.uploadPostTakePhotoButton setBackgroundImage:[self imageWithColor:yellowColorSelected] forState:UIControlStateSelected];
+    [self.uploadPostTakePhotoButton.titleLabel setFont:[UIFont systemFontOfSize:20]];
+    [self.uploadPostTakePhotoButton setTitle:@"Take Photo" forState:UIControlStateNormal];
+    [self.uploadPostViewTypeOfPhotoMenu addSubview:self.uploadPostTakePhotoButton];
+    
+   
+ 
+    [UIView animateWithDuration:0.5 delay:0 usingSpringWithDamping:0.6 initialSpringVelocity:0 options:UIViewAnimationOptionCurveLinear animations:^{
+        self.uploadPostViewTypeOfPhotoMenu.frame = CGRectMake(10, (self.view.frame.size.height)-91, self.view.frame.size.width-20, 81);
+         
+    } completion:^(BOOL finished) {
+        
+    }];
+    
     self.imagePicker =[[UIImagePickerController alloc] init];
     self.imagePicker.delegate = self;
 
+}
+-(void)takePhotoButtonPressed:(UIButton*)recognize {
     if([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
         UIImagePickerControllerSourceType type;
         type = UIImagePickerControllerSourceTypeCamera;
@@ -2236,15 +2314,39 @@
         type = UIImagePickerControllerSourceTypePhotoLibrary;
         self.imagePicker.sourceType = type;
     }
-    
-
-
-   // [self.navigationController presentViewController:self.imagePicker animated:YES completion:nil];
-    [self presentViewController:self.imagePicker animated:YES completion:nil];
-
-    
+   
+    [UIView animateWithDuration:0.2 delay:0.2 options:UIViewAnimationOptionCurveLinear animations:^{
+        self.uploadPostViewTypeOfPhotoMenu.frame = CGRectMake(10, (self.view.frame.size.height), self.view.frame.size.width-20, 81);
         
+    } completion:^(BOOL finished) {
+        [self.uploadPostAddPhotoBackgroundView removeFromSuperview];
+        [self presentViewController:self.imagePicker animated:YES completion:nil];
+    }];
+
     
+}
+-(void)photoLibraryButtonPressed:(UIButton*)recognize {
+    UIImagePickerControllerSourceType type;
+    type = UIImagePickerControllerSourceTypePhotoLibrary;
+    self.imagePicker.sourceType = type;
+    [UIView animateWithDuration:0.2 delay:0.2 options:UIViewAnimationOptionCurveLinear animations:^{
+        self.uploadPostViewTypeOfPhotoMenu.frame = CGRectMake(10, (self.view.frame.size.height), self.view.frame.size.width-20, 81);
+        
+    } completion:^(BOOL finished) {
+        [self.uploadPostAddPhotoBackgroundView removeFromSuperview];
+        [self presentViewController:self.imagePicker animated:YES completion:nil];
+        
+    }];
+}
+-(void)closeTypeOfPhotoMenu:(UITapGestureRecognizer*)recognize {
+    self.uploadPostAddPhotoBackgroundView.backgroundColor = [UIColor clearColor];
+    [UIView animateWithDuration:0.2 delay:0 options:UIViewAnimationOptionCurveLinear animations:^{
+        self.uploadPostViewTypeOfPhotoMenu.frame = CGRectMake(10, (self.view.frame.size.height), self.view.frame.size.width-20, 81);
+       
+    } completion:^(BOOL finished) {
+        
+        [self.uploadPostAddPhotoBackgroundView removeFromSuperview];
+    }];
    
 }
 //initalize photolibary to choose photos from
@@ -2276,12 +2378,14 @@
        
     }
     [self dismissViewControllerAnimated:YES completion:nil];
+ 
     if(self.uploadPostTempImageOne != nil && self.uploadPostTempImageTwo != nil) {
         [self.uploadPostPreviewButton setHidden:NO];
         [self.uploadPostButton setHidden:NO];
     }
     
 }
+
 //open newsfeed action
 -(void)feedButtonAction:(UIButton*)sender {
     UIImage *feedIcon = [UIImage imageNamed:@"newsFeedIconWhite.png"];
@@ -2424,6 +2528,7 @@
 
                 }
                 if(recognize == self.uploadPostPinchGestureImageViews){
+                     [[UIApplication sharedApplication] setStatusBarHidden:NO];
                     [self.uploadPostViewForImageViews removeFromSuperview];
                     [self.invisibleView removeFromSuperview];
                     [self.invisibleView2 removeFromSuperview];
@@ -3869,7 +3974,7 @@
     
     UIImage *closedNewsFeedImage = [UIImage imageNamed:@"closeViewXmark.png"];
     
-    self.newsFeedCloseViewButton = [[UIButton alloc] initWithFrame:CGRectMake(10, 10, 40, 40)];
+    self.newsFeedCloseViewButton = [[UIButton alloc] initWithFrame:CGRectMake(10, 10, 30, 30)];
     [self.newsFeedCloseViewButton setImage:closedNewsFeedImage forState:UIControlStateNormal];
     [self.newsFeedCloseViewButton addTarget:self action:@selector(closeNewsFeedViewAction:) forControlEvents:UIControlEventTouchUpInside];
     [self.newsFeedImageViewOne addSubview:self.newsFeedCloseViewButton];
