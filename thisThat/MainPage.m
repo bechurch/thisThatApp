@@ -347,6 +347,8 @@
     self.settingsView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
     self.settingsView.backgroundColor = [UIColor whiteColor];
     [self.navigationController.view addSubview:self.settingsView];
+    self.exitFirstViewCounter = 3;
+    [self exitAnyViewButtonInitalize];
     self.pinchRecognizerSettingsView = [[UIPinchGestureRecognizer alloc] initWithTarget:self  action:@selector(recognizePinchToCloseCurrentView:)];
     [self.settingsView addGestureRecognizer:self.pinchRecognizerSettingsView];
     self.settingsSection0LabelArray = [[NSArray alloc] initWithObjects:@"How to use thisThat", nil];
@@ -407,12 +409,15 @@
     self.uploadPostView.backgroundColor = [UIColor whiteColor];
     [self.navigationController.view addSubview:self.uploadPostView];
     
-    UIImage *closedNewsFeedImage = [UIImage imageNamed:@"closeViewXmark.png"];
+    self.exitFirstViewCounter =2;
+    [self exitAnyViewButtonInitalize];
+    
+   /* UIImage *closedNewsFeedImage = [UIImage imageNamed:@"closeViewXmark.png"];
     CGFloat statusBarHeight = CGRectGetHeight([[UIApplication sharedApplication] statusBarFrame]);
-    self.uploadPostExitViewButton = [[UIButton alloc] initWithFrame:CGRectMake(10, statusBarHeight, 30, 30)];
+    self.uploadPostExitViewButton = [[UIButton alloc] initWithFrame:CGRectMake(self.view.frame.size.width-40, statusBarHeight, 30, 30)];
     [self.uploadPostExitViewButton setImage:closedNewsFeedImage forState:UIControlStateNormal];
     [self.uploadPostExitViewButton addTarget:self action:@selector(closeUploadPostViewAction:) forControlEvents:UIControlEventTouchUpInside];
-    [self.uploadPostView addSubview:self.uploadPostExitViewButton];
+    [self.uploadPostView addSubview:self.uploadPostExitViewButton]; */
     
     self.uploadPostPinchGesture = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(recognizePinchToCloseCurrentView:)];
     [self.uploadPostView addGestureRecognizer:self.uploadPostPinchGesture];
@@ -449,15 +454,7 @@
     self.uploadPostUsernameLabel.text = [NSString stringWithFormat:@"%@",usernameObject];
     [self.uploadPostExampleTableViewCellView addSubview:self.uploadPostUsernameLabel];
     
-   /* self.uploadPostTimeStampLabel = [[UILabel alloc] initWithFrame:CGRectMake((viewWidth/2)+5,100,(viewWidth/2)-15,30)];
-    [self.uploadPostTimeStampLabel setFont:[UIFont systemFontOfSize:15]];
-    self.uploadPostTimeStampLabel.text = @"Just now";
-    self.uploadPostTimeStampLabel.textAlignment = NSTextAlignmentCenter;
-    self.uploadPostTimeStampLabel.backgroundColor = [UIColor clearColor];
-    self.uploadPostTimeStampLabel.textColor = greyishThisThatColor;
-    [self.uploadPostExampleTableViewCellView addSubview:self.uploadPostTimeStampLabel];*/
-    
-   // self.uploadPostCameraButtonOne = [[UIButton alloc ] initWithFrame:CGRectMake(10, 100, (viewWidth/2)-15, self.uploadPostExampleTableViewCellView.frame.size.height-110)];
+   
     self.uploadPostCameraButtonOne = [[UIButton alloc ] initWithFrame:CGRectMake(10, 10, (viewWidth/2)-15, (viewWidth/2)-15)];
     [self.uploadPostCameraButtonOne setBackgroundImage:[self imageWithColor:blueColor] forState:UIControlStateNormal];
     [self.uploadPostCameraButtonOne setTitle:@"Add photo" forState:UIControlStateNormal];
@@ -465,7 +462,6 @@
     
     [self.uploadPostExampleTableViewCellView addSubview:self.uploadPostCameraButtonOne];
     
-   // self.uploadPostCameraButtonTwo = [[UIButton alloc] initWithFrame:CGRectMake((viewWidth/2)+5, 100, (viewWidth/2)-15, self.uploadPostExampleTableViewCellView.frame.size.height-110)];
      self.uploadPostCameraButtonTwo = [[UIButton alloc] initWithFrame:CGRectMake((viewWidth/2)+5, (self.uploadPostExampleTableViewCellView.frame.size.height)-(viewWidth/2)+5, (viewWidth/2)-15, (viewWidth/2)-15)];
     [self.uploadPostCameraButtonTwo setBackgroundImage:[self imageWithColor:blueColor] forState:UIControlStateNormal];
     [self.uploadPostCameraButtonTwo setTitle:@"Add photo" forState:UIControlStateNormal];
@@ -492,6 +488,7 @@
     self.uploadPostTextView.layer.borderWidth = 1.0;
     self.uploadPostTextView.layer.borderColor = [UIColor blackColor].CGColor;
     self.uploadPostTextView.textAlignment = NSTextAlignmentCenter;
+
     //self.uploadPostTextView.text = @"What are you comparing?";
     self.uploadPostTextView.returnKeyType = UIReturnKeyDone;
     [self.uploadPostExampleTableViewCellView addSubview:self.uploadPostTextView];
@@ -525,58 +522,10 @@
     [self.uploadPostButton addTarget:self action:@selector(uploadPostAction:) forControlEvents:UIControlEventTouchUpInside];
     [self.uploadPostView addSubview:self.uploadPostButton];
     [self.uploadPostButton setHidden:YES];
-    
-    /*
-    self.uploadPostSlideToUploadLabel = [[UILabel alloc] initWithFrame:CGRectMake(100, (viewWidth/2)+220, 180, 30)];
-    self.uploadPostSlideToUploadLabel.textColor = [UIColor blackColor];
-    self.uploadPostSlideToUploadLabel.text = @">> Slide to upload >>";
-    [self.uploadPostView addSubview:self.uploadPostSlideToUploadLabel];
-    [self.uploadPostSlideToUploadLabel setHidden:YES];
-    
-    self.uploadPostSlideToUploadView = [[UIView alloc] initWithFrame:CGRectMake(10, (viewWidth/2)+200, 70, 70)];
-    self.uploadPostSlideToUploadView.backgroundColor = [UIColor redColor];
-    
-    self.uploadPostSlideToUploadView.layer.cornerRadius = 35;
-    self.uploadPostSlideToUploadView.clipsToBounds = YES;
-    self.uploadPostPanGestureSlideToUploadView = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(recognizePanUploadThisThatView:)];
-    [self.uploadPostSlideToUploadView addGestureRecognizer:self.uploadPostPanGestureSlideToUploadView];
-    [self.uploadPostView addSubview:self.uploadPostSlideToUploadView];
-    [self.uploadPostSlideToUploadView setHidden:YES];
-
-    UILabel *uploadLabel = [[UILabel alloc] initWithFrame:CGRectMake((self.uploadPostSlideToUploadView.frame.size.width/2)-25, (self.uploadPostSlideToUploadView.frame.size.height/2)-15, 50, 30)];
-    [uploadLabel setFont:[UIFont systemFontOfSize:15]];
-    uploadLabel.text = @"Upload";
-    [self.uploadPostSlideToUploadView addSubview:uploadLabel];
-        */
-    /*
-    self.uploadPostAddressLabel = [[UILabel alloc] initWithFrame:CGRectMake((viewWidth/2)+5,50,(viewWidth/2)-15,40)];
-    self.uploadPostAddressLabel.textAlignment = NSTextAlignmentCenter;
-    self.uploadPostAddressLabel.backgroundColor = [UIColor clearColor];
-    [self.uploadPostAddressLabel setFont:[UIFont systemFontOfSize:15]];
-    self.uploadPostAddressLabel.textColor = [UIColor grayColor];
-    self.uploadPostAddressLabel.numberOfLines = 0;
-    self.uploadPostAddressLabel.adjustsFontSizeToFitWidth = YES;
-    self.uploadPostAddressLabel.minimumScaleFactor = 0.5;
-    self.uploadPostAddressLabel.text = @"Earth";
-    [self.uploadPostView addSubview:self.uploadPostAddressLabel];
-    */
-    /*
-    self.uploadPostLocationEnabledSwitch = [[UISwitch alloc] initWithFrame:CGRectMake(viewWidth-60, (viewWidth/2)+130, 30, 30)];
-    [self.uploadPostLocationEnabledSwitch addTarget:self action:@selector(onOffSwitch:) forControlEvents:UIControlEventValueChanged];
-    self.uploadPostLocationEnabledSwitch.onTintColor = blueishThisThatColor;
-    [self.uploadPostView addSubview:self.uploadPostLocationEnabledSwitch];
-    self.uploadPostLocationEnabledLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, (viewWidth/2)+130, viewWidth-80, 30)];
-    self.uploadPostLocationEnabledLabel.text = @"Enable current location";
-    [self.uploadPostView addSubview:self.uploadPostLocationEnabledLabel];
-    
-        locationManager = [[CLLocationManager alloc] init];
-    locationManager.delegate = self;
-    [locationManager requestAlwaysAuthorization];
-    geocoder = [[CLGeocoder alloc] init];
-*/
 
 }
 -(void)closeUploadPostViewAction:(UIButton*)sender {
+    [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationNone];
     [self.uploadPostView removeFromSuperview];
     [self.invisibleView removeFromSuperview];
     self.uploadPostTextViewString = nil;
@@ -652,6 +601,141 @@
 
     
 }
+-(void)exitAnyViewButtonInitalize {
+    if(self.exitFirstViewCounter == 0 || self.exitFirstViewCounter == 1) {
+    UIImage *xButtonImage = [UIImage imageNamed:@"closeViewXmark.png"];
+    self.exitFirstViewButton = [[UIButton alloc] initWithFrame:CGRectMake(self.view.frame.size.width-45, 10, 35, 35)];
+    [self.exitFirstViewButton setImage:xButtonImage forState:UIControlStateNormal];
+    [self.exitFirstViewButton addTarget:self action:@selector(exitCurrentViewAction:) forControlEvents:UIControlEventTouchUpInside];
+    [self.navigationController.view addSubview:self.exitFirstViewButton];
+    }
+    if(self.exitFirstViewCounter == 2 || self.exitFirstViewCounter == 3) {
+        UIImage *xButtonImage = [UIImage imageNamed:@"closeViewXmark.png"];
+        CGFloat statusBarHeight = CGRectGetHeight([[UIApplication sharedApplication] statusBarFrame]);
+        self.exitFirstViewButton = [[UIButton alloc] initWithFrame:CGRectMake(self.view.frame.size.width-45, statusBarHeight, 35, 35)];
+        [self.exitFirstViewButton setImage:xButtonImage forState:UIControlStateNormal];
+        [self.exitFirstViewButton addTarget:self action:@selector(exitCurrentViewAction:) forControlEvents:UIControlEventTouchUpInside];
+        [self.navigationController.view addSubview:self.exitFirstViewButton];
+        
+    }
+}
+-(void)exitCurrentViewAction:(UIButton*)recognize {
+    if(self.exitFirstViewCounter == 0) {
+        [self.personalPostsTableView removeFromSuperview];
+        [self.invisibleView removeFromSuperview];
+        [self.exitFirstViewButton removeFromSuperview];
+        [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
+        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
+    }
+    if(self.exitFirstViewCounter == 1) {
+         [self.postsVotedOnTableView removeFromSuperview];
+         [self.invisibleView removeFromSuperview];
+         [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
+         [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
+        [self.exitFirstViewButton removeFromSuperview];
+    }
+    if(self.exitFirstViewCounter == 2) {
+        [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationNone];
+        [self.uploadPostView removeFromSuperview];
+        [self.invisibleView removeFromSuperview];
+        [self.exitFirstViewButton removeFromSuperview];
+        self.uploadPostTextViewString = nil;
+        self.uploadPostTempImageOne = nil;
+        self.uploadPostTempImageTwo = nil;
+    }
+    if(self.exitFirstViewCounter == 3) {
+        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
+        [self.settingsView removeFromSuperview];
+        [self.invisibleView removeFromSuperview];
+        [self.exitFirstViewButton removeFromSuperview];
+    }
+}
+-(void)exitSecondViewButtonInitalize {
+    UIImage *xButtonImage = [UIImage imageNamed:@"closeViewXmark.png"];
+    self.exitSecondViewButton = [[UIButton alloc] initWithFrame:CGRectMake(self.view.frame.size.width-45, 10, 35, 35)];
+    [self.exitSecondViewButton setImage:xButtonImage forState:UIControlStateNormal];
+    [self.exitSecondViewButton addTarget:self action:@selector(exitSecondViewAction:) forControlEvents:UIControlEventTouchUpInside];
+    [self.navigationController.view addSubview:self.exitSecondViewButton];
+}
+-(void)exitSecondViewAction:(UIButton*)recognize {
+    if(self.exitSecondViewCounter == 0) {
+        //personal
+        [self.exitSecondViewButton removeFromSuperview];
+        [self.personalPostsViewForImageViews removeFromSuperview];
+        [self.invisibleViewTableView removeFromSuperview];
+        self.personalPostsTableView.scrollEnabled = YES;
+        [self.exitFirstViewButton setAlpha:1];
+    }
+    if(self.exitSecondViewCounter == 1) {
+        //votedon
+        [self.postsVotedOnViewForImageViews removeFromSuperview];
+        [self.invisibleViewTableView removeFromSuperview];
+        self.postsVotedOnTableView.scrollEnabled = YES;
+        [self.exitFirstViewButton setAlpha:1];
+        [self.exitSecondViewButton removeFromSuperview];
+    }
+    if(self.exitSecondViewCounter == 2) {
+        [[UIApplication sharedApplication] setStatusBarHidden:NO];
+        [self.uploadPostViewForImageViews removeFromSuperview];
+        [self.invisibleView removeFromSuperview];
+        [self.invisibleView2 removeFromSuperview];
+        [self.exitFirstViewButton setAlpha:1];
+        [self.exitSecondViewButton removeFromSuperview];
+
+    }
+}
+/*
+-(void)exitAnyViewButtonPanGestureAction:(UIPanGestureRecognizer*)recognize {
+    CGPoint currentPoint = [recognize translationInView:self.navigationController.view];
+    switch (recognize.state) {
+        case UIGestureRecognizerStateBegan: {
+            
+        }
+            break;
+        case UIGestureRecognizerStateChanged: {
+            
+            recognize.view.center = CGPointMake(recognize.view.center.x+currentPoint.x, recognize.view.center.y+currentPoint.y);
+            [recognize setTranslation:CGPointMake(0, 0) inView:self.navigationController.view];
+            CGFloat maxX = CGRectGetMaxX(self.exitAnyViewButton.frame);
+            CGFloat minX = CGRectGetMinX(self.exitAnyViewButton.frame);
+            CGFloat maxY = CGRectGetMaxY(self.exitAnyViewButton.frame);
+            CGFloat minY = CGRectGetMinY(self.exitAnyViewButton.frame);
+            if(minX < 0) {
+                self.exitAnyViewButton.frame = CGRectMake(0, self.exitAnyViewButton.frame.origin.y, 40, 40);
+            }
+            if(maxX > self.view.frame.size.width) {
+                self.exitAnyViewButton.frame = CGRectMake(self.view.frame.size.width-40, self.exitAnyViewButton.frame.origin.y, 40, 40);
+            }
+            if(minY < 0) {
+                self.exitAnyViewButton.frame = CGRectMake(self.exitAnyViewButton.frame.origin.x, 0, 40, 40);
+            }
+            if(maxY > self.view.frame.size.height) {
+                self.exitAnyViewButton.frame = CGRectMake(self.exitAnyViewButton.frame.origin.x, self.view.frame.size.height-40, 40, 40);
+            }
+        }
+            break;
+        case UIGestureRecognizerStateEnded: {
+            
+            if(self.exitAnyViewButton.frame.origin.x > self.view.frame.size.width/2) {
+                [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionCurveLinear animations:^{
+                    self.exitAnyViewButton.frame = CGRectMake(self.view.frame.size.width-40, self.exitAnyViewButton.frame.origin.y, 40, 40);
+                } completion:^(BOOL finished) {
+                    
+                }];
+            }
+            else {
+                [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionCurveLinear animations:^{
+                    self.exitAnyViewButton.frame = CGRectMake(0, self.exitAnyViewButton.frame.origin.y, 40, 40);
+                } completion:^(BOOL finished) {
+                    
+                }];
+            }
+            
+        }
+        default:
+            break;
+    }
+}*/
 /*
 -(void)recognizePanUploadThisThatView:(UIPanGestureRecognizer*)recognize {
 
@@ -715,6 +799,7 @@
 } */
 //called when pan to upload post is complete
 -(void)uploadThisThat {
+    [self.exitFirstViewButton removeFromSuperview];
     [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
     [self uploadingNavBarDetail];
@@ -756,8 +841,7 @@
     [self.uploadPostErrorMutableDictionarySaveContents setObject:self.uploadPostImageOneData forKey:@"imageOneData"];
     [self.uploadPostErrorMutableDictionarySaveContents setObject:self.uploadPostImageTwoData forKey:@"imageTwoData"];
     [self.uploadPostErrorMutableDictionarySaveContents setObject:self.uploadPostDictionaryTextViewContents forKey:@"textContentsDict"];
-    
-    
+
 }
 // upload progress displaye on nav bar
 -(void)uploadErrorUpdateNavBar {
@@ -869,6 +953,9 @@
 //upload see photos 1/2 size of viewscreen
 -(void)previewUploadThisThat:(UIButton *)recognize {
     [[UIApplication sharedApplication] setStatusBarHidden:YES];
+    [self.exitFirstViewButton setAlpha:0];
+    self.exitSecondViewCounter = 2;
+    [self exitSecondViewButtonInitalize];
     self.invisibleView2 = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
     [self.uploadPostView addSubview:self.invisibleView2];
     UIColor *blueColor = [UIColor colorWithRed:(0/255.0) green:(196/255.0) blue:(222/255.0) alpha:1];
@@ -1132,7 +1219,7 @@
     UIImage *personalIcon = [UIImage imageNamed:@"personal.png"];
     [self.personalImageButton setImage:personalIcon forState:UIControlStateNormal];
     [self.personalButton setTitleColor:[[UIColor whiteColor] colorWithAlphaComponent:1.0] forState:UIControlStateNormal];
-    [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationFade];
+    
     
     [self loadPersonalPosts];
 }
@@ -1169,6 +1256,13 @@
     [self.navigationController.view addSubview:self.personalPostsTableView];
     [self.personalPostsTableView setSeparatorColor:[UIColor darkGrayColor]];
     
+    self.exitFirstViewCounter = 0;
+    [self exitAnyViewButtonInitalize];
+    
+ /*   self.swagViewForReal = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 50)];
+    self.swagViewForReal.backgroundColor = [UIColor redColor];
+    [self.navigationController.view addSubview:self.swagViewForReal];*/
+    
 }
 //initalize posts Voted On Tableview
 -(void)initalizePostsVotedOnTableView{
@@ -1192,6 +1286,10 @@
     
     [self.postsVotedOnTableView registerClass:[personalPostsTableViewCell class] forCellReuseIdentifier:@"cell"];
     [self.navigationController.view addSubview:self.postsVotedOnTableView];
+   
+    self.exitFirstViewCounter = 1;
+    [self exitAnyViewButtonInitalize];
+    
 }
 //number of sections in tableview, personal, voted on and settings
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -1307,8 +1405,31 @@
 
     objects *personalPost = [self.personalPostsArray objectAtIndex:indexPath.row];
 
-        cell.imageViewOne = [[UIImageView alloc] initWithFrame:CGRectMake(10, 10, (cell.contentView.frame.size.width/2)-15, (cell.contentView.frame.size.width/2)-15)];
+      //  NSNumber *imageOneVoteCount = personalPost.voteCountOne;
+      //  NSNumber *imageTwoVoteCount = personalPost.voteCountTwo;
+        
+        
+   /*     NSMutableString *imageUrlOne = [NSMutableString string];
+        [imageUrlOne appendString:hostUrl];
+        NSMutableString *imageUrlTwo = [NSMutableString string];
+        [imageUrlTwo appendString:hostUrl];
+        
+       
+        
+        
+      //  if(imageOneVoteCount >= imageTwoVoteCount) {
+            [imageUrlOne appendString:personalPost.imageOne];
+            [imageUrlTwo appendString:personalPost.imageTwo];
 
+     //   }
+       if(imageTwoVoteCount > imageOneVoteCount) {
+            [imageUrlOne appendString:personalPost.imageTwo];
+            [imageUrlTwo appendString:personalPost.imageOne];
+  
+        }*/
+        
+        
+    cell.imageViewOne = [[UIImageView alloc] initWithFrame:CGRectMake(10, 10, (cell.contentView.frame.size.width/2)-15, (cell.contentView.frame.size.width/2)-15)];
     cell.imageViewOne.contentMode = UIViewContentModeScaleAspectFill;
     cell.imageViewOne.clipsToBounds = YES;
     cell.imageViewOne.backgroundColor = [UIColor blackColor];
@@ -1347,7 +1468,7 @@
     [cell.spinnerImageViewTwo startAnimating];
     [cell.imageViewTwo addSubview:cell.spinnerImageViewTwo];
     
-    NSMutableString *imageUrlTwo = [NSMutableString string];
+   NSMutableString *imageUrlTwo = [NSMutableString string];
     [imageUrlTwo appendString:hostUrl];
     [imageUrlTwo appendString:personalPost.imageTwo];
     NSURLRequest *request2 = [[NSURLRequest alloc] initWithURL:[NSURL URLWithString:imageUrlTwo]];
@@ -1378,16 +1499,6 @@
         cell.username.minimumScaleFactor = 0.5;
         
         cell.username.text = [NSString stringWithFormat:@"%@",usernameObject];
-     /*   cell.locationLabel = [[UILabel alloc] initWithFrame:CGRectMake((cell.contentView.frame.size.width/2)+5, 50, (cell.contentView.frame.size.width/2)-15, 40)];
-        cell.locationLabel.textAlignment = NSTextAlignmentCenter;
-        cell.locationLabel.backgroundColor = [UIColor clearColor];
-        cell.locationLabel.textColor = [UIColor lightGrayColor];
-        cell.locationLabel.font = [UIFont systemFontOfSize:15];
-        cell.locationLabel.numberOfLines = 0;
-        cell.locationLabel.text = @"Victoria BC";
-        cell.locationLabel.adjustsFontSizeToFitWidth = YES;
-        cell.locationLabel.minimumScaleFactor = 0.5;*/
-        
 
         cell.timeStamp = [[UILabel alloc] initWithFrame:CGRectMake((cell.contentView.frame.size.width/2)+5, 100, (cell.contentView.frame.size.width/2)-15, 30)];
         cell.timeStamp.backgroundColor = [UIColor clearColor];
@@ -1396,36 +1507,51 @@
     cell.timeStamp.textAlignment = NSTextAlignmentCenter;
     cell.timeStamp.text = [self inputDate:personalPost.createdAt];
 
-        cell.textContent = [[UILabel alloc] initWithFrame:CGRectMake(10, (cell.contentView.frame.size.width/2)+5, (cell.contentView.frame.size.width/2)-15, cell.contentView.frame.size.height-15-(cell.contentView.frame.size.width/2))];
+    cell.textContent = [[UILabel alloc] initWithFrame:CGRectMake(10, (cell.contentView.frame.size.width/2)+5, (cell.contentView.frame.size.width/2)-15, cell.contentView.frame.size.height-15-(cell.contentView.frame.size.width/2))];
     cell.textContent.backgroundColor = [UIColor clearColor];
-        cell.textContent.numberOfLines = 0;
-        cell.textContent.textColor = [UIColor blackColor];
-        cell.textContent.adjustsFontSizeToFitWidth = YES;
-        cell.textContent.minimumScaleFactor = 0.5;
+    cell.textContent.numberOfLines = 0;
+    cell.textContent.textColor = [UIColor blackColor];
+    cell.textContent.adjustsFontSizeToFitWidth = YES;
+    cell.textContent.minimumScaleFactor = 0.5;
     cell.textContent.font = [UIFont systemFontOfSize:20];
-        cell.textContent.textAlignment = NSTextAlignmentCenter;
+    cell.textContent.textAlignment = NSTextAlignmentCenter;
     cell.textContent.text = personalPost.textContent;
         
-        cell.totalVotesLabel = [[UILabel alloc] initWithFrame:CGRectMake((cell.contentView.frame.size.width/2)+5, 50, (cell.contentView.frame.size.width/2)-15, 40)];
-        cell.totalVotesLabel.backgroundColor = [UIColor clearColor];
-        cell.totalVotesLabel.textColor = [UIColor blackColor];
-        [cell.totalVotesLabel setFont:[UIFont systemFontOfSize:15]];
-        cell.totalVotesLabel.textAlignment = NSTextAlignmentCenter;
-        cell.totalVotesLabel.text = [self ForTotalVotesVoteCountOne:personalPost.voteCountOne ForTotalVotesVoteCountTwo:personalPost.voteCountTwo];
+    cell.totalVotesLabel = [[UILabel alloc] initWithFrame:CGRectMake((cell.contentView.frame.size.width/2)+5, 50, (cell.contentView.frame.size.width/2)-15, 40)];
+    cell.totalVotesLabel.backgroundColor = [UIColor clearColor];
+    cell.totalVotesLabel.textColor = [UIColor blackColor];
+    [cell.totalVotesLabel setFont:[UIFont systemFontOfSize:15]];
+    cell.totalVotesLabel.textAlignment = NSTextAlignmentCenter;
+    cell.totalVotesLabel.text = [self ForTotalVotesVoteCountOne:personalPost.voteCountOne ForTotalVotesVoteCountTwo:personalPost.voteCountTwo];
+       
         
     cell.votePercentageOneLabel = [[UILabel alloc] initWithFrame:cell.imageViewOne.frame];
     cell.votePercentageOneLabel.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.5];
-       cell.votePercentageOneLabel.textColor = [UIColor whiteColor];
+    cell.votePercentageOneLabel.textColor = [UIColor whiteColor];
     cell.votePercentageOneLabel.font = [UIFont boldSystemFontOfSize:40];
     cell.votePercentageOneLabel.textAlignment = NSTextAlignmentCenter;
-        NSMutableArray *voteCountArray = [self voteCountOne:personalPost.voteCountOne voteCountTwo:personalPost.voteCountTwo];
-        cell.votePercentageOneLabel.text = [voteCountArray objectAtIndex:0];
-        cell.votePercentageTwoLabel = [[UILabel alloc] initWithFrame:cell.imageViewTwo.frame];
+
+
+    cell.votePercentageTwoLabel = [[UILabel alloc] initWithFrame:cell.imageViewTwo.frame];
     cell.votePercentageTwoLabel.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.4];
-        cell.votePercentageTwoLabel.textColor = [UIColor whiteColor];
+    cell.votePercentageTwoLabel.textColor = [UIColor whiteColor];
     cell.votePercentageTwoLabel.font = [UIFont boldSystemFontOfSize:40];
     cell.votePercentageTwoLabel.textAlignment = NSTextAlignmentCenter;
-    cell.votePercentageTwoLabel.text = [voteCountArray objectAtIndex:1];
+
+        NSMutableArray *voteCountArray = [self voteCountOne:personalPost.voteCountOne voteCountTwo:personalPost.voteCountTwo];
+        
+     //   if(imageOneVoteCount >= imageTwoVoteCount) {
+            cell.votePercentageOneLabel.text = [voteCountArray objectAtIndex:0];
+            cell.votePercentageTwoLabel.text = [voteCountArray objectAtIndex:1];
+      //  }
+      /*  if(imageTwoVoteCount > imageOneVoteCount) {
+            cell.votePercentageOneLabel.text = [voteCountArray objectAtIndex:1];
+            cell.votePercentageTwoLabel.text = [voteCountArray objectAtIndex:0];
+        }*/
+        
+
+        
+        
     cell.contentView.backgroundColor = [UIColor whiteColor];
     [cell.contentView addSubview:cell.imageViewOne];
     [cell.contentView addSubview:cell.imageViewTwo];
@@ -1658,11 +1784,39 @@
     }
     
 }
+-(void)scrollViewDidScroll:(UIScrollView *)scrollView {
+   /* if(scrollView == self.personalPostsTableView) {
+        switch (scrollView.panGestureRecognizer.state) {
+            case UIGestureRecognizerStateBegan:{
+                
+            }
+                break;
+                
+            default:
+                break;
+        }
+        
+        CGPoint currentOffset = scrollView.contentOffset;
+        CGPoint currentOffsetAgain = [scrollView.panGestureRecognizer locationInView:self.personalPostsTableView];
+        
+        if(currentOffset.y > self.lastContentOffset.y) {
+            //down
+            [self.swagViewForReal setAlpha:0];
+        } else {
+            // up
+          //  if(currentOffsetAgain)
+            [self.swagViewForReal setAlpha:1];
+            NSLog(@"up");
+        }
+        self.lastContentOffset = currentOffset;
+    }*/
+}
 //selecting tableview row for personal, voted on and settings tableview
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
     
     if(tableView == self.personalPostsTableView){
+        [self.exitFirstViewButton setAlpha:0];
         personalPostsTableViewCell *cell = (personalPostsTableViewCell*)[tableView cellForRowAtIndexPath:indexPath];
         self.personalPostsIndexPath = indexPath;
     self.personalPostsTableView.scrollEnabled= NO;
@@ -1690,6 +1844,8 @@
             self.personalPostsImageViewOne.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height/2);
             self.personalPostsImageViewTwo.frame = CGRectMake(0, self.view.frame.size.height/2, self.view.frame.size.width, self.view.frame.size.height/2);
         } completion:^(BOOL finished) {
+            [self exitSecondViewButtonInitalize];
+            self.exitSecondViewCounter = 0;
             self.personalPostsTapGestureToOpenImageViewOne = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(personalPostsTapRecognizer:)];
             [self.personalPostsImageViewOne addGestureRecognizer:self.personalPostsTapGestureToOpenImageViewOne];
             
@@ -1708,6 +1864,7 @@
     [self.personalPostsTableView deselectRowAtIndexPath:[self.personalPostsTableView indexPathForSelectedRow] animated:YES];
     }
     if(tableView == self.postsVotedOnTableView){
+         [self.exitFirstViewButton setAlpha:0];
         personalPostsTableViewCell *cell = (personalPostsTableViewCell*)[tableView cellForRowAtIndexPath:indexPath];
         self.postsVotedOnInexPath = indexPath;
          objects *postsVotedOnObject = [self.postsVotedOnArray objectAtIndex:indexPath.row];
@@ -1748,6 +1905,8 @@
             self.postsVotedOnImageViewOne.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height/2);
             self.postsVotedOnImageViewTwo.frame = CGRectMake(0, self.view.frame.size.height/2, self.view.frame.size.width, self.view.frame.size.height/2);
         } completion:^(BOOL finished) {
+            self.exitSecondViewCounter = 1;
+            [self exitSecondViewButtonInitalize];
             self.postsVotedOnTapGestureToOpenImageViewOne = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(postsVotedOnTapRecognizer:)];
             [self.postsVotedOnImageViewOne addGestureRecognizer:self.postsVotedOnTapGestureToOpenImageViewOne];
             self.postsVotedOnTapGestureToOpenImageViewTwo = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(postsVotedOnTapRecognizer:)];
@@ -1775,7 +1934,8 @@
             self.settingsInstructionsView = [[UIView alloc] initWithFrame:CGRectMake(10, 10, self.view.frame.size.width-20, self.view.frame.size.height-20)];
                 
                 [self.settingsInstructionsView setBackgroundColor:[UIColor whiteColor]];
-   
+                self.pinchRecognizerInstructionsView = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(recognizePinchToCloseCurrentView:)];
+                [self.settingsInstructionsView addGestureRecognizer:self.pinchRecognizerInstructionsView];
             [self.navigationController.view addSubview:self.settingsInstructionsView];
                 
                 
@@ -1986,7 +2146,7 @@
         if(selectedSection == 4){
             if(selectedRow == 0){
                 //logout
-                
+                [self.exitFirstViewButton removeFromSuperview];
                 [self logoutAction];
                 [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
             }
@@ -2052,6 +2212,7 @@
 }
 //personal posts tap gesture to see fullsize imageview
 -(void)personalPostsTapRecognizer:(UITapGestureRecognizer*)recognize {
+    [self.exitSecondViewButton setAlpha:0];
     personalPostsTableViewCell *cell = (personalPostsTableViewCell*)[self.personalPostsTableView cellForRowAtIndexPath:self.personalPostsIndexPath];
     self.personalPostsViewForFullSizeImageView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.personalPostsTableView.frame.size.height)];
     self.personalPostsViewForFullSizeImageView.backgroundColor = [UIColor blackColor];
@@ -2075,10 +2236,12 @@
 -(void)personalPostsCloseFullSizeImage:(UITapGestureRecognizer*)recognize {
     NSLog(@"logging");
     [self.personalPostsViewForFullSizeImageView removeFromSuperview];
+    [self.exitSecondViewButton setAlpha:1];
 
 }
 //posts voted on tap gesture to see fullsize imageview
 -(void)postsVotedOnTapRecognizer:(UITapGestureRecognizer*)recognize {
+    [self.exitSecondViewButton setAlpha:0];
     personalPostsTableViewCell *cell = (personalPostsTableViewCell*)[self.postsVotedOnTableView cellForRowAtIndexPath:self.postsVotedOnInexPath];
     
     self.postsVotedOnViewForFullSizeImageView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.postsVotedOnTableView.frame.size.height)];
@@ -2102,6 +2265,7 @@
 }
 -(void)postsVotedOnCloseFullSizeImage:(UITapGestureRecognizer*)recognize {
     [self.postsVotedOnViewForFullSizeImageView removeFromSuperview];
+    [self.exitSecondViewButton setAlpha:1];
 }
 // allowing personal posts tableview to be edited for slide to delete
 -(BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -2351,12 +2515,14 @@
 }
 //initalize photolibary to choose photos from
 -(void)photoLibrary:(UIButton*)recognize {
+    [[UIApplication sharedApplication] setStatusBarHidden:NO];
     UIImagePickerControllerSourceType type;
     type = UIImagePickerControllerSourceTypePhotoLibrary;
     self.imagePicker.sourceType = type;
 }
 //returning image whether it is captured or picked from library
 -(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
+    
     [self.uploadPostLibraryPhotosButton setHidden:YES];
     if(self.selectedCameraInt == 1) {
         NSLog(@"YOLOONE");
@@ -2378,7 +2544,7 @@
        
     }
     [self dismissViewControllerAnimated:YES completion:nil];
- 
+    [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationNone];
     if(self.uploadPostTempImageOne != nil && self.uploadPostTempImageTwo != nil) {
         [self.uploadPostPreviewButton setHidden:NO];
         [self.uploadPostButton setHidden:NO];
@@ -2403,8 +2569,19 @@
         [self.newsFeedTapGestureToOpenImageViewOne setEnabled:NO];
         [self.newsFeedTapGestureToOpenImageViewTwo setEnabled:NO];
         [self.newsFeedBlueMenuButton setAlpha:0];
-        [self.newsFeedViewForLabels setAlpha:1];
-    [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionCurveEaseIn animations:^{
+        [self.newsFeedCloseViewButton setAlpha:0];
+   // [self.newsFeedViewForLabels setAlpha:1];
+    [UIView animateWithDuration:0.7 delay:0 usingSpringWithDamping:0.6 initialSpringVelocity:0 options:UIViewAnimationOptionCurveLinear animations:^{
+        self.newsFeedImageViewOne.frame =CGRectMake(0, -115, [self viewWidth], [self viewHeight]/2);
+        self.newsFeedImageViewTwo.frame = CGRectMake(0, ([self viewHeight]/2)+115, [self viewWidth], [self viewHeight]/2);
+    } completion:^(BOOL finished) {
+        UITapGestureRecognizer *closeMenu = [[UITapGestureRecognizer alloc] init];
+        [closeMenu addTarget:self action:@selector(closeMenuSelector:)];
+        [self.newsFeedView addGestureRecognizer:closeMenu];
+      //  [self.newsFeedViewForLabels setAlpha:1];
+    }];
+    
+   /* [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionCurveEaseIn animations:^{
         
         self.newsFeedImageViewOne.frame =CGRectMake(0, -115, [self viewWidth], [self viewHeight]/2);
         self.newsFeedImageViewTwo.frame = CGRectMake(0, ([self viewHeight]/2)+115, [self viewWidth], [self viewHeight]/2);
@@ -2413,12 +2590,12 @@
         [closeMenu addTarget:self action:@selector(closeMenuSelector:)];
         [self.newsFeedView addGestureRecognizer:closeMenu];
     
-    }];
+    }];*/
     
 }
 //news feed animate pictures to close to hide text
 -(void)closeMenuSelector:(UITapGestureRecognizer*)recognize{
-    [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionCurveLinear animations:^{
+  /*  [UIView animateWithDuration:0.7 delay:0 usingSpringWithDamping:0.6 initialSpringVelocity:0 options:UIViewAnimationOptionCurveLinear animations:^{
         self.newsFeedImageViewOne.frame =CGRectMake(0, 0, [self viewWidth], [self viewHeight]/2);
         self.newsFeedImageViewTwo.frame = CGRectMake(0, ([self viewHeight]/2), [self viewWidth], [self viewHeight]/2);
         
@@ -2429,7 +2606,26 @@
         [self.newsFeedPanGestureImageViewTwo setEnabled:YES];
         [self.newsFeedTapGestureToOpenImageViewOne setEnabled:YES];
         [self.newsFeedTapGestureToOpenImageViewTwo setEnabled:YES];
-        [self.newsFeedViewForLabels setAlpha:0];
+       // [self.newsFeedViewForLabels setAlpha:0];
+        [self.newsFeedCloseViewButton setAlpha:1.0];
+    }];*/
+    
+    
+    
+    [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionCurveLinear animations:^{
+ self.newsFeedImageViewOne.frame =CGRectMake(0, 0, [self viewWidth], [self viewHeight]/2);
+ self.newsFeedImageViewTwo.frame = CGRectMake(0, ([self viewHeight]/2), [self viewWidth], [self viewHeight]/2);
+    } completion:^(BOOL finished) {
+        [self.newsFeedBlueMenuButton setAlpha:1.0];
+        [self.newsFeedBlueMenuButton setHidden:NO];
+        [self.newsFeedView removeGestureRecognizer:recognize];
+        [self.newsFeedPanGestureImageViewOne setEnabled:YES];
+        [self.newsFeedPanGestureImageViewTwo setEnabled:YES];
+        [self.newsFeedTapGestureToOpenImageViewOne setEnabled:YES];
+        [self.newsFeedTapGestureToOpenImageViewTwo setEnabled:YES];
+      //  [self.newsFeedViewForLabels setAlpha:0];
+        [self.newsFeedCloseViewButton setAlpha:1.0];
+        
     }];
     
 }
@@ -2482,30 +2678,41 @@
             }
                 if(recognize == self.uploadPostPinchGesture){
                     self.uploadPostView.transform = CGAffineTransformMakeScale(lastScaleFactor*factor, lastScaleFactor*factor);
+                    [self.exitFirstViewButton setAlpha:0];
                 }
                 if(recognize == self.uploadPostPinchGestureImageViews){
                     self.uploadPostViewForImageViews.transform = CGAffineTransformMakeScale(lastScaleFactor*factor, lastScaleFactor*factor);
+                    [self.exitSecondViewButton setAlpha:0];
                 }
                 if(recognize == self.personalPostsPinchGestureImageViews) {
                     self.personalPostsViewForImageViews.transform = CGAffineTransformMakeScale(lastScaleFactor*factor, lastScaleFactor*factor);
+                    [self.exitSecondViewButton setAlpha:0];
                 }
                 if(recognize == self.personalPostsPinchGesture) {
                     self.personalPostsTableView.transform = CGAffineTransformMakeScale(lastScaleFactor*factor, lastScaleFactor*factor);
+                    [self.exitFirstViewButton setAlpha:0];
 
                 }
                 if(recognize == self.postsVotedOnPinchGesture) {
                     self.postsVotedOnTableView.transform = CGAffineTransformMakeScale(lastScaleFactor*factor, lastScaleFactor*factor);
+                    [self.exitFirstViewButton setAlpha:0];
                     
                 }
                 if(recognize == self.postsVotedOnPinchGestureImageViews){
                     self.postsVotedOnViewForImageViews.transform = CGAffineTransformMakeScale(lastScaleFactor*factor, lastScaleFactor*factor);
+                    [self.exitSecondViewButton setAlpha:0];
                 }
                 if(recognize == self.pinchToCloseLoadingView){
                     self.loadingView.transform = CGAffineTransformMakeScale(lastScaleFactor*factor, lastScaleFactor*factor);
                 }
                 if(recognize == self.pinchRecognizerSettingsView){
                     self.settingsView.transform = CGAffineTransformMakeScale(lastScaleFactor*factor, lastScaleFactor*factor);
-                  
+                    self.settingsView.layer.borderWidth = 1;
+                    self.settingsView.layer.borderColor = [UIColor blackColor].CGColor;
+                    [self.exitFirstViewButton setAlpha:0];
+                }
+                if(recognize == self.pinchRecognizerInstructionsView) {
+                    self.settingsInstructionViewScrollView.transform = CGAffineTransformMakeScale(lastScaleFactor*factor, lastScaleFactor*factor);
                 }
             }
             if(factor < 0.45) {
@@ -2518,6 +2725,7 @@
                 }
                 if(recognize == self.uploadPostPinchGesture){
                     [self.uploadPostView removeFromSuperview];
+                    [self.exitFirstViewButton removeFromSuperview];
                     [self.invisibleView2 removeFromSuperview];
                     [self.invisibleView removeFromSuperview];
                     [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
@@ -2529,9 +2737,11 @@
                 }
                 if(recognize == self.uploadPostPinchGestureImageViews){
                      [[UIApplication sharedApplication] setStatusBarHidden:NO];
+                    [self.exitSecondViewButton removeFromSuperview];
                     [self.uploadPostViewForImageViews removeFromSuperview];
                     [self.invisibleView removeFromSuperview];
                     [self.invisibleView2 removeFromSuperview];
+                    [self.exitFirstViewButton setAlpha:1];
                     
 
                 }
@@ -2539,10 +2749,13 @@
                     [self.personalPostsViewForImageViews removeFromSuperview];
                     [self.invisibleViewTableView removeFromSuperview];
                     self.personalPostsTableView.scrollEnabled = YES;
+                    [self.exitSecondViewButton removeFromSuperview];
+                    [self.exitFirstViewButton setAlpha:1];
                 }
                 if(recognize == self.personalPostsPinchGesture){
                     [self.personalPostsTableView removeFromSuperview];
                     [self.invisibleView removeFromSuperview];
+                    [self.exitFirstViewButton removeFromSuperview];
                     [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
                     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
 
@@ -2550,6 +2763,7 @@
                 if(recognize == self.postsVotedOnPinchGesture){
                     [self.postsVotedOnTableView removeFromSuperview];
                     [self.invisibleView removeFromSuperview];
+                    [self.exitFirstViewButton removeFromSuperview];
                     [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
                     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
                     
@@ -2558,6 +2772,8 @@
                     [self.postsVotedOnViewForImageViews removeFromSuperview];
                     [self.invisibleViewTableView removeFromSuperview];
                     self.postsVotedOnTableView.scrollEnabled = YES;
+                    [self.exitSecondViewButton removeFromSuperview];
+                    [self.exitFirstViewButton setAlpha:1];
                 }
                 if(recognize == self.pinchToCloseLoadingView){
                     [self.loadingView removeFromSuperview];
@@ -2571,6 +2787,15 @@
                     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
                     [self.settingsView removeFromSuperview];
                     [self.invisibleView removeFromSuperview];
+                    [self.exitFirstViewButton removeFromSuperview];
+                }
+                if(recognize == self.pinchRecognizerInstructionsView) {
+                    [self.settingsInstructionsView removeFromSuperview];
+                    [self.invisibleView2 removeFromSuperview];
+                    [self.settingsInstructionViewScrollView removeFromSuperview];
+                    [self.settingsTableview setScrollEnabled:YES];
+                    [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
+                    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
                 }
                             }
         }
@@ -2588,7 +2813,7 @@
                     [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionCurveLinear animations:^{
                         self.uploadPostView.transform = CGAffineTransformMakeScale(lastScaleFactor, lastScaleFactor);
                     } completion:^(BOOL finished) {
-                        
+                        [self.exitFirstViewButton setAlpha:1];
                     }];
                     
                 }
@@ -2596,35 +2821,35 @@
                     [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionCurveLinear animations:^{
                         self.uploadPostViewForImageViews.transform = CGAffineTransformMakeScale(lastScaleFactor, lastScaleFactor);
                     } completion:^(BOOL finished) {
-                        
+                        [self.exitSecondViewButton setAlpha:1];
                     }];
                 }
                 if(recognize == self.personalPostsPinchGestureImageViews){
                     [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionCurveLinear animations:^{
                         self.personalPostsViewForImageViews.transform = CGAffineTransformMakeScale(lastScaleFactor, lastScaleFactor);
                     } completion:^(BOOL finished) {
-                    
+                        [self.exitSecondViewButton setAlpha:1];
                     }];
                 }
                 if(recognize == self.personalPostsPinchGesture){
                     [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionCurveLinear animations:^{
                         self.personalPostsTableView.transform = CGAffineTransformMakeScale(lastScaleFactor, lastScaleFactor);
                     } completion:^(BOOL finished) {
-                        
+                        [self.exitFirstViewButton setAlpha:1];
                     }];
                 }
                 if(recognize == self.postsVotedOnPinchGesture){
                     [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionCurveLinear animations:^{
                         self.postsVotedOnTableView.transform = CGAffineTransformMakeScale(lastScaleFactor, lastScaleFactor);
                     } completion:^(BOOL finished) {
-                        
+                        [self.exitFirstViewButton setAlpha:1];
                     }];
                 }
                 if(recognize == self.postsVotedOnPinchGestureImageViews){
                     [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionCurveLinear animations:^{
                         self.postsVotedOnViewForImageViews.transform = CGAffineTransformMakeScale(lastScaleFactor, lastScaleFactor);
                     } completion:^(BOOL finished) {
-                        
+                        [self.exitSecondViewButton setAlpha:1];
                     }];
                 }
                 if(recognize == self.pinchToCloseLoadingView){
@@ -2637,6 +2862,14 @@
                 if(recognize == self.pinchRecognizerSettingsView){
                     [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionCurveLinear animations:^{
                         self.settingsView.transform = CGAffineTransformMakeScale(lastScaleFactor, lastScaleFactor);
+                    } completion:^(BOOL finished) {
+                        self.settingsView.layer.borderWidth = 0;
+                        [self.exitFirstViewButton setAlpha:1];
+                    }];
+                }
+                if(recognize == self.pinchRecognizerInstructionsView) {
+                    [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionCurveLinear animations:^{
+                        self.settingsInstructionViewScrollView.transform = CGAffineTransformMakeScale(lastScaleFactor, lastScaleFactor);
                     } completion:^(BOOL finished) {
                         
                     }];
@@ -2651,6 +2884,7 @@
 }
     }
 //pinch gesture personalposts needs to be moved with rest of pinch gestures
+/*
 -(void)recognizeThePinchPersonalPosts:(UIPinchGestureRecognizer *)recognize{
     CGFloat lastScaleFactor = 1;
     CGFloat factor = [(UIPinchGestureRecognizer *)recognize scale];
@@ -2663,10 +2897,12 @@
         case UIGestureRecognizerStateChanged:{
             if (factor < 1) {
                 self.personalPostsTableView.transform = CGAffineTransformMakeScale(lastScaleFactor*factor, lastScaleFactor*factor);
+                [self.exitFirstViewButton setAlpha:0];
             }
             if(factor < 0.45) {
                // [self.personalPostsButton setEnabled:YES];
                 [self.personalPostsTableView removeFromSuperview];
+                [self.exitFirstViewButton removeFromSuperview];
                 
             }
         }
@@ -2676,7 +2912,7 @@
                 [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionCurveLinear animations:^{
                     self.personalPostsTableView.transform = CGAffineTransformMakeScale(lastScaleFactor, lastScaleFactor);
                 } completion:^(BOOL finished) {
-                    
+                    [self.exitFirstViewButton setAlpha:1];
                 }];
                 
             }
@@ -2686,7 +2922,7 @@
     }
 
     
-}
+}*/
 
 // ****************************************************************************************************
 // Pan Recognizer Image Current in news feed for voting
@@ -2706,6 +2942,7 @@
             NSLog(@"began");
             [self.newsFeedBlueMenuButton setAlpha:0];
             [self.newsFeedCloseViewButton setAlpha:0];
+            [self.newsFeedViewForLabels setAlpha:0];
             if(recognize == self.newsFeedPanGestureImageViewOne){
             [self.newsFeedPanGestureImageViewTwo setEnabled:NO];
                 [self.newsFeedTapGestureToOpenImageViewTwo setEnabled:NO];
@@ -2826,7 +3063,7 @@
                         
                     } completion:^(BOOL finished) {
                         //[self loadImagesAfterSwipe];
-                        [self imagesAreDonePreLoading];
+                      //  [self imagesAreDonePreLoading];
                         self.newsFeedImageViewOne.frame = CGRectMake(0, -heightFrame/2, widthFrame, heightFrame/2);
                         self.newsFeedImageViewTwo.frame = CGRectMake(0, heightFrame, widthFrame, heightFrame/2);
                         [self.newsFeedImageOneCheckMarkView setAlpha:0];
@@ -2835,7 +3072,8 @@
                             [self.newsFeedVoteForThisImageView setAlpha:0];
                             [self.newsFeedNotThatImageView setAlpha:0];
                         } completion:^(BOOL finished) {
-                            [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionCurveLinear animations:^{
+                             [self imagesAreDonePreLoading];
+                          /*  [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionCurveLinear animations:^{
                                 self.newsFeedImageViewOne.frame =CGRectMake(0, 0, widthFrame, heightFrame/2);
                                 self.newsFeedImageViewTwo.frame = CGRectMake(0, (heightFrame/2), widthFrame, heightFrame/2);
                                 
@@ -2843,7 +3081,7 @@
                                 [self.newsFeedBlueMenuButton setAlpha:1.0];
                                 [self.newsFeedCloseViewButton setAlpha:1.0];
                                 
-                            }];
+                            }];*/
                             
                         }];
                         
@@ -2872,7 +3110,7 @@
                         
                     } completion:^(BOOL finished) {
                         //[self loadImagesAfterSwipe];
-                        [self imagesAreDonePreLoading];
+                       // [self imagesAreDonePreLoading];
                         self.newsFeedImageViewOne.frame = CGRectMake(0, -heightFrame/2, widthFrame, heightFrame/2);
                         self.newsFeedImageViewTwo.frame = CGRectMake(0, heightFrame, widthFrame, heightFrame/2);
                         [self.newsFeedImageOneCheckMarkView setAlpha:0];
@@ -2881,7 +3119,8 @@
                             [self.newsFeedVoteForThisImageView setAlpha:0];
                             [self.newsFeedNotThatImageView setAlpha:0];
                         } completion:^(BOOL finished) {
-                            [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionCurveLinear animations:^{
+                            [self imagesAreDonePreLoading];
+                        /*    [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionCurveLinear animations:^{
                                 self.newsFeedImageViewOne.frame =CGRectMake(0, 0, widthFrame, heightFrame/2);
                                 self.newsFeedImageViewTwo.frame = CGRectMake(0, (heightFrame/2), widthFrame, heightFrame/2);
                                 
@@ -2889,7 +3128,7 @@
                                 [self.newsFeedBlueMenuButton setAlpha:1.0];
                                 [self.newsFeedCloseViewButton setAlpha:1.0];
                                 
-                            }];
+                            }];*/
                             
                         }];
                         
@@ -2915,6 +3154,7 @@
                         
                         [self.newsFeedBlueMenuButton setAlpha:1.0];
                         [self.newsFeedCloseViewButton setAlpha:1.0];
+                        [self.newsFeedViewForLabels setAlpha:1.0];
                     }];
                 }
                 }
@@ -2990,7 +3230,7 @@
                         self.newsFeedImageViewOne.frame = CGRectMake(-widthFrame, 0, widthFrame, heightFrame/2);
                         self.newsFeedImageViewTwo.frame = CGRectMake(widthFrame, heightFrame/2, widthFrame, heightFrame/2);
                     } completion:^(BOOL finished) {
-                        [self imagesAreDonePreLoading];
+                       // [self imagesAreDonePreLoading];
                         self.newsFeedImageViewOne.frame = CGRectMake(0, -heightFrame/2, widthFrame, heightFrame/2);
                         self.newsFeedImageViewTwo.frame = CGRectMake(0, heightFrame, widthFrame, heightFrame/2);
                         [self.newsFeedImageOneXMarkView setAlpha:0];
@@ -2999,14 +3239,14 @@
                             [self.newsFeedNotThisImageView setAlpha:0];
                             [self.newsFeedVoteForThatImageView setAlpha:0];
                         } completion:^(BOOL finished) {
-                            
-                            [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionCurveLinear animations:^{
+                            [self imagesAreDonePreLoading];
+                          /*  [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionCurveLinear animations:^{
                                 self.newsFeedImageViewOne.frame =CGRectMake(0, 0, widthFrame, heightFrame/2);
                                 self.newsFeedImageViewTwo.frame = CGRectMake(0, (heightFrame/2), widthFrame, heightFrame/2);
                             } completion:^(BOOL finished) {
                                 [self.newsFeedBlueMenuButton setAlpha:1.0];
                                 [self.newsFeedCloseViewButton setAlpha:1.0];
-                            }];
+                            }];*/
                         }];
                         
                     }];
@@ -3032,7 +3272,7 @@
                         self.newsFeedImageViewTwo.frame = CGRectMake(widthFrame, heightFrame/2, widthFrame, heightFrame/2);
                     } completion:^(BOOL finished) {
                         //[self loadImagesAfterSwipe];
-                        [self imagesAreDonePreLoading];
+                    //    [self imagesAreDonePreLoading];
                         self.newsFeedImageViewOne.frame = CGRectMake(0, -heightFrame/2, widthFrame, heightFrame/2);
                         self.newsFeedImageViewTwo.frame = CGRectMake(0, heightFrame, widthFrame, heightFrame/2);
                         [self.newsFeedImageOneXMarkView setAlpha:0];
@@ -3041,14 +3281,14 @@
                             [self.newsFeedNotThisImageView setAlpha:0];
                             [self.newsFeedVoteForThatImageView setAlpha:0];
                         } completion:^(BOOL finished) {
-                            
-                            [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionCurveLinear animations:^{
+                            [self imagesAreDonePreLoading];
+                         /*   [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionCurveLinear animations:^{
                                 self.newsFeedImageViewOne.frame =CGRectMake(0, 0, widthFrame, heightFrame/2);
                                 self.newsFeedImageViewTwo.frame = CGRectMake(0, (heightFrame/2), widthFrame, heightFrame/2);
                             } completion:^(BOOL finished) {
                                 [self.newsFeedBlueMenuButton setAlpha:1.0];
                                 [self.newsFeedCloseViewButton setAlpha:1.0];
-                            }];
+                            }];*/
                         }];
                         
                     }];
@@ -3070,6 +3310,7 @@
                         [self.newsFeedImageTwoXMarkView setAlpha:0];
                     } completion:^(BOOL finished) {
                         
+                        [self.newsFeedViewForLabels setAlpha:1.0];
                         [self.newsFeedBlueMenuButton setAlpha:1.0];
                         [self.newsFeedCloseViewButton setAlpha:1.0];
                     }];
@@ -3080,6 +3321,7 @@
                 NSLog(@"neitherPhotoMoved");
                 [self.newsFeedBlueMenuButton setAlpha:1];
                 [self.newsFeedCloseViewButton setAlpha:1];
+                [self.newsFeedViewForLabels setAlpha:1.0];
             }
         /*    else {
                 [self.newsFeedBlueMenuButton setAlpha:1];
@@ -3177,7 +3419,7 @@
     NSUserDefaults *userDefaultContents = [NSUserDefaults standardUserDefaults];
     NSObject *userToken = [userDefaultContents objectForKey:@"tokenIDString"];
     NSLog(@"voteCounter:%d",self.voteCounter);
-    if(self.voteCounter == 1){
+  /*  if(self.voteCounter == 1){
               NSString *pathVoteImageOne = [NSString stringWithFormat:@"/api/v1/thisthats/%@/1/vote?access_token=%@",postID,userToken];
         [[RKObjectManager sharedManager] postObject:nil path:pathVoteImageOne parameters:nil success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
             NSLog(@"voteForImageOneSuccess");
@@ -3195,7 +3437,7 @@
         } failure:^(RKObjectRequestOperation *operation, NSError *error) {
             NSLog(@"voteForImageTwoFail");
         }];
-    }
+    }*/
     self.newsFeedCounter++;
 }
 
@@ -3297,7 +3539,7 @@
             [self.loadingView removeFromSuperview];
             
         } completion:^(BOOL finished) {
-            
+            [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationNone];
             [self initalizeTableView];
         }];
         
@@ -3340,6 +3582,7 @@
         } completion:^(BOOL finished) {
             
         }];
+        [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationNone];
         [self initalizePostsVotedOnTableView];
     
         NSLog(@"\npostsVotedOnArrayContents:\n%@",self.postsVotedOnArray);
@@ -3607,19 +3850,40 @@
         self.newsFeedTotalNumberOfVotesLabel.text = [self ForTotalVotesVoteCountOne:newsFeedObject.voteCountOne ForTotalVotesVoteCountTwo:newsFeedObject.voteCountTwo];
         [self.newsFeedImageViewOne setAlpha:1];
         [self.newsFeedImageViewTwo setAlpha:1];
-        [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionCurveEaseIn animations:^{
-            self.newsFeedImageViewOne.frame = CGRectMake(0, 0, [self viewWidth], [self viewHeight]/2);
-            self.newsFeedImageViewTwo.frame = CGRectMake(0, ([self viewHeight]/2), [self viewWidth], [self viewHeight]/2);
-            
+        [self.newsFeedViewForLabels setAlpha:1];
+        CGFloat labelMinHeight = CGRectGetMinY(self.newsFeedViewForLabels.frame);
+        CGFloat labelMaxHeight = CGRectGetMaxY(self.newsFeedViewForLabels.frame);
+        [UIView animateWithDuration:1.0 delay:0 usingSpringWithDamping:0.6 initialSpringVelocity:0 options:UIViewAnimationOptionCurveLinear animations:^{
+            NSLog(@"enterYO");
+            self.newsFeedImageViewOne.frame = CGRectMake(0, -([self viewHeight]/2)+labelMinHeight, [self viewWidth], [self viewHeight]/2);
+            self.newsFeedImageViewTwo.frame = CGRectMake(0, labelMaxHeight, [self viewWidth], [self viewHeight]/2);
         } completion:^(BOOL finished) {
-            if(self.newsFeedCounter == 0) {
-            [self.newsFeedBlueMenuButton setHidden:NO];
-            [self.newsFeedBlueMenuButton setAlpha:1];
-            } else {
-                
-            }
+            //[self.newsFeedViewForLabels setAlpha:1];
+            [self.newsFeedPanGestureImageViewOne setEnabled:NO];
+            [self.newsFeedPanGestureImageViewTwo setEnabled:NO];
+            [self.newsFeedTapGestureToOpenImageViewOne setEnabled:NO];
+            [self.newsFeedTapGestureToOpenImageViewTwo setEnabled:NO];
+            
+            UITapGestureRecognizer *tapToClose = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(closeMenuSelector:)];
+            [self.newsFeedView addGestureRecognizer:tapToClose];
             
         }];
+           /*    [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionCurveLinear animations:^{
+            NSLog(@"enterYO");
+            self.newsFeedImageViewOne.frame = CGRectMake(0, -([self viewHeight]/2)+labelMinHeight, [self viewWidth], [self viewHeight]/2);
+            self.newsFeedImageViewTwo.frame = CGRectMake(0, labelMaxHeight, [self viewWidth], [self viewHeight]/2);
+            
+        } completion:^(BOOL finished) {
+            [self.newsFeedViewForLabels setAlpha:1];
+            [self.newsFeedPanGestureImageViewOne setEnabled:NO];
+            [self.newsFeedPanGestureImageViewTwo setEnabled:NO];
+            [self.newsFeedTapGestureToOpenImageViewOne setEnabled:NO];
+            [self.newsFeedTapGestureToOpenImageViewTwo setEnabled:NO];
+           // [self.newsFeedBlueMenuButton setHidden:NO];
+           // [self.newsFeedBlueMenuButton setAlpha:1];
+
+            
+        }];*/
 
     }
     else {
@@ -3806,7 +4070,7 @@
     [self.votedButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
       UIImage *votedIcon = [UIImage imageNamed:@"voted.png"];
       [self.votedImageButton setImage:votedIcon forState:UIControlStateNormal];
-    [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationFade];
+    
     
     [self loadPostsVotedOn];
 }
@@ -3844,7 +4108,7 @@
     loadingPostsLabel.adjustsFontSizeToFitWidth = YES;
     loadingPostsLabel.minimumScaleFactor = 0.6;
     loadingPostsLabel.numberOfLines = 0;
-    loadingPostsLabel.text = @"Loading thisThat's..";
+    loadingPostsLabel.text = @"Loading thisThat's";
     [loadingViewForLabels addSubview:loadingPostsLabel];
  
     self.pinchToCloseLoadingView = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(recognizePinchToCloseCurrentView:)];
@@ -3900,10 +4164,10 @@
     self.newsFeedViewForLabels.backgroundColor = [UIColor whiteColor];
     UIView *topLine = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 1)];
     topLine.backgroundColor = [UIColor blackColor];
-    [self.newsFeedViewForLabels addSubview:topLine];
+  //  [self.newsFeedViewForLabels addSubview:topLine];
     UIView *bottomLine = [[UIView alloc] initWithFrame:CGRectMake(0, 229, self.view.frame.size.width, 1)];
     bottomLine.backgroundColor = [UIColor blackColor];
-    [self.newsFeedViewForLabels addSubview:bottomLine];
+  //  [self.newsFeedViewForLabels addSubview:bottomLine];
    // self.newsFeedViewForLabels.layer.borderWidth = 1;
    // self.newsFeedViewForLabels.layer.borderColor = blueColor.CGColor;
     [self.newsFeedView addSubview:self.newsFeedViewForLabels];
@@ -3948,7 +4212,7 @@
     self.newsFeedTotalNumberOfVotesLabel.textColor = [UIColor blackColor];
     [self.newsFeedTotalNumberOfVotesLabel setFont:[UIFont systemFontOfSize:15]];
     [self.newsFeedViewForLabels addSubview:self.newsFeedTotalNumberOfVotesLabel];
-    [self.newsFeedViewForLabels setAlpha:0];
+  //  [self.newsFeedViewForLabels setAlpha:0];
     //PercentageLabels
 
     UIImage *voteForThisImageAI = [UIImage imageNamed:@"voteTHIS.png"];
@@ -3974,7 +4238,7 @@
     
     UIImage *closedNewsFeedImage = [UIImage imageNamed:@"closeViewXmark.png"];
     
-    self.newsFeedCloseViewButton = [[UIButton alloc] initWithFrame:CGRectMake(10, 10, 30, 30)];
+    self.newsFeedCloseViewButton = [[UIButton alloc] initWithFrame:CGRectMake(self.view.frame.size.width-45, 10, 35, 35)];
     [self.newsFeedCloseViewButton setImage:closedNewsFeedImage forState:UIControlStateNormal];
     [self.newsFeedCloseViewButton addTarget:self action:@selector(closeNewsFeedViewAction:) forControlEvents:UIControlEventTouchUpInside];
     [self.newsFeedImageViewOne addSubview:self.newsFeedCloseViewButton];

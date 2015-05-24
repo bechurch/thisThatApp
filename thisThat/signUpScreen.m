@@ -392,7 +392,6 @@
     }
     
     
-
 }
 -(void)createdAccountSuccessfully {
     self.accountSuccessfullyCreated = [[UIAlertView alloc] initWithTitle:@"Welcome to thisThat" message:@"Your account has been created, have fun!"  delegate:self cancelButtonTitle:@"Enter" otherButtonTitles:nil];

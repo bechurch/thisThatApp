@@ -572,6 +572,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer: James Connerton (3KE7PH8GUH)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					/Users/jamesconnerton/Documents/FacebookSDK,
@@ -608,6 +609,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer: James Connerton (3KE7PH8GUH)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					/Users/jamesconnerton/Documents/FacebookSDK,

@@ -23,6 +23,12 @@
 @property (nonatomic, strong) UIView *firstLaunchView;
 @property (nonatomic, strong) UIScrollView *firstLaunchScrollView;
 //settings
+
+@property (nonatomic, strong) UIButton *exitFirstViewButton;
+@property int exitFirstViewCounter;
+@property (nonatomic, strong) UIButton *exitSecondViewButton;
+@property int exitSecondViewCounter;
+@property (nonatomic, strong) UIPanGestureRecognizer *exitAnyViewButtonPanGesture;
 @property (nonatomic, strong) UIView *settingsView;
 @property (nonatomic, strong) UIView *settingsInstructionsView;
 @property (nonatomic, strong) UIScrollView *settingsInstructionViewScrollView;
@@ -35,6 +41,7 @@
 @property (nonatomic, strong) NSArray *twitterIntstagramImagesArray;
 @property (nonatomic, strong) UINavigationBar *settingsNavigationBar;
 @property (nonatomic, strong) UIPinchGestureRecognizer *pinchRecognizerSettingsView;
+@property (nonatomic, strong) UIPinchGestureRecognizer *pinchRecognizerInstructionsView;
 
 //main page
 
@@ -71,6 +78,7 @@
 @property (nonatomic, strong) UITapGestureRecognizer *newsFeedTapGestureToCloseFullSizeImageView;
 @property (nonatomic, strong) UITapGestureRecognizer *newsFeedTapGestureToOpenImageViewOne;
 @property (nonatomic, strong) UITapGestureRecognizer *newsFeedTapGestureToOpenImageViewTwo;
+//@property (nonatomic, strong) UITapGestureRecognizer *newsFeedTapGestureCloseImage
 @property (nonatomic, strong) UIPanGestureRecognizer *newsFeedPanGestureImageViewOne;
 @property (nonatomic, strong) UIPanGestureRecognizer *newsFeedPanGestureImageViewTwo;
 @property (nonatomic, strong) UIPanGestureRecognizer *newsFeedPanToZoomInOnFullSizeImageView;
@@ -105,6 +113,8 @@
 @property (nonatomic, strong) UITapGestureRecognizer *personalPostsTapGestureToCloseFullSizeImageView;
 @property (nonatomic, strong) UIPanGestureRecognizer *personalPostsPanToZoomInOnFullSizeImageView;
 @property (nonatomic, strong) NSIndexPath *personalPostsIndexPath;
+@property (nonatomic, assign) CGPoint lastContentOffset;
+@property (nonatomic, strong) UIView *swagViewForReal;
 
 
 
