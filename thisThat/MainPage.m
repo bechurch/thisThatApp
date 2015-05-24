@@ -3419,7 +3419,7 @@
     NSUserDefaults *userDefaultContents = [NSUserDefaults standardUserDefaults];
     NSObject *userToken = [userDefaultContents objectForKey:@"tokenIDString"];
     NSLog(@"voteCounter:%d",self.voteCounter);
-  /*  if(self.voteCounter == 1){
+    if(self.voteCounter == 1){
               NSString *pathVoteImageOne = [NSString stringWithFormat:@"/api/v1/thisthats/%@/1/vote?access_token=%@",postID,userToken];
         [[RKObjectManager sharedManager] postObject:nil path:pathVoteImageOne parameters:nil success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
             NSLog(@"voteForImageOneSuccess");
@@ -3437,7 +3437,7 @@
         } failure:^(RKObjectRequestOperation *operation, NSError *error) {
             NSLog(@"voteForImageTwoFail");
         }];
-    }*/
+    }
     self.newsFeedCounter++;
 }
 
