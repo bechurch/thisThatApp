@@ -361,7 +361,7 @@
     UIImage *instagramImage = [UIImage imageNamed:@"Instagram_Icon_Large.png"];
     self.twitterIntstagramImagesArray = [[NSArray alloc] initWithObjects:instagramImage,twitterImage, nil];
 
-    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
      UIColor *blueColor = [UIColor colorWithRed:(0/255.0) green:(196/255.0) blue:(222/255.0) alpha:1];
     CGFloat statusBarHeight = [UIApplication sharedApplication].statusBarFrame.size.height;
      UIView *statusBarViewColor = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, statusBarHeight)];
@@ -965,13 +965,13 @@
     [self.uploadPostView addSubview:self.uploadPostViewForImageViews];
     
     self.uploadPostPreviewViewForLabels = [[UIView alloc] initWithFrame:CGRectMake(0, (self.view.frame.size.height/2)-115, self.view.frame.size.width, 230)];
-    UIView *topLine = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 1)];
+  /*  UIView *topLine = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 1)];
     topLine.backgroundColor = [UIColor blackColor];
     [self.uploadPostPreviewViewForLabels addSubview:topLine];
   
     UIView *bottomLine = [[UIView alloc] initWithFrame:CGRectMake(0, 229, self.view.frame.size.width, 1)];
     bottomLine.backgroundColor = [UIColor blackColor];
-    [self.uploadPostPreviewViewForLabels addSubview:bottomLine];
+    [self.uploadPostPreviewViewForLabels addSubview:bottomLine];*/
   //  self.uploadPostPreviewViewForLabels.layer.borderWidth = 5;
   //  self.uploadPostPreviewViewForLabels.layer.borderColor = [UIColor darkGrayColor].CGColor;
     [self.uploadPostViewForImageViews addSubview:self.uploadPostPreviewViewForLabels];
@@ -998,7 +998,7 @@
     self.uploadPostPreviewUsernameLabel.adjustsFontSizeToFitWidth = YES;
     self.uploadPostPreviewUsernameLabel.minimumScaleFactor = 0.5;
     [self.uploadPostPreviewViewForLabels addSubview:self.uploadPostPreviewUsernameLabel];
-    
+    [self.uploadPostPreviewViewForLabels setAlpha:0];
   /*  self.uploadPostPreviewTimeStampLabel = [[UILabel alloc] initWithFrame:CGRectMake(3*(self.view.frame.size.width/4), 10, (self.view.frame.size.width/4)-10, 20)];
     self.uploadPostPreviewTimeStampLabel.text = @"Just now";
     self.uploadPostPreviewTimeStampLabel.textColor = [UIColor grayColor];
@@ -1016,7 +1016,7 @@
     [self.uploadPostPreviewViewForLabels addSubview:self.uploadPostPreviewLocationLabel];
     */
     
-    self.uploadPostImageViewOne = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, (self.view.frame.size.height/2))];
+    self.uploadPostImageViewOne = [[UIImageView alloc] initWithFrame:CGRectMake(0, -(self.view.frame.size.width/2), self.view.frame.size.width, (self.view.frame.size.height/2))];
     self.uploadPostImageViewOne.image = [self cropImage:self.uploadPostTempImageOne cropSize:CGSizeMake(self.view.frame.size.width, self.uploadPostViewForImageViews.frame.size.height/2)];
 
     
@@ -1025,7 +1025,7 @@
     [self.uploadPostImageViewOne setUserInteractionEnabled:YES];
     [self.uploadPostImageViewOne addGestureRecognizer:self.uploadPostTapGestureToOpenImageViewOne];
     
-    self.uploadPostImageViewTwo = [[UIImageView alloc] initWithFrame:CGRectMake(0, (self.view.frame.size.height/2), self.view.frame.size.width, self.view.frame.size.height/2)];
+    self.uploadPostImageViewTwo = [[UIImageView alloc] initWithFrame:CGRectMake(0, (self.view.frame.size.height), self.view.frame.size.width, self.view.frame.size.height/2)];
     self.uploadPostImageViewTwo.image = [self cropImage:self.uploadPostTempImageTwo cropSize:CGSizeMake(self.view.frame.size.width, self.uploadPostViewForImageViews.frame.size.height/2)];
 
     [self.uploadPostViewForImageViews addSubview:self.uploadPostImageViewTwo];
@@ -1043,8 +1043,15 @@
     [self.uploadPostBlueMenuButton setImage:yellowMenuButtonImage forState:UIControlStateNormal];
     [self.uploadPostBlueMenuButton addTarget:self action:@selector(uploadPostYellowMenuButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
     [self.uploadPostViewForImageViews addSubview:self.uploadPostBlueMenuButton];
-    
-    
+    [self.uploadPostBlueMenuButton setAlpha:0];
+    [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionCurveLinear animations:^{
+        self.uploadPostImageViewOne.frame = CGRectMake(0, 0, self.view.frame.size.width, (self.view.frame.size.height/2));
+        self.uploadPostImageViewTwo.frame = CGRectMake(0, (self.view.frame.size.height/2), self.view.frame.size.width, self.view.frame.size.height/2);
+        
+    } completion:^(BOOL finished) {
+        [self.uploadPostBlueMenuButton setAlpha:1];
+        [self.uploadPostPreviewViewForLabels setAlpha:1];
+    }];
     
 }
 //upload post yellow menu button pressed
@@ -1052,14 +1059,21 @@
     [self.uploadPostBlueMenuButton setAlpha:0];
     [self.uploadPostTapGestureToOpenImageViewOne setEnabled:NO];
     [self.uploadPostTapGestureToOpenImageViewTwo setEnabled:NO];
-    [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionCurveLinear animations:^{
+    [UIView animateWithDuration:0.7 delay:0 usingSpringWithDamping:0.6 initialSpringVelocity:0 options:UIViewAnimationOptionCurveLinear animations:^{
+        self.uploadPostImageViewOne.frame =CGRectMake(0, -115, [self viewWidth], [self viewHeight]/2);
+        self.uploadPostImageViewTwo.frame = CGRectMake(0, ([self viewHeight]/2)+115, [self viewWidth], [self viewHeight]/2);
+    } completion:^(BOOL finished) {
+        UITapGestureRecognizer *uploadPostTapToCloseLabelMenu = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(uploadPostCloseMenuAction:)];
+        [self.uploadPostViewForImageViews addGestureRecognizer:uploadPostTapToCloseLabelMenu];
+    }];
+  /*  [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionCurveLinear animations:^{
         self.uploadPostImageViewOne.frame =CGRectMake(0, -115, [self viewWidth], [self viewHeight]/2);
         self.uploadPostImageViewTwo.frame = CGRectMake(0, ([self viewHeight]/2)+115, [self viewWidth], [self viewHeight]/2);
 
     } completion:^(BOOL finished) {
         UITapGestureRecognizer *uploadPostTapToCloseLabelMenu = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(uploadPostCloseMenuAction:)];
         [self.uploadPostViewForImageViews addGestureRecognizer:uploadPostTapToCloseLabelMenu];
-    }];
+    }];*/
     
     
 }
@@ -1078,6 +1092,7 @@
 //upload see fullsize photos
 -(void)uploadTapToSeeFullSizeImage:(UITapGestureRecognizer*)recognize {
     [self.uploadPostBlueMenuButton setAlpha:0];
+    [self.exitSecondViewButton setAlpha:0];
     self.uploadPostViewForFullSizeImageView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
     self.uploadPostViewForFullSizeImageView.backgroundColor = [UIColor blackColor];
     [self.uploadPostViewForImageViews addSubview:self.uploadPostViewForFullSizeImageView];
@@ -1213,6 +1228,7 @@
 -(void)uploadTapToCloseFullSizeImageView:(UITapGestureRecognizer*)recognize{
     [self.uploadPostViewForFullSizeImageView removeFromSuperview];
     [self.uploadPostBlueMenuButton setAlpha:1];
+    [self.exitSecondViewButton setAlpha:1];
 }
 //action to load personal posts
 -(void)personalPostsButtonAction:(UIButton*)sender {
@@ -2112,36 +2128,7 @@
                     
                 }
             }
-           /* if(selectedRow == 2) {
-                //report a problem
-                if([MFMailComposeViewController canSendMail]) {
-                    MFMailComposeViewController *composeViewController = [[MFMailComposeViewController alloc] initWithNibName:nil bundle:nil];
-                    [composeViewController setMailComposeDelegate:self];
-                    [composeViewController setToRecipients:@[@"reportAProblem@thisThat.me"]];
-                    NSString *subjectString = [NSString stringWithFormat:@"Report a problem, user: %@",username];
-                    [composeViewController setSubject:subjectString];
-                    [composeViewController setMessageBody:@"I would like to report a problem..." isHTML:YES];
-                    [self presentViewController:composeViewController animated:YES completion:nil];
-                    
-                }
-                
-                
-            }*/
-           /* if(selectedRow == 3){
-                //delete account
-                if([MFMailComposeViewController canSendMail]) {
-                    MFMailComposeViewController *composeViewController = [[MFMailComposeViewController alloc] initWithNibName:nil bundle:nil];
-                    [composeViewController setMailComposeDelegate:self];
-                    [composeViewController setToRecipients:@[@"deleteAccount@thisThat.me"]];
-                    NSString *subjectString = [NSString stringWithFormat:@"Delete account, user: %@",username];
-                    [composeViewController setSubject:subjectString];
-                    [composeViewController setMessageBody:@"I would like to delete my account because..." isHTML:YES];
-                    [self presentViewController:composeViewController animated:YES completion:nil];
-                    
-                }
-                
-                
-            }*/
+      
         }
         if(selectedSection == 4){
             if(selectedRow == 0){
@@ -2341,11 +2328,7 @@
 }
 //upload post text view end edditing
 -(BOOL)textViewShouldEndEditing:(UITextView *)textView {
-   /* if([self.uploadPostTextView.text isEqualToString:@""]){
-        self.uploadPostTextView.text = @"What are you comparing?";
-    } else {
-        self.uploadPostTextViewString = self.uploadPostTextView.text;       
-    }*/
+    
     if([self.uploadPostTextView.text isEqualToString:@""]){
         [self.uploadPostTextViewPlaceHolderLabel setHidden:NO];
     } else {
@@ -2407,7 +2390,7 @@
 
 //determingin which camera button was pressed for imagepicker and initalizing imagepicker
 -(void)addPhotoButtonPressed:(UIButton*)button {
-    
+    [self.exitFirstViewButton setAlpha:0];
     if(button == self.uploadPostCameraButtonOne){
         self.selectedCameraInt = 1;
         NSLog(@"buttonOnePressed");
@@ -2510,6 +2493,7 @@
     } completion:^(BOOL finished) {
         
         [self.uploadPostAddPhotoBackgroundView removeFromSuperview];
+        [self.exitFirstViewButton setAlpha:1];
     }];
    
 }
@@ -2544,6 +2528,7 @@
        
     }
     [self dismissViewControllerAnimated:YES completion:nil];
+    [self.exitFirstViewButton setAlpha:1];
     [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationNone];
     if(self.uploadPostTempImageOne != nil && self.uploadPostTempImageTwo != nil) {
         [self.uploadPostPreviewButton setHidden:NO];
@@ -2551,7 +2536,10 @@
     }
     
 }
-
+-(void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
+    [self dismissViewControllerAnimated:YES completion:nil];
+    [self.exitFirstViewButton setAlpha:1];
+}
 //open newsfeed action
 -(void)feedButtonAction:(UIButton*)sender {
     UIImage *feedIcon = [UIImage imageNamed:@"newsFeedIconWhite.png"];
@@ -2580,37 +2568,10 @@
         [self.newsFeedView addGestureRecognizer:closeMenu];
       //  [self.newsFeedViewForLabels setAlpha:1];
     }];
-    
-   /* [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionCurveEaseIn animations:^{
         
-        self.newsFeedImageViewOne.frame =CGRectMake(0, -115, [self viewWidth], [self viewHeight]/2);
-        self.newsFeedImageViewTwo.frame = CGRectMake(0, ([self viewHeight]/2)+115, [self viewWidth], [self viewHeight]/2);
-    } completion:^(BOOL finished) {
-        UITapGestureRecognizer *closeMenu = [[UITapGestureRecognizer alloc] init];
-        [closeMenu addTarget:self action:@selector(closeMenuSelector:)];
-        [self.newsFeedView addGestureRecognizer:closeMenu];
-    
-    }];*/
-    
 }
 //news feed animate pictures to close to hide text
 -(void)closeMenuSelector:(UITapGestureRecognizer*)recognize{
-  /*  [UIView animateWithDuration:0.7 delay:0 usingSpringWithDamping:0.6 initialSpringVelocity:0 options:UIViewAnimationOptionCurveLinear animations:^{
-        self.newsFeedImageViewOne.frame =CGRectMake(0, 0, [self viewWidth], [self viewHeight]/2);
-        self.newsFeedImageViewTwo.frame = CGRectMake(0, ([self viewHeight]/2), [self viewWidth], [self viewHeight]/2);
-        
-    } completion:^(BOOL finished) {
-        [self.newsFeedBlueMenuButton setAlpha:1.0];
-        [self.newsFeedView removeGestureRecognizer:recognize];
-        [self.newsFeedPanGestureImageViewOne setEnabled:YES];
-        [self.newsFeedPanGestureImageViewTwo setEnabled:YES];
-        [self.newsFeedTapGestureToOpenImageViewOne setEnabled:YES];
-        [self.newsFeedTapGestureToOpenImageViewTwo setEnabled:YES];
-       // [self.newsFeedViewForLabels setAlpha:0];
-        [self.newsFeedCloseViewButton setAlpha:1.0];
-    }];*/
-    
-    
     
     [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionCurveLinear animations:^{
  self.newsFeedImageViewOne.frame =CGRectMake(0, 0, [self viewWidth], [self viewHeight]/2);
@@ -2883,46 +2844,7 @@
     
 }
     }
-//pinch gesture personalposts needs to be moved with rest of pinch gestures
-/*
--(void)recognizeThePinchPersonalPosts:(UIPinchGestureRecognizer *)recognize{
-    CGFloat lastScaleFactor = 1;
-    CGFloat factor = [(UIPinchGestureRecognizer *)recognize scale];
-    
-    switch (recognize.state) {
-        case UIGestureRecognizerStateBegan:{
-            
-        }
-            break;
-        case UIGestureRecognizerStateChanged:{
-            if (factor < 1) {
-                self.personalPostsTableView.transform = CGAffineTransformMakeScale(lastScaleFactor*factor, lastScaleFactor*factor);
-                [self.exitFirstViewButton setAlpha:0];
-            }
-            if(factor < 0.45) {
-               // [self.personalPostsButton setEnabled:YES];
-                [self.personalPostsTableView removeFromSuperview];
-                [self.exitFirstViewButton removeFromSuperview];
-                
-            }
-        }
-            break;
-        case UIGestureRecognizerStateEnded: {
-            if(factor > 0.45) {
-                [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionCurveLinear animations:^{
-                    self.personalPostsTableView.transform = CGAffineTransformMakeScale(lastScaleFactor, lastScaleFactor);
-                } completion:^(BOOL finished) {
-                    [self.exitFirstViewButton setAlpha:1];
-                }];
-                
-            }
-        }
-        default:
-            break;
-    }
 
-    
-}*/
 
 // ****************************************************************************************************
 // Pan Recognizer Image Current in news feed for voting
@@ -2971,9 +2893,18 @@
                     CGFloat viewWdith = CGRectGetWidth(self.view.frame);
                     CGFloat alphaValue = [self minXImageView:minXView viewWdith:viewWdith];
                     CGFloat alphaValue2 = [self newMinXImageView:minXView newViewWdith:viewWdith];
+                    CGFloat alphaValue3 = [self fadingImage:minXView newViewWidth:viewWdith];
+                    
+                    CGFloat yAmountZoomedIn = 1 + [self amountToZoom:minXView newViewWidth:viewWdith];
+                    CGAffineTransform transform = CGAffineTransformMakeScale(yAmountZoomedIn, yAmountZoomedIn);
+                    self.newsFeedVoteForThisImageView.transform = transform;
+                    self.newsFeedNotThatImageView.transform = transform;
+                    
+
                     [self.newsFeedVoteForThisImageView setAlpha:alphaValue2];
                     [self.newsFeedNotThatImageView setAlpha:alphaValue2];
-
+                    [self.newsFeedImageViewOne setAlpha:alphaValue3];
+                    [self.newsFeedImageViewTwo setAlpha:alphaValue3];
                     [self.newsFeedImageOneCheckMarkView setAlpha:alphaValue];
                     [self.newsFeedImageOneXMarkView setAlpha:0];
                     [self.newsFeedImageTwoXMarkView setAlpha:alphaValue];
@@ -2986,7 +2917,15 @@
                     CGFloat viewWdith = CGRectGetWidth(self.view.frame);
                     CGFloat alphaValue = [self minXImageView:minXView viewWdith:viewWdith];
                     CGFloat alphaValue2 = [self newMinXImageView:minXView newViewWdith:viewWdith];
+                     CGFloat alphaValue3 = [self fadingImage:minXView newViewWidth:viewWdith];
                     
+                    CGFloat yAmountZoomedIn = 1 + [self amountToZoom:minXView newViewWidth:viewWdith];
+                    CGAffineTransform transform = CGAffineTransformMakeScale(yAmountZoomedIn, yAmountZoomedIn);
+                    self.newsFeedVoteForThatImageView.transform = transform;
+                    self.newsFeedNotThisImageView.transform = transform;
+                    
+                    [self.newsFeedImageViewOne setAlpha:alphaValue3];
+                    [self.newsFeedImageViewTwo setAlpha:alphaValue3];
                     [self.newsFeedNotThisImageView setAlpha:alphaValue2];
                     [self.newsFeedVoteForThatImageView setAlpha:alphaValue2];
                     [self.newsFeedImageOneXMarkView setAlpha:alphaValue];
@@ -3004,8 +2943,15 @@
                     CGFloat viewWdith = CGRectGetWidth(self.view.frame);
                     CGFloat alphaValue = [self minXImageView:minXView viewWdith:viewWdith];
                     CGFloat alphaValue2 = [self newMinXImageView:minXView newViewWdith:viewWdith];
+                    CGFloat alphaValue3 = [self fadingImage:minXView newViewWidth:viewWdith];
                     
-                    
+                    CGFloat yAmountZoomedIn = 1 + [self amountToZoom:minXView newViewWidth:viewWdith];
+                    CGAffineTransform transform = CGAffineTransformMakeScale(yAmountZoomedIn, yAmountZoomedIn);
+                    self.newsFeedVoteForThisImageView.transform = transform;
+                    self.newsFeedNotThatImageView.transform = transform;
+
+                    [self.newsFeedImageViewOne setAlpha:alphaValue3];
+                    [self.newsFeedImageViewTwo setAlpha:alphaValue3];
                     [self.newsFeedVoteForThisImageView setAlpha:alphaValue2];
                     [self.newsFeedNotThatImageView setAlpha:alphaValue2];
                     [self.newsFeedImageOneCheckMarkView setAlpha:alphaValue];
@@ -3019,6 +2965,19 @@
                     CGFloat viewWdith = CGRectGetWidth(self.view.frame);
                     CGFloat alphaValue = [self minXImageView:minXView viewWdith:viewWdith];
                     CGFloat alphaValue2 = [self newMinXImageView:minXView newViewWdith:viewWdith];
+                    CGFloat alphaValue3 = [self fadingImage:minXView newViewWidth:viewWdith];
+                    
+                    CGFloat yAmountZoomedIn = 1 + [self amountToZoom:minXView newViewWidth:viewWdith];
+                    CGAffineTransform transform = CGAffineTransformMakeScale(yAmountZoomedIn, yAmountZoomedIn);
+                    self.newsFeedVoteForThatImageView.transform = transform;
+                    self.newsFeedNotThisImageView.transform = transform;
+                    
+                    [self.newsFeedImageViewOne setAlpha:alphaValue3];
+                    [self.newsFeedImageViewTwo setAlpha:alphaValue3];
+
+                    
+                    
+                    
                     [self.newsFeedNotThisImageView setAlpha:alphaValue2];
                     [self.newsFeedVoteForThatImageView setAlpha:alphaValue2];
                     
@@ -3042,10 +3001,11 @@
 
             if(imageViewOneCurrentMinX > 0) {
                 CGFloat velocityX = fabs([recognize velocityInView:self.newsFeedImageViewOne].x);
-                if(imageViewOneCurrentMinX < (viewControllerMaxX/3) && velocityX > 150) {
+                if(imageViewOneCurrentMinX < (viewControllerMaxX/2) && velocityX > 150) {
                     //vote for imageOne
                     self.voteCounter = 1;
                     [self voteForImage];
+                    
                     [self.newsFeedVoteForThisImageView setAlpha:1];
                     [self.newsFeedNotThatImageView setAlpha:1];
                     [self.newsFeedImageOneCheckMarkView setAlpha:1];
@@ -3073,25 +3033,17 @@
                             [self.newsFeedNotThatImageView setAlpha:0];
                         } completion:^(BOOL finished) {
                              [self imagesAreDonePreLoading];
-                          /*  [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionCurveLinear animations:^{
-                                self.newsFeedImageViewOne.frame =CGRectMake(0, 0, widthFrame, heightFrame/2);
-                                self.newsFeedImageViewTwo.frame = CGRectMake(0, (heightFrame/2), widthFrame, heightFrame/2);
-                                
-                            } completion:^(BOOL finished) {
-                                [self.newsFeedBlueMenuButton setAlpha:1.0];
-                                [self.newsFeedCloseViewButton setAlpha:1.0];
-                                
-                            }];*/
                             
                         }];
                         
                     }];
 
                 }
-                if(imageViewOneCurrentMinX > (viewControllerMaxX/3)) {
+                if(imageViewOneCurrentMinX >= (viewControllerMaxX/2)) {
                     //vote for iamgeOne
                     self.voteCounter = 1;
                     [self voteForImage];
+                    
                     [self.newsFeedVoteForThisImageView setAlpha:1];
                     [self.newsFeedNotThatImageView setAlpha:1];
                     NSLog(@"\nvelcotity:%f",velocityX);
@@ -3120,15 +3072,7 @@
                             [self.newsFeedNotThatImageView setAlpha:0];
                         } completion:^(BOOL finished) {
                             [self imagesAreDonePreLoading];
-                        /*    [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionCurveLinear animations:^{
-                                self.newsFeedImageViewOne.frame =CGRectMake(0, 0, widthFrame, heightFrame/2);
-                                self.newsFeedImageViewTwo.frame = CGRectMake(0, (heightFrame/2), widthFrame, heightFrame/2);
-                                
-                            } completion:^(BOOL finished) {
-                                [self.newsFeedBlueMenuButton setAlpha:1.0];
-                                [self.newsFeedCloseViewButton setAlpha:1.0];
-                                
-                            }];*/
+
                             
                         }];
                         
@@ -3136,9 +3080,9 @@
 
                     
                 }
-                if(imageViewOneCurrentMinX < (viewControllerMaxX/3) && velocityX <= 150) {
+                if(imageViewOneCurrentMinX < (viewControllerMaxX/2) && velocityX <= 150) {
                     //return don't vote
-                    [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionCurveLinear animations:^{
+                    [UIView animateWithDuration:0.5 delay:0 usingSpringWithDamping:0.7 initialSpringVelocity:0 options:UIViewAnimationOptionCurveLinear animations:^{
                         self.newsFeedImageViewOne.frame = CGRectMake(0, 0, widthFrame, heightFrame/2);
                         self.newsFeedImageViewTwo.frame = CGRectMake(0, heightFrame/2, widthFrame, heightFrame/2);
                         
@@ -3150,70 +3094,26 @@
                         [self.newsFeedImageOneXMarkView setAlpha:0];
                         [self.newsFeedImageTwoCheckMarkView setAlpha:0];
                         [self.newsFeedImageTwoXMarkView setAlpha:0];
-                    } completion:^(BOOL finished) {
+                        [self.newsFeedImageViewOne setAlpha:1];
+                        [self.newsFeedImageViewTwo setAlpha:1];
                         
+                    } completion:^(BOOL finished) {
                         [self.newsFeedBlueMenuButton setAlpha:1.0];
                         [self.newsFeedCloseViewButton setAlpha:1.0];
                         [self.newsFeedViewForLabels setAlpha:1.0];
                     }];
+                  
                 }
                 }
-            
-          /*      if(imageViewOneCurrentMinX > (viewControllerMaxX/4)) {
-                    
-                self.voteCounter = 1;
-                [self voteForImage];
-                [self.newsFeedVoteForThisImageView setAlpha:1];
-                [self.newsFeedNotThatImageView setAlpha:1];
-                   CGFloat velocityX = fabs([recognize velocityInView:self.newsFeedImageViewOne].x);
-                NSLog(@"\nvelcotity:%f",velocityX);
-                    CGFloat viewWidth = CGRectGetWidth(self.view.frame);
-                    CGFloat distanceToOffScreen = fabs(viewWidth - imageViewOneCurrentMinX);
-                    NSTimeInterval timeRemainingToOffScreen = distanceToOffScreen/velocityX;
-                
-                if(timeRemainingToOffScreen > 0.5) {
-                    timeRemainingToOffScreen = 0.5;
-                }
-      
-                
-                [UIView animateWithDuration:timeRemainingToOffScreen delay:0 options:UIViewAnimationOptionCurveEaseIn animations:^{
-                    self.newsFeedImageViewOne.frame = CGRectMake(widthFrame, 0, widthFrame, heightFrame/2);
-                    self.newsFeedImageViewTwo.frame = CGRectMake(-widthFrame, heightFrame/2, widthFrame, heightFrame/2);
-                    
-                } completion:^(BOOL finished) {
-                    //[self loadImagesAfterSwipe];
-                    [self imagesAreDonePreLoading];
-                    self.newsFeedImageViewOne.frame = CGRectMake(0, -heightFrame/2, widthFrame, heightFrame/2);
-                    self.newsFeedImageViewTwo.frame = CGRectMake(0, heightFrame, widthFrame, heightFrame/2);
-                    [self.newsFeedImageOneCheckMarkView setAlpha:0];
-                    [self.newsFeedImageTwoXMarkView setAlpha:0];
-                    [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionCurveEaseIn animations:^{
-                        [self.newsFeedVoteForThisImageView setAlpha:0];
-                        [self.newsFeedNotThatImageView setAlpha:0];
-                    } completion:^(BOOL finished) {
-                        [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionCurveLinear animations:^{
-                            self.newsFeedImageViewOne.frame =CGRectMake(0, 0, widthFrame, heightFrame/2);
-                            self.newsFeedImageViewTwo.frame = CGRectMake(0, (heightFrame/2), widthFrame, heightFrame/2);
-                            
-                        } completion:^(BOOL finished) {
-                            [self.newsFeedBlueMenuButton setAlpha:1.0];
-                            [self.newsFeedCloseViewButton setAlpha:1.0];
-                            
-                        }];
-                        
-                    }];
-                    
-                    }];
-                    
-            }*/
             //VOTE FOR IMAGE TWO
             
             if(imageViewTwoCurrentMinX > 0) {
                 CGFloat velocityX = fabs([recognize velocityInView:self.newsFeedImageViewTwo].x);
-                if(imageViewTwoCurrentMinX < (viewControllerMaxX/3) && velocityX > 150) {
+                if(imageViewTwoCurrentMinX < (viewControllerMaxX/2) && velocityX > 150) {
                     //vote imageViewTwo
                     self.voteCounter = 2;
                     [self voteForImage];
+                         
                     [self.newsFeedNotThisImageView setAlpha:1];
                     [self.newsFeedVoteForThatImageView setAlpha:1];
                     [self.newsFeedImageOneCheckMarkView setAlpha:0];
@@ -3240,19 +3140,12 @@
                             [self.newsFeedVoteForThatImageView setAlpha:0];
                         } completion:^(BOOL finished) {
                             [self imagesAreDonePreLoading];
-                          /*  [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionCurveLinear animations:^{
-                                self.newsFeedImageViewOne.frame =CGRectMake(0, 0, widthFrame, heightFrame/2);
-                                self.newsFeedImageViewTwo.frame = CGRectMake(0, (heightFrame/2), widthFrame, heightFrame/2);
-                            } completion:^(BOOL finished) {
-                                [self.newsFeedBlueMenuButton setAlpha:1.0];
-                                [self.newsFeedCloseViewButton setAlpha:1.0];
-                            }];*/
                         }];
                         
                     }];
 
                 }
-                if(imageViewTwoCurrentMinX > (viewControllerMaxX/3) ) {
+                if(imageViewTwoCurrentMinX >= (viewControllerMaxX/2) ) {
                     //vote imageViewTwo
                     self.voteCounter = 2;
                     [self voteForImage];
@@ -3282,21 +3175,14 @@
                             [self.newsFeedVoteForThatImageView setAlpha:0];
                         } completion:^(BOOL finished) {
                             [self imagesAreDonePreLoading];
-                         /*   [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionCurveLinear animations:^{
-                                self.newsFeedImageViewOne.frame =CGRectMake(0, 0, widthFrame, heightFrame/2);
-                                self.newsFeedImageViewTwo.frame = CGRectMake(0, (heightFrame/2), widthFrame, heightFrame/2);
-                            } completion:^(BOOL finished) {
-                                [self.newsFeedBlueMenuButton setAlpha:1.0];
-                                [self.newsFeedCloseViewButton setAlpha:1.0];
-                            }];*/
                         }];
                         
                     }];
 
                 }
-                if(imageViewTwoCurrentMinX < (viewControllerMaxX/3) && velocityX < 150) {
+                if(imageViewTwoCurrentMinX < (viewControllerMaxX/2) && velocityX < 150) {
                     // don't vote
-                    [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionCurveLinear animations:^{
+                    [UIView animateWithDuration:0.5 delay:0 usingSpringWithDamping:0.7 initialSpringVelocity:0 options:UIViewAnimationOptionCurveLinear animations:^{
                         self.newsFeedImageViewOne.frame = CGRectMake(0, 0, widthFrame, heightFrame/2);
                         self.newsFeedImageViewTwo.frame = CGRectMake(0, heightFrame/2, widthFrame, heightFrame/2);
                         
@@ -3308,107 +3194,100 @@
                         [self.newsFeedImageOneXMarkView setAlpha:0];
                         [self.newsFeedImageTwoCheckMarkView setAlpha:0];
                         [self.newsFeedImageTwoXMarkView setAlpha:0];
+                        [self.newsFeedImageViewOne setAlpha:1];
+                        [self.newsFeedImageViewTwo setAlpha:1];
                     } completion:^(BOOL finished) {
-                        
                         [self.newsFeedViewForLabels setAlpha:1.0];
                         [self.newsFeedBlueMenuButton setAlpha:1.0];
                         [self.newsFeedCloseViewButton setAlpha:1.0];
                     }];
-
+                    
                 }
             }
             if(imageViewOneCurrentMinX <= 0 && imageViewTwoCurrentMinX <= 0) {
                 NSLog(@"neitherPhotoMoved");
-                [self.newsFeedBlueMenuButton setAlpha:1];
+              /*  [self.newsFeedBlueMenuButton setAlpha:1];
                 [self.newsFeedCloseViewButton setAlpha:1];
-                [self.newsFeedViewForLabels setAlpha:1.0];
+                [self.newsFeedViewForLabels setAlpha:1.0];*/
+                [UIView animateWithDuration:0.2 delay:0 usingSpringWithDamping:0.7 initialSpringVelocity:0 options:UIViewAnimationOptionCurveLinear animations:^{
+                    self.newsFeedImageViewOne.frame = CGRectMake(0, 0, widthFrame, heightFrame/2);
+                    self.newsFeedImageViewTwo.frame = CGRectMake(0, heightFrame/2, widthFrame, heightFrame/2);
+                    
+                    [self.newsFeedVoteForThisImageView setAlpha:0];
+                    [self.newsFeedNotThatImageView setAlpha:0];
+                    [self.newsFeedNotThisImageView setAlpha:0];
+                    [self.newsFeedVoteForThatImageView setAlpha:0];
+                    [self.newsFeedImageOneCheckMarkView setAlpha:0];
+                    [self.newsFeedImageOneXMarkView setAlpha:0];
+                    [self.newsFeedImageTwoCheckMarkView setAlpha:0];
+                    [self.newsFeedImageTwoXMarkView setAlpha:0];
+                    [self.newsFeedImageViewOne setAlpha:1];
+                    [self.newsFeedImageViewTwo setAlpha:1];
+                } completion:^(BOOL finished) {
+                    [self.newsFeedViewForLabels setAlpha:1.0];
+                    [self.newsFeedBlueMenuButton setAlpha:1.0];
+                    [self.newsFeedCloseViewButton setAlpha:1.0];
+                }];
+                
+            
+
             }
-        /*    else {
-                [self.newsFeedBlueMenuButton setAlpha:1];
-                [self.newsFeedCloseViewButton setAlpha:1];
-            }*/
          
         }
     }
-    
+
 }
 //returning alpha value for opacity depending on amount panned
 -(CGFloat)minXImageView:(CGFloat)minXPosition viewWdith:(CGFloat)viewWdith {
     CGFloat percentCovered = minXPosition/viewWdith;
-    if(percentCovered> 0.33) {
+    if(percentCovered >0.5) {
         return 1.0;
     }
-    if(percentCovered >0.30){
-        return 0.9;
-    }
-    if(percentCovered>0.27){
-        return 0.8;
-    }
-    if(percentCovered> 0.24) {
-        return 0.7;
-    }
-    if(percentCovered >0.21){
-        return 0.6;
-    }
-    if(percentCovered>0.18){
-        return 0.5;
-    }if(percentCovered> 0.15) {
-        return .40;
-    }
-    if(percentCovered >0.12){
-        return 0.3;
-    }
-    if(percentCovered>0.09){
-        return 0.2;
-    }
     else {
-     return 0.0;
+    return percentCovered*2;
     }
-    
-    
     
 }
 //second alpha value for opacity
 -(CGFloat)newMinXImageView:(CGFloat)minXPosition newViewWdith:(CGFloat)viewWdith {
     CGFloat percentCovered = minXPosition/viewWdith;
-    if(percentCovered > 0.67) {
-        return 1.0;
+    if(percentCovered < 0.25) {
+        return 0;
     }
-    if(percentCovered> 0.64) {
-        return 0.9;
+    if(percentCovered >=0.25 && percentCovered<=0.65) {
+        return (percentCovered-0.25)/0.4;
     }
-    if(percentCovered >0.61){
-        return 0.8;
-    }
-    if(percentCovered>0.58){
-        return 0.7;
-    }
-    if(percentCovered> 0.55) {
-        return 0.6;
-    }
-    if(percentCovered >0.52){
-        return 0.5;
-    }
-    if(percentCovered>0.49){
-        return 0.4;
-    }if(percentCovered> 0.46) {
-        return .3;
-    }
-    if(percentCovered >0.43){
-        return 0.2;
-    }
-    if(percentCovered>0.4){
-        return 0.1;
-    }
+    if(percentCovered > 0.65){
+        return 1;
+    }   
     else {
-        return 0.0;
+        return 0;
     }
-    
-    
-    
 }
-
-
+-(CGFloat)fadingImage:(CGFloat)minXPosition newViewWidth:(CGFloat)viewWidth {
+    CGFloat percentCovered = minXPosition/viewWidth;
+    if(percentCovered < 0.25) {
+        return 1.0;
+    } else {
+        CGFloat percentCoveredNew = percentCovered - 0.25;
+        return 1-(percentCoveredNew/0.75);
+    }
+}
+-(CGFloat)amountToZoom:(CGFloat)minxPosition newViewWidth:(CGFloat)viewWidth {
+    CGFloat percentCovered = minxPosition/viewWidth;
+    if(percentCovered < 0.25) {
+        return 0;
+    }
+    if(percentCovered >=0.25 && percentCovered <=0.65){
+        return percentCovered-0.25;
+    }
+  if(percentCovered >0.65) {
+      return 0.4;
+  }
+  else {
+      return 0;
+  }
+}
 
 // ****************************************************************************************************
 // Vote For Image
@@ -3419,7 +3298,7 @@
     NSUserDefaults *userDefaultContents = [NSUserDefaults standardUserDefaults];
     NSObject *userToken = [userDefaultContents objectForKey:@"tokenIDString"];
     NSLog(@"voteCounter:%d",self.voteCounter);
-    if(self.voteCounter == 1){
+   if(self.voteCounter == 1){
               NSString *pathVoteImageOne = [NSString stringWithFormat:@"/api/v1/thisthats/%@/1/vote?access_token=%@",postID,userToken];
         [[RKObjectManager sharedManager] postObject:nil path:pathVoteImageOne parameters:nil success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
             NSLog(@"voteForImageOneSuccess");
@@ -4216,13 +4095,13 @@
     //PercentageLabels
 
     UIImage *voteForThisImageAI = [UIImage imageNamed:@"voteTHIS.png"];
-    self.newsFeedVoteForThisImageView = [[UIImageView alloc] initWithFrame:CGRectMake(30, 30, self.view.frame.size.width-60,(self.view.frame.size.height/2)-60)];
+    self.newsFeedVoteForThisImageView = [[UIImageView alloc] initWithFrame:CGRectMake((self.view.frame.size.width/2)-((self.view.frame.size.width/1.5)/2), (self.view.frame.size.height/4)-((self.view.frame.size.height/3)/2), (self.view.frame.size.width/1.5),(self.view.frame.size.height/3))];
     self.newsFeedVoteForThisImageView.image = voteForThisImageAI;
     self.newsFeedVoteForThisImageView.contentMode = UIViewContentModeScaleAspectFit;
     [self.newsFeedVoteForThisImageView setAlpha:0];
     [self.newsFeedView addSubview:self.newsFeedVoteForThisImageView];
     UIImage *notThis = [UIImage imageNamed:@"notTHIS.png"];
-    self.newsFeedNotThisImageView = [[UIImageView alloc] initWithFrame:CGRectMake(30, 30, self.view.frame.size.width-60, (self.view.frame.size.height/2)-60)];
+    self.newsFeedNotThisImageView = [[UIImageView alloc] initWithFrame:CGRectMake((self.view.frame.size.width/2)-((self.view.frame.size.width/1.5)/2), (self.view.frame.size.height/4)-((self.view.frame.size.height/3)/2), (self.view.frame.size.width/1.5),(self.view.frame.size.height/3))];
     self.newsFeedNotThisImageView.image = notThis;
     self.newsFeedNotThisImageView.contentMode = UIViewContentModeScaleAspectFit;
     [self.newsFeedNotThisImageView setAlpha:0];
@@ -4269,14 +4148,14 @@
 
    
     UIImage *notThatImage = [UIImage imageNamed:@"notThis-That.png"];
-    self.newsFeedNotThatImageView = [[UIImageView alloc] initWithFrame:CGRectMake(30, (self.view.frame.size.height/2)+30, self.view.frame.size.width-60, (self.view.frame.size.height/2)-60)];
+    self.newsFeedNotThatImageView = [[UIImageView alloc] initWithFrame:CGRectMake((self.view.frame.size.width/2)-((self.view.frame.size.width/1.5)/2), (3*self.view.frame.size.height/4)-((self.view.frame.size.height/3)/2), (self.view.frame.size.width/1.5),(self.view.frame.size.height/3))];
     self.newsFeedNotThatImageView.image = notThatImage;
     self.newsFeedNotThatImageView.contentMode = UIViewContentModeScaleAspectFit;
     [self.newsFeedNotThatImageView setAlpha:0];
     [self.newsFeedView addSubview:self.newsFeedNotThatImageView];
     
     UIImage *voteForThat = [UIImage imageNamed:@"voteTHAT.png"];
-    self.newsFeedVoteForThatImageView = [[UIImageView alloc] initWithFrame:CGRectMake(30, (self.view.frame.size.height/2)+30, self.view.frame.size.width-60, (self.view.frame.size.height/2)-60)];
+    self.newsFeedVoteForThatImageView = [[UIImageView alloc] initWithFrame:CGRectMake((self.view.frame.size.width/2)-((self.view.frame.size.width/1.5)/2), (3*self.view.frame.size.height/4)-((self.view.frame.size.height/3)/2), (self.view.frame.size.width/1.5),(self.view.frame.size.height/3))];
     self.newsFeedVoteForThatImageView.image = voteForThat;
     self.newsFeedVoteForThatImageView.contentMode = UIViewContentModeScaleAspectFit;
     [self.newsFeedVoteForThatImageView setAlpha:0];

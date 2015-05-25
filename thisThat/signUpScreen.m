@@ -374,7 +374,7 @@
                 
             }
             if([localizedRecoverySuggestion isEqualToString:missingParameters]) {
-                self.missingParametersAlert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Please enter a username, password and phone number." delegate:self cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+                self.missingParametersAlert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Please enter a username, password and 10 digit phone number." delegate:self cancelButtonTitle:@"Okay" otherButtonTitles:nil];
                 [self.missingParametersAlert show];
                 
             }
@@ -387,8 +387,9 @@
         }];
     }
     else {
-        UIAlertView *phoneNumberNotTenDigits = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Please enter a 10 digit phone number" delegate:self cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+        UIAlertView *phoneNumberNotTenDigits = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Please enter a username, password and a 10 digit phone number." delegate:self cancelButtonTitle:@"Okay" otherButtonTitles:nil];
         [phoneNumberNotTenDigits show];
+         [self.signupButton setEnabled:YES];
     }
     
     
