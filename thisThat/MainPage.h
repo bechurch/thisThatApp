@@ -94,7 +94,7 @@
 @property (nonatomic, strong) UIButton *newsFeedCloseViewButton;
 @property int newsFeedCounter;
 @property int initalizeNewsFeedCounterSecondRetrevial;
-
+@property (nonatomic, strong) NSTimer *characterCountTimer;
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // personalPosts
 
