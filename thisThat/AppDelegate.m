@@ -11,6 +11,7 @@
 #import "AFNetworkActivityIndicatorManager.h"
 #import "LoginScreen.h"
 #import "MainPage.h"
+
 @interface AppDelegate ()
 
 @end
@@ -21,9 +22,9 @@
 //enable networkspinner in status bar whenever a network request happens
 
 -(BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    [NSThread sleepForTimeInterval:0.4];
+    NSLog(@"YoTHO");
+  //  [NSThread sleepForTimeInterval:0.4];
     [AFNetworkActivityIndicatorManager sharedManager].enabled = YES;
-    
     
     //new shit
     
