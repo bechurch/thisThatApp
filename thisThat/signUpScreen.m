@@ -300,7 +300,8 @@
 -(void)signUpActionReturnKeyAndButton {
     [self.signupButton setEnabled:NO];
     
-    NSString *usernameString = [self.usernameTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+  //  NSString *usernameString = [self.usernameTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+    NSString *usernameString = [self.usernameTextField.text stringByReplacingOccurrencesOfString:@" " withString:@""];
     NSString *passwordString = [self.passwordTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
     NSString *phoneString = [self.phoneNumberTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
     if([phoneString length] == 10) {

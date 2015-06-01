@@ -48,6 +48,8 @@
     [self.view addSubview:backGroundImageView];*/
     self.view.backgroundColor = blueColor;
     
+    
+    
     CGFloat width = CGRectGetWidth(self.view.frame);
     CGFloat height = CGRectGetHeight(self.view.frame);
     
@@ -348,51 +350,69 @@
 
 -(void)initalizeSettingsview {
     [self presentInvisibleView];
-    self.settingsView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
-    self.settingsView.backgroundColor = [UIColor whiteColor];
-    [self.navigationController.view addSubview:self.settingsView];
-    self.exitFirstViewCounter = 3;
-    [self exitAnyViewButtonInitalize];
-    self.pinchRecognizerSettingsView = [[UIPinchGestureRecognizer alloc] initWithTarget:self  action:@selector(recognizePinchToCloseCurrentView:)];
-    [self.settingsView addGestureRecognizer:self.pinchRecognizerSettingsView];
-    self.settingsSection0LabelArray = [[NSArray alloc] initWithObjects:@"How to use thisThat", nil];
-    self.settingsSection1LabelArray = [[NSArray alloc] initWithObjects:@"Invite your friends to thisThat", nil];
-    self.settingsSection2LabelArray = [[NSArray alloc] initWithObjects:@"Instagram",@"Twitter", nil];
-    self.settingsSection3LabelArray = [[NSArray alloc] initWithObjects:@"thisThat website",@"Suggestions/Report a problem", nil];
-    self.settingsSection4LaeblArray = [[NSArray alloc] initWithObjects:@"Logout of thisThat", nil];
-    
-    UIImage *twitterImage = [UIImage imageNamed:@"Twitter_logo_blue.png"];
-    UIImage *instagramImage = [UIImage imageNamed:@"Instagram_Icon_Large.png"];
-    self.twitterIntstagramImagesArray = [[NSArray alloc] initWithObjects:instagramImage,twitterImage, nil];
-
-    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
-     UIColor *blueColor = [UIColor colorWithRed:(0/255.0) green:(196/255.0) blue:(222/255.0) alpha:1];
-    CGFloat statusBarHeight = [UIApplication sharedApplication].statusBarFrame.size.height;
-     UIView *statusBarViewColor = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, statusBarHeight)];
-    statusBarViewColor.backgroundColor = blueColor;
-    [self.settingsView addSubview:statusBarViewColor];
     CGRect navBarFrame = self.navigationController.navigationBar.frame;
-    UINavigationBar *navBar = [[UINavigationBar alloc] initWithFrame:navBarFrame];
-    navBar.barTintColor = blueColor;
-    [navBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor]}];
-   
-    [navBar setTranslucent:NO];
-    UINavigationItem *navItem = [[UINavigationItem alloc] initWithTitle:@"Settings"];
-    [navBar setItems:[NSArray arrayWithObjects:navItem, nil]];
-    [navBar setTintColor:[UIColor whiteColor]];
-    [self.settingsView addSubview:navBar];
-  
-    
-    CGFloat maxNavBarY = CGRectGetMaxY(navBar.frame);
-    
-    self.settingsTableview = [[UITableView alloc] initWithFrame:CGRectMake(0, maxNavBarY, self.view.frame.size.width, self.view.frame.size.height-maxNavBarY) style:UITableViewStyleGrouped];
-    self.settingsTableview.delegate = self;
-    self.settingsTableview.dataSource = self;
-    self.settingsTableview.userInteractionEnabled = YES;
-    self.settingsTableview.bounces = YES;
-    
-    [self.settingsTableview registerClass:[UITableViewCell class] forCellReuseIdentifier:@"cell"];
-    [self.settingsView addSubview:self.settingsTableview];
+    //[UIView animateWithDuration:0.2 delay:0 options:UIViewAnimationOptionCurveLinear animations:^{
+        
+       // self.navigationController.navigationBar.frame = CGRectMake(0, -self.navigationController.navigationBar.frame.size.height, self.view.frame.size.width, self.navigationController.navigationBar.frame.size.height);
+    //} completion:^(BOOL finished) {
+        self.settingsView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
+        CGAffineTransform transform1 = CGAffineTransformMakeScale(0.1, 0.1);
+        self.settingsView.transform = transform1;
+        self.settingsView.backgroundColor = [UIColor whiteColor];
+        [self.navigationController.view addSubview:self.settingsView];
+        self.exitFirstViewCounter = 3;
+        
+        self.pinchRecognizerSettingsView = [[UIPinchGestureRecognizer alloc] initWithTarget:self  action:@selector(recognizePinchToCloseCurrentView:)];
+        [self.settingsView addGestureRecognizer:self.pinchRecognizerSettingsView];
+        self.settingsSection0LabelArray = [[NSArray alloc] initWithObjects:@"How to use thisThat", nil];
+        self.settingsSection1LabelArray = [[NSArray alloc] initWithObjects:@"Invite your friends to thisThat", nil];
+        self.settingsSection2LabelArray = [[NSArray alloc] initWithObjects:@"Instagram",@"Twitter", nil];
+        self.settingsSection3LabelArray = [[NSArray alloc] initWithObjects:@"thisThat website",@"Suggestions/Report a problem", nil];
+        self.settingsSection4LaeblArray = [[NSArray alloc] initWithObjects:@"Logout of thisThat", nil];
+        
+        UIImage *twitterImage = [UIImage imageNamed:@"Twitter_logo_blue.png"];
+        UIImage *instagramImage = [UIImage imageNamed:@"Instagram_Icon_Large.png"];
+        self.twitterIntstagramImagesArray = [[NSArray alloc] initWithObjects:instagramImage,twitterImage, nil];
+        
+        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
+        UIColor *blueColor = [UIColor colorWithRed:(0/255.0) green:(196/255.0) blue:(222/255.0) alpha:1];
+        CGFloat statusBarHeight = [UIApplication sharedApplication].statusBarFrame.size.height;
+        UIView *statusBarViewColor = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, statusBarHeight)];
+        statusBarViewColor.backgroundColor = blueColor;
+        [self.settingsView addSubview:statusBarViewColor];
+        
+        UINavigationBar *navBar = [[UINavigationBar alloc] initWithFrame:navBarFrame];
+        navBar.barTintColor = blueColor;
+        [navBar setTranslucent:YES];
+        [navBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor]}];
+        
+        [navBar setTranslucent:NO];
+        UINavigationItem *navItem = [[UINavigationItem alloc] initWithTitle:@"Settings"];
+        [navBar setItems:[NSArray arrayWithObjects:navItem, nil]];
+        [navBar setTintColor:[UIColor whiteColor]];
+        [self.settingsView addSubview:navBar];
+        
+        
+        CGFloat maxNavBarY = CGRectGetMaxY(navBar.frame);
+        
+        self.settingsTableview = [[UITableView alloc] initWithFrame:CGRectMake(0, maxNavBarY, self.view.frame.size.width, self.view.frame.size.height-maxNavBarY) style:UITableViewStyleGrouped];
+        self.settingsTableview.delegate = self;
+        self.settingsTableview.dataSource = self;
+        self.settingsTableview.userInteractionEnabled = YES;
+        self.settingsTableview.bounces = YES;
+        
+        [self.settingsTableview registerClass:[UITableViewCell class] forCellReuseIdentifier:@"cell"];
+        [self.settingsView addSubview:self.settingsTableview];
+        
+        [UIView animateWithDuration:0.4 delay:0 options:UIViewAnimationOptionCurveLinear animations:^{
+            CGAffineTransform transform = CGAffineTransformMakeScale(1, 1);
+            self.settingsView.transform = transform;
+            self.navigationController.navigationBar.frame = CGRectMake(0, -self.navigationController.navigationBar.frame.size.height, self.view.frame.size.width, self.navigationController.navigationBar.frame.size.height);
+        } completion:^(BOOL finished) {
+            [self exitAnyViewButtonInitalize];
+        }];
+
+    //}];
     
     
 }
@@ -410,18 +430,12 @@
     [self presentInvisibleView];
     
     self.uploadPostView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, viewWidth, viewHeight)];
+    self.uploadPostView.transform = CGAffineTransformMakeScale(0.1, 0.1);
     self.uploadPostView.backgroundColor = [UIColor whiteColor];
     [self.navigationController.view addSubview:self.uploadPostView];
     
-    self.exitFirstViewCounter =2;
-    [self exitAnyViewButtonInitalize];
     
-   /* UIImage *closedNewsFeedImage = [UIImage imageNamed:@"closeViewXmark.png"];
-    CGFloat statusBarHeight = CGRectGetHeight([[UIApplication sharedApplication] statusBarFrame]);
-    self.uploadPostExitViewButton = [[UIButton alloc] initWithFrame:CGRectMake(self.view.frame.size.width-40, statusBarHeight, 30, 30)];
-    [self.uploadPostExitViewButton setImage:closedNewsFeedImage forState:UIControlStateNormal];
-    [self.uploadPostExitViewButton addTarget:self action:@selector(closeUploadPostViewAction:) forControlEvents:UIControlEventTouchUpInside];
-    [self.uploadPostView addSubview:self.uploadPostExitViewButton]; */
+    
     
     self.uploadPostPinchGesture = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(recognizePinchToCloseCurrentView:)];
     [self.uploadPostView addGestureRecognizer:self.uploadPostPinchGesture];
@@ -528,6 +542,14 @@
     [self.uploadPostButton addTarget:self action:@selector(uploadPostAction:) forControlEvents:UIControlEventTouchUpInside];
     [self.uploadPostView addSubview:self.uploadPostButton];
     [self.uploadPostButton setHidden:YES];
+    
+    [UIView animateWithDuration:0.4 delay:0 options:UIViewAnimationOptionCurveLinear animations:^{
+        self.uploadPostView.transform = CGAffineTransformMakeScale(1, 1);
+        self.navigationController.navigationBar.frame = CGRectMake(0, -self.navigationController.navigationBar.frame.size.height, self.view.frame.size.width, self.navigationController.navigationBar.frame.size.height);
+    } completion:^(BOOL finished) {
+        self.exitFirstViewCounter =2;
+        [self exitAnyViewButtonInitalize];
+    }];
 
 }
 -(void)closeUploadPostViewAction:(UIButton*)sender {
@@ -627,33 +649,68 @@
 }
 -(void)exitCurrentViewAction:(UIButton*)recognize {
     if(self.exitFirstViewCounter == 0) {
-        [self.personalPostsTableView removeFromSuperview];
-        [self.invisibleView removeFromSuperview];
-        [self.exitFirstViewButton removeFromSuperview];
-        [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
-        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
+        [self.exitFirstViewButton setAlpha:0];
+               [UIView animateWithDuration:0.25 delay:0 options:UIViewAnimationOptionCurveLinear animations:^{
+            self.personalPostsTableView.transform = CGAffineTransformMakeScale(0.25, 0.25);
+                   [self.personalPostsTableView setAlpha:0];
+            [[UIApplication sharedApplication] setStatusBarHidden:NO];
+            CGFloat statusBarHeight = [UIApplication sharedApplication].statusBarFrame.size.height;
+            self.navigationController.navigationBar.frame = CGRectMake(0, statusBarHeight, self.view.frame.size.width, self.navigationController.navigationBar.frame.size.height);
+        } completion:^(BOOL finished) {
+            [self.personalPostsTableView removeFromSuperview];
+            [self.invisibleView removeFromSuperview];
+            [self.exitFirstViewButton removeFromSuperview];
+        }];
+        
     }
     if(self.exitFirstViewCounter == 1) {
-         [self.postsVotedOnTableView removeFromSuperview];
-         [self.invisibleView removeFromSuperview];
-         [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
-         [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
-        [self.exitFirstViewButton removeFromSuperview];
-    }
+        [self.exitFirstViewButton setAlpha:0];
+        [UIView animateWithDuration:0.25 delay:0 options:UIViewAnimationOptionCurveLinear animations:^{
+            self.postsVotedOnTableView.transform = CGAffineTransformMakeScale(0.25, 0.25);
+            [self.postsVotedOnTableView setAlpha:0];
+            [[UIApplication sharedApplication] setStatusBarHidden:NO];
+            CGFloat statusBarHeight = [UIApplication sharedApplication].statusBarFrame.size.height;
+            self.navigationController.navigationBar.frame = CGRectMake(0, statusBarHeight, self.view.frame.size.width, self.navigationController.navigationBar.frame.size.height);
+        } completion:^(BOOL finished) {
+            [self.postsVotedOnTableView removeFromSuperview];
+            [self.invisibleView removeFromSuperview];
+            [self.exitFirstViewButton removeFromSuperview];
+
+        }];
+             }
     if(self.exitFirstViewCounter == 2) {
-        [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationNone];
-        [self.uploadPostView removeFromSuperview];
-        [self.invisibleView removeFromSuperview];
-        [self.exitFirstViewButton removeFromSuperview];
-        self.uploadPostTextViewString = nil;
-        self.uploadPostTempImageOne = nil;
-        self.uploadPostTempImageTwo = nil;
+        [self.exitFirstViewButton setAlpha:0];
+        [UIView animateWithDuration:0.25 delay:0 options:UIViewAnimationOptionCurveLinear animations:^{
+            self.uploadPostView.transform = CGAffineTransformMakeScale(0.25, 0.25);
+            [self.uploadPostView setAlpha:0];
+            CGFloat statusBarHeight = [UIApplication sharedApplication].statusBarFrame.size.height;
+            self.navigationController.navigationBar.frame = CGRectMake(0, statusBarHeight, self.view.frame.size.width, self.navigationController.navigationBar.frame.size.height);
+        } completion:^(BOOL finished) {
+            [self.uploadPostView removeFromSuperview];
+            [self.invisibleView removeFromSuperview];
+            [self.exitFirstViewButton removeFromSuperview];
+            self.uploadPostTextViewString = nil;
+            self.uploadPostTempImageOne = nil;
+            self.uploadPostTempImageTwo = nil;
+        }];
+
+        
     }
     if(self.exitFirstViewCounter == 3) {
-        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
-        [self.settingsView removeFromSuperview];
-        [self.invisibleView removeFromSuperview];
-        [self.exitFirstViewButton removeFromSuperview];
+        [self.exitFirstViewButton setAlpha:0];
+        CGFloat statusBarHeight = [UIApplication sharedApplication].statusBarFrame.size.height;
+        [UIView animateWithDuration:0.25 delay:0 options:UIViewAnimationOptionCurveLinear animations:^{
+            self.settingsView.transform = CGAffineTransformMakeScale(0.25, 0.25);
+            [self.settingsView setAlpha:0];
+            self.navigationController.navigationBar.frame = CGRectMake(0, statusBarHeight, self.view.frame.size.width, self.navigationController.navigationBar.frame.size.height);
+        } completion:^(BOOL finished) {
+            [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
+            [self.settingsView removeFromSuperview];
+            [self.invisibleView removeFromSuperview];
+            [self.exitFirstViewButton removeFromSuperview];
+        }];
+        
+        
     }
     if(self.exitFirstViewCounter == 4) {
         [self.newsFeedView removeFromSuperview];
@@ -1118,11 +1175,12 @@
     CGFloat widthFrame = CGRectGetWidth(self.view.frame);
     CGFloat heightFrame = CGRectGetHeight(self.view.frame);
     CGRect tableViewSize = CGRectMake(0, 0, widthFrame, heightFrame);
-    [self presentInvisibleView];
-    self.personalPostsTableView = [[UITableView alloc] initWithFrame:CGRectMake(widthFrame/2, heightFrame/2, 0, 0) style:UITableViewStylePlain];
-
-        self.personalPostsTableView.frame = tableViewSize;
-   
+        [self presentInvisibleView];
+    self.personalPostsTableView = [[UITableView alloc] initWithFrame:tableViewSize style:UITableViewStylePlain];
+    
+    CGAffineTransform transform1 = CGAffineTransformMakeScale(0.1, 0.1);
+    self.personalPostsTableView.transform = transform1;
+    
     self.personalPostsPinchGesture = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(recognizePinchToCloseCurrentView:)];
     [self.personalPostsTableView addGestureRecognizer:self.personalPostsPinchGesture];
     
@@ -1139,7 +1197,21 @@
     [self.personalPostsTableView setSeparatorColor:[UIColor darkGrayColor]];
     
     self.exitFirstViewCounter = 0;
-    [self exitAnyViewButtonInitalize];
+    
+    
+
+    [UIView animateWithDuration:0.4 delay:0 options:UIViewAnimationOptionCurveLinear animations:^{
+   [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationNone];
+         self.navigationController.navigationBar.frame = CGRectMake(0, -self.navigationController.navigationBar.frame.size.height, self.view.frame.size.width, self.navigationController.navigationBar.frame.size.height);
+        CGAffineTransform transform = CGAffineTransformMakeScale(1, 1);
+        self.personalPostsTableView.transform = transform;
+        
+    } completion:^(BOOL finished) {
+        [self exitAnyViewButtonInitalize];
+           }];
+   
+    
+   
     
  /*   self.swagViewForReal = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 50)];
     self.swagViewForReal.backgroundColor = [UIColor redColor];
@@ -1152,9 +1224,10 @@
     CGFloat heightFrame = CGRectGetHeight(self.view.frame);
     CGRect tableViewSize = CGRectMake(0, 0, widthFrame, heightFrame);
     [self presentInvisibleView];
-    self.postsVotedOnTableView = [[UITableView alloc] initWithFrame:CGRectMake(widthFrame/2, heightFrame/2, 0, 0) style:UITableViewStylePlain];
+    self.postsVotedOnTableView = [[UITableView alloc] initWithFrame:tableViewSize style:UITableViewStylePlain];
 
-        self.postsVotedOnTableView.frame = tableViewSize;
+    CGAffineTransform transform1 = CGAffineTransformMakeScale(0.1, 0.1);
+    self.postsVotedOnTableView.transform = transform1;
     
     self.postsVotedOnPinchGesture = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(recognizePinchToCloseCurrentView:)];
     [self.postsVotedOnTableView addGestureRecognizer:self.postsVotedOnPinchGesture];
@@ -1170,7 +1243,18 @@
     [self.navigationController.view addSubview:self.postsVotedOnTableView];
    
     self.exitFirstViewCounter = 1;
-    [self exitAnyViewButtonInitalize];
+   
+    
+    
+    [UIView animateWithDuration:0.4 delay:0 options:UIViewAnimationOptionCurveLinear animations:^{
+        [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationNone];
+        self.navigationController.navigationBar.frame = CGRectMake(0, -self.navigationController.navigationBar.frame.size.height, self.view.frame.size.width, self.navigationController.navigationBar.frame.size.height);
+        CGAffineTransform transform = CGAffineTransformMakeScale(1, 1);
+        self.postsVotedOnTableView.transform = transform;
+    } completion:^(BOOL finished) {
+         [self exitAnyViewButtonInitalize];
+    }];
+
     
 }
 //number of sections in tableview, personal, voted on and settings
@@ -1201,11 +1285,11 @@
             return 1;
         }
         else {
-            UIColor *blackThisThatColor = [UIColor colorWithRed:(39/255.0) green:(35/255.0) blue:(34/255.0) alpha:1];
+           UIColor *blueColor = [UIColor colorWithRed:(0/255.0) green:(196/255.0) blue:(222/255.0) alpha:1];
             UILabel *messageLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height)];
             messageLabel.text = @"You have not yet voted on any thisThat posts";
-            messageLabel.backgroundColor = blackThisThatColor;
-            messageLabel.textColor = [UIColor whiteColor];
+            messageLabel.backgroundColor = [UIColor whiteColor];
+            messageLabel.textColor = blueColor;
             messageLabel.numberOfLines = 0;
             messageLabel.textAlignment = NSTextAlignmentCenter;
             //messageLabel.font = [UIFont fontWithName:@"Palatino-Italic" size:20];
@@ -1322,6 +1406,7 @@
     [cell.spinnerImageViewOne startAnimating];
     [cell.imageViewOne addSubview:cell.spinnerImageViewOne];
  
+        //tableView.allowsSelection = NO;
     
   //  NSMutableString *imageUrlOne = [NSMutableString string];
   //  [imageUrlOne appendString:hostUrl];
@@ -1340,7 +1425,7 @@
         
     }];
     [cell.imageViewOne setUserInteractionEnabled:YES];
-   
+        
     
   
      cell.imageViewTwo = [[UIImageView alloc] initWithFrame:CGRectMake((cell.contentView.frame.size.width/2)+5, cell.contentView.frame.size.height-(cell.contentView.frame.size.width/2)+5, (cell.contentView.frame.size.width/2)-15, (cell.contentView.frame.size.width/2)-15)];
@@ -1363,6 +1448,7 @@
         weakCell.tempImageTwo = image;
         [weakCell.spinnerImageViewTwo stopAnimating];
         [weakCell.spinnerImageViewTwo removeFromSuperview];
+     //   tableView.allowsSelection = YES;
     } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
         
     }];
@@ -1459,7 +1545,6 @@
 
         objects *personalPost = [self.postsVotedOnArray objectAtIndex:indexPath.row];
             cell.imageViewOne = [[UIImageView alloc] initWithFrame:CGRectMake(10, 10, (cell.contentView.frame.size.width/2)-15, (cell.contentView.frame.size.width/2)-15)];
-        
         cell.imageViewOne.contentMode = UIViewContentModeScaleAspectFill;
         cell.imageViewOne.clipsToBounds = YES;
         cell.imageViewOne.backgroundColor = [UIColor blackColor];
@@ -1486,9 +1571,7 @@
             
         }];
         [cell.imageViewOne setUserInteractionEnabled:YES];
-        
-        
-        
+          
         cell.imageViewTwo = [[UIImageView alloc] initWithFrame:CGRectMake((cell.contentView.frame.size.width/2)+5, cell.contentView.frame.size.height-(cell.contentView.frame.size.width/2)+5, (cell.contentView.frame.size.width/2)-15, (cell.contentView.frame.size.width/2)-15)];
         cell.imageViewTwo.contentMode = UIViewContentModeScaleAspectFill;
         cell.imageViewTwo.clipsToBounds = YES;
@@ -2015,7 +2098,7 @@
 }
 -(void)closeSettingsInstructionViewAction:(UIButton*)sender {
     [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
-    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
     [self.settingsTableview setScrollEnabled:YES];
     [self.settingsInstructionsView removeFromSuperview];
     [self.settingsInstructionViewScrollView removeFromSuperview];
@@ -2501,6 +2584,7 @@
             break;
         case UIGestureRecognizerStateChanged:{
             if (factor < 1) {
+                NSLog(@"factor:%f",factor);
                 if(recognize == self.newsFeedPinchGesture){
                 self.newsFeedView.transform = CGAffineTransformMakeScale(lastScaleFactor*factor, lastScaleFactor*factor);
                     [self.newsFeedCloseViewButton setAlpha:0];
@@ -2510,6 +2594,15 @@
             }
                 if(recognize == self.uploadPostPinchGesture){
                     self.uploadPostView.transform = CGAffineTransformMakeScale(lastScaleFactor*factor, lastScaleFactor*factor);
+                    if(factor >= 0.45) {
+                        CGFloat distanceMove = self.navigationController.navigationBar.frame.size.height+[UIApplication sharedApplication].statusBarFrame.size.height;
+                        CGFloat percentComplete = (1-factor)/0.55;
+                        CGFloat currentPosition = distanceMove*percentComplete;
+                        self.navigationController.navigationBar.frame = CGRectMake(0, -self.navigationController.navigationBar.frame.size.height+currentPosition, self.navigationController.navigationBar.frame.size.width, self.navigationController.navigationBar.frame.size.height);
+                        CGFloat alphaVariable = 1-((1-factor)/0.55);
+                        [self.uploadPostView setAlpha:alphaVariable];
+                    }
+
                     [self.exitFirstViewButton setAlpha:0];
                 }
                 if(recognize == self.uploadPostPinchGestureImageViews){
@@ -2522,11 +2615,27 @@
                 }
                 if(recognize == self.personalPostsPinchGesture) {
                     self.personalPostsTableView.transform = CGAffineTransformMakeScale(lastScaleFactor*factor, lastScaleFactor*factor);
+                    if(factor >= 0.45) {
+                        [[UIApplication sharedApplication] setStatusBarHidden:NO];
+                        CGFloat distanceMove = self.navigationController.navigationBar.frame.size.height+[UIApplication sharedApplication].statusBarFrame.size.height;
+                        CGFloat percentComplete = (1-factor)/0.55;
+                        CGFloat currentPosition = distanceMove*percentComplete;
+                        self.navigationController.navigationBar.frame = CGRectMake(0, -self.navigationController.navigationBar.frame.size.height+currentPosition, self.navigationController.navigationBar.frame.size.width, self.navigationController.navigationBar.frame.size.height);
+                        CGFloat alphaVariable = 1-((1-factor)/0.55);
+                        [self.personalPostsTableView setAlpha:alphaVariable];
+                    }
                     [self.exitFirstViewButton setAlpha:0];
 
                 }
                 if(recognize == self.postsVotedOnPinchGesture) {
                     self.postsVotedOnTableView.transform = CGAffineTransformMakeScale(lastScaleFactor*factor, lastScaleFactor*factor);
+                    if(factor >= 0.45) {
+                        [[UIApplication sharedApplication] setStatusBarHidden:NO];
+                        CGFloat distanceMove = self.navigationController.navigationBar.frame.size.height+[UIApplication sharedApplication].statusBarFrame.size.height;
+                        CGFloat percentComplete = (1-factor)/0.55;
+                        CGFloat currentPosition = distanceMove*percentComplete;
+                        self.navigationController.navigationBar.frame = CGRectMake(0, -self.navigationController.navigationBar.frame.size.height+currentPosition, self.navigationController.navigationBar.frame.size.width, self.navigationController.navigationBar.frame.size.height);
+                    }
                     [self.exitFirstViewButton setAlpha:0];
                     
                 }
@@ -2539,9 +2648,17 @@
                 }
                 if(recognize == self.pinchRecognizerSettingsView){
                     self.settingsView.transform = CGAffineTransformMakeScale(lastScaleFactor*factor, lastScaleFactor*factor);
+                    if(factor >= 0.45){
+                    CGFloat distanceMove = self.navigationController.navigationBar.frame.size.height+[UIApplication sharedApplication].statusBarFrame.size.height;
+                    CGFloat percentComplete = (1-factor)/0.55;
+                    CGFloat currentPosition = distanceMove*percentComplete;
+                       self.navigationController.navigationBar.frame = CGRectMake(0, -self.navigationController.navigationBar.frame.size.height+currentPosition, self.navigationController.navigationBar.frame.size.width, self.navigationController.navigationBar.frame.size.height);
                     self.settingsView.layer.borderWidth = 1;
                     self.settingsView.layer.borderColor = [UIColor blackColor].CGColor;
+                        CGFloat alphaVariable = 1-((1-factor)/0.55);
+                        [self.settingsView setAlpha:alphaVariable];
                     [self.exitFirstViewButton setAlpha:0];
+                    }
                 }
                 if(recognize == self.pinchRecognizerInstructionsView) {
                     self.settingsInstructionViewScrollView.transform = CGAffineTransformMakeScale(lastScaleFactor*factor, lastScaleFactor*factor);
@@ -2563,8 +2680,7 @@
                     [self.exitFirstViewButton removeFromSuperview];
                     [self.invisibleView2 removeFromSuperview];
                     [self.invisibleView removeFromSuperview];
-                    [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
-                    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
+                    self.navigationController.navigationBar.frame = CGRectMake(0, [UIApplication sharedApplication].statusBarFrame.size.height, self.navigationController.navigationBar.frame.size.width, self.navigationController.navigationBar.frame.size.height);
                     self.uploadPostTextViewString = nil;
                     self.uploadPostTempImageOne = nil;
                     self.uploadPostTempImageTwo = nil;
@@ -2593,6 +2709,7 @@
                     [self.exitFirstViewButton removeFromSuperview];
                     [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
                     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
+                     self.navigationController.navigationBar.frame = CGRectMake(0, [UIApplication sharedApplication].statusBarFrame.size.height, self.navigationController.navigationBar.frame.size.width, self.navigationController.navigationBar.frame.size.height);
 
                 }
                 if(recognize == self.postsVotedOnPinchGesture){
@@ -2623,6 +2740,8 @@
                     [self.settingsView removeFromSuperview];
                     [self.invisibleView removeFromSuperview];
                     [self.exitFirstViewButton removeFromSuperview];
+                     self.navigationController.navigationBar.frame = CGRectMake(0, [UIApplication sharedApplication].statusBarFrame.size.height, self.navigationController.navigationBar.frame.size.width, self.navigationController.navigationBar.frame.size.height);
+                  
                 }
                 if(recognize == self.pinchRecognizerInstructionsView) {
                     [self.settingsInstructionsView removeFromSuperview];
@@ -2630,7 +2749,7 @@
                     [self.settingsInstructionViewScrollView removeFromSuperview];
                     [self.settingsTableview setScrollEnabled:YES];
                     [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
-                    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+                    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
                 }
                             }
         }
@@ -2650,6 +2769,8 @@
                 if(recognize == self.uploadPostPinchGesture){
                     [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionCurveLinear animations:^{
                         self.uploadPostView.transform = CGAffineTransformMakeScale(lastScaleFactor, lastScaleFactor);
+                        self.navigationController.navigationBar.frame = CGRectMake(0, -self.navigationController.navigationBar.frame.size.height, self.view.frame.size.width, self.navigationController.navigationBar.frame.size.height);
+                        [self.uploadPostView setAlpha:1];
                     } completion:^(BOOL finished) {
                         [self.exitFirstViewButton setAlpha:1];
                     }];
@@ -2672,15 +2793,20 @@
                 if(recognize == self.personalPostsPinchGesture){
                     [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionCurveLinear animations:^{
                         self.personalPostsTableView.transform = CGAffineTransformMakeScale(lastScaleFactor, lastScaleFactor);
+                        self.navigationController.navigationBar.frame = CGRectMake(0, -self.navigationController.navigationBar.frame.size.height, self.view.frame.size.width, self.navigationController.navigationBar.frame.size.height);
+                    [self.personalPostsTableView setAlpha:1];
                     } completion:^(BOOL finished) {
                         [self.exitFirstViewButton setAlpha:1];
+                        [[UIApplication sharedApplication] setStatusBarHidden:YES];
                     }];
                 }
                 if(recognize == self.postsVotedOnPinchGesture){
                     [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionCurveLinear animations:^{
                         self.postsVotedOnTableView.transform = CGAffineTransformMakeScale(lastScaleFactor, lastScaleFactor);
+                         self.navigationController.navigationBar.frame = CGRectMake(0, -self.navigationController.navigationBar.frame.size.height, self.view.frame.size.width, self.navigationController.navigationBar.frame.size.height);
                     } completion:^(BOOL finished) {
                         [self.exitFirstViewButton setAlpha:1];
+                        [[UIApplication sharedApplication] setStatusBarHidden:YES];
                     }];
                 }
                 if(recognize == self.postsVotedOnPinchGestureImageViews){
@@ -2700,6 +2826,8 @@
                 if(recognize == self.pinchRecognizerSettingsView){
                     [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionCurveLinear animations:^{
                         self.settingsView.transform = CGAffineTransformMakeScale(lastScaleFactor, lastScaleFactor);
+                         self.navigationController.navigationBar.frame = CGRectMake(0, -self.navigationController.navigationBar.frame.size.height, self.navigationController.navigationBar.frame.size.width, self.navigationController.navigationBar.frame.size.height);
+                        [self.settingsView setAlpha:1];
                     } completion:^(BOOL finished) {
                         self.settingsView.layer.borderWidth = 0;
                         [self.exitFirstViewButton setAlpha:1];
@@ -2722,6 +2850,10 @@
 }
     }
 
+-(CGFloat)currentScale:(CGFloat)scale distanceToBeMoved:(CGFloat)distance {
+    CGFloat distancePerScaleFactor = distance/scale;
+    return distancePerScaleFactor;
+}
 
 // ****************************************************************************************************
 // Pan Recognizer Image Current in news feed for voting
@@ -3626,7 +3758,6 @@
             [self.loadingView removeFromSuperview];
             
         } completion:^(BOOL finished) {
-            [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationNone];
             [self initalizeTableView];
         }];
         
@@ -3669,7 +3800,7 @@
         } completion:^(BOOL finished) {
             
         }];
-        [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationNone];
+     //   [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationNone];
         [self initalizePostsVotedOnTableView];
     
         NSLog(@"\npostsVotedOnArrayContents:\n%@",self.postsVotedOnArray);
@@ -4231,188 +4362,198 @@
 //initalize newsfeed view
 -(void)initalizeNewsFeedView {
     
-    UIColor *blueColor = [UIColor colorWithRed:(0/255.0) green:(196/255.0) blue:(222/255.0) alpha:1];
-    [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationFade];
-    [self presentInvisibleView];
-    self.newsFeedCounter = 0;
-   // UIColor *redColor = [UIColor colorWithRed:(231/255.0) green:(80/255.0) blue:(80/255.0) alpha:1];
-    CGFloat widthFrame = CGRectGetWidth(self.view.frame);
-    CGFloat heightFrame = CGRectGetHeight(self.view.frame);
-    NSLog(@"widthFrame:%f",widthFrame);
-    CGRect personalPostsViewSize = CGRectMake(0, 0, widthFrame, heightFrame);
-   /* if(self.initalizeNewsFeedCounterSecondRetrevial ==1) {
+ //   [UIView animateWithDuration:0.2 delay:0 options:UIViewAnimationOptionCurveLinear animations:^{
+    
+   //         self.navigationController.navigationBar.frame = CGRectMake(0, -self.navigationController.navigationBar.frame.size.height, self.view.frame.size.width, self.navigationController.navigationBar.frame.size.height);
+    
+    
         
-    } else {*/
-    self.newsFeedView = [[UIView alloc] initWithFrame:personalPostsViewSize];
-    self.newsFeedView.backgroundColor = [UIColor whiteColor];
-    [self.navigationController.view addSubview:self.newsFeedView];
+ //   } completion:^(BOOL finished) {
+        UIColor *blueColor = [UIColor colorWithRed:(0/255.0) green:(196/255.0) blue:(222/255.0) alpha:1];
+        [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationNone];
+        [self presentInvisibleView];
+        self.newsFeedCounter = 0;
+        // UIColor *redColor = [UIColor colorWithRed:(231/255.0) green:(80/255.0) blue:(80/255.0) alpha:1];
+        CGFloat widthFrame = CGRectGetWidth(self.view.frame);
+        CGFloat heightFrame = CGRectGetHeight(self.view.frame);
+        NSLog(@"widthFrame:%f",widthFrame);
+        CGRect personalPostsViewSize = CGRectMake(0, 0, widthFrame, heightFrame);
+        /* if(self.initalizeNewsFeedCounterSecondRetrevial ==1) {
+         
+         } else {*/
+        self.newsFeedView = [[UIView alloc] initWithFrame:personalPostsViewSize];
+        self.newsFeedView.backgroundColor = [UIColor whiteColor];
+        [self.navigationController.view addSubview:self.newsFeedView];
+        
+        self.newsFeedPinchGesture = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(recognizePinchToCloseCurrentView:)];
+        [self.newsFeedView addGestureRecognizer:self.newsFeedPinchGesture];
+        //}
+        
+        //LABELS
+        // UIColor *blackThisThatColor = [UIColor colorWithRed:(39/255.0) green:(35/255.0) blue:(34/255.0) alpha:1];
+        self.newsFeedViewForLabels = [[UIView alloc] initWithFrame:CGRectMake(0, ([self viewHeight]/2)-115, [self viewWidth], 230)];
+        self.newsFeedViewForLabels.backgroundColor = [UIColor whiteColor];
+        UIView *topLine = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 1)];
+        topLine.backgroundColor = [UIColor blackColor];
+        //  [self.newsFeedViewForLabels addSubview:topLine];
+        UIView *bottomLine = [[UIView alloc] initWithFrame:CGRectMake(0, 229, self.view.frame.size.width, 1)];
+        bottomLine.backgroundColor = [UIColor blackColor];
+        //  [self.newsFeedViewForLabels addSubview:bottomLine];
+        // self.newsFeedViewForLabels.layer.borderWidth = 1;
+        // self.newsFeedViewForLabels.layer.borderColor = blueColor.CGColor;
+        [self.newsFeedView addSubview:self.newsFeedViewForLabels];
+        
+        
+        
+        self.newsFeedTextContentLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 70, [self viewWidth]-20, 120)];
+        self.newsFeedTextContentLabel.backgroundColor = [UIColor clearColor];
+        
+        self.newsFeedTextContentLabel.font = [UIFont fontWithName:@"STHeitiTC-Medium" size:25];
+        self.newsFeedTextContentLabel.numberOfLines = 0;
+        self.newsFeedTextContentLabel.adjustsFontSizeToFitWidth = YES;
+        [self.newsFeedTextContentLabel setMinimumScaleFactor:0.8];
+        self.newsFeedTextContentLabel.textAlignment = NSTextAlignmentCenter;
+        [self.newsFeedTextContentLabel setTextColor:[UIColor blackColor]];
+        [self.newsFeedViewForLabels addSubview:self.newsFeedTextContentLabel];
+        
+        
+        //    [messageLabel sizeToFit];
+        
+        self.newsFeedUsernameLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 30, [self viewWidth]-20, 35)];
+        self.newsFeedUsernameLabel.backgroundColor = [UIColor clearColor];
+        [self.newsFeedUsernameLabel setFont:[UIFont boldSystemFontOfSize:30]];
+        [self.newsFeedUsernameLabel setTextColor:blueColor];
+        [self.newsFeedUsernameLabel setTextAlignment:NSTextAlignmentCenter];
+        self.newsFeedUsernameLabel.adjustsFontSizeToFitWidth = YES;
+        self.newsFeedUsernameLabel.minimumScaleFactor = 0.5;
+        [self.newsFeedViewForLabels addSubview:self.newsFeedUsernameLabel];
+        
+        
+        self.newsFeedTimeStampLabel = [[UILabel alloc] initWithFrame:CGRectMake(3*([self viewWidth]/4), 190, ([self viewWidth]/4)-10, 20)];
+        self.newsFeedTimeStampLabel.backgroundColor = [UIColor clearColor];
+        [self.newsFeedTimeStampLabel setFont:[UIFont systemFontOfSize:15]];
+        [self.newsFeedTimeStampLabel setTextColor:[UIColor blackColor]];
+        [self.newsFeedTimeStampLabel setTextAlignment:NSTextAlignmentRight];
+        self.newsFeedTimeStampLabel.adjustsFontSizeToFitWidth = YES;
+        self.newsFeedTimeStampLabel.minimumScaleFactor = 0.8;
+        [self.newsFeedViewForLabels addSubview:self.newsFeedTimeStampLabel];
+        
+        self.newsFeedTotalNumberOfVotesLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 190, [self viewWidth]/2-20, 30)];
+        self.newsFeedTotalNumberOfVotesLabel.backgroundColor = [UIColor clearColor];
+        self.newsFeedTotalNumberOfVotesLabel.textColor = [UIColor blackColor];
+        [self.newsFeedTotalNumberOfVotesLabel setFont:[UIFont systemFontOfSize:15]];
+        [self.newsFeedViewForLabels addSubview:self.newsFeedTotalNumberOfVotesLabel];
+        //  [self.newsFeedViewForLabels setAlpha:0];
+        //PercentageLabels
+        
+        UIImage *voteForThisImageAI = [UIImage imageNamed:@"voteTHIS.png"];
+        self.newsFeedVoteForThisImageView = [[UIImageView alloc] initWithFrame:CGRectMake((self.view.frame.size.width/2)-((self.view.frame.size.width/1.5)/2), (self.view.frame.size.height/4)-((self.view.frame.size.height/3)/2), (self.view.frame.size.width/1.5),(self.view.frame.size.height/3))];
+        self.newsFeedVoteForThisImageView.image = voteForThisImageAI;
+        self.newsFeedVoteForThisImageView.contentMode = UIViewContentModeScaleAspectFit;
+        [self.newsFeedVoteForThisImageView setAlpha:0];
+        [self.newsFeedView addSubview:self.newsFeedVoteForThisImageView];
+        UIImage *notThis = [UIImage imageNamed:@"notTHIS.png"];
+        self.newsFeedNotThisImageView = [[UIImageView alloc] initWithFrame:CGRectMake((self.view.frame.size.width/2)-((self.view.frame.size.width/1.5)/2), (self.view.frame.size.height/4)-((self.view.frame.size.height/3)/2), (self.view.frame.size.width/1.5),(self.view.frame.size.height/3))];
+        self.newsFeedNotThisImageView.image = notThis;
+        self.newsFeedNotThisImageView.contentMode = UIViewContentModeScaleAspectFit;
+        [self.newsFeedNotThisImageView setAlpha:0];
+        [self.newsFeedView addSubview:self.newsFeedNotThisImageView];
+        
+        
+        
+        CGRect imageViewOneCurrentRect = CGRectMake(0, -(heightFrame/2), widthFrame, (heightFrame/2));
+        self.newsFeedImageViewOne = [[UIImageView alloc] initWithFrame:imageViewOneCurrentRect];
+        [self.newsFeedImageViewOne setUserInteractionEnabled:YES];
+        [self.newsFeedView addSubview:self.newsFeedImageViewOne];
+        
+        
+        UIImage *closedNewsFeedImage = [UIImage imageNamed:@"closeViewXmark.png"];
+        
+        self.newsFeedCloseViewButton = [[UIButton alloc] initWithFrame:CGRectMake(self.view.frame.size.width-45, 10, 35, 35)];
+        [self.newsFeedCloseViewButton setImage:closedNewsFeedImage forState:UIControlStateNormal];
+        [self.newsFeedCloseViewButton addTarget:self action:@selector(closeNewsFeedViewAction:) forControlEvents:UIControlEventTouchUpInside];
+        [self.newsFeedImageViewOne addSubview:self.newsFeedCloseViewButton];
+        
+        
+        UIImage *greenCheckMarkImage = [[UIImage alloc] init];
+        greenCheckMarkImage = [UIImage imageNamed:@"greenCheckAI.png"];
+        self.newsFeedImageOneCheckMarkView = [[UIImageView alloc] initWithFrame:CGRectMake(10, self.newsFeedImageViewOne.frame.size.height-60, 50, 50)];
+        self.newsFeedImageOneCheckMarkView.image = greenCheckMarkImage;
+        self.newsFeedImageOneCheckMarkView.layer.cornerRadius = 25;
+        self.newsFeedImageOneCheckMarkView.clipsToBounds = YES;
+        [self.newsFeedImageOneCheckMarkView setAlpha:0];
+        [self.newsFeedImageViewOne addSubview:self.newsFeedImageOneCheckMarkView];
+        UIImage *redXMarkImage = [[UIImage alloc] init];
+        redXMarkImage = [UIImage imageNamed:@"redXAI.png"];
+        self.newsFeedImageOneXMarkView = [[UIImageView alloc] initWithFrame:CGRectMake(self.newsFeedImageViewOne.frame.size.width-60, self.newsFeedImageViewOne.frame.size.height-60, 50, 50)];
+        self.newsFeedImageOneXMarkView.image = redXMarkImage;
+        self.newsFeedImageOneXMarkView.layer.cornerRadius = 25;
+        self.newsFeedImageOneXMarkView.clipsToBounds = YES;
+        [self.newsFeedImageOneXMarkView setAlpha:0];
+        [self.newsFeedImageViewOne addSubview:self.newsFeedImageOneXMarkView];
+        
+        
+        //ImageOnePanRecognizer
+        self.newsFeedPanGestureImageViewOne = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(recognizeThePanImageCurrent:)];
+        [self.newsFeedImageViewOne addGestureRecognizer:self.newsFeedPanGestureImageViewOne];
+        
+        
+        
+        UIImage *notThatImage = [UIImage imageNamed:@"notThis-That.png"];
+        self.newsFeedNotThatImageView = [[UIImageView alloc] initWithFrame:CGRectMake((self.view.frame.size.width/2)-((self.view.frame.size.width/1.5)/2), (3*self.view.frame.size.height/4)-((self.view.frame.size.height/3)/2), (self.view.frame.size.width/1.5),(self.view.frame.size.height/3))];
+        self.newsFeedNotThatImageView.image = notThatImage;
+        self.newsFeedNotThatImageView.contentMode = UIViewContentModeScaleAspectFit;
+        [self.newsFeedNotThatImageView setAlpha:0];
+        [self.newsFeedView addSubview:self.newsFeedNotThatImageView];
+        
+        UIImage *voteForThat = [UIImage imageNamed:@"voteTHAT.png"];
+        self.newsFeedVoteForThatImageView = [[UIImageView alloc] initWithFrame:CGRectMake((self.view.frame.size.width/2)-((self.view.frame.size.width/1.5)/2), (3*self.view.frame.size.height/4)-((self.view.frame.size.height/3)/2), (self.view.frame.size.width/1.5),(self.view.frame.size.height/3))];
+        self.newsFeedVoteForThatImageView.image = voteForThat;
+        self.newsFeedVoteForThatImageView.contentMode = UIViewContentModeScaleAspectFit;
+        [self.newsFeedVoteForThatImageView setAlpha:0];
+        [self.newsFeedView addSubview:self.newsFeedVoteForThatImageView];
+        
+        CGRect imageViewTwoCurrentRect = CGRectMake(0, (heightFrame), widthFrame, (heightFrame/2));
+        self.newsFeedImageViewTwo = [[UIImageView alloc] initWithFrame:imageViewTwoCurrentRect];
+        [self.newsFeedImageViewTwo setUserInteractionEnabled:YES];
+        [self.newsFeedView addSubview:self.newsFeedImageViewTwo];
+        
+        self.newsFeedImageTwoCheckMarkView = [[UIImageView alloc] initWithFrame:CGRectMake(10, 10, 50, 50)];
+        self.newsFeedImageTwoCheckMarkView.image = greenCheckMarkImage;
+        self.newsFeedImageTwoCheckMarkView.layer.cornerRadius = 25;
+        self.newsFeedImageTwoCheckMarkView.clipsToBounds = YES;
+        [self.newsFeedImageTwoCheckMarkView setAlpha:0];
+        [self.newsFeedImageViewTwo addSubview:self.newsFeedImageTwoCheckMarkView];
+        
+        self.newsFeedImageTwoXMarkView = [[UIImageView alloc] initWithFrame:CGRectMake(self.newsFeedImageViewTwo.frame.size.width-60, 10, 50, 50)];
+        self.newsFeedImageTwoXMarkView.image = redXMarkImage;
+        self.newsFeedImageTwoXMarkView.layer.cornerRadius = 25;
+        self.newsFeedImageTwoXMarkView.clipsToBounds = YES;
+        [self.newsFeedImageTwoXMarkView setAlpha:0];
+        [self.newsFeedImageViewTwo addSubview:self.newsFeedImageTwoXMarkView];
+        
+        
+        UIImage *blueMenuImage = [[UIImage alloc] init];
+        blueMenuImage = [UIImage imageNamed:@"blueMenuAI.png"];
+        self.newsFeedBlueMenuButton = [[UIButton alloc] initWithFrame:CGRectMake((self.view.frame.size.width/2)-25, (self.view.frame.size.height/2)-25, 50, 50)];
+        [self.newsFeedBlueMenuButton setImage:blueMenuImage forState:UIControlStateNormal];
+        [self.newsFeedBlueMenuButton setAlpha:0];
+        [self.newsFeedView addSubview:self.newsFeedBlueMenuButton];
+        [self.newsFeedBlueMenuButton addTarget:self action:@selector(menuButtonSelected:) forControlEvents:UIControlEventTouchUpInside];
+        
+        
+        //ImageTwoPanRecognizer
+        self.newsFeedPanGestureImageViewTwo = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(recognizeThePanImageCurrent:)];
+        [self.newsFeedImageViewTwo addGestureRecognizer:self.newsFeedPanGestureImageViewTwo];
+        
+        
+        self.newsFeedTapGestureToOpenImageViewOne = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(recognizeTapToOpenImages:)];
+        [self.newsFeedImageViewOne addGestureRecognizer:self.newsFeedTapGestureToOpenImageViewOne];
+        self.newsFeedTapGestureToOpenImageViewTwo = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(recognizeTapToOpenImages:)];
+        [self.newsFeedImageViewTwo addGestureRecognizer:self.newsFeedTapGestureToOpenImageViewTwo];
+ //   }];
     
-    self.newsFeedPinchGesture = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(recognizePinchToCloseCurrentView:)];
-    [self.newsFeedView addGestureRecognizer:self.newsFeedPinchGesture];
-    //}
-
-    //LABELS
-   // UIColor *blackThisThatColor = [UIColor colorWithRed:(39/255.0) green:(35/255.0) blue:(34/255.0) alpha:1];
-    self.newsFeedViewForLabels = [[UIView alloc] initWithFrame:CGRectMake(0, ([self viewHeight]/2)-115, [self viewWidth], 230)];
-    self.newsFeedViewForLabels.backgroundColor = [UIColor whiteColor];
-    UIView *topLine = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 1)];
-    topLine.backgroundColor = [UIColor blackColor];
-  //  [self.newsFeedViewForLabels addSubview:topLine];
-    UIView *bottomLine = [[UIView alloc] initWithFrame:CGRectMake(0, 229, self.view.frame.size.width, 1)];
-    bottomLine.backgroundColor = [UIColor blackColor];
-  //  [self.newsFeedViewForLabels addSubview:bottomLine];
-   // self.newsFeedViewForLabels.layer.borderWidth = 1;
-   // self.newsFeedViewForLabels.layer.borderColor = blueColor.CGColor;
-    [self.newsFeedView addSubview:self.newsFeedViewForLabels];
-    
-    
-    
-    self.newsFeedTextContentLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 70, [self viewWidth]-20, 120)];
-    self.newsFeedTextContentLabel.backgroundColor = [UIColor clearColor];
-       
-    self.newsFeedTextContentLabel.font = [UIFont fontWithName:@"STHeitiTC-Medium" size:25];
-    self.newsFeedTextContentLabel.numberOfLines = 0;
-    self.newsFeedTextContentLabel.adjustsFontSizeToFitWidth = YES;
-    [self.newsFeedTextContentLabel setMinimumScaleFactor:0.8];
-    self.newsFeedTextContentLabel.textAlignment = NSTextAlignmentCenter;
-    [self.newsFeedTextContentLabel setTextColor:[UIColor blackColor]];
-    [self.newsFeedViewForLabels addSubview:self.newsFeedTextContentLabel];
-    
-    
-    //    [messageLabel sizeToFit];
-    
-    self.newsFeedUsernameLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 30, [self viewWidth]-20, 35)];
-    self.newsFeedUsernameLabel.backgroundColor = [UIColor clearColor];
-    [self.newsFeedUsernameLabel setFont:[UIFont boldSystemFontOfSize:30]];
-    [self.newsFeedUsernameLabel setTextColor:blueColor];
-    [self.newsFeedUsernameLabel setTextAlignment:NSTextAlignmentCenter];
-    self.newsFeedUsernameLabel.adjustsFontSizeToFitWidth = YES;
-    self.newsFeedUsernameLabel.minimumScaleFactor = 0.5;
-    [self.newsFeedViewForLabels addSubview:self.newsFeedUsernameLabel];
-    
-    
-    self.newsFeedTimeStampLabel = [[UILabel alloc] initWithFrame:CGRectMake(3*([self viewWidth]/4), 190, ([self viewWidth]/4)-10, 20)];
-    self.newsFeedTimeStampLabel.backgroundColor = [UIColor clearColor];
-    [self.newsFeedTimeStampLabel setFont:[UIFont systemFontOfSize:15]];
-    [self.newsFeedTimeStampLabel setTextColor:[UIColor blackColor]];
-    [self.newsFeedTimeStampLabel setTextAlignment:NSTextAlignmentRight];
-    self.newsFeedTimeStampLabel.adjustsFontSizeToFitWidth = YES;
-    self.newsFeedTimeStampLabel.minimumScaleFactor = 0.8;
-    [self.newsFeedViewForLabels addSubview:self.newsFeedTimeStampLabel];
-    
-    self.newsFeedTotalNumberOfVotesLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 190, [self viewWidth]/2-20, 30)];
-    self.newsFeedTotalNumberOfVotesLabel.backgroundColor = [UIColor clearColor];
-    self.newsFeedTotalNumberOfVotesLabel.textColor = [UIColor blackColor];
-    [self.newsFeedTotalNumberOfVotesLabel setFont:[UIFont systemFontOfSize:15]];
-    [self.newsFeedViewForLabels addSubview:self.newsFeedTotalNumberOfVotesLabel];
-  //  [self.newsFeedViewForLabels setAlpha:0];
-    //PercentageLabels
-
-    UIImage *voteForThisImageAI = [UIImage imageNamed:@"voteTHIS.png"];
-    self.newsFeedVoteForThisImageView = [[UIImageView alloc] initWithFrame:CGRectMake((self.view.frame.size.width/2)-((self.view.frame.size.width/1.5)/2), (self.view.frame.size.height/4)-((self.view.frame.size.height/3)/2), (self.view.frame.size.width/1.5),(self.view.frame.size.height/3))];
-    self.newsFeedVoteForThisImageView.image = voteForThisImageAI;
-    self.newsFeedVoteForThisImageView.contentMode = UIViewContentModeScaleAspectFit;
-    [self.newsFeedVoteForThisImageView setAlpha:0];
-    [self.newsFeedView addSubview:self.newsFeedVoteForThisImageView];
-    UIImage *notThis = [UIImage imageNamed:@"notTHIS.png"];
-    self.newsFeedNotThisImageView = [[UIImageView alloc] initWithFrame:CGRectMake((self.view.frame.size.width/2)-((self.view.frame.size.width/1.5)/2), (self.view.frame.size.height/4)-((self.view.frame.size.height/3)/2), (self.view.frame.size.width/1.5),(self.view.frame.size.height/3))];
-    self.newsFeedNotThisImageView.image = notThis;
-    self.newsFeedNotThisImageView.contentMode = UIViewContentModeScaleAspectFit;
-    [self.newsFeedNotThisImageView setAlpha:0];
-    [self.newsFeedView addSubview:self.newsFeedNotThisImageView];
-    
-    
-    
-    CGRect imageViewOneCurrentRect = CGRectMake(0, -(heightFrame/2), widthFrame, (heightFrame/2));
-    self.newsFeedImageViewOne = [[UIImageView alloc] initWithFrame:imageViewOneCurrentRect];
-    [self.newsFeedImageViewOne setUserInteractionEnabled:YES];
-    [self.newsFeedView addSubview:self.newsFeedImageViewOne];
    
-    
-    UIImage *closedNewsFeedImage = [UIImage imageNamed:@"closeViewXmark.png"];
-    
-    self.newsFeedCloseViewButton = [[UIButton alloc] initWithFrame:CGRectMake(self.view.frame.size.width-45, 10, 35, 35)];
-    [self.newsFeedCloseViewButton setImage:closedNewsFeedImage forState:UIControlStateNormal];
-    [self.newsFeedCloseViewButton addTarget:self action:@selector(closeNewsFeedViewAction:) forControlEvents:UIControlEventTouchUpInside];
-    [self.newsFeedImageViewOne addSubview:self.newsFeedCloseViewButton];
-    
-    
-    UIImage *greenCheckMarkImage = [[UIImage alloc] init];
-    greenCheckMarkImage = [UIImage imageNamed:@"greenCheckAI.png"];
-    self.newsFeedImageOneCheckMarkView = [[UIImageView alloc] initWithFrame:CGRectMake(10, self.newsFeedImageViewOne.frame.size.height-60, 50, 50)];
-    self.newsFeedImageOneCheckMarkView.image = greenCheckMarkImage;
-    self.newsFeedImageOneCheckMarkView.layer.cornerRadius = 25;
-    self.newsFeedImageOneCheckMarkView.clipsToBounds = YES;
-    [self.newsFeedImageOneCheckMarkView setAlpha:0];
-    [self.newsFeedImageViewOne addSubview:self.newsFeedImageOneCheckMarkView];
-    UIImage *redXMarkImage = [[UIImage alloc] init];
-    redXMarkImage = [UIImage imageNamed:@"redXAI.png"];
-    self.newsFeedImageOneXMarkView = [[UIImageView alloc] initWithFrame:CGRectMake(self.newsFeedImageViewOne.frame.size.width-60, self.newsFeedImageViewOne.frame.size.height-60, 50, 50)];
-    self.newsFeedImageOneXMarkView.image = redXMarkImage;
-    self.newsFeedImageOneXMarkView.layer.cornerRadius = 25;
-    self.newsFeedImageOneXMarkView.clipsToBounds = YES;
-    [self.newsFeedImageOneXMarkView setAlpha:0];
-    [self.newsFeedImageViewOne addSubview:self.newsFeedImageOneXMarkView];
-    
-    
-    //ImageOnePanRecognizer
-    self.newsFeedPanGestureImageViewOne = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(recognizeThePanImageCurrent:)];
-    [self.newsFeedImageViewOne addGestureRecognizer:self.newsFeedPanGestureImageViewOne];
-    
-
-   
-    UIImage *notThatImage = [UIImage imageNamed:@"notThis-That.png"];
-    self.newsFeedNotThatImageView = [[UIImageView alloc] initWithFrame:CGRectMake((self.view.frame.size.width/2)-((self.view.frame.size.width/1.5)/2), (3*self.view.frame.size.height/4)-((self.view.frame.size.height/3)/2), (self.view.frame.size.width/1.5),(self.view.frame.size.height/3))];
-    self.newsFeedNotThatImageView.image = notThatImage;
-    self.newsFeedNotThatImageView.contentMode = UIViewContentModeScaleAspectFit;
-    [self.newsFeedNotThatImageView setAlpha:0];
-    [self.newsFeedView addSubview:self.newsFeedNotThatImageView];
-    
-    UIImage *voteForThat = [UIImage imageNamed:@"voteTHAT.png"];
-    self.newsFeedVoteForThatImageView = [[UIImageView alloc] initWithFrame:CGRectMake((self.view.frame.size.width/2)-((self.view.frame.size.width/1.5)/2), (3*self.view.frame.size.height/4)-((self.view.frame.size.height/3)/2), (self.view.frame.size.width/1.5),(self.view.frame.size.height/3))];
-    self.newsFeedVoteForThatImageView.image = voteForThat;
-    self.newsFeedVoteForThatImageView.contentMode = UIViewContentModeScaleAspectFit;
-    [self.newsFeedVoteForThatImageView setAlpha:0];
-    [self.newsFeedView addSubview:self.newsFeedVoteForThatImageView];
-    
-    CGRect imageViewTwoCurrentRect = CGRectMake(0, (heightFrame), widthFrame, (heightFrame/2));
-    self.newsFeedImageViewTwo = [[UIImageView alloc] initWithFrame:imageViewTwoCurrentRect];
-    [self.newsFeedImageViewTwo setUserInteractionEnabled:YES];
-    [self.newsFeedView addSubview:self.newsFeedImageViewTwo];
-    
-    self.newsFeedImageTwoCheckMarkView = [[UIImageView alloc] initWithFrame:CGRectMake(10, 10, 50, 50)];
-    self.newsFeedImageTwoCheckMarkView.image = greenCheckMarkImage;
-    self.newsFeedImageTwoCheckMarkView.layer.cornerRadius = 25;
-    self.newsFeedImageTwoCheckMarkView.clipsToBounds = YES;
-    [self.newsFeedImageTwoCheckMarkView setAlpha:0];
-    [self.newsFeedImageViewTwo addSubview:self.newsFeedImageTwoCheckMarkView];
-    
-    self.newsFeedImageTwoXMarkView = [[UIImageView alloc] initWithFrame:CGRectMake(self.newsFeedImageViewTwo.frame.size.width-60, 10, 50, 50)];
-    self.newsFeedImageTwoXMarkView.image = redXMarkImage;
-    self.newsFeedImageTwoXMarkView.layer.cornerRadius = 25;
-    self.newsFeedImageTwoXMarkView.clipsToBounds = YES;
-    [self.newsFeedImageTwoXMarkView setAlpha:0];
-    [self.newsFeedImageViewTwo addSubview:self.newsFeedImageTwoXMarkView];
-    
-    
-    UIImage *blueMenuImage = [[UIImage alloc] init];
-    blueMenuImage = [UIImage imageNamed:@"blueMenuAI.png"];
-    self.newsFeedBlueMenuButton = [[UIButton alloc] initWithFrame:CGRectMake((self.view.frame.size.width/2)-25, (self.view.frame.size.height/2)-25, 50, 50)];
-    [self.newsFeedBlueMenuButton setImage:blueMenuImage forState:UIControlStateNormal];
-    [self.newsFeedBlueMenuButton setAlpha:0];
-    [self.newsFeedView addSubview:self.newsFeedBlueMenuButton];
-    [self.newsFeedBlueMenuButton addTarget:self action:@selector(menuButtonSelected:) forControlEvents:UIControlEventTouchUpInside];
-    
-    
-    //ImageTwoPanRecognizer
-    self.newsFeedPanGestureImageViewTwo = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(recognizeThePanImageCurrent:)];
-    [self.newsFeedImageViewTwo addGestureRecognizer:self.newsFeedPanGestureImageViewTwo];
-    
-  
-    self.newsFeedTapGestureToOpenImageViewOne = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(recognizeTapToOpenImages:)];
-    [self.newsFeedImageViewOne addGestureRecognizer:self.newsFeedTapGestureToOpenImageViewOne];
-    self.newsFeedTapGestureToOpenImageViewTwo = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(recognizeTapToOpenImages:)];
-    [self.newsFeedImageViewTwo addGestureRecognizer:self.newsFeedTapGestureToOpenImageViewTwo];
 }
 
 -(void)closeNewsFeedViewAction:(UIButton*)sender {
