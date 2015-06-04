@@ -25,6 +25,7 @@
 @property (nonatomic, strong) UIScrollView *firstLaunchScrollView;
 //settings
 
+@property int inputImageCounter;
 @property (nonatomic, strong) UIButton *exitFirstViewButton;
 @property int exitFirstViewCounter;
 @property (nonatomic, strong) UIButton *exitSecondViewButton;

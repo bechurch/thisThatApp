@@ -358,6 +358,8 @@
         self.settingsView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
         CGAffineTransform transform1 = CGAffineTransformMakeScale(0.1, 0.1);
         self.settingsView.transform = transform1;
+        self.settingsView.layer.borderWidth = 1;
+        self.settingsView.layer.borderColor = [UIColor blackColor].CGColor;
         self.settingsView.backgroundColor = [UIColor whiteColor];
         [self.navigationController.view addSubview:self.settingsView];
         self.exitFirstViewCounter = 3;
@@ -410,6 +412,7 @@
             self.navigationController.navigationBar.frame = CGRectMake(0, -self.navigationController.navigationBar.frame.size.height, self.view.frame.size.width, self.navigationController.navigationBar.frame.size.height);
         } completion:^(BOOL finished) {
             [self exitAnyViewButtonInitalize];
+            self.settingsView.layer.borderWidth = 0;
         }];
 
     //}];
@@ -432,6 +435,8 @@
     self.uploadPostView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, viewWidth, viewHeight)];
     self.uploadPostView.transform = CGAffineTransformMakeScale(0.1, 0.1);
     self.uploadPostView.backgroundColor = [UIColor whiteColor];
+    self.uploadPostView.layer.borderWidth = 1;
+    self.uploadPostView.layer.borderColor = [UIColor blackColor].CGColor;
     [self.navigationController.view addSubview:self.uploadPostView];
     
     
@@ -440,13 +445,6 @@
     self.uploadPostPinchGesture = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(recognizePinchToCloseCurrentView:)];
     [self.uploadPostView addGestureRecognizer:self.uploadPostPinchGesture];
     CGFloat heightOfCell = (viewWidth/2) + 130;
-    CGFloat heighOfInstructionsLabel = (viewHeight/2)-(heightOfCell/2);
-    
-    self.uploadPostInstructionsLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, (heighOfInstructionsLabel/2)-15, viewWidth-20, 30)];
-    self.uploadPostInstructionsLabel.text = @"Create a new thisThat post";
-    self.uploadPostInstructionsLabel.textColor = blueColor;
-    self.uploadPostInstructionsLabel.textAlignment = NSTextAlignmentCenter;
-    [self.uploadPostView addSubview:self.uploadPostInstructionsLabel];
     
     self.uploadPostExampleTableViewCellView = [[UIView alloc] initWithFrame:CGRectMake(0, (viewHeight/2)-(heightOfCell/2), viewWidth, (viewWidth/2)+130)];
     self.uploadPostExampleTableViewCellView.backgroundColor = [UIColor whiteColor];
@@ -543,14 +541,33 @@
     [self.uploadPostView addSubview:self.uploadPostButton];
     [self.uploadPostButton setHidden:YES];
     
+    CGRect navBarFrame = self.navigationController.navigationBar.frame;
+    UINavigationBar *navBar = [[UINavigationBar alloc] initWithFrame:navBarFrame];
+    navBar.barTintColor = blueColor;
+    [navBar setTranslucent:YES];
+    [navBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor]}];
+    
+    [navBar setTranslucent:NO];
+    UINavigationItem *navItem = [[UINavigationItem alloc] initWithTitle:@"Create a new thisThat post"];
+    [navBar setItems:[NSArray arrayWithObjects:navItem, nil]];
+    [navBar setTintColor:[UIColor whiteColor]];
+    [self.uploadPostView addSubview:navBar];
+    
+    CGFloat statusBarHeight = [UIApplication sharedApplication].statusBarFrame.size.height;
+    UIView *statusBarViewColor = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, statusBarHeight)];
+    statusBarViewColor.backgroundColor = blueColor;
+    [self.uploadPostView addSubview:statusBarViewColor];
+    
     [UIView animateWithDuration:0.4 delay:0 options:UIViewAnimationOptionCurveLinear animations:^{
         self.uploadPostView.transform = CGAffineTransformMakeScale(1, 1);
         self.navigationController.navigationBar.frame = CGRectMake(0, -self.navigationController.navigationBar.frame.size.height, self.view.frame.size.width, self.navigationController.navigationBar.frame.size.height);
     } completion:^(BOOL finished) {
         self.exitFirstViewCounter =2;
         [self exitAnyViewButtonInitalize];
+        self.uploadPostView.layer.borderWidth = 0;
     }];
 
+    
 }
 -(void)closeUploadPostViewAction:(UIButton*)sender {
     [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationNone];
@@ -713,10 +730,20 @@
         
     }
     if(self.exitFirstViewCounter == 4) {
-        [self.newsFeedView removeFromSuperview];
-        [self.invisibleView removeFromSuperview];
-        [self.exitFirstViewButton removeFromSuperview];
-        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
+        [self.exitFirstViewButton setAlpha:0];
+        [UIView animateWithDuration:0.25 delay:0 options:UIViewAnimationOptionCurveLinear animations:^{
+            self.newsFeedView.transform = CGAffineTransformMakeScale(0.25, 0.25);
+            [self.newsFeedView setAlpha:0];
+            CGFloat statusBarHeight = [UIApplication sharedApplication].statusBarFrame.size.height;
+            self.navigationController.navigationBar.frame = CGRectMake(0, statusBarHeight, self.view.frame.size.width, self.navigationController.navigationBar.frame.size.height);
+        } completion:^(BOOL finished) {
+            [self.newsFeedView removeFromSuperview];
+            [self.invisibleView removeFromSuperview];
+            [self.exitFirstViewButton removeFromSuperview];
+            [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
+    
+        }];
+
     }
     
 }
@@ -869,12 +896,17 @@
     self.uploadPostNavigationBarUploadImageView.image = checkimage;
     [self.uploadPostNavigationBarUploadView addSubview:self.uploadPostNavigationBarUploadImageView];
     self.uploadPostNavigationBarUploadLabel.text = @"thisThat uploaded successfully";
-    [self performSelector:@selector(removeUploadingNavViewFromSuperView) withObject:nil afterDelay:4];
+    [self performSelector:@selector(removeUploadingNavViewFromSuperView) withObject:nil afterDelay:3];
 
 }
 //remove nav bar from view
 -(void)removeUploadingNavViewFromSuperView {
-    [self.uploadPostNavigationBarUploadView removeFromSuperview];
+    [UIView animateWithDuration:0.2 delay:0 options:UIViewAnimationOptionCurveLinear animations:^{
+        self.uploadPostNavigationBarUploadView.frame = CGRectMake(self.view.frame.size.width, 0, self.view.frame.size.width, self.navigationController.navigationBar.frame.size.height);
+    } completion:^(BOOL finished) {
+        [self.uploadPostNavigationBarUploadView removeFromSuperview];
+
+    }];
     
 }
 //upload post, allow location to be found
@@ -2149,31 +2181,30 @@
 }
 //personal posts tap gesture to see fullsize imageview
 -(void)personalPostsTapRecognizer:(UITapGestureRecognizer*)recognize {
-    [self.exitSecondViewButton setAlpha:0];
     personalPostsTableViewCell *cell = (personalPostsTableViewCell*)[self.personalPostsTableView cellForRowAtIndexPath:self.personalPostsIndexPath];
-    self.personalPostsViewForFullSizeImageView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.personalPostsTableView.frame.size.height)];
+ 
+   self.personalPostsViewForFullSizeImageView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.personalPostsTableView.frame.size.height)];
     self.personalPostsViewForFullSizeImageView.backgroundColor = [UIColor whiteColor];
     [self.personalPostsViewForImageViews addSubview:self.personalPostsViewForFullSizeImageView];
     if(recognize == self.personalPostsTapGestureToOpenImageViewOne){
-    
         self.personalPostsFullSizeImageView = [self inputImage:cell.tempImageOne];
         [self.personalPostsViewForFullSizeImageView addSubview:self.personalPostsFullSizeImageView];
     }
     if(recognize == self.personalPostsTapGestureToOpenImageViewTwo){
         self.personalPostsFullSizeImageView = [self inputImage:cell.tempImageTwo];
         [self.personalPostsViewForFullSizeImageView addSubview:self.personalPostsFullSizeImageView];
-    }
+        }
+    
     self.personalPostsFullSizeImageView.userInteractionEnabled = YES;
     self.personalPostsTapGestureToCloseFullSizeImageView = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(personalPostsCloseFullSizeImage:)];
     [self.personalPostsFullSizeImageView addGestureRecognizer:self.personalPostsTapGestureToCloseFullSizeImageView];
     self.personalPostsPanToZoomInOnFullSizeImageView = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panToZoomInOnFullSizeImageView:)];
     [self.personalPostsFullSizeImageView addGestureRecognizer:self.personalPostsPanToZoomInOnFullSizeImageView];
-    
+  
 }
 -(void)personalPostsCloseFullSizeImage:(UITapGestureRecognizer*)recognize {
-    NSLog(@"logging");
-    [self.personalPostsViewForFullSizeImageView removeFromSuperview];
-    [self.exitSecondViewButton setAlpha:1];
+   [self.personalPostsViewForFullSizeImageView removeFromSuperview];
+   [self.exitSecondViewButton setAlpha:1];
 
 }
 //posts voted on tap gesture to see fullsize imageview
@@ -2591,6 +2622,15 @@
                     if(self.exitFirstViewCounter == 4) {
                         [self.exitFirstViewButton setAlpha:0];
                     }
+                    if(factor >= 0.45) {
+                        CGFloat distanceMove = self.navigationController.navigationBar.frame.size.height+[UIApplication sharedApplication].statusBarFrame.size.height;
+                        CGFloat percentComplete = (1-factor)/0.55;
+                        CGFloat currentPosition = distanceMove*percentComplete;
+                        self.navigationController.navigationBar.frame = CGRectMake(0, -self.navigationController.navigationBar.frame.size.height+currentPosition, self.navigationController.navigationBar.frame.size.width, self.navigationController.navigationBar.frame.size.height);
+                        CGFloat alphaVariable = 1-((1-factor)/0.55);
+                        [self.newsFeedView setAlpha:alphaVariable];
+                    }
+
             }
                 if(recognize == self.uploadPostPinchGesture){
                     self.uploadPostView.transform = CGAffineTransformMakeScale(lastScaleFactor*factor, lastScaleFactor*factor);
@@ -2601,6 +2641,8 @@
                         self.navigationController.navigationBar.frame = CGRectMake(0, -self.navigationController.navigationBar.frame.size.height+currentPosition, self.navigationController.navigationBar.frame.size.width, self.navigationController.navigationBar.frame.size.height);
                         CGFloat alphaVariable = 1-((1-factor)/0.55);
                         [self.uploadPostView setAlpha:alphaVariable];
+                        self.uploadPostView.layer.borderWidth = 1;
+                        self.uploadPostView.layer.borderColor = [UIColor blackColor].CGColor;
                     }
 
                     [self.exitFirstViewButton setAlpha:0];
@@ -2608,10 +2650,13 @@
                 if(recognize == self.uploadPostPinchGestureImageViews){
                     self.uploadPostViewForImageViews.transform = CGAffineTransformMakeScale(lastScaleFactor*factor, lastScaleFactor*factor);
                     [self.exitSecondViewButton setAlpha:0];
+                    
                 }
                 if(recognize == self.personalPostsPinchGestureImageViews) {
                     self.personalPostsViewForImageViews.transform = CGAffineTransformMakeScale(lastScaleFactor*factor, lastScaleFactor*factor);
                     [self.exitSecondViewButton setAlpha:0];
+                    CGFloat alphaVariable = 1-((1-factor)/0.55);
+                    [self.personalPostsViewForImageViews setAlpha:alphaVariable];
                 }
                 if(recognize == self.personalPostsPinchGesture) {
                     self.personalPostsTableView.transform = CGAffineTransformMakeScale(lastScaleFactor*factor, lastScaleFactor*factor);
@@ -2670,6 +2715,7 @@
                     [self.invisibleView removeFromSuperview];
                     [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
                     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
+                    self.navigationController.navigationBar.frame = CGRectMake(0, [UIApplication sharedApplication].statusBarFrame.size.height, self.navigationController.navigationBar.frame.size.width, self.navigationController.navigationBar.frame.size.height);
                     if(self.exitFirstViewCounter == 4) {
                         [self.exitFirstViewButton removeFromSuperview];
                     }
@@ -2759,6 +2805,8 @@
                 if(recognize == self.newsFeedPinchGesture){
                     [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionCurveLinear animations:^{
                         self.newsFeedView.transform = CGAffineTransformMakeScale(lastScaleFactor, lastScaleFactor);
+                        self.navigationController.navigationBar.frame = CGRectMake(0, -self.navigationController.navigationBar.frame.size.height, self.view.frame.size.width, self.navigationController.navigationBar.frame.size.height);
+                        [self.newsFeedView setAlpha:1];
                     } completion:^(BOOL finished) {
                         [self.newsFeedCloseViewButton setAlpha:1.0];
                         if(self.exitFirstViewCounter == 4) {
@@ -2773,6 +2821,7 @@
                         [self.uploadPostView setAlpha:1];
                     } completion:^(BOOL finished) {
                         [self.exitFirstViewButton setAlpha:1];
+                        self.settingsView.layer.borderWidth = 0;
                     }];
                     
                 }
@@ -2786,6 +2835,7 @@
                 if(recognize == self.personalPostsPinchGestureImageViews){
                     [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionCurveLinear animations:^{
                         self.personalPostsViewForImageViews.transform = CGAffineTransformMakeScale(lastScaleFactor, lastScaleFactor);
+                        [self.personalPostsViewForImageViews setAlpha:1];
                     } completion:^(BOOL finished) {
                         [self.exitSecondViewButton setAlpha:1];
                     }];
@@ -2861,8 +2911,6 @@
 -(void)recognizeThePanImageCurrent:(UIPanGestureRecognizer *)recognize {
     CGFloat widthFrame = CGRectGetWidth(self.newsFeedView.frame);
     CGFloat heightFrame = CGRectGetHeight(self.newsFeedView.frame);
-
-   
     CGFloat imageViewOneCurrentMinX = CGRectGetMinX(self.newsFeedImageViewOne.frame);
     CGFloat imageViewTwoCurrentMinX = CGRectGetMinX(self.newsFeedImageViewTwo.frame);
     CGFloat viewControllerMaxX = CGRectGetMaxX(self.view.frame);
@@ -2882,7 +2930,6 @@
                 [self.newsFeedPanGestureImageViewOne setEnabled:NO];
                 [self.newsFeedTapGestureToOpenImageViewOne setEnabled:NO];
             }
-            
         }
             break;
         case UIGestureRecognizerStateCancelled: {
@@ -2909,10 +2956,7 @@
                     CGAffineTransform transform = CGAffineTransformMakeScale(yAmountZoomedIn, yAmountZoomedIn);
                     self.newsFeedVoteForThisImageView.transform = transform;
                     self.newsFeedNotThatImageView.transform = transform;
-                   
-                /*    self.newsFeedImageViewOne.transform = transformOut;
-                    self.newsFeedImageViewTwo.transform = transformOut;*/
-
+             
                     [self.newsFeedVoteForThisImageView setAlpha:alphaValue2];
                     [self.newsFeedNotThatImageView setAlpha:alphaValue2];
                     [self.newsFeedImageViewOne setAlpha:alphaValue3];
@@ -3018,11 +3062,12 @@
             if(imageViewOneCurrentMinX > 0) {
              //   CGFloat velocityX = fabs([recognize velocityInView:self.newsFeedImageViewOne].x);
                 CGFloat velocityX = [recognize velocityInView:self.newsFeedImageViewOne].x;
-                NSLog(@"\n\nvelcityX:%f",velocityX);
+               // NSLog(@"\n\nvelcityX:%f",velocityX);
                 if(recognize == self.newsFeedPanGestureImageViewOne) {
                    
                     if(imageViewOneCurrentMinX < (viewControllerMaxX/2) && velocityX > 150) {
                         //vote for imageOne
+                        NSLog(@"1.1.1");
                         self.voteCounter = 1;
                         [self voteForImage];
                         CGAffineTransform transform = CGAffineTransformMakeScale(1.4, 1.4);
@@ -3035,7 +3080,7 @@
                         [self.newsFeedImageOneXMarkView setAlpha:0];
                         [self.newsFeedImageTwoXMarkView setAlpha:1];
                         [self.newsFeedImageTwoCheckMarkView setAlpha:0];
-                        NSLog(@"\nvelcotity:%f",velocityX);
+                    //    NSLog(@"\nvelcotity:%f",velocityX);
                         CGFloat viewWidth = CGRectGetWidth(self.view.frame);
                         CGFloat distanceToOffScreen = fabs(viewWidth - imageViewOneCurrentMinX);
                         NSTimeInterval timeRemainingToOffScreen = distanceToOffScreen/velocityX;
@@ -3064,13 +3109,13 @@
                     }
                     if(imageViewOneCurrentMinX >= (viewControllerMaxX/2) && velocityX >= 0) {
                         //vote for iamgeOne
-                        
+                        NSLog(@"1.1.2");
                         self.voteCounter = 1;
                         [self voteForImage];
                         
                         [self.newsFeedVoteForThisImageView setAlpha:1];
                         [self.newsFeedNotThatImageView setAlpha:1];
-                        NSLog(@"\nvelcotity:%f",velocityX);
+                       // NSLog(@"\nvelcotity:%f",velocityX);
                         CGFloat viewWidth = CGRectGetWidth(self.view.frame);
                         CGFloat distanceToOffScreen = fabs(viewWidth - imageViewOneCurrentMinX);
                         NSTimeInterval timeRemainingToOffScreen = distanceToOffScreen/velocityX;
@@ -3105,6 +3150,7 @@
                         
                     }
                     if(imageViewOneCurrentMinX >= (viewControllerMaxX/2) && velocityX < 0) {
+                        NSLog(@"1.1.3");
                         [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionCurveLinear animations:^{
                             self.newsFeedImageViewOne.frame = CGRectMake(0, 0, widthFrame, heightFrame/2);
                             self.newsFeedImageViewTwo.frame = CGRectMake(0, heightFrame/2, widthFrame, heightFrame/2);
@@ -3128,6 +3174,7 @@
                     }
                     if(imageViewOneCurrentMinX < (viewControllerMaxX/2) && velocityX <= 150) {
                         //return don't vote
+                        NSLog(@"1.1.4");
                         [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionCurveLinear animations:^{
                             self.newsFeedImageViewOne.frame = CGRectMake(0, 0, widthFrame, heightFrame/2);
                             self.newsFeedImageViewTwo.frame = CGRectMake(0, heightFrame/2, widthFrame, heightFrame/2);
@@ -3154,6 +3201,7 @@
                 if(recognize == self.newsFeedPanGestureImageViewTwo) {
                     if(imageViewOneCurrentMinX < (viewControllerMaxX/2) && velocityX < -150) {
                         //vote for imageOne
+                        NSLog(@"1.2.1");
                         self.voteCounter = 1;
                         [self voteForImage];
                         
@@ -3196,7 +3244,7 @@
                     }
                     if(imageViewOneCurrentMinX >= (viewControllerMaxX/2) && velocityX <= 0) {
                         //vote for iamgeOne
-                        
+                        NSLog(@"1.2.2");
                         self.voteCounter = 1;
                         [self voteForImage];
                         
@@ -3237,6 +3285,7 @@
                         
                     }
                     if(imageViewOneCurrentMinX >= (viewControllerMaxX/2) && velocityX > 0) {
+                        NSLog(@"1.2.3");
                         [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionCurveLinear animations:^{
                             self.newsFeedImageViewOne.frame = CGRectMake(0, 0, widthFrame, heightFrame/2);
                             self.newsFeedImageViewTwo.frame = CGRectMake(0, heightFrame/2, widthFrame, heightFrame/2);
@@ -3259,8 +3308,9 @@
                         
 
                     }
-                    if(imageViewOneCurrentMinX < (viewControllerMaxX/2) && velocityX >= -150) {
+                    if(imageViewOneCurrentMinX < (viewControllerMaxX/2) && imageViewTwoCurrentMinX < (viewControllerMinX) && velocityX >= -150) {
                         //return don't vote
+                        NSLog(@"1.2.4");
                         [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionCurveLinear animations:^{
                             self.newsFeedImageViewOne.frame = CGRectMake(0, 0, widthFrame, heightFrame/2);
                             self.newsFeedImageViewTwo.frame = CGRectMake(0, heightFrame/2, widthFrame, heightFrame/2);
@@ -3284,6 +3334,7 @@
                     }
 
                 }
+                
                 
                 
                 }
@@ -3295,6 +3346,7 @@
                 if(recognize == self.newsFeedPanGestureImageViewTwo){
                     if(imageViewTwoCurrentMinX < (viewControllerMaxX/2) && velocityX > 150) {
                         //vote imageViewTwo
+                        NSLog(@"2.1.1");
                         self.voteCounter = 2;
                         [self voteForImage];
                         
@@ -3336,6 +3388,7 @@
                     }
                     if(imageViewTwoCurrentMinX >= (viewControllerMaxX/2) && velocityX >= 0 ) {
                         //vote imageViewTwo
+                        NSLog(@"2.1.2");
                         self.voteCounter = 2;
                         [self voteForImage];
                         [self.newsFeedNotThisImageView setAlpha:1];
@@ -3370,6 +3423,7 @@
                         
                     }
                     if(imageViewTwoCurrentMinX >= (viewControllerMaxX/2) && velocityX < 0) {
+                        NSLog(@"2.1.3");
                         [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionCurveLinear animations:^{
                             self.newsFeedImageViewOne.frame = CGRectMake(0, 0, widthFrame, heightFrame/2);
                             self.newsFeedImageViewTwo.frame = CGRectMake(0, heightFrame/2, widthFrame, heightFrame/2);
@@ -3394,7 +3448,7 @@
                     }
                     if(imageViewTwoCurrentMinX < (viewControllerMaxX/2) && velocityX <= 150) {
                         // don't vote
-                        
+                        NSLog(@"2.1.4");
                         [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionCurveLinear animations:^{
                             self.newsFeedImageViewOne.frame = CGRectMake(0, 0, widthFrame, heightFrame/2);
                             self.newsFeedImageViewTwo.frame = CGRectMake(0, heightFrame/2, widthFrame, heightFrame/2);
@@ -3422,6 +3476,7 @@
                 if(recognize == self.newsFeedPanGestureImageViewOne) {
                     if(imageViewTwoCurrentMinX < (viewControllerMaxX/2) && velocityX < -150) {
                         //vote imageViewTwo
+                        NSLog(@"2.2.1");
                         self.voteCounter = 2;
                         [self voteForImage];
                         
@@ -3462,6 +3517,7 @@
                     }
                     if(imageViewTwoCurrentMinX >= (viewControllerMaxX/2) && velocityX <= 0 ) {
                         //vote imageViewTwo
+                         NSLog(@"2.2.2");
                         self.voteCounter = 2;
                         [self voteForImage];
                         [self.newsFeedNotThisImageView setAlpha:1];
@@ -3496,6 +3552,7 @@
                         
                     }
                     if(imageViewTwoCurrentMinX >= (viewControllerMaxX/2) && velocityX > 0) {
+                         NSLog(@"2.2.3");
                         [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionCurveLinear animations:^{
                             self.newsFeedImageViewOne.frame = CGRectMake(0, 0, widthFrame, heightFrame/2);
                             self.newsFeedImageViewTwo.frame = CGRectMake(0, heightFrame/2, widthFrame, heightFrame/2);
@@ -3518,9 +3575,9 @@
                         }];
 
                     }
-                    if(imageViewTwoCurrentMinX < (viewControllerMaxX/2) && velocityX >= -150) {
+                    if(imageViewTwoCurrentMinX < (viewControllerMaxX/2) && imageViewOneCurrentMinX < (viewControllerMinX) && velocityX >= -150) {
                         // don't vote
-                        
+                         NSLog(@"2.2.4");
                         [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionCurveLinear animations:^{
                             self.newsFeedImageViewOne.frame = CGRectMake(0, 0, widthFrame, heightFrame/2);
                             self.newsFeedImageViewTwo.frame = CGRectMake(0, heightFrame/2, widthFrame, heightFrame/2);
@@ -3549,7 +3606,7 @@
             }
             if(imageViewOneCurrentMinX <= 0 && imageViewTwoCurrentMinX <= 0) {
                 NSLog(@"neitherPhotoMoved");
-            
+             NSLog(@"3.1.1");
                 [UIView animateWithDuration:0.2 delay:0 options:UIViewAnimationOptionCurveLinear animations:^{
                     self.newsFeedImageViewOne.frame = CGRectMake(0, 0, widthFrame, heightFrame/2);
                     self.newsFeedImageViewTwo.frame = CGRectMake(0, heightFrame/2, widthFrame, heightFrame/2);
@@ -3638,7 +3695,7 @@
     NSUserDefaults *userDefaultContents = [NSUserDefaults standardUserDefaults];
     NSObject *userToken = [userDefaultContents objectForKey:@"tokenIDString"];
     NSLog(@"voteCounter:%d",self.voteCounter);
- /*  if(self.voteCounter == 1){
+   if(self.voteCounter == 1){
               NSString *pathVoteImageOne = [NSString stringWithFormat:@"/api/v1/thisthats/%@/1/vote?access_token=%@",postID,userToken];
         [[RKObjectManager sharedManager] postObject:nil path:pathVoteImageOne parameters:nil success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
             NSLog(@"voteForImageOneSuccess");
@@ -3656,7 +3713,7 @@
         } failure:^(RKObjectRequestOperation *operation, NSError *error) {
             NSLog(@"voteForImageTwoFail");
         }];
-    }*/
+    }
     self.newsFeedCounter++;
 }
 
@@ -3872,7 +3929,7 @@
     CGFloat viewWidth = self.view.frame.size.width;
     CGFloat viewHeight = self.view.frame.size.height;
     CGFloat scaleFactor = imageOriginalWidth/viewWidth;
-    NSLog(@"scalefactor:%f",scaleFactor);
+   // NSLog(@"scalefactor:%f",scaleFactor);
     CGFloat newImageHeight = imageOriginalHeight/scaleFactor;
     if(newImageHeight > viewHeight) {
         CGFloat heightScaleFactor = imageOriginalHeight/viewHeight;
@@ -3883,17 +3940,16 @@
         return resizedImage;
     }
     else {
+        
         CGFloat yStartingPosition = (viewHeight - newImageHeight)/2;
         UIImageView *resizedImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, yStartingPosition, viewWidth, newImageHeight)];
         resizedImage.image = image;
         return resizedImage;
     }
-    
-//    UIImageView *resizedImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, viewWidth, newImageHeight)];
 
-    
-    
 }
+
+
 
 //determing vote count percentage
 -(NSMutableArray*)voteCountOne:(NSNumber*)voteCountOne voteCountTwo:(NSNumber*)voteCountTwo{
@@ -4019,7 +4075,7 @@
         if(self.initalizeNewsFeedCounterSecondRetrevial == 0){
             [self initalizeNewsFeedView];
             [self.loadingView removeFromSuperview];
-            NSLog(@"complete");
+           // NSLog(@"complete");
             NSLog(@"\nimageOneDict:%@\nimageTwoDict:%@",self.newsFeedImageOneDictionary,self.newsFeedImageTwoDictionary);
             
             [self imagesAreDonePreLoading];
@@ -4073,9 +4129,9 @@
         CGFloat labelMaxHeight = CGRectGetMaxY(self.newsFeedViewForLabels.frame);
         CGFloat totalCharacterCount = [self.newsFeedUsernameLabel.text length] + [self.newsFeedTextContentLabel.text length] + [self.newsFeedTotalNumberOfVotesLabel.text length] + [self.newsFeedTimeStampLabel.text length];
         CGFloat totalTime = (totalCharacterCount/25)+0.5;
-        NSLog(@"\ntotalCharacterCount:%f\ntotalSeconds:%f",totalCharacterCount,totalCharacterCount/25);
+       // NSLog(@"\ntotalCharacterCount:%f\ntotalSeconds:%f",totalCharacterCount,totalCharacterCount/25);
         [UIView animateWithDuration:1.0 delay:0 usingSpringWithDamping:0.6 initialSpringVelocity:0 options:UIViewAnimationOptionCurveLinear animations:^{
-            NSLog(@"enterYO");
+           // NSLog(@"enterYO");
             self.newsFeedImageViewOne.frame = CGRectMake(0, -([self viewHeight]/2)+labelMinHeight, [self viewWidth], [self viewHeight]/2);
             self.newsFeedImageViewTwo.frame = CGRectMake(0, labelMaxHeight, [self viewWidth], [self viewHeight]/2);
         } completion:^(BOOL finished) {
@@ -4232,11 +4288,11 @@
 {
     
   //  NSLog(@"original image orientation:%d",originalImage.imageOrientation);
-    NSLog(@"\noriginalImageSize(w,h):(%f,%f)",originalImage.size.width,originalImage.size.height);
-    NSLog(@"\ncropSizze(w,h):(%f,%f)",cropSize.width,cropSize.height);
+ //   NSLog(@"\noriginalImageSize(w,h):(%f,%f)",originalImage.size.width,originalImage.size.height);
+   // NSLog(@"\ncropSizze(w,h):(%f,%f)",cropSize.width,cropSize.height);
     //calculate scale factor to go between cropframe and original image
     float SF = originalImage.size.width / cropSize.width;
-    NSLog(@"scaelFactor:%f",SF);
+   // NSLog(@"scaelFactor:%f",SF);
     //find the centre x,y coordinates of image
    // float centreX = originalImage.size.width / 2;
    // float centreY = originalImage.size.height / 2;
@@ -4344,6 +4400,7 @@
     [self presentInvisibleView];
     [self.loadingView removeFromSuperview];
     self.newsFeedView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
+    self.newsFeedView.transform = CGAffineTransformMakeScale(0.1, 0.1);
     self.newsFeedView.backgroundColor = [UIColor whiteColor];
     [self.navigationController.view addSubview:self.newsFeedView];
     self.newsFeedPinchGesture = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(recognizePinchToCloseCurrentView:)];
@@ -4355,22 +4412,27 @@
     noMorePostsLabel.textAlignment = NSTextAlignmentCenter;
     noMorePostsLabel.text = @"Currently there are no more thisThat posts for you to vote on.";
     [self.newsFeedView addSubview:noMorePostsLabel];
-    self.exitFirstViewCounter = 4;
-    [self exitAnyViewButtonInitalize];
+    
+    [UIView animateWithDuration:0.4 delay:0 options:UIViewAnimationOptionCurveLinear animations:^{
+       // [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationNone];
+        self.navigationController.navigationBar.frame = CGRectMake(0, -self.navigationController.navigationBar.frame.size.height, self.view.frame.size.width, self.navigationController.navigationBar.frame.size.height);
+        CGAffineTransform transform = CGAffineTransformMakeScale(1, 1);
+        self.newsFeedView.transform = transform;
+        
+    } completion:^(BOOL finished) {
+        self.exitFirstViewCounter = 4;
+        [self exitAnyViewButtonInitalize];
+    }];
+    
     
 }
 //initalize newsfeed view
 -(void)initalizeNewsFeedView {
     
- //   [UIView animateWithDuration:0.2 delay:0 options:UIViewAnimationOptionCurveLinear animations:^{
+
     
-   //         self.navigationController.navigationBar.frame = CGRectMake(0, -self.navigationController.navigationBar.frame.size.height, self.view.frame.size.width, self.navigationController.navigationBar.frame.size.height);
-    
-    
-        
- //   } completion:^(BOOL finished) {
         UIColor *blueColor = [UIColor colorWithRed:(0/255.0) green:(196/255.0) blue:(222/255.0) alpha:1];
-        [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationNone];
+        [[UIApplication sharedApplication] setStatusBarHidden:YES];
         [self presentInvisibleView];
         self.newsFeedCounter = 0;
         // UIColor *redColor = [UIColor colorWithRed:(231/255.0) green:(80/255.0) blue:(80/255.0) alpha:1];
@@ -4382,6 +4444,7 @@
          
          } else {*/
         self.newsFeedView = [[UIView alloc] initWithFrame:personalPostsViewSize];
+     //   self.newsFeedView.transform = CGAffineTransformMakeScale(0.1, 0.1);
         self.newsFeedView.backgroundColor = [UIColor whiteColor];
         [self.navigationController.view addSubview:self.newsFeedView];
         
@@ -4393,11 +4456,11 @@
         // UIColor *blackThisThatColor = [UIColor colorWithRed:(39/255.0) green:(35/255.0) blue:(34/255.0) alpha:1];
         self.newsFeedViewForLabels = [[UIView alloc] initWithFrame:CGRectMake(0, ([self viewHeight]/2)-115, [self viewWidth], 230)];
         self.newsFeedViewForLabels.backgroundColor = [UIColor whiteColor];
-        UIView *topLine = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 1)];
-        topLine.backgroundColor = [UIColor blackColor];
+    //    UIView *topLine = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 1)];
+    //    topLine.backgroundColor = [UIColor blackColor];
         //  [self.newsFeedViewForLabels addSubview:topLine];
-        UIView *bottomLine = [[UIView alloc] initWithFrame:CGRectMake(0, 229, self.view.frame.size.width, 1)];
-        bottomLine.backgroundColor = [UIColor blackColor];
+    //    UIView *bottomLine = [[UIView alloc] initWithFrame:CGRectMake(0, 229, self.view.frame.size.width, 1)];
+    //    bottomLine.backgroundColor = [UIColor blackColor];
         //  [self.newsFeedViewForLabels addSubview:bottomLine];
         // self.newsFeedViewForLabels.layer.borderWidth = 1;
         // self.newsFeedViewForLabels.layer.borderColor = blueColor.CGColor;
@@ -4473,8 +4536,8 @@
         [self.newsFeedCloseViewButton setImage:closedNewsFeedImage forState:UIControlStateNormal];
         [self.newsFeedCloseViewButton addTarget:self action:@selector(closeNewsFeedViewAction:) forControlEvents:UIControlEventTouchUpInside];
         [self.newsFeedImageViewOne addSubview:self.newsFeedCloseViewButton];
-        
-        
+      //  [self.newsFeedCloseViewButton setAlpha:0];
+    
         UIImage *greenCheckMarkImage = [[UIImage alloc] init];
         greenCheckMarkImage = [UIImage imageNamed:@"greenCheckAI.png"];
         self.newsFeedImageOneCheckMarkView = [[UIImageView alloc] initWithFrame:CGRectMake(10, self.newsFeedImageViewOne.frame.size.height-60, 50, 50)];
@@ -4553,14 +4616,32 @@
         [self.newsFeedImageViewTwo addGestureRecognizer:self.newsFeedTapGestureToOpenImageViewTwo];
  //   }];
     
+   /* [UIView animateWithDuration:0.4 delay:0 options:UIViewAnimationOptionCurveLinear animations:^{
+        self.newsFeedView.transform = CGAffineTransformMakeScale(1, 1);
+        [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationNone];
+        self.navigationController.navigationBar.frame = CGRectMake(0, -self.navigationController.navigationBar.frame.size.height, self.view.frame.size.width, self.navigationController.navigationBar.frame.size.height);
+    } completion:^(BOOL finished) {
+      //  [self imagesAreDonePreLoading];
+        [self.newsFeedCloseViewButton setAlpha:0];
+    }];*/
    
 }
 
 -(void)closeNewsFeedViewAction:(UIButton*)sender {
-    [self.newsFeedView removeFromSuperview];
-    [self.invisibleView removeFromSuperview];
-    [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
-    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
+    [UIView animateWithDuration:0.25 delay:0 options:UIViewAnimationOptionCurveLinear animations:^{
+        self.newsFeedView.transform = CGAffineTransformMakeScale(0.25, 0.25);
+        [self.newsFeedView setAlpha:0];
+        [[UIApplication sharedApplication] setStatusBarHidden:NO];
+        CGFloat statusBarHeight = [UIApplication sharedApplication].statusBarFrame.size.height;
+        self.navigationController.navigationBar.frame = CGRectMake(0, statusBarHeight, self.view.frame.size.width, self.navigationController.navigationBar.frame.size.height);
+        
+    } completion:^(BOOL finished) {
+        [self.newsFeedView removeFromSuperview];
+        [self.invisibleView removeFromSuperview];
+       // [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
+       // [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
+
+    }];
     
 }
 //invisbleview so when pinching can't click any view behind it
